@@ -1,10 +1,11 @@
 name: Flutter_iOS_CI
 
 on:
-  push:
-    branches: [develop]
-  pull_request:
-    branches: [develop]
+  workflow_dispatch:
+#  push:
+#    branches: [develop]
+#  pull_request:
+#    branches: [develop]
 
 jobs:
   build_ios:
@@ -13,7 +14,7 @@ jobs:
       SHEME: Runner
       BUILD_CONFIGURATION: Release
       TEAM_ID: X6MGTJ5P49
-      PROVISIONING_PROFILE: VideoLabAppProfileDistribution
+      PROVISIONING_PROFILE: MusicLabAppProfileDistribution
       CODE_SIGN_IDENTITY: "iPhone Distribution: Changsha Zhiliao Information Technology Co., Ltd (X6MGTJ5P49)"
 
     steps:
@@ -24,7 +25,7 @@ jobs:
         env:
           BUILD_CERTIFICATE_BASE64: ${{ secrets.P12_RELEASE_BASE64 }}
           P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
-          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64_RELEASE }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
           # create variables
@@ -72,18 +73,18 @@ jobs:
       - name: Export ipa
         run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
 
-      - name: 'Upload file to test flight using CLI'
-        run: |
-          echo "Starting upload."
-          xcrun altool --upload-app -t ios -f build-output/ios/VideoAI.ipa -u ${{ secrets.APPLE_USERNAME }} -p ${{ secrets.APPLE_PASSWORD }} --verbose
+      #      - name: 'Upload file to test flight using CLI'
+      #        run: |
+      #          echo "Starting upload."
+      #          xcrun altool --upload-app -t ios -f build-output/ios/VideoAI.ipa -u ${{ secrets.APPLEID_USERNAME }} -p ${{ secrets.APPLEID_PASSWORD }} --verbose
 
-#      - name: Upload PGYER File
-#        id: pgyer
-#        uses: xtayga/upload-pgyer-action@master
-#        with:
-#          url: https://www.pgyer.com/apiv2/app/upload
-#          forms: '{"_api_key":"${{ secrets.PGY_KEY }}","buildName":"RSS"}'
-#          fileForms: '{"file":"build-output/ios/VideoAI.ipa"}'
+      - name: Upload PGYER File
+        id: pgyer
+        uses: xtayga/upload-pgyer-action@master
+        with:
+          url: https://www.pgyer.com/apiv2/app/upload
+          forms: '{"_api_key":"${{ secrets.PGY_KEY }}","buildName":"RSS"}'
+          fileForms: '{"file":"build-output/ios/VideoAI.ipa"}'
 
 #      - name: Publish iOS Artefacts
 #        uses: actions/upload-artifact@v4
