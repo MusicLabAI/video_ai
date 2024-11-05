@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "378344217481",
+    "project_id": "videoai-d0e0e",
+    "storage_bucket": "videoai-d0e0e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378344217481:android:b29f2cf44b72a18e4c1f58",
+        "android_client_info": {
+          "package_name": "luma.sora.pika.runway.video.ai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "378344217481-1bjn36i4lss57vp4om8sf4o5lh0kvn6p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "luma.sora.pika.runway.video.ai",
+            "certificate_hash": "16271bc2aabe2050c127eadf51dab543876e2264"
+          }
+        },
+        {
+          "client_id": "378344217481-tnm2nj6bsobff7h2esas2ceq3nuh2a54.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALDX3TkD2qVQzVLpxa_DfVFRGawB8zeNE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "378344217481-tnm2nj6bsobff7h2esas2ceq3nuh2a54.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
