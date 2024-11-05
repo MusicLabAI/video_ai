@@ -1,4 +1,4 @@
-package luma.sora.pika.runway.video.ai.video_ai
+package luma.sora.pika.runway.video.ai
 
 import io.flutter.embedding.android.FlutterActivity
 

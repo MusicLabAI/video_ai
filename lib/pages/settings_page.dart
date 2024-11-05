@@ -1,12 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:video_ai/api/request.dart';
 import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/common/ui_colors.dart';
+import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/dialogs.dart';
+import 'package:video_ai/widgets/loading_dialog.dart';
 import 'package:video_ai/widgets/login.dart';
 
 import '../common/common_util.dart';
@@ -19,11 +23,10 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final userCtr = Get.find<UserController>();
+  final _userCtr = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
-    int? id = userCtr.userInfo.value.userId;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -41,96 +44,100 @@ class _SettingsPageState extends State<SettingsPage> {
                 decoration: BoxDecoration(
                     color: UiColors.c42BE8FF7,
                     borderRadius: BorderRadius.circular(16)),
-                child: Column(children: [
-                  if (userCtr.isLogin.value)
-                    SizedBox(
-                      width: double.infinity,
-                      height: 40,
-                      child: Row(
-                        children: [
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 4, vertical: 2),
-                            decoration: BoxDecoration(
-                                gradient: const LinearGradient(colors: [
-                                  UiColors.c7631EC,
-                                  UiColors.cA359EF
-                                ]),
-                                borderRadius: BorderRadius.circular(4)),
-                            child: Text(
-                              'id'.tr,
-                              style: const TextStyle(
-                                  fontSize: 10,
-                                  color: UiColors.cDBFFFFFF,
-                                  fontWeight: FontWeightExt.bold),
+                child: Obx(
+                  () => Column(children: [
+                    if (_userCtr.isLogin.value)
+                      SizedBox(
+                        width: double.infinity,
+                        height: 40,
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 20,
                             ),
-                          ),
-                          if (id != null)
-                            Row(
-                              children: [
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "$id",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeightExt.semiBold,
-                                      color: UiColors.cBC8EF5,
-                                      fontSize: 10),
-                                ),
-                                IconButton(
-                                    onPressed: () {
-                                      Clipboard.setData(
-                                          ClipboardData(text: "$id"));
-                                      Fluttertoast.showToast(
-                                          msg: 'copySucceed'.tr);
-                                    },
-                                    icon: Image.asset(
-                                      "images/icon/ic_copy.png",
-                                      width: 16,
-                                      height: 16,
-                                    ))
-                              ],
-                            )
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 4, vertical: 2),
+                              decoration: BoxDecoration(
+                                  gradient: const LinearGradient(colors: [
+                                    UiColors.c7631EC,
+                                    UiColors.cA359EF
+                                  ]),
+                                  borderRadius: BorderRadius.circular(4)),
+                              child: Text(
+                                'id'.tr,
+                                style: const TextStyle(
+                                    fontSize: 10,
+                                    color: UiColors.cDBFFFFFF,
+                                    fontWeight: FontWeightExt.bold),
+                              ),
+                            ),
+                            if (_userCtr.userInfo.value.userId != null)
+                              Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "${_userCtr.userInfo.value.userId}",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeightExt.semiBold,
+                                        color: UiColors.cBC8EF5,
+                                        fontSize: 10),
+                                  ),
+                                  IconButton(
+                                      onPressed: () {
+                                        Clipboard.setData(ClipboardData(
+                                            text:
+                                                "${_userCtr.userInfo.value.userId}"));
+                                        Fluttertoast.showToast(
+                                            msg: 'copySucceed'.tr);
+                                      },
+                                      icon: Image.asset(
+                                        "images/icon/ic_copy.png",
+                                        width: 16,
+                                        height: 16,
+                                      ))
+                                ],
+                              )
+                          ],
+                        ),
+                      ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: UiColors.c1B1B1F,
+                          borderRadius: BorderRadius.circular(16)),
+                      child: Column(
+                        children: [
+                          _SettingsItem(
+                              iconPath: 'images/icon/ic_group.png',
+                              item: 'termsOfUse'.tr,
+                              onTap: () {
+                                CommonUtil.startUrl(GlobalData.termsOfUseUrl);
+                              }),
+                          _SettingsItem(
+                              iconPath: 'images/icon/ic_privacy.png',
+                              item: 'privacyPolicy'.tr,
+                              onTap: () {
+                                CommonUtil.startUrl(
+                                    GlobalData.privacyNoticeUrl);
+                              }),
+                          if (_userCtr.isLogin.value)
+                            _SettingsItem(
+                                iconPath: 'images/icon/ic_delete_account.png',
+                                item: 'deleteAccount'.tr,
+                                onTap: () {
+                                  showDeleteAccountDialog();
+                                })
                         ],
                       ),
-                    ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: UiColors.c1B1B1F,
-                        borderRadius: BorderRadius.circular(16)),
-                    child: Column(
-                      children: [
-                        _SettingsItem(
-                            iconPath: 'images/icon/ic_group.png',
-                            item: 'termsOfUse'.tr,
-                            onTap: () {
-                              CommonUtil.startUrl(GlobalData.termsOfUseUrl);
-                            }),
-                        _SettingsItem(
-                            iconPath: 'images/icon/ic_privacy.png',
-                            item: 'privacyPolicy'.tr,
-                            onTap: () {
-                              CommonUtil.startUrl(GlobalData.privacyNoticeUrl);
-                            }),
-                        if (userCtr.isLogin.value)
-                          _SettingsItem(
-                              iconPath: 'images/icon/ic_delete_account.png',
-                              item: 'deleteAccount'.tr,
-                              onTap: () {
-                                showDeleteAccountDialog();
-                              })
-                      ],
-                    ),
-                  )
-                ])),
+                    )
+                  ]),
+                )),
             const Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Obx(() => userCtr.isLogin.value
+              child: Obx(() => _userCtr.isLogin.value
                   ? CustomButton(
                       height: 46,
                       text: 'logOut'.tr,
@@ -150,8 +157,11 @@ class _SettingsPageState extends State<SettingsPage> {
                             ),
                             confirmText: 'logOut'.tr,
                             cancelText: 'cancel'.tr,
-                            subText: 'logOutTip'.tr,
-                            onConfirm: () {},
+                            subText: 'logOutTips'.tr,
+                            onConfirm: () async {
+                              await _userCtr.logout();
+                              Get.back();
+                            },
                           ),
                         );
                       },
@@ -161,7 +171,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       textColor: UiColors.cDBFFFFFF,
                       bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
                       onTap: () {
-                        Get.bottomSheet(LoginWidget());
+                        _userCtr.showLogin();
                       },
                     )),
             ),
@@ -180,7 +190,6 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
     );
   }
-}
 
 void showDeleteAccountDialog() {
   Get.dialog(CustomDialog(
@@ -196,10 +205,29 @@ void showDeleteAccountDialog() {
     confirmText: 'delete'.tr,
     cancelText: 'cancel'.tr,
     subText: 'deleteAccountTips'.tr,
-    onConfirm: () {
+    onConfirm: () async {
+      Get.back();
+      Get.dialog(const LoadingDialog());
+      if (GetPlatform.isAndroid) {
+        try {
+          final user = FirebaseAuth.instance.currentUser;
+          if (user == null) {
+            Fluttertoast.showToast(msg: 'deleteAccountFailed'.tr);
+            return;
+          }
+          await user.delete();
+        } on FirebaseAuthException {
+          Fluttertoast.showToast(msg: 'deleteAccountFailed'.tr);
+          Get.back();
+          rethrow;
+        }
+      }
+      await Request.userDelete();
+      await _userCtr.logout();
       Get.back();
     },
   ));
+}
 }
 
 class _SettingsItem extends StatelessWidget {

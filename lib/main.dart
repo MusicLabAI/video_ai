@@ -1,4 +1,5 @@
 import 'package:advertising_id/advertising_id.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import 'package:video_ai/pages/main_page.dart';
 import 'package:video_ai/widgets/easy_refresh_custom.dart';
 
 import 'api/dio.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +30,15 @@ Future<void> main() async {
 }
 
 Future<void> initMain() async {
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    Get.log('Firebase initialization error: $e');
+  }
   EasyRefreshCustom.setup();
+  // FireBaseUtil.initAnalyticsServices();
   var packageInfo = await PackageInfo.fromPlatform();
   GlobalData.packageName = packageInfo.packageName;
   GlobalData.versionName = packageInfo.version;

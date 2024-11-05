@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/main_controller.dart';
+import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/record_model.dart';
 import 'package:video_ai/pages/settings_page.dart';
@@ -21,111 +22,23 @@ class MinePage extends StatefulWidget {
   State<MinePage> createState() => _MinePageState();
 }
 
-class _MinePageState extends State<MinePage> with AutomaticKeepAliveClientMixin{
+class _MinePageState extends State<MinePage>
+    with AutomaticKeepAliveClientMixin {
   final MainController _mainCtr = Get.find<MainController>();
-
-  List<RecordModel> _dataList = [];
-  List<int> _ids = [];
-  int _pageNum = 1;
-  bool _isLoading = false;
-  bool _isLastPage = false;
-  Timer? _timer;
+  final MineController _mineCtr = Get.put(MineController());
+  final UserController _userCtr = Get.find<UserController>();
 
   @override
   void initState() {
     super.initState();
-    if (Get.find<UserController>().isLogin.value) {
-      _isLoading = true;
-      _onRefresh();
-    }
     ever(_mainCtr.refreshRecords, (value) {
       setState(() {
         if (value) {
-          _onRefresh();
+          _mineCtr.onRefresh();
           _mainCtr.refreshRecords.value = false;
         }
       });
     });
-  }
-
-  @override
-  void dispose() {
-    stopTimer();
-    super.dispose();
-  }
-
-  void startTimer() {
-    if (_timer != null) {
-      _timer!.cancel();
-    }
-    if (_ids.isEmpty) {
-      return;
-    }
-    _timer = Timer.periodic(const Duration(seconds: 15), (timer) async {
-      await queryHistoryByIds();
-    });
-  }
-
-  Future<void> queryHistoryByIds() async {
-    List<RecordModel> list = await Request.historyByIds(ids: _ids);
-    if (list.isNotEmpty) {
-      setState(() {
-        for (var value in list) {
-          // 找到 ID 相同的记录并替换
-          final index = _dataList.indexWhere((record) => record.id == value.id);
-          if (index != -1) {
-            _dataList[index] = value; // 替换值
-          }
-        }
-      });
-    }
-    updatePollingIds();
-  }
-
-  void stopTimer() {
-    _timer?.cancel();
-    _timer = null;
-  }
-
-  Future<void> _onRefresh() async {
-    _isLastPage = false;
-    if (mounted) {
-      setState(() {
-        _isLoading = true;
-      });
-    }
-    _pageNum = 1;
-    final res = await Request.getRecords(_pageNum);
-    _isLastPage = res['isLastPage'];
-    final datas = (res['data'] as List)
-        .map((record) => RecordModel.fromJson(record))
-        .toList();
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-        _dataList = datas;
-      });
-    }
-    updatePollingIds();
-  }
-
-  void updatePollingIds() {
-    _ids = _dataList.where((record) => !record.isCompleted()).map((record) => record.id).toList();
-    startTimer();
-  }
-
-  Future<void> _onLoad() async {
-    if (_isLastPage) return;
-    _pageNum++;
-    final res = await Request.getRecords(_pageNum);
-    _isLastPage = res['lastPage'];
-    final datas = (res['data'] as List)
-        .map((record) => RecordModel.fromJson(record))
-        .toList();
-    setState(() {
-      _dataList.addAll(datas);
-    });
-    updatePollingIds();
   }
 
   @override
@@ -158,16 +71,18 @@ class _MinePageState extends State<MinePage> with AutomaticKeepAliveClientMixin{
           ],
         ),
         Expanded(
-            child: _dataList.isEmpty
-                ? _emptyRecordView
-                : EasyRefresh(
-                    onRefresh: () {
-                      _onRefresh();
-                    },
-                    onLoad: () {
-                      _onLoad();
-                    },
-                    child: _getGridView(_dataList, context)))
+            child: Obx(
+          () => _mineCtr.dataList.isEmpty
+              ? _emptyRecordView
+              : EasyRefresh(
+                  onRefresh: () {
+                    _mineCtr.onRefresh();
+                  },
+                  onLoad: () {
+                    _mineCtr.onLoad();
+                  },
+                  child: _getGridView(_mineCtr.dataList, context)),
+        ))
       ],
     );
   }
@@ -176,6 +91,10 @@ class _MinePageState extends State<MinePage> with AutomaticKeepAliveClientMixin{
     return Center(
       child: GestureDetector(
         onTap: () {
+          if (!_userCtr.isLogin.value) {
+            _userCtr.showLogin();
+            return;
+          }
           _mainCtr.tabController.index = 0;
         },
         child: Column(
@@ -217,7 +136,7 @@ class _MinePageState extends State<MinePage> with AutomaticKeepAliveClientMixin{
 
           return Container(
             decoration: BoxDecoration(
-                color: UiColors.c131313,
+                color: UiColors.c1B1B1F,
                 borderRadius: BorderRadius.circular(16)),
             child: _getItemView(recordItem),
           );
@@ -256,14 +175,7 @@ class _MinePageState extends State<MinePage> with AutomaticKeepAliveClientMixin{
       cancelText: 'cancel'.tr,
       onConfirm: () async {
         Get.back();
-        Get.dialog(const LoadingDialog());
-        final result = await Request.deleteRecord(recordItem.id!);
-        if (result != null && result['code'] == 0) {
-          _onRefresh();
-        }
-        if (Get.isDialogOpen ?? false) {
-          Get.back();
-        }
+        _mineCtr.delete(recordItem.id);
       },
     ));
   }
@@ -322,7 +234,7 @@ class _MinePageState extends State<MinePage> with AutomaticKeepAliveClientMixin{
                 style: const TextStyle(
                     fontWeight: FontWeightExt.semiBold,
                     fontSize: 12,
-                    color: Colors.white),
+                    color: UiColors.cDBFFFFFF),
               ),
               const SizedBox(height: 2),
               Text(
@@ -331,7 +243,7 @@ class _MinePageState extends State<MinePage> with AutomaticKeepAliveClientMixin{
                 style: const TextStyle(
                     fontWeight: FontWeightExt.semiBold,
                     fontSize: 10,
-                    color: UiColors.cB3B3B3),
+                    color: UiColors.c99FFFFFF),
               )
             ],
           ),
@@ -340,7 +252,7 @@ class _MinePageState extends State<MinePage> with AutomaticKeepAliveClientMixin{
           onTap: () {
             _deleteItem(recordItem);
           },
-          bgColor: UiColors.c66000000,
+          bgColor: UiColors.c99000000,
         ),
       ],
     );
@@ -419,7 +331,7 @@ class _ProductionProgressViewState extends State<_ProductionProgressView>
             'inProgress'.tr,
             style: const TextStyle(
                 fontSize: 12,
-                color: Colors.white,
+                color: UiColors.cDBFFFFFF,
                 fontWeight: FontWeightExt.semiBold),
           )
         ],

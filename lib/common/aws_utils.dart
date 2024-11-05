@@ -12,7 +12,7 @@ import 'package:path/path.dart' as path;
 import '../api/request.dart';
 
 class AwsUtils {
-  static const String bucketName = 'sunomuisc-link';
+  static const String bucketName = 'videoaill';
   static const String region = 'us-east-1';
   static String sessionToken = '';
   static String accessKeyId = '';

@@ -140,11 +140,39 @@ class _HomePageState extends State<HomePage>
                               width: 3,
                             ),
                             Text(
-                              'enterAPromptHere'.tr,
+                              'prompt'.tr,
                               style: const TextStyle(
                                   color: UiColors.cBC8EF5,
                                   fontSize: 14,
                                   fontWeight: FontWeightExt.semiBold),
+                            ),
+                            const Spacer(),
+                            IconTextButton(
+                                radius: 8,
+                                borderColor: Colors.transparent,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 4, horizontal: 6),
+                                bgColor: UiColors.c666949A1,
+                                icon: Image.asset(
+                                  'images/icon/ic_shuffle.png',
+                                  width: 14,
+                                  height: 14,
+                                ),
+                                text: 'inspireMe'.tr,
+                                textColor: UiColors.cDBFFFFFF,
+                                onTap: () {
+                                  if (_randomItems.isEmpty) {
+                                    return;
+                                  }
+                                  setState(() {
+                                    _controller.text = _randomItems[Random()
+                                                .nextInt(_randomItems.length)]
+                                            .prompt ??
+                                        "";
+                                  });
+                                }),
+                            const SizedBox(
+                              width: 10,
                             )
                           ],
                         ),
@@ -184,81 +212,77 @@ class _HomePageState extends State<HomePage>
                                   focusedBorder: InputBorder.none,
                                 ),
                               ),
-                              Row(
-                                children: [
-                                  IconTextButton(
-                                      icon: Image.asset(
-                                        'images/icon/ic_add.png',
-                                        width: 16,
-                                        height: 16,
-                                      ),
-                                      text: 'addImage'.tr,
-                                      onTap: () {
-                                        _pickImage();
-                                      }),
-                                  if (_image != null)
-                                    InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _image = null;
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(8),
-                                        margin: const EdgeInsets.only(left: 10),
-                                        decoration: BoxDecoration(
-                                            color: UiColors.c1A9CC2FF,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
-                                              child: Image(
-                                                image: FileImage(_image!),
-                                                width: 16,
-                                                height: 16,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 8,
-                                            ),
-                                            Image.asset(
-                                              'images/icon/ic_delete.png',
-                                              width: 16,
-                                              height: 16,
-                                            )
-                                          ],
+                              GestureDetector(
+                                onTap: () => _pickImage(),
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border:
+                                          Border.all(color: UiColors.cBC8EF5)),
+                                  child: Stack(children: [
+                                    if (_image != null)
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 2.0, top: 2.0),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                          child: Image(
+                                            image: FileImage(_image!),
+                                            width: 34,
+                                            height: 34,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  IconTextButton(
-                                      icon: Image.asset(
-                                        'images/icon/ic_shuffle.png',
-                                        width: 16,
-                                        height: 16,
+                                    if (_image != null)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 28),
+                                        child: GestureDetector(
+                                          onTap: () => setState(() {
+                                            _image = null;
+                                          }),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(2.0),
+                                            child: Image.asset(
+                                              'images/icon/ic_remove.png',
+                                              width: 12,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                      text: 'inspireMe'.tr,
-                                      onTap: () {
-                                        if (_randomItems.isEmpty) {
-                                          return;
-                                        }
-                                        setState(() {
-                                          _controller.text = _randomItems[
-                                                      Random().nextInt(
-                                                          _randomItems.length)]
-                                                  .prompt ??
-                                              "";
-                                        });
-                                      })
-                                ],
-                              )
+                                    Center(
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset(
+                                            _image == null
+                                                ? 'images/icon/ic_add.png'
+                                                : 'images/icon/ic_reset.png',
+                                            width: 16,
+                                          ),
+                                          const SizedBox(
+                                            width: 6,
+                                          ),
+                                          Text(
+                                            _image == null
+                                                ? 'addImage'.tr
+                                                : 'replaceImage'.tr,
+                                            style: TextStyle(
+                                                color: UiColors.cBC8EF5,
+                                                fontSize: 12,
+                                                fontWeight:
+                                                    FontWeightExt.medium),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ]),
+                                ),
+                              ),
                             ],
                           ),
                         )

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "luma.sora.pika.runway.video.ai.video_ai"
+    namespace = "luma.sora.pika.runway.video.ai"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "luma.sora.pika.runway.video.ai.video_ai"
+        applicationId = "luma.sora.pika.runway.video.ai"
         minSdk = 27
         targetSdk = 34
         versionCode = 3

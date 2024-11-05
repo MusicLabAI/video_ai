@@ -15,8 +15,10 @@ class LanguageEnUs {
       'delete': 'Delete',
       'deleteAccountTips': 'All data will be lost and cannot be recovered after account deletion',
       'enterAPromptHere': 'Enter a Prompt Here',
+      'prompt': 'Prompt',
       'enterAPromptTips': 'Enter any prompt you desire to generate your AI video',
-      'addImage': 'add image',
+      'addImage': 'Add Image',
+      'replaceImage': 'Replace Image',
       'inspireMe': 'Inspire me',
       'generate': 'Generate',
       'giveMeSomeInspiration': 'Give me some inspiration',
@@ -34,6 +36,7 @@ class LanguageEnUs {
       'logOutTips': 'Are you sure you want to log out?',
       'continueWithGoogle': 'Continue With Google',
       'continueWithApple': 'Continue With Apple',
+      'deleteAccountFailed': 'Delete Account Failed',
     };
   }
 }

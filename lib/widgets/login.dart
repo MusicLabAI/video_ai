@@ -9,6 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
+import 'package:video_ai/widgets/loading_dialog.dart';
 
 import '../common/global_data.dart';
 import '../controllers/user_controller.dart';
@@ -105,9 +106,7 @@ class LoginWidget extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () async {
-                if (Get.isDialogOpen ?? false) {
-                  Get.back();
-                }
+                Get.dialog(const LoadingDialog());
                 if (isAndroid) {
                   UserCredential userCredential = await signInWithGoogle();
                   final uid = userCredential.user?.uid;
@@ -120,6 +119,10 @@ class LoginWidget extends StatelessWidget {
                     await userController.login(credentialAppleID.userIdentifier!, credentialAppleID.email, UserController.loginApple);
                   }
                 }
+                if (Get.isDialogOpen ?? false) {
+                  Get.back();
+                }
+                Get.back();
               },
               child: Container(
                 width: double.infinity,
