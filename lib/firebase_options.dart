@@ -61,12 +61,12 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios_develop = FirebaseOptions(
-    apiKey: 'AIzaSyDzB8dylk7ktXmFnlnqaoHGBTuL6fb6zVc',
-    appId: '1:995022746616:ios:30331dbbd9f3e2cb8d9c0d',
-    messagingSenderId: '995022746616',
-    projectId: 'videoai-ios',
-    storageBucket: 'videoai-ios.firebasestorage.app',
-    iosBundleId: 'luma.sora.pika.runway.video.ai',
+    apiKey: 'AIzaSyD1OzyNJ9MAoOtMbcb-24PE1dWfSW1Vc1w',
+    appId: '1:185095464958:ios:5a729b90b344a327d7c2af',
+    messagingSenderId: '185095464958',
+    projectId: 'videoai-ios-6b8f5',
+    storageBucket: 'videoai-ios-6b8f5.firebasestorage.app',
+    iosBundleId: 'com.videoai.test',
   );
 
   static const FirebaseOptions ios_product = FirebaseOptions(

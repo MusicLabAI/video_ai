@@ -72,7 +72,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     return Container(
       height: 305,
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
       decoration: const BoxDecoration(
           color: UiColors.c262434,
           borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
@@ -108,6 +108,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               ],
             ),
           ),
+          const Spacer(),
           GestureDetector(
             onTap: () async {
               try {
@@ -175,10 +176,8 @@ class _LoginWidgetState extends State<LoginWidget> {
             GestureDetector(
               onTap: () {
                 if (isSignUp) {
-                  print('aaaaaa');
                   Get.to(() =>  const SignUpPage(), preventDuplicates: false);
                 } else {
-                  print('bbbbb');
                   Get.to(() =>  const LoginPage(), preventDuplicates: false);
                 }
               },

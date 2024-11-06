@@ -60,7 +60,7 @@ class AwsUtils {
 
       final res = await req.send();
       if (res.statusCode == 200 || res.statusCode == 204) {
-        return 'https://s.sunomusic.ai/${policy.key}';
+        return 'https://s.superinteractica.ai/${policy.key}';
       } else {
         throw res.toString();
       }
