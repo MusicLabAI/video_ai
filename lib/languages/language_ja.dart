@@ -116,7 +116,8 @@ class LanguageJa {
       "loginError": "ログインエラー",
       "payError": "支払いエラー",
       "insufficientBalance": "クレジットが不足しています。リチャージして再試行してください",
-      "retryDeleteAccountTips": "アカウントの削除に失敗しました。再度ログインして削除を試してください。"
+      "retryDeleteAccountTips": "アカウントの削除に失敗しました。再度ログインして削除を試してください。",
+      'shopRefreshTips': "ネットワーク接続が不安定です。商品情報の取得を再試行してください。"
     };
   }
 }

@@ -116,7 +116,8 @@ class LanguageKo {
       "loginError": "로그인 오류",
       "payError": "결제 오류",
       "insufficientBalance": "크레딧이 부족합니다. 충전 후 다시 시도하세요",
-      "retryDeleteAccountTips": "계정 삭제 실패. 다시 로그인 후 삭제를 시도하세요."
+      "retryDeleteAccountTips": "계정 삭제 실패. 다시 로그인 후 삭제를 시도하세요.",
+      'shopRefreshTips': "네트워크 연결이 불안정합니다. 제품 정보를 다시 시도해 주세요."
     };
   }
 }

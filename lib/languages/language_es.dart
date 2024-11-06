@@ -116,7 +116,8 @@ class LanguageEs {
       "loginError": "Error de inicio de sesión",
       "payError": "Error de pago",
       "insufficientBalance": "Créditos insuficientes, por favor recarga e inténtalo de nuevo",
-      "retryDeleteAccountTips": "Error al eliminar la cuenta. Inicia sesión nuevamente e intenta eliminar la cuenta."
+      "retryDeleteAccountTips": "Error al eliminar la cuenta. Inicia sesión nuevamente e intenta eliminar la cuenta.",
+      'shopRefreshTips': "La conexión de red es inestable. Por favor, intente recuperar la información del producto nuevamente."
     };
   }
 }

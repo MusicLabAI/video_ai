@@ -21,7 +21,13 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
   @override
   void initState() {
     super.initState();
-    _shopCtr.getShopList(GetPlatform.isAndroid ? ShopController.productProType : ShopController.iosProductProType);
+    _getShops();
+  }
+
+  void _getShops() {
+    _shopCtr.getShopList(GetPlatform.isAndroid
+        ? ShopController.productProType
+        : ShopController.iosProductProType);
   }
 
   @override
@@ -99,10 +105,14 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                               height: 24,
                             ),
                             if (_shopCtr.isInRequest.value)
-                              const SizedBox(
-                                  height: 100,
+                              const Padding(
+                                  padding: EdgeInsets.only(top: 100),
                                   child: Center(
                                       child: CircularProgressIndicator()))
+                            else if (_shopCtr.shopList.isEmpty)
+                              RefreshWidget(
+                                onRefresh: _getShops,
+                              )
                             else
                               ..._shopCtr.shopList.map((e) => _buildItem(e)),
                           ],
@@ -196,8 +206,10 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                               fontWeight: FontWeightExt.medium),
                         ),
                         Text(
-                          'weekValue'.trArgs([getWeekPrice(model.productDetails?.price ?? '',
-                              model.weekNumber ?? 1)]),
+                          'weekValue'.trArgs([
+                            getWeekPrice(model.productDetails?.price ?? '',
+                                model.weekNumber ?? 1)
+                          ]),
                           style: const TextStyle(
                               color: UiColors.cDBFFFFFF,
                               fontSize: 18,
@@ -272,6 +284,39 @@ class _IconLabelWidget extends StatelessWidget {
               fontWeight: FontWeight.bold),
         )
       ],
+    );
+  }
+}
+
+class RefreshWidget extends StatelessWidget {
+  const RefreshWidget({super.key, required this.onRefresh, this.topPadding});
+
+  final VoidCallback onRefresh;
+  final double? topPadding;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: topPadding ?? 100),
+      child: GestureDetector(
+        onTap: onRefresh,
+        child: Column(
+          children: [
+            Image.asset(
+              'images/icon/ic_refresh_shop.png',
+              width: 60,
+            ),
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Text(
+                  "shopRefreshTips".tr,
+                  textAlign: TextAlign.center,
+                  style:
+                      const TextStyle(color: UiColors.cDBFFFFFF, fontSize: 14),
+                ))
+          ],
+        ),
+      ),
     );
   }
 }

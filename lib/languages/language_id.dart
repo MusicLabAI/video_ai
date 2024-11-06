@@ -116,7 +116,8 @@ class LanguageId {
       "loginError": "Kesalahan Login",
       "payError": "Kesalahan Pembayaran",
       "insufficientBalance": "Kredit tidak mencukupi, silakan isi ulang dan coba lagi",
-      "retryDeleteAccountTips": "Penghapusan akun gagal. Silakan masuk kembali dan coba hapus akun."
+      "retryDeleteAccountTips": "Penghapusan akun gagal. Silakan masuk kembali dan coba hapus akun.",
+      'shopRefreshTips': "Koneksi jaringan tidak stabil. Silakan coba mendapatkan informasi produk lagi."
     };
   }
 }

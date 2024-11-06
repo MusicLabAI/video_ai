@@ -116,7 +116,8 @@ class LanguageZhCn {
       "loginError": "登录错误",
       "payError": "支付错误",
       "insufficientBalance": "余额不足，请充值后重试",
-      "retryDeleteAccountTips": "账户删除失败。请重新登录并尝试删除账户。"
+      "retryDeleteAccountTips": "账户删除失败。请重新登录并尝试删除账户。",
+      'shopRefreshTips': "网络连接不稳定，请重新尝试获取商品信息。"
     };
   }
 }

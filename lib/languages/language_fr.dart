@@ -116,7 +116,8 @@ class LanguageFr {
       "loginError": "Erreur de connexion",
       "payError": "Erreur de paiement",
       "insufficientBalance": "Crédits insuffisants, veuillez recharger et réessayer",
-      "retryDeleteAccountTips": "Échec de la suppression du compte. Veuillez vous reconnecter et essayer de supprimer le compte."
+      "retryDeleteAccountTips": "Échec de la suppression du compte. Veuillez vous reconnecter et essayer de supprimer le compte.",
+      'shopRefreshTips': "La connexion réseau est instable. Veuillez réessayer de récupérer les informations du produit."
     };
   }
 }

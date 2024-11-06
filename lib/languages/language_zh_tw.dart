@@ -116,7 +116,8 @@ class LanguageZhTw {
       "loginError": "登入錯誤",
       "payError": "支付錯誤",
       "insufficientBalance": "餘額不足，請充值後重試",
-      "retryDeleteAccountTips": "帳戶刪除失敗。請重新登入並嘗試刪除帳戶。"
+      "retryDeleteAccountTips": "帳戶刪除失敗。請重新登入並嘗試刪除帳戶。",
+      'shopRefreshTips': "網絡連接不穩定，請重新嘗試獲取商品信息。"
     };
   }
 }

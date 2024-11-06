@@ -116,7 +116,8 @@ class LanguageDe {
       "loginError": "Anmeldefehler",
       "payError": "Zahlungsfehler",
       "insufficientBalance": "Unzureichende Gutschriften, bitte aufladen und erneut versuchen",
-      "retryDeleteAccountTips": "Kontolöschung fehlgeschlagen. Bitte erneut einloggen und versuchen, das Konto zu löschen."
+      "retryDeleteAccountTips": "Kontolöschung fehlgeschlagen. Bitte erneut einloggen und versuchen, das Konto zu löschen.",
+      'shopRefreshTips': "Die Netzwerkverbindung ist instabil. Bitte versuchen Sie erneut, die Produktinformationen abzurufen."
     };
   }
 }

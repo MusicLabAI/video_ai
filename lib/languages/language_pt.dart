@@ -116,7 +116,8 @@ class LanguagePt {
       "loginError": "Erro de login",
       "payError": "Erro no pagamento",
       "insufficientBalance": "Créditos insuficientes, por favor, recarregue e tente novamente",
-      "retryDeleteAccountTips": "Falha ao excluir a conta. Faça login novamente e tente excluir a conta."
+      "retryDeleteAccountTips": "Falha ao excluir a conta. Faça login novamente e tente excluir a conta.",
+      'shopRefreshTips': "A conexão de rede está instável. Por favor, tente recuperar as informações do produto novamente."
     };
   }
 }

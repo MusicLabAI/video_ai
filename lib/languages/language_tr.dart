@@ -117,7 +117,8 @@ class LanguageTr {
       "loginError": "Giriş hatası",
       "payError": "Ödeme hatası",
       "insufficientBalance": "Yetersiz kredi, lütfen yükleyip tekrar deneyin",
-      "retryDeleteAccountTips": "Hesap silinemedi. Lütfen tekrar giriş yapın ve hesap silmeyi deneyin."
+      "retryDeleteAccountTips": "Hesap silinemedi. Lütfen tekrar giriş yapın ve hesap silmeyi deneyin.",
+      'shopRefreshTips': "Ağ bağlantısı kararsız. Lütfen ürün bilgilerini yeniden almaya çalışın."
     };
   }
 }

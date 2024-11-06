@@ -27,6 +27,7 @@ class ShopController extends GetxController {
   }
 
   Future<void> getShopList(int type) async {
+    isInRequest.value = true;
     final res = await Request.getShopList(type);
     try {
       final resList = res.map((e) => ShopModel.fromJson(e)).toList();
@@ -46,10 +47,7 @@ class ShopController extends GetxController {
       shopList.value = resList;
       if (shopList.isEmpty) {
         isInRequest.value = false;
-        Fluttertoast.showToast(
-            msg: 'productNotFound'.tr,
-            toastLength: Toast.LENGTH_LONG,
-            timeInSecForIosWeb: 5);
+        Fluttertoast.showToast(msg: 'productNotFound'.tr);
         return;
       }
 
