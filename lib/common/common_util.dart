@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CommonUtil {
@@ -34,6 +35,14 @@ class CommonUtil {
     } catch (e) {
       rethrow;
       // Get.snackbar('error', e.toString());
+    }
+  }
+
+  static void hideKeyboard(BuildContext context) {
+    //FocusScope.of(context).requestFocus(FocusNode())
+    final FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+      FocusManager.instance.primaryFocus?.unfocus();
     }
   }
 }

@@ -4,6 +4,9 @@
 .pub-cache/
 build/
 
+.flutter-plugins
+.flutter-plugins-dependencies
+
 # iOS
 ios/Flutter/.last_build_id
 ios/Pods/

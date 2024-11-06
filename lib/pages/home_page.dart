@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_ai/api/request.dart';
+import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/models/prompt_model.dart';
@@ -90,7 +91,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _hideKeyboard(context),
+      onTap: () => CommonUtil.hideKeyboard(context),
       child: Column(
         children: [
           SizedBox(
@@ -374,7 +375,7 @@ class _HomePageState extends State<HomePage>
         borderRadius: BorderRadius.circular(12),
         onTap: () {
           if (_isEnable.value) {
-            _hideKeyboard(context);
+            CommonUtil.hideKeyboard(context);
             generate();
           } else {
             Fluttertoast.showToast(msg: 'prompt_empty_tips'.tr);
@@ -459,14 +460,6 @@ class _HomePageState extends State<HomePage>
     if (result) {
       _mainCtr.tabController.index = 1;
       _mainCtr.refreshRecords.value = true;
-    }
-  }
-
-  void _hideKeyboard(BuildContext context) {
-    //FocusScope.of(context).requestFocus(FocusNode())
-    final FocusScopeNode currentFocus = FocusScope.of(context);
-    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
-      FocusManager.instance.primaryFocus?.unfocus();
     }
   }
 

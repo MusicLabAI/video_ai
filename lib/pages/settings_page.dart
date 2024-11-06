@@ -11,7 +11,7 @@ import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/dialogs.dart';
 import 'package:video_ai/widgets/loading_dialog.dart';
-import 'package:video_ai/widgets/login.dart';
+import 'package:video_ai/widgets/login_widget.dart';
 
 import '../common/common_util.dart';
 
