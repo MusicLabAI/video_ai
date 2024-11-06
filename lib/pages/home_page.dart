@@ -9,6 +9,7 @@ import 'package:video_ai/api/request.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
+import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/prompt_model.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 
@@ -24,6 +25,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
   final MainController _mainCtr = Get.find<MainController>();
+  final UserController _userCtr = Get.find<UserController>();
   File? _image;
   final RxBool _isEnable = false.obs;
   late TextEditingController _controller;
@@ -456,6 +458,10 @@ class _HomePageState extends State<HomePage>
   }
 
   void generate() async {
+    if (!_userCtr.isLogin.value) {
+      _userCtr.showLogin();
+      return;
+    }
     bool result = await createCtr.aiGenerate(_controller.text, _image);
     if (result) {
       _mainCtr.tabController.index = 1;
