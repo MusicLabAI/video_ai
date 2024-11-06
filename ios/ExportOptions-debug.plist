@@ -8,15 +8,8 @@
 	<string>export</string>
 	<key>method</key>
 	<string>debugging</string>
-	<key>provisioningProfiles</key>
-	<dict>
-		<key>com.videoai.test</key>
-		<string>VideoAi</string>
-	</dict>
-	<key>signingCertificate</key>
-	<string>Apple Development</string>
 	<key>signingStyle</key>
-	<string>manual</string>
+	<string>automatic</string>
 	<key>stripSwiftSymbols</key>
 	<true/>
 	<key>teamID</key>
