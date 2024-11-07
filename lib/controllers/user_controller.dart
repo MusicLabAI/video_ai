@@ -146,10 +146,8 @@ class UserController extends GetxController {
         Fluttertoast.showToast(msg: e.message ?? 'login error', gravity: ToastGravity.CENTER);
       }
       Get.log(e.toString(), isError: true);
-      rethrow;
     } catch (e) {
       Get.log(e.toString(), isError: true);
-      rethrow;
     } finally {
       if (Get.isDialogOpen ?? false) {
         Get.back();
