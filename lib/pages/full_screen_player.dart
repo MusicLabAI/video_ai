@@ -41,19 +41,19 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
     _controller.dispose();
 
     // 恢复状态栏和系统 UI 控件
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    // ]);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvokedWithResult: (didPop, result) async {
+    return WillPopScope(
+      onWillPop: () async {
         back();
+        return false;
       },
       child: Scaffold(
         body: SafeArea(
@@ -105,9 +105,12 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
     ]);
-    Navigator.pop(context);
+
+    // 确保 widget 仍然在树上后再进行返回
+    if (mounted) {
+      Navigator.pop(context);
+    }
   }
 
 // Future<void> initVideoController() async {

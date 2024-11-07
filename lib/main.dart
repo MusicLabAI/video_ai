@@ -1,4 +1,3 @@
-import 'package:advertising_id/advertising_id.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +25,11 @@ Future<void> main() async {
         systemNavigationBarDividerColor: Colors.transparent));
   }
   await initMain();
-  runApp(const MainApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((_) {
+    runApp(const MainApp());
+  });
 }
 
 Future<void> initMain() async {
