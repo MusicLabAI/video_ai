@@ -244,7 +244,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             children: [
               GestureDetector(
                 onTap: () async {
-                  CommonUtil.startUrl(GlobalData.termsOfUseUrl);
+                  CommonUtil.startUrl(isAndroid ? GlobalData.termsOfUseUrl : GlobalData.eulaUrl);
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),

@@ -26,6 +26,12 @@ class _SettingsPageState extends State<SettingsPage> {
   final _userCtr = Get.find<UserController>();
 
   @override
+  void initState() {
+    super.initState();
+    _userCtr.getUserInfo();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -111,9 +117,13 @@ class _SettingsPageState extends State<SettingsPage> {
                         children: [
                           _SettingsItem(
                               iconPath: 'images/icon/ic_group.png',
-                              item: 'termsOfUse'.tr,
+                              item: GetPlatform.isAndroid
+                                  ? 'termsOfUse'.tr
+                                  : 'eula'.tr,
                               onTap: () {
-                                CommonUtil.startUrl(GlobalData.termsOfUseUrl);
+                                CommonUtil.startUrl(GetPlatform.isAndroid
+                                    ? GlobalData.termsOfUseUrl
+                                    : GlobalData.eulaUrl);
                               }),
                           _SettingsItem(
                               iconPath: 'images/icon/ic_privacy.png',
@@ -191,43 +201,43 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-void showDeleteAccountDialog() {
-  Get.dialog(CustomDialog(
-    icon: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Image.asset(
-        'images/icon/ic_warn.png',
-        width: 70,
-        height: 70,
+  void showDeleteAccountDialog() {
+    Get.dialog(CustomDialog(
+      icon: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Image.asset(
+          'images/icon/ic_warn.png',
+          width: 70,
+          height: 70,
+        ),
       ),
-    ),
-    title: 'confirmDeletion'.tr,
-    confirmText: 'delete'.tr,
-    cancelText: 'cancel'.tr,
-    subText: 'deleteAccountTips'.tr,
-    onConfirm: () async {
-      Get.back();
-      Get.dialog(const LoadingDialog());
-      if (GetPlatform.isAndroid) {
-        try {
-          final user = FirebaseAuth.instance.currentUser;
-          if (user == null) {
+      title: 'confirmDeletion'.tr,
+      confirmText: 'delete'.tr,
+      cancelText: 'cancel'.tr,
+      subText: 'deleteAccountTips'.tr,
+      onConfirm: () async {
+        Get.back();
+        Get.dialog(const LoadingDialog());
+        if (GetPlatform.isAndroid) {
+          try {
+            final user = FirebaseAuth.instance.currentUser;
+            if (user == null) {
+              Fluttertoast.showToast(msg: 'deleteAccountFailed'.tr);
+              return;
+            }
+            await user.delete();
+          } on FirebaseAuthException {
             Fluttertoast.showToast(msg: 'deleteAccountFailed'.tr);
-            return;
+            Get.back();
+            rethrow;
           }
-          await user.delete();
-        } on FirebaseAuthException {
-          Fluttertoast.showToast(msg: 'deleteAccountFailed'.tr);
-          Get.back();
-          rethrow;
         }
-      }
-      await Request.userDelete();
-      await _userCtr.logout();
-      Get.back();
-    },
-  ));
-}
+        await Request.userDelete();
+        await _userCtr.logout();
+        Get.back();
+      },
+    ));
+  }
 }
 
 class _SettingsItem extends StatelessWidget {
