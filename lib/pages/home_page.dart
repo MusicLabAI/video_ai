@@ -202,7 +202,7 @@ class _HomePageState extends State<HomePage>
                                 style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeightExt.regular,
-                                    color: UiColors.c61FFFFFF),
+                                    color: UiColors.cDBFFFFFF),
                                 decoration: InputDecoration(
                                   hintStyle: const TextStyle(
                                       fontSize: 14,

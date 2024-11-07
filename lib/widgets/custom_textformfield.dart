@@ -48,7 +48,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       obscureText: widget.isPwd && _obscureText,
       // Control text visibility
       maxLines: 1,
-      style: const TextStyle(fontSize: 12, color: UiColors.c99FFFFFF),
+      style: const TextStyle(fontSize: 12, color: UiColors.cDBFFFFFF),
       decoration: InputDecoration(
         suffixIcon: widget.isPwd
             ? IconButton(
