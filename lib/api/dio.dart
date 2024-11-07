@@ -66,7 +66,8 @@ class DioUtil {
       Get.log(response?.statusMessage ?? response!.statusCode!.toString());
       // Get.snackbar('network error', response?.statusMessage ?? response!.statusCode!.toString());
     } else {
-      Get.log(response?.statusMessage ?? response!.statusCode!.toString());
+      Get.log(response?.statusMessage ?? response?.statusCode?.toString() ??
+          'unknown error');
     }
   }
 
