@@ -51,45 +51,74 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            _controller.value.isInitialized
-                ? GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if (_controller.value.isPlaying) {
-                          _controller.pause();
-                          _isPlaying = false;
-                        } else {
-                          _controller.play();
-                          _isPlaying = true;
-                        }
-                      });
-                    },
-                    child: Center(
-                      child: AspectRatio(
-                        aspectRatio: _controller.value.aspectRatio,
-                        child: VideoPlayer(_controller),
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) async {
+        back();
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              _controller.value.isInitialized
+                  ? GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (_controller.value.isPlaying) {
+                            _controller.pause();
+                            _isPlaying = false;
+                          } else {
+                            _controller.play();
+                            _isPlaying = true;
+                          }
+                        });
+                      },
+                      child: Center(
+                        child: AspectRatio(
+                          aspectRatio: _controller.value.aspectRatio,
+                          child: VideoPlayer(_controller),
+                        ),
                       ),
-                    ),
-                  )
-                : const Center(child: CircularProgressIndicator()),
-            Positioned(
-              top: 16,
-              left: 0,
-              child: IconButton(
-                icon: Image.asset('images/icon/ic_back.png', width: 32, height: 32,),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                    )
+                  : const Center(child: CircularProgressIndicator()),
+              Positioned(
+                top: 16,
+                left: 0,
+                child: IconButton(
+                  icon: Image.asset(
+                    'images/icon/ic_back.png',
+                    width: 32,
+                    height: 32,
+                  ),
+                  onPressed: back,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
+
+  void back() {
+    // 恢复状态栏和系统 UI 控件
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    Navigator.pop(context);
+  }
+
+// Future<void> initVideoController() async {
+//   final file = await DefaultCacheManager().getSingleFile(widget.videoUrl);
+//   // 初始化 VideoPlayerController
+//   _controller = VideoPlayerController.file(file)
+//     ..initialize().then((_) {
+//       setState(() {
+//         _isPlaying = true;
+//         _controller!.play();
+//       });
+//     });
+// }
 }

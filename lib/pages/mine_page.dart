@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/main_controller.dart';
@@ -181,7 +183,7 @@ class _MinePageState extends State<MinePage>
   }
 
   Widget _productionSucceed(RecordModel recordItem) {
-    return InkWell(
+    return GestureDetector(
       onTap: () async {
         var data = await Get.to(() => VideoDetailPage(
               recordModel: recordItem,
@@ -196,8 +198,8 @@ class _MinePageState extends State<MinePage>
           Positioned.fill(
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  recordItem.thumbnailUrl!,
+                child: CachedNetworkImage(
+                  imageUrl: recordItem.thumbnailUrl!,
                   fit: BoxFit.cover,
                 )),
           ),
@@ -209,52 +211,59 @@ class _MinePageState extends State<MinePage>
   }
 
   Widget _productionFailed(RecordModel recordItem) {
-    return Stack(
-      children: [
-        Positioned(
-          left: 0,
-          right: 0,
-          top: 40,
-          child: Image.asset(
-            'images/icon/ic_production_failed.png',
-            width: 60,
-            height: 60,
+    return GestureDetector(
+      onTap: () {
+        if (recordItem.failureCode == 1511) {
+          Fluttertoast.showToast(msg: recordItem.failureReason ?? '');
+        }
+      },
+      child: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 40,
+            child: Image.asset(
+              'images/icon/ic_production_failed.png',
+              width: 60,
+              height: 60,
+            ),
           ),
-        ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 24,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'productionFailed'.tr,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontWeight: FontWeightExt.semiBold,
-                    fontSize: 12,
-                    color: UiColors.cDBFFFFFF),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                'creditsHaveBeenRefunded'.tr,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontWeight: FontWeightExt.semiBold,
-                    fontSize: 10,
-                    color: UiColors.c99FFFFFF),
-              )
-            ],
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 24,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'productionFailed'.tr,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontWeight: FontWeightExt.semiBold,
+                      fontSize: 12,
+                      color: UiColors.cDBFFFFFF),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'creditsHaveBeenRefunded'.tr,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontWeight: FontWeightExt.semiBold,
+                      fontSize: 10,
+                      color: UiColors.c99FFFFFF),
+                )
+              ],
+            ),
           ),
-        ),
-        _delete(
-          onTap: () {
-            _deleteItem(recordItem);
-          },
-          bgColor: UiColors.c99000000,
-        ),
-      ],
+          _delete(
+            onTap: () {
+              _deleteItem(recordItem);
+            },
+            bgColor: UiColors.c99000000,
+          ),
+        ],
+      ),
     );
   }
 

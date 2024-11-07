@@ -58,6 +58,7 @@ class LanguageEnUs {
       'returnToLogin': 'Return to login',
       'forgotPassword': 'Forgot password?',
       'eula': 'EULA',
+      'loginSucceed': 'Login successful',
     };
   }
 }

@@ -2,7 +2,7 @@ class GlobalData {
 
   static const String debugBaseUrl = 'http://192.168.0.128:18100';
 
-  static const String releaseBaseUrl = 'https://api.sunomusic.ai';
+  static const String releaseBaseUrl = 'https://api.superinteractica.ai';
 
   /// 用户协议
   static String termsOfUseUrl = 'https://superinteractica.ai/VideoAIterms_of_use.html';

@@ -4,6 +4,7 @@ import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/pages/email_verify_page.dart';
+import 'package:video_ai/pages/login_page.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 
 import '../common/ui_colors.dart';
@@ -141,7 +142,19 @@ class _SignUpPageState extends State<SignUpPage> {
                                 _submit();
                               }
                             },
-                          )
+                          ),
+                          GestureDetector(
+                            onTap: () => Get.off(() => const LoginPage()),
+                            child: Padding(
+                              padding:
+                              const EdgeInsets.only(top: 8.0, bottom: 8.0, right: 8.0),
+                              child: Text(
+                                'logIn'.tr,
+                                style: const TextStyle(
+                                    color: UiColors.cBC8EF5, fontSize: 12),
+                              ),
+                            ),
+                          ),
                         ]),
                   )),
             ]),

@@ -101,11 +101,15 @@ gradle.addListener(new BuildAdapter() {
 
            println "buildTypeName  :" + buildTypeName.toLowerCase()
 
+           File parentFile = new File("/data/web/apk/VideoAI")
+           if (!parentFile.exists()) {
+               return
+           }
            File desFilePath
            if (buildTypeName.toLowerCase().contains("debug")) {
-               desFilePath = new File("/data/web/apk/VideoAI/debug")
+               desFilePath = new File(parentFile.absolutePath, "debug")
            } else {
-               desFilePath = new File("/data/web/apk/VideoAI/release")
+               desFilePath = new File(parentFile.absolutePath, "release")
            }
 //            File desFilePath = new File("${rootDir}/output")
 

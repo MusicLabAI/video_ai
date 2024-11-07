@@ -24,7 +24,7 @@ class LoginWidget extends StatefulWidget {
 class _LoginWidgetState extends State<LoginWidget> {
   final bool isAndroid = GetPlatform.isAndroid;
 
-  bool isSignUp = true;
+  bool isSignUp = false;
 
   Future<AuthorizationCredentialAppleID> signInWithApple() async {
     try {

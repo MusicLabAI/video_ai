@@ -176,6 +176,7 @@ class UserController extends GetxController {
       SharedPreferences.getInstance().then((prefs) {
         prefs.setString('token', token);
       });
+      Fluttertoast.showToast(msg: 'loginSucceed'.tr);
       Get.find<MineController>().onRefresh();
     } catch (e) {
       Get.log(e.toString(), isError: true);

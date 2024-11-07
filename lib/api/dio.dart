@@ -66,13 +66,7 @@ class DioUtil {
       Get.log(response?.statusMessage ?? response!.statusCode!.toString());
       // Get.snackbar('network error', response?.statusMessage ?? response!.statusCode!.toString());
     } else {
-      Get.snackbar(
-          backgroundColor: Colors.white,
-          'network error',
-          message ??
-              response?.statusMessage ??
-              response?.statusCode?.toString() ??
-              'unknown error');
+      Get.log(response?.statusMessage ?? response!.statusCode!.toString());
     }
   }
 
@@ -106,7 +100,7 @@ class DioUtil {
         responseData['state'] ??
         responseData['code'].toString();
 
-    Get.snackbar(backgroundColor: Colors.white, 'Network Error', errorMsg);
+    Get.log(errorMsg);
   }
 
   /// get请求

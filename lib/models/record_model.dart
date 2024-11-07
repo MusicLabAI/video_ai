@@ -13,7 +13,7 @@ class RecordModel {
   String? outputVideoUrl;
   String? thumbnailUrl;
   String? inputImageUrl;
-  int? failureCode;
+  int? failureCode; // 1511时 点击toast failureReason
   String? failureReason;
   String? prompt;
 
