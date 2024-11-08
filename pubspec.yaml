@@ -77,8 +77,8 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
 #flutter_native_splash:
-#  color: "#000000"  # 启动页的背景颜色，可以设置为你想要的任何颜色
-#  image: "images/icon/logo.png"  # 启动页显示的图片路径（通常是一个 logo）
+#  color: "#7631EC"  # 启动页的背景颜色，可以设置为你想要的任何颜色
+#  image: "images/icon/ic_little_logo.png"  # 启动页显示的图片路径（通常是一个 logo）
 #  android: true  # 启用 Android 启动页
 #  ios: true
 
