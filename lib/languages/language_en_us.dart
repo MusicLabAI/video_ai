@@ -8,7 +8,7 @@ class LanguageEnUs {
       'termsOfUse': 'Terms of Use',
       'privacyPolicy': 'Privacy Policy',
       'deleteAccount': 'Delete Account',
-      'videoAi': 'Video AI',
+      'videoAi': 'VideoAI',
       'version': 'Version',
       'confirmDeletion': 'Confirm deletion?',
       'cancel': 'Cancel',

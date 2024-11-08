@@ -59,18 +59,18 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: release-ipa
-          path: build/ios/ipa/Video AI.ipa
+          path: build/ios/ipa/VideoAI.ipa
 
       - name: 'Upload file to test flight using CLI'
         if: env.UPLOAD_TO_TESTFLIGHT == 'true'
         run: |
           echo "Starting upload."
-          xcrun altool --upload-app -t ios -f "build/ios/ipa/Video AI.ipa" -u ${{ secrets.APPLEID_USERNAME }} -p ${{ secrets.APPLEID_PASSWORD }} --verbose
+          xcrun altool --upload-app -t ios -f "build/ios/ipa/VideoAI.ipa" -u ${{ secrets.APPLEID_USERNAME }} -p ${{ secrets.APPLEID_PASSWORD }} --verbose
 
       - name: Upload PGYER File
         if: env.UPLOAD_TO_PGY == 'true'
         uses: PGYER/pgyer-upload-app-action@v1.3
         with:
           _api_key: ${{ secrets.PGY_KEY }}
-          appFilePath: build/ios/ipa/Video AI.ipa
+          appFilePath: build/ios/ipa/VideoAI.ipa
           buildUpdateDescription: '~~~'
