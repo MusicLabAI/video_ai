@@ -27,7 +27,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library to select images.</string>
+	<string>Allow access to photos to generate videos.</string>
 	<key>NSUserNotificationUsageDescription</key>
 	<string>We need notification permissions to send important message alerts.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
