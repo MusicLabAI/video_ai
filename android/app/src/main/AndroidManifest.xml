@@ -5,6 +5,7 @@
         android:label="VideoAI"
         android:name="${applicationName}"
         android:extractNativeLibs="true"
+        android:theme="@style/NormalTheme"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -12,7 +13,7 @@
             android:launchMode="singleTop"
             android:taskAffinity=""
             android:screenOrientation="portrait"
-            android:theme="@style/LaunchTheme"
+            android:theme="@style/SplashTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">

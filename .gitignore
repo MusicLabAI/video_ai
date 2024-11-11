@@ -10,6 +10,7 @@ build/
 # iOS
 ios/Flutter/.last_build_id
 ios/Pods/
+ios/Podfile.lock
 ios/.symlinks/
 ios/Flutter/flutter_export_environment.sh
 

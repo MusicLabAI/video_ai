@@ -1,6 +1,6 @@
-import org.apache.commons.io.FileUtils
-import java.text.SimpleDateFormat
-import java.util.Date
+//import org.apache.commons.io.FileUtils
+//import java.text.SimpleDateFormat
+//import java.util.Date
 
 plugins {
     id "com.android.application"
@@ -65,84 +65,89 @@ flutter {
     source = "../.."
 }
 
-long getBuildId() {
-   def buildId = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())
-   return Long.parseLong(buildId)
+dependencies {
+    implementation ("androidx.core:core-splashscreen:1.0.1")
+    implementation ("androidx.appcompat:appcompat:1.6.1")
 }
 
-gradle.addListener(new BuildAdapter() {
-   @Override
-   void buildFinished(BuildResult result) {
-       if (result.getFailure() != null) {
-           System.out.println("Build failed!");
-       } else {
-           System.out.println("Build succeeded!");
-
-           // 指定 build 目录路径
-           File buildDir = new File(project.buildDir.absolutePath, "outputs")
-           // 获取所有 APK 文件
-           def apkFiles = fileTree(dir: buildDir, include: ['**/*.apk']).files
-           apkFiles.each { println it }
-
-           // 获取所有 AAB 文件
-           def aabFiles = fileTree(dir: buildDir, include: ['**/*.aab']).files
-           aabFiles.each { println it }
-           def names = gradle.startParameter.getTaskNames()
-           def buildTypeName = ""
-
-           for (int i = 0; i < names.size(); i++) {
-               println "buildTypeName  names :" + names[i]
-
-               if (names[i].contains("Debug") || names[i].contains("Release")) {
-                   buildTypeName = names[i]
-                   break
-               }
-           }
-
-           println "buildTypeName  :" + buildTypeName.toLowerCase()
-
-           File parentFile = new File("/data/web/apk/VideoAI")
-           if (!parentFile.exists()) {
-               return
-           }
-           File desFilePath
-           if (buildTypeName.toLowerCase().contains("debug")) {
-               desFilePath = new File(parentFile.absolutePath, "debug")
-           } else {
-               desFilePath = new File(parentFile.absolutePath, "release")
-           }
-//            File desFilePath = new File("${rootDir}/output")
-
-           if (!desFilePath.exists()) {
-               desFilePath.mkdir()
-           }
-           def today = new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
-           File todayDir = new File(desFilePath.absolutePath, today.toString())
-           if (!todayDir.exists()) {
-               todayDir.mkdir()
-           }
-           def versionName = android.defaultConfig.versionName
-           def versionCode = android.defaultConfig.versionCode
-           apkFiles.each { file ->
-               def name = "${"VideoAI"}-${versionName}-${versionCode}-${getBuildId()}.apk"
-               File newFile = new File(file.parentFile.absolutePath, name)
-               boolean success = file.renameTo(newFile)
-               println "name :" + name + "  success:" + success + " it:" + newFile.toString()
-               FileUtils.copyFileToDirectory(newFile, todayDir)
-               println "rename file :" + newFile.absolutePath
-               println "todayDir  :" + todayDir.absolutePath
-
-           }
-           aabFiles.each { file ->
-               def name = "${"VideoAI"}-${versionName}-${versionCode}-${getBuildId()}.aab"
-               File newFile = new File(file.parentFile.absolutePath, name)
-               boolean success = file.renameTo(newFile)
-               println "name :" + name + "  success:" + success + " it:" + newFile.toString()
-               FileUtils.copyFileToDirectory(newFile, todayDir)
-               println "rename file :" + newFile.absolutePath
-               println "todayDir  :" + todayDir.absolutePath
-           }
-
-       }
-   }
-})
+//long getBuildId() {
+//   def buildId = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())
+//   return Long.parseLong(buildId)
+//}
+//
+//gradle.addListener(new BuildAdapter() {
+//   @Override
+//   void buildFinished(BuildResult result) {
+//       if (result.getFailure() != null) {
+//           System.out.println("Build failed!");
+//       } else {
+//           System.out.println("Build succeeded!");
+//
+//           // 指定 build 目录路径
+//           File buildDir = new File(project.buildDir.absolutePath, "outputs")
+//           // 获取所有 APK 文件
+//           def apkFiles = fileTree(dir: buildDir, include: ['**/*.apk']).files
+//           apkFiles.each { println it }
+//
+//           // 获取所有 AAB 文件
+//           def aabFiles = fileTree(dir: buildDir, include: ['**/*.aab']).files
+//           aabFiles.each { println it }
+//           def names = gradle.startParameter.getTaskNames()
+//           def buildTypeName = ""
+//
+//           for (int i = 0; i < names.size(); i++) {
+//               println "buildTypeName  names :" + names[i]
+//
+//               if (names[i].contains("Debug") || names[i].contains("Release")) {
+//                   buildTypeName = names[i]
+//                   break
+//               }
+//           }
+//
+//           println "buildTypeName  :" + buildTypeName.toLowerCase()
+//
+//           File parentFile = new File("/data/web/apk/VideoAI")
+//           if (!parentFile.exists()) {
+//               return
+//           }
+//           File desFilePath
+//           if (buildTypeName.toLowerCase().contains("debug")) {
+//               desFilePath = new File(parentFile.absolutePath, "debug")
+//           } else {
+//               desFilePath = new File(parentFile.absolutePath, "release")
+//           }
+////            File desFilePath = new File("${rootDir}/output")
+//
+//           if (!desFilePath.exists()) {
+//               desFilePath.mkdir()
+//           }
+//           def today = new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date())
+//           File todayDir = new File(desFilePath.absolutePath, today.toString())
+//           if (!todayDir.exists()) {
+//               todayDir.mkdir()
+//           }
+//           def versionName = android.defaultConfig.versionName
+//           def versionCode = android.defaultConfig.versionCode
+//           apkFiles.each { file ->
+//               def name = "${"VideoAI"}-${versionName}-${versionCode}-${getBuildId()}.apk"
+//               File newFile = new File(file.parentFile.absolutePath, name)
+//               boolean success = file.renameTo(newFile)
+//               println "name :" + name + "  success:" + success + " it:" + newFile.toString()
+//               FileUtils.copyFileToDirectory(newFile, todayDir)
+//               println "rename file :" + newFile.absolutePath
+//               println "todayDir  :" + todayDir.absolutePath
+//
+//           }
+//           aabFiles.each { file ->
+//               def name = "${"VideoAI"}-${versionName}-${versionCode}-${getBuildId()}.aab"
+//               File newFile = new File(file.parentFile.absolutePath, name)
+//               boolean success = file.renameTo(newFile)
+//               println "name :" + name + "  success:" + success + " it:" + newFile.toString()
+//               FileUtils.copyFileToDirectory(newFile, todayDir)
+//               println "rename file :" + newFile.absolutePath
+//               println "todayDir  :" + todayDir.absolutePath
+//           }
+//
+//       }
+//   }
+//})

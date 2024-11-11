@@ -67,7 +67,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
-#  flutter_native_splash: ^2.4.2
+  flutter_native_splash: ^2.4.2
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -76,11 +76,11 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
 
-#flutter_native_splash:
-#  color: "#7631EC"  # 启动页的背景颜色，可以设置为你想要的任何颜色
-#  image: "images/icon/ic_little_logo.png"  # 启动页显示的图片路径（通常是一个 logo）
-#  android: true  # 启用 Android 启动页
-#  ios: true
+flutter_native_splash:
+  color: "#7631EC"  # 启动页的背景颜色，可以设置为你想要的任何颜色
+  image: "images/icon/ic_little_logo.png"  # 启动页显示的图片路径（通常是一个 logo）
+  android: true  # 启用 Android 启动页
+  ios: true
 
 flutter_icons:
   android: true
