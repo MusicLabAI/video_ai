@@ -1,3 +1,4 @@
+import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
@@ -7,7 +8,6 @@ import 'package:video_ai/models/record_model.dart';
 import 'package:video_ai/pages/full_screen_player.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/loading_dialog.dart';
-import 'package:video_player/video_player.dart';
 
 import '../common/file_util.dart';
 
@@ -21,8 +21,7 @@ class VideoDetailPage extends StatefulWidget {
 }
 
 class _VideoDetailPageState extends State<VideoDetailPage> {
-  late VideoPlayerController _controller;
-  late Future<void> _initializeVideoPlayerFuture;
+  late CachedVideoPlayerPlusController _controller;
   late String? videoUrl;
   double _sliderValue = 0;
   bool _isSeeking = false;
@@ -31,20 +30,21 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
   void initState() {
     super.initState();
     videoUrl = widget.recordModel.outputVideoUrl;
-    _controller = VideoPlayerController.networkUrl(Uri.parse(videoUrl ?? ''))
-      ..addListener(() {
-        // 当视频播放时，实时更新Slider的进度
-        if (!_isSeeking) {
-          setState(() {
-            _sliderValue = _controller.value.position.inSeconds.toDouble();
+    _controller =
+        CachedVideoPlayerPlusController.networkUrl(Uri.parse(videoUrl ?? ''))
+          ..addListener(() {
+            // 当视频播放时，实时更新Slider的进度
+            if (!_isSeeking) {
+              setState(() {
+                _sliderValue = _controller.value.position.inSeconds.toDouble();
+              });
+            }
+          })
+          ..initialize().then((_) {
+            setState(() {
+              _controller.play();
+            });
           });
-        }
-      });
-    _initializeVideoPlayerFuture = _controller.initialize().then((_) {
-      setState(() {
-        _controller.play();
-      });
-    });
   }
 
   @override
@@ -105,25 +105,14 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
         child: Column(
           children: [
             Expanded(
-              child: FutureBuilder(
-                  future: _initializeVideoPlayerFuture,
-                  builder: (context, snapshot) {
-                    return Stack(alignment: Alignment.center, children: [
-                      Visibility(
-                        visible:
-                            snapshot.connectionState == ConnectionState.done,
-                        child: AspectRatio(
-                          aspectRatio: _controller.value.aspectRatio,
-                          child: VideoPlayer(_controller),
-                        ),
-                      ),
-                      Visibility(
-                        visible:
-                            snapshot.connectionState != ConnectionState.done,
-                        child: const CircularProgressIndicator(),
-                      ),
-                    ]);
-                  }),
+              child: Center(
+                child: _controller.value.isInitialized
+                    ? AspectRatio(
+                        aspectRatio: _controller.value.aspectRatio,
+                        child: CachedVideoPlayerPlus(_controller),
+                      )
+                    : const CircularProgressIndicator(),
+              ),
             ),
             Container(
               padding: const EdgeInsets.only(

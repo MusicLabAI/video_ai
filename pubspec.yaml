@@ -60,7 +60,7 @@ dependencies:
   #上传图片依赖
   amazon_cognito_identity_dart_2: ^3.6.5
   easy_refresh: ^3.4.0
-  video_player: ^2.9.1
+  cached_video_player_plus: ^3.0.3
   flutter_cache_manager: ^3.4.1
 
 dev_dependencies:

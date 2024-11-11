@@ -1,6 +1,6 @@
+import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:video_player/video_player.dart';
 
 class FullScreenPlayer extends StatefulWidget {
   final String videoUrl;
@@ -12,7 +12,7 @@ class FullScreenPlayer extends StatefulWidget {
 }
 
 class _FullScreenPlayerState extends State<FullScreenPlayer> {
-  late VideoPlayerController _controller;
+  late CachedVideoPlayerPlusController _controller;
   bool _isPlaying = false;
 
   @override
@@ -20,7 +20,7 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
     super.initState();
 
     // 初始化 VideoPlayerController
-    _controller = VideoPlayerController.network(widget.videoUrl)
+    _controller = CachedVideoPlayerPlusController.network(widget.videoUrl)
       ..initialize().then((_) {
         setState(() {
           _isPlaying = true;
@@ -76,7 +76,7 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
                       child: Center(
                         child: AspectRatio(
                           aspectRatio: _controller.value.aspectRatio,
-                          child: VideoPlayer(_controller),
+                          child: CachedVideoPlayerPlus(_controller),
                         ),
                       ),
                     )
