@@ -1,3 +1,5 @@
+import 'buy_shop.dart';
+
 class GlobalData {
 
   static const String debugBaseUrl = 'http://192.168.0.128:18100';
@@ -18,4 +20,6 @@ class GlobalData {
 
   static String emailReg = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
   static String passwordReg = r'^.{6,}$';
+
+  static BuyShop buyShop = BuyShop();
 }

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../models/record_model.dart';
+import '../models/shop_model.dart';
 import 'dio.dart';
 
 class Request {
@@ -14,6 +15,10 @@ class Request {
   static const String _oneClickLogin = '/videoLab/user/oneClickLogin';
   static const String _recommendPrompt = '/videoLab/recommendPrompt/list';
   static const String _historyByIds = '/videoLab/aiGenerate/historyByIds';
+  static const String _getShopList = '/videoLab/shop/getShopList';
+  static const String _createOrder = '/videoLab/shop/createOrder';
+  static const String _verifyOrder = '/videoLab/shop/verifyOrder';
+  static const String _getOrderKey = '/videoLab/shop/getOrderKey';
 
   /// telegram_group\email
   static Future<void> getConfig(
@@ -69,5 +74,26 @@ class Request {
 
   static Future<dynamic> getRecommendPrompt() async {
     return await DioUtil.httpGet(_recommendPrompt);
+  }
+
+  /// 查询商品列表
+  ///
+  /// [type]: 0 会员商品
+  static Future<List<dynamic>> getShopList(String type) async {
+    return await DioUtil.httpGet(_getShopList, parameters: {"type": type});
+  }
+
+  /// 创建订单
+  static Future<dynamic> createOrder(String shopId) async {
+    return await DioUtil.httpPost(_createOrder, data: {"shopId": shopId});
+  }
+
+  /// 验证订单
+  static Future<dynamic> verifyOrder(String data, int timeStamp) async {
+    return await DioUtil.httpPost(_verifyOrder, data: {"data": data, "timeStamp": timeStamp}, ignore208: true);
+  }
+
+  static Future<String> getOrderKey() async {
+    return await DioUtil.httpGet(_getOrderKey);
   }
 }

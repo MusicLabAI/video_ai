@@ -63,6 +63,11 @@ dependencies:
   cached_video_player_plus: ^3.0.3
   flutter_cache_manager: ^3.4.1
 
+
+  equatable: ^2.0.5
+  dart_des: ^1.0.2
+  in_app_purchase: ^3.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -53,6 +53,7 @@ Future<void> initMain() async {
     DioUtil.token = token;
   }
   DioUtil.resetDio();
+  GlobalData.buyShop.initializeInAppPurchase();
 }
 
 class MainApp extends StatelessWidget {

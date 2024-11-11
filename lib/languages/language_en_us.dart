@@ -59,6 +59,18 @@ class LanguageEnUs {
       'forgotPassword': 'Forgot password?',
       'eula': 'EULA',
       'loginSucceed': 'Login successful',
+      'proService': 'Pro Service',
+      'proServiceDesc': 'Try using AI video to bring all your fantasies to life',
+      'ultraHdResolution': 'Ultra HD Resolution',
+      'highPriorityGenerations': 'High priority generations',
+      'commercialUsePermitted': 'Commercial use permitted',
+      'removeWatermark': 'Remove watermark',
+      'paymentInitiationFailure': 'Failed to initiate payment',
+      'orderCreationFailure': 'Failed to create order',
+      'productNotFound': 'Product not found',
+      'paymentHasBeenCanceled': 'Payment has been canceled.',
+      'restoreTips': "No content to restore.",
+      'subscribeTips': "Auto-Renewal, Cancel Anytime",
     };
   }
 }

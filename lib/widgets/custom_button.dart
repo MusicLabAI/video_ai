@@ -85,6 +85,7 @@ class IconTextButton extends StatelessWidget {
       required this.text,
       required this.onTap,
       this.icon,
+      this.iconInLeft = false,
       this.bgColor,
       this.textColor,
       this.textSize,
@@ -103,6 +104,7 @@ class IconTextButton extends StatelessWidget {
   final double? borderWidth;
   final double? radius;
   final Widget? icon;
+  final bool iconInLeft;
   final EdgeInsetsGeometry? contentPadding;
   final double? drawablePadding;
 
@@ -121,18 +123,18 @@ class IconTextButton extends StatelessWidget {
                 width: borderWidth ?? 1)),
         child: Row(
           children: [
-            if (icon != null) icon!,
-            if (icon != null)
-              SizedBox(
-                width: drawablePadding ?? 4,
+            if (icon != null && iconInLeft) icon!,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: drawablePadding ?? 4),
+              child: Text(
+                text,
+                style: TextStyle(
+                    fontSize: textSize ?? 10,
+                    color: textColor ?? UiColors.c99FFFFFF,
+                    fontWeight: FontWeightExt.medium),
               ),
-            Text(
-              text,
-              style: TextStyle(
-                  fontSize: textSize ?? 10,
-                  color: textColor ?? UiColors.c99FFFFFF,
-                  fontWeight: FontWeightExt.medium),
-            )
+            ),
+            if (icon != null && !iconInLeft) icon!,
           ],
         ),
       ),
