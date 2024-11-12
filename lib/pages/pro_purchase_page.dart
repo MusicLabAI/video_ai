@@ -20,6 +20,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
   @override
   void initState() {
     super.initState();
+    _goodList = [ShopModel(remark: '', point: 0, memberType: 1, shopType: 2, shopId: '221', shopName: 'week plan', price: 5, shopDescribe: "fjadsfkas", selected: false, status: 0), ShopModel(remark: '', point: 0, memberType: 1, shopType: 2, shopId: '23421', shopName: 'year plan', price: 67, shopDescribe: "的法师讲法", selected: false, status: 0), ];
   }
 
   @override
@@ -136,7 +137,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
         _currentItem = model;
       }),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.all(12),
         margin: const EdgeInsets.only(top: 16),
         decoration: BoxDecoration(
             border: Border.all(

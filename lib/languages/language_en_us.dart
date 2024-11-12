@@ -71,6 +71,9 @@ class LanguageEnUs {
       'paymentHasBeenCanceled': 'Payment has been canceled.',
       'restoreTips': "No content to restore.",
       'subscribeTips': "Auto-Renewal, Cancel Anytime",
+      'creditsPackage': "Credits Package",
+      'creditsPackageDesc': "Purchase and use immediately\nNo need to wait for subscription credits to be issued",
+      'purchase': "Purchase",
     };
   }
 }
