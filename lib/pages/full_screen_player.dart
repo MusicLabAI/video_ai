@@ -50,11 +50,9 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        back();
-        return false;
-      },
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) => {back.call()},
       child: Scaffold(
         body: SafeArea(
           child: Stack(
@@ -112,16 +110,4 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
       Navigator.pop(context);
     }
   }
-
-// Future<void> initVideoController() async {
-//   final file = await DefaultCacheManager().getSingleFile(widget.videoUrl);
-//   // 初始化 VideoPlayerController
-//   _controller = VideoPlayerController.file(file)
-//     ..initialize().then((_) {
-//       setState(() {
-//         _isPlaying = true;
-//         _controller!.play();
-//       });
-//     });
-// }
 }

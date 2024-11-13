@@ -215,6 +215,8 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                     height: 40,
                   ),
                   CustomButton(
+                    width: double.infinity,
+                    height: 46,
                     text: 'tryVideo'.tr,
                     textColor: Colors.white,
                     bgColors: const [UiColors.c7631EC, UiColors.cA359EF],

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_ai/common/common_util.dart';
 
 import '../../common/global_data.dart';
 import '../common/ui_colors.dart';
@@ -44,12 +45,12 @@ class BottomItem extends StatelessWidget {
           ),
         GestureDetector(
             onTap: () async {
-              openUrl(GlobalData.termsOfUseUrl);
+              CommonUtil.openUrl(GlobalData.termsOfUseUrl);
             },
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Text(
-                'termsOfUse'.tr,
+                GetPlatform.isAndroid ? 'termsOfUse'.tr : 'eula'.tr,
                 style: _bottomTextStyle,
               ),
             )),
@@ -62,7 +63,7 @@ class BottomItem extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () async {
-            openUrl(GlobalData.privacyNoticeUrl);
+            CommonUtil.openUrl(GlobalData.privacyNoticeUrl);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -74,19 +75,5 @@ class BottomItem extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Future<void> openUrl(String sourceUrl) async {
-    try {
-      final url = Uri.parse(sourceUrl);
-      final bool isSul = await launchUrl(
-        url,
-      );
-      if (!isSul) {
-        Get.snackbar('error', 'fail');
-      }
-    } catch (e) {
-      Get.snackbar('error', e.toString());
-    }
   }
 }

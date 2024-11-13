@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/api/dio.dart';
 import 'package:video_ai/controllers/main_controller.dart';
+import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/pages/home_page.dart';
 import 'package:video_ai/pages/mine_page.dart';
 import 'package:video_ai/widgets/custom_bottom_nav_bar.dart';
@@ -17,24 +18,26 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
-  MainController mainController = Get.find();
-  UserController userController = Get.find();
+  final MainController _mainCtr = Get.find();
+  final UserController _userCtr = Get.find();
+  final MineController _mineCtr = Get.find();
 
   @override
   void initState() {
     super.initState();
-    mainController.tabController = TabController(length: 2, vsync: this);
-    mainController.tabController.addListener(() {
+    _mainCtr.tabController = TabController(length: 2, vsync: this);
+    _mainCtr.tabController.addListener(() {
       setState(() {});
     });
     if (DioUtil.token.isBlank != true) {
-      userController.getUserInfo();
+      _userCtr.getUserInfo();
+      _mineCtr.onRefresh();
     }
   }
 
   @override
   void dispose() {
-    mainController.tabController.dispose();
+    _mainCtr.tabController.dispose();
     super.dispose();
   }
 
@@ -47,7 +50,7 @@ class _MainPageState extends State<MainPage>
           children: [
             TabBarView(
               physics: const NeverScrollableScrollPhysics(),
-              controller: mainController.tabController,
+              controller: _mainCtr.tabController,
               children: const [HomePage(), MinePage()],
             ),
             Positioned(
@@ -55,10 +58,13 @@ class _MainPageState extends State<MainPage>
                 right: 0,
                 bottom: 0,
                 child: CustomBottomNavBar(
-                  currentIndex: mainController.tabController.index,
+                  currentIndex: _mainCtr.tabController.index,
                   onTap: (index) {
                     setState(() {
-                      mainController.tabController.index = index;
+                      _mainCtr.tabController.index = index;
+                      if (index == 1) {
+                        _mineCtr.retry();
+                      }
                     });
                   },
                 ))

@@ -15,6 +15,15 @@ class GlobalData {
   /// 隐私协议
   static String privacyNoticeUrl = 'https://superinteractica.ai/VideoAIprivacy_policy.html';
 
+  /// android去掉订阅
+  static String unsubscribeAndroidUrl = 'https://support.google.com/googleplay/answer/7018481';
+
+  /// ios去掉订阅
+  static String unsubscribeIosUrl = 'https://support.apple.com/en-us/118428';
+
+  /// tg
+  static String tgUrl = 'https://t.me/+30nOnsRynCAyYjNl';
+
   static String versionName = '';
   static String packageName = '';
 

@@ -14,13 +14,8 @@ class MineController extends GetxController {
   int _pageNum = 1;
   bool _isLoading = false;
   bool _isLastPage = false;
+  bool networkError = false;
   Timer? _timer;
-
-  @override
-  void onInit() {
-    super.onInit();
-    onRefresh();
-  }
 
   @override
   void onClose() {
@@ -53,23 +48,37 @@ class MineController extends GetxController {
     _timer = null;
   }
 
+  void retry() {
+    if (_isLoading || !networkError) {
+      return;
+    }
+    Get.log('重试了');
+    onRefresh();
+  }
+
   Future<void> onRefresh() async {
     if (!Get.find<UserController>().isLogin.value) {
       dataList.value = [];
       stopTimer();
       return;
     }
-    _isLastPage = false;
-    _isLoading = true;
-    _pageNum = 1;
-    final res = await Request.getRecords(_pageNum);
-    _isLastPage = res['isLastPage'];
-    final datas = (res['data'] as List)
-        .map((record) => RecordModel.fromJson(record))
-        .toList();
-    _isLoading = false;
-    dataList.value = datas;
-    updatePollingIds();
+    try {
+      _isLastPage = false;
+      _isLoading = true;
+      _pageNum = 1;
+      final res = await Request.getRecords(_pageNum);
+      _isLastPage = res['isLastPage'];
+      final datas = (res['data'] as List)
+          .map((record) => RecordModel.fromJson(record))
+          .toList();
+      _isLoading = false;
+      dataList.value = datas;
+      networkError = false;
+      updatePollingIds();
+    } catch(e) {
+      networkError = true;
+      _isLoading = false;
+    }
   }
 
   void updatePollingIds() {

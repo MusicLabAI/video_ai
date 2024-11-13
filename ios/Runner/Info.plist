@@ -30,6 +30,10 @@
 		<string>Allow access to photos to generate videos.</string>
 		<key>NSUserNotificationUsageDescription</key>
 		<string>We need notification permissions to send important message alerts.</string>
+		<key>LSApplicationQueriesSchemes</key>
+        <array>
+          <string>mailto</string>
+        </array>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>UILaunchStoryboardName</key>

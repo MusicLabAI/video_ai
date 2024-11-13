@@ -60,11 +60,15 @@ class CustomDialog extends StatelessWidget {
             child: Row(
               children: [
                 if (cancelText != null) ...[
-                  confirmPositionLeft ? _buildConfirmBtn() : _buildCancelBtn(),
+                  confirmPositionLeft
+                      ? _buildConfirmBtn(confirmText, onConfirm)
+                      : _buildCancelBtn(text: cancelText, onTap: onCancel),
                   const SizedBox(width: 16),
-                  confirmPositionLeft ? _buildCancelBtn() : _buildConfirmBtn(),
+                  confirmPositionLeft
+                      ? _buildCancelBtn(text: cancelText, onTap: onCancel)
+                      : _buildConfirmBtn(confirmText, onConfirm),
                 ] else ...[
-                  _buildConfirmBtn(),
+                  _buildConfirmBtn(confirmText, onConfirm),
                 ],
               ],
             ),
@@ -73,36 +77,104 @@ class CustomDialog extends StatelessWidget {
       ),
     );
   }
+}
 
-  Expanded _buildCancelBtn() {
-    return Expanded(
-      child: SizedBox(
-        height: 44,
-        child: CustomButton(
-          onTap: onCancel ?? () => Get.back(),
-          text: cancelText!,
-          textColor: UiColors.cDBFFFFFF,
-          bgColor: UiColors.c30333F,
-          borderRadius: 12,
-        ),
-      ),
-    );
-  }
+class EditNameDialog extends StatelessWidget {
+  EditNameDialog({super.key, required this.onSubmit});
 
-  Expanded _buildConfirmBtn() {
-    return Expanded(
-      child: SizedBox(
-        height: 44,
-        child: CustomButton(
-          onTap: onConfirm,
-          text: confirmText,
-          textColor: UiColors.cDBFFFFFF,
-          bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
-          borderRadius: 12,
-        ),
-      ),
-    );
+  final Function(String) onSubmit;
+
+  final TextEditingController _controller = TextEditingController();
+  final noBorder = const OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(12)),
+    borderSide: BorderSide.none,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return DialogContainer(
+        bgColor: UiColors.c23242A,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'changeName'.tr,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24.0),
+              child: SizedBox(
+                height: 50,
+                child: TextField(
+                  maxLines: 1,
+                  controller: _controller,
+                  cursorColor: UiColors.cDBFFFFFF,
+                  style: TextStyle(
+                      color: UiColors.cDBFFFFFF,
+                      fontSize: 14,
+                      fontWeight: FontWeightExt.medium),
+                  decoration: InputDecoration(
+                      hintText: 'changeName'.tr,
+                      hintStyle: TextStyle(
+                          color: UiColors.c61FFFFFF,
+                          fontSize: 14,
+                          fontWeight: FontWeightExt.medium),
+                      fillColor: UiColors.c121212,
+                      border: noBorder,
+                      enabledBorder: noBorder,
+                      focusedBorder: noBorder,
+                      filled: true),
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                _buildCancelBtn(),
+                const SizedBox(
+                  width: 16,
+                ),
+                _buildConfirmBtn('submit'.tr, () {
+                  if (_controller.text.isEmpty) {
+                    return;
+                  }
+                  onSubmit.call(_controller.text);
+                })
+              ],
+            )
+          ],
+        ));
   }
+}
+
+Expanded _buildCancelBtn({String? text, VoidCallback? onTap}) {
+  return Expanded(
+    child: CustomButton(
+      height: 44,
+      width: double.infinity,
+      onTap: onTap ?? () => Get.back(),
+      text: text ?? 'cancel'.tr,
+      textColor: UiColors.cDBFFFFFF,
+      bgColor: UiColors.c30333F,
+      borderRadius: 12,
+    ),
+  );
+}
+
+Expanded _buildConfirmBtn(String text, VoidCallback? onTap) {
+  return Expanded(
+    child: CustomButton(
+      height: 44,
+      width: double.infinity,
+      onTap: onTap,
+      text: text,
+      textColor: UiColors.cDBFFFFFF,
+      bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
+      borderRadius: 12,
+    ),
+  );
 }
 
 class DialogContainer extends StatelessWidget {
@@ -115,17 +187,20 @@ class DialogContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return UnconstrainedBox(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-        margin: const EdgeInsets.symmetric(horizontal: 24),
-        width: Get.width - 48,
-        decoration: ShapeDecoration(
-          color: bgColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+      child: Material(
+        color: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          margin: const EdgeInsets.symmetric(horizontal: 24),
+          width: Get.width - 48,
+          decoration: ShapeDecoration(
+            color: bgColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
           ),
+          child: child,
         ),
-        child: child,
       ),
     );
   }

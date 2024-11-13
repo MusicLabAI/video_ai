@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CommonUtil {
@@ -19,9 +22,10 @@ class CommonUtil {
     };
   }
 
-  static Future<void> startUrl(String? urlString) async {
+  static Future<void> openUrl(String? urlString) async {
     if (urlString == null || urlString.isEmpty) {
-      throw Exception('url null');
+      Get.log('url is invalid', isError: true);
+      return;
     }
     try {
       final url = Uri.parse(urlString);
@@ -29,12 +33,27 @@ class CommonUtil {
         url,
       );
       if (!isSul) {
-        // Get.snackbar('error', 'fail');
-        throw Exception('fail');
+        Get.log('open url failed', isError: true);
       }
     } catch (e) {
-      rethrow;
-      // Get.snackbar('error', e.toString());
+      Get.log(e.toString(), isError: true);
+    }
+  }
+
+  static Future<void> sendEmail() async {
+    try {
+      final Uri emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path: 'support@interactica.ai', // 目标邮件地址
+      );
+      // 检查是否能够启动邮件客户端
+      if (await canLaunchUrl(emailLaunchUri)) {
+        await launchUrl(emailLaunchUri);
+      } else {
+        throw 'Could not launch $emailLaunchUri';
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
     }
   }
 
@@ -44,5 +63,13 @@ class CommonUtil {
     if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
       FocusManager.instance.primaryFocus?.unfocus();
     }
+  }
+
+  static String formatTime(int time) {
+    if (time <= 0) {
+      return '';
+    }
+    final format = DateFormat('dd-MM-yyyy');
+    return format.format(DateTime.fromMillisecondsSinceEpoch(time));
   }
 }

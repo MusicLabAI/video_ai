@@ -46,8 +46,8 @@ class DioUtil {
           'region': Get.deviceLocale?.countryCode,
           'language': language,
         },
-      ),);
-      // )..interceptors.add(LogInterceptor(responseBody: true));
+      ),
+      )..interceptors.add(LogInterceptor(responseBody: true));
     // )..interceptors.add(CurlLoggerDioInterceptor(printOnSuccess: true));
   }
 

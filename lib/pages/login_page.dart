@@ -130,6 +130,8 @@ class _LoginPageState extends State<LoginPage> {
                             height: 40,
                           ),
                           CustomButton(
+                            width: double.infinity,
+                            height: 46,
                             text: 'logIn'.tr,
                             textColor: UiColors.cDBFFFFFF,
                             bgColors: _isButtonEnabled

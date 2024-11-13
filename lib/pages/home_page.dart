@@ -11,7 +11,10 @@ import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/prompt_model.dart';
+import 'package:video_ai/pages/point_purchase_page.dart';
+import 'package:video_ai/pages/pro_purchase_page.dart';
 import 'package:video_ai/widgets/custom_button.dart';
+import 'package:video_ai/widgets/user_info_widget.dart';
 
 import '../controllers/main_controller.dart';
 
@@ -96,14 +99,14 @@ class _HomePageState extends State<HomePage>
       onTap: () => CommonUtil.hideKeyboard(context),
       child: Column(
         children: [
-          SizedBox(
+          Container(
+            color: Colors.transparent,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             height: 56,
             width: double.infinity,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(
-                  width: 16,
-                ),
                 Text(
                   'videoAi'.tr,
                   style: const TextStyle(
@@ -111,6 +114,7 @@ class _HomePageState extends State<HomePage>
                       color: UiColors.cDBFFFFFF,
                       fontWeight: FontWeightExt.semiBold),
                 ),
+                UserInfoWidget()
               ],
             ),
           ),
@@ -150,18 +154,43 @@ class _HomePageState extends State<HomePage>
                                   fontWeight: FontWeightExt.semiBold),
                             ),
                             const Spacer(),
-                            IconTextButton(
-                                radius: 8,
-                                borderColor: Colors.transparent,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 6),
-                                bgColor: UiColors.c666949A1,
-                                icon: Image.asset(
-                                  'images/icon/ic_shuffle.png',
+                            GestureDetector(
+                              onTap: () {
+                                if (_controller.text.isEmpty) {
+                                  Fluttertoast.showToast(msg: 'noPromptEntered'.tr);
+                                  return;
+                                }
+                                setState(() {
+                                  _controller.text = "";
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                margin: const EdgeInsets.only(right: 8),
+                                decoration: BoxDecoration(
+                                    color: UiColors.c666949A1,
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Image.asset(
+                                  'images/icon/ic_clear.png',
                                   width: 14,
-                                  height: 14,
+                                ),
+                              ),
+                            ),
+                            CustomButton(
+                                borderRadius: 8,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 6, horizontal: 6),
+                                bgColor: UiColors.c666949A1,
+                                leftIcon: Padding(
+                                  padding: const EdgeInsets.only(right: 4.0),
+                                  child: Image.asset(
+                                    'images/icon/ic_shuffle.png',
+                                    width: 14,
+                                    height: 14,
+                                  ),
                                 ),
                                 text: 'inspireMe'.tr,
+                                textSize: 10,
                                 textColor: UiColors.cDBFFFFFF,
                                 onTap: () {
                                   if (_randomItems.isEmpty) {
@@ -264,7 +293,7 @@ class _HomePageState extends State<HomePage>
                                         children: [
                                           Image.asset(
                                             _image == null
-                                                ? 'images/icon/ic_add.png'
+                                                ? 'images/icon/ic_pick_image.png'
                                                 : 'images/icon/ic_reset.png',
                                             width: 16,
                                           ),
@@ -374,8 +403,7 @@ class _HomePageState extends State<HomePage>
   Widget _getGenerateBtn(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 24, bottom: 28, left: 20, right: 20),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
+      child: CustomButton(
         onTap: () {
           if (_isEnable.value) {
             CommonUtil.hideKeyboard(context);
@@ -384,37 +412,20 @@ class _HomePageState extends State<HomePage>
             Fluttertoast.showToast(msg: 'prompt_empty_tips'.tr);
           }
         },
-        child: Container(
-          height: 46,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: _isEnable.value
-                      ? [UiColors.c7631EC, UiColors.cA359EF]
-                      : [UiColors.c272931, UiColors.c272931]),
-              borderRadius: BorderRadius.circular(12)),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'generate'.tr,
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeightExt.semiBold,
-                    color: _isEnable.value
-                        ? UiColors.cDBFFFFFF
-                        : UiColors.c61FFFFFF),
-              ),
-              const SizedBox(
-                width: 4,
-              ),
-              Image.asset(
-                'images/icon/ic_arrow_right.png',
-                width: 30,
-                height: 30,
-                color: _isEnable.value ? Colors.white : null,
-              )
-            ],
+        text: 'generate'.tr,
+        textColor: _isEnable.value ? UiColors.cDBFFFFFF : UiColors.c61FFFFFF,
+        bgColors: _isEnable.value
+            ? [UiColors.c7631EC, UiColors.cA359EF]
+            : [UiColors.c272931, UiColors.c272931],
+        width: double.infinity,
+        height: 46,
+        textSize: 16,
+        rightIcon: Padding(
+          padding: const EdgeInsets.only(left: 4.0),
+          child: Image.asset(
+            'images/icon/ic_arrow_right.png',
+            width: 22,
+            color: _isEnable.value ? Colors.white : null,
           ),
         ),
       ),
@@ -461,6 +472,15 @@ class _HomePageState extends State<HomePage>
   void generate() async {
     if (!_userCtr.isLogin.value) {
       _userCtr.showLogin();
+      return;
+    }
+    final userInfo = _userCtr.userInfo.value;
+    if ((userInfo.point ?? 0) < 10) {
+      if (userInfo.isVip ?? false) {
+        Get.to(() => const PointPurchasePage());
+      } else {
+        Get.to(() => const ProPurchasePage());
+      }
       return;
     }
     bool result = await createCtr.aiGenerate(_controller.text, _image);

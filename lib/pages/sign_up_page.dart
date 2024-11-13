@@ -128,6 +128,8 @@ class _SignUpPageState extends State<SignUpPage> {
                             height: 40,
                           ),
                           CustomButton(
+                            width: double.infinity,
+                            height: 46,
                             text: 'signUp'.tr,
                             textColor: UiColors.cDBFFFFFF,
                             bgColors: _isButtonEnabled

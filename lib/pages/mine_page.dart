@@ -27,7 +27,7 @@ class MinePage extends StatefulWidget {
 class _MinePageState extends State<MinePage>
     with AutomaticKeepAliveClientMixin {
   final MainController _mainCtr = Get.find<MainController>();
-  final MineController _mineCtr = Get.put(MineController());
+  final MineController _mineCtr = Get.find<MineController>();
   final UserController _userCtr = Get.find<UserController>();
 
   @override
@@ -66,7 +66,7 @@ class _MinePageState extends State<MinePage>
                   Get.to(() => const SettingsPage());
                 },
                 icon: Image.asset(
-                  'images/icon/ic_settings.png',
+                  'images/icon/ic_user.png',
                   width: 24,
                   height: 24,
                 ))

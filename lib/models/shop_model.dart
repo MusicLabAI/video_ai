@@ -24,16 +24,16 @@ class ShopModel with EquatableMixin {
 
   ShopModel({
     this.id,
-    required this.remark,
-    required this.point,
-    required this.memberType,
-    required this.shopType,
-    required this.shopId,
-    required this.shopName,
-    required this.price,
-    required this.shopDescribe,
-    required this.selected,
-    required this.status,
+    this.remark,
+    this.point,
+    this.memberType,
+    this.shopType,
+    this.shopId,
+    this.shopName,
+    this.price,
+    this.shopDescribe,
+    this.selected = false,
+    this.status,
     this.productDetails,
     this.isInfinitePoint = false,
     this.availableSongNumber,
@@ -73,10 +73,10 @@ class ShopModel with EquatableMixin {
     if (shopId == 'lifetime') {
       return '$point ${'lifetimeTips1'.tr}\n$availableSongNumber ${'lifetimeTips2'.tr}';
     }
-    
+
     return '';
   }
-  
+
   String get shopCreditsDescribeLocal {
     if (shopId == '18000Credits') {
       return '18000Credits'.tr;

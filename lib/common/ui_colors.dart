@@ -47,7 +47,19 @@ class UiColors {
 
   static const Color cDBFFFFFF = Color(0xDBFFFFFF);
 
+  static const Color cD0D0D0 = Color(0xFFD0D0D0);
+
   static const Color c23242A = Color(0xFF23242A);
+
+  static const Color c231831 = Color(0xFF231831);
+
+  static const Color c433258 = Color(0xFF433258);
+
+  static const Color c66BE8FF7 = Color(0x66BE8FF7);
+
+  static const Color c99AF6FFF = Color(0x99AF6FFF);
+
+  static const Color c9771C4 = Color(0xFF9771C4);
 
   static const Color c666949A1 = Color(0x666949A1);
 

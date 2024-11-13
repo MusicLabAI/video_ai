@@ -131,6 +131,8 @@ class _EmailVerifyPageState extends State<EmailVerifyPage> {
                     height: 40,
                   ),
                   CustomButton(
+                    width: double.infinity,
+                    height: 46,
                     text: widget.isSignUp
                         ? 'refreshVerificationStatus'.tr
                         : 'returnToLogin'.tr,

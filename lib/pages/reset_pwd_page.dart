@@ -96,6 +96,8 @@ class _ResetPwdPageState extends State<ResetPwdPage> {
                             height: 40,
                           ),
                           CustomButton(
+                            width: double.infinity,
+                            height: 46,
                             text: 'resetPassword'.tr,
                             textColor: UiColors.cDBFFFFFF,
                             bgColors: _isButtonEnabled

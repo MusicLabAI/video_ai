@@ -22,6 +22,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
     super.initState();
     _goodList = [
       ShopModel(
+          id: 1,
           remark: '',
           point: 0,
           memberType: 1,
@@ -33,6 +34,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
           selected: false,
           status: 0),
       ShopModel(
+          id: 2,
           remark: '',
           point: 0,
           memberType: 1,
@@ -44,6 +46,9 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
           selected: false,
           status: 0),
     ];
+    setState(() {
+      _currentItem = _goodList![0];
+    });
   }
 
   @override
@@ -56,78 +61,97 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
             'images/icon/img_pro_purchase_bg.png',
             fit: BoxFit.fitWidth,
           ),
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 14.0, top: 16, bottom: 16),
-                child: GestureDetector(
-                  onTap: () => Get.back(),
-                  child: Image.asset('images/icon/img_point_buy_top.png'),
-                ),
-              ),
-              Expanded(
-                  child: SingleChildScrollView(
-                      child: Column(
-                children: [
-                  Image.asset('images/icon/ic_close.png'),
-                  Text(
-                    'creditsPackage'.tr,
-                    style: const TextStyle(
-                        fontSize: 24,
-                        color: UiColors.cDBFFFFFF,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text(
-                      'creditsPackageDesc'.tr,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 12,
-                          color: UiColors.c99FFFFFF,
-                          fontWeight: FontWeightExt.semiBold),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  if (_goodList == null || _goodList!.isEmpty)
-                    SizedBox(
-                      height: 100,
-                      child: _goodList == null
-                          ? const Center(child: CircularProgressIndicator())
-                          : null,
-                    )
-                  else
-                    ..._goodList!.map((e) => _listItem(e)),
-                ],
-              ))),
-              if (_goodList?.isNotEmpty == true)
+          SafeArea(
+            child: Column(
+              children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                      left: 20, right: 20, top: 18, bottom: 16),
-                  child: IconTextButton(
-                    onTap: () => {},
-                    text: 'purchase'.tr,
-                    textColor: UiColors.cDBFFFFFF,
-                    icon: Image.asset(
-                      'images/icon/ic_arrow_right.png',
-                      width: 22,
-                      height: 22,
-                      color: Colors.white,
+                  padding:
+                      const EdgeInsets.only(left: 14.0, top: 16, bottom: 16),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: GestureDetector(
+                      onTap: () => Get.back(),
+                      child: Image.asset(
+                        'images/icon/ic_close.png',
+                        width: 24,
+                      ),
                     ),
                   ),
                 ),
-              BottomItem(
-                text: 'restore'.tr,
-                onTap: () {
-                  GlobalData.buyShop.resumePurchase();
-                },
-              )
-            ],
+                Expanded(
+                    child: SingleChildScrollView(
+                        child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'images/icon/img_point_buy_top.png',
+                        width: 260,
+                        height: 140,
+                      ),
+                      Text(
+                        'creditsPackage'.tr,
+                        style: const TextStyle(
+                            fontSize: 24,
+                            color: UiColors.cDBFFFFFF,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        'creditsPackageDesc'.tr,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 12,
+                            color: UiColors.c99FFFFFF,
+                            fontWeight: FontWeightExt.semiBold),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      if (_goodList == null || _goodList!.isEmpty)
+                        SizedBox(
+                          height: 100,
+                          child: _goodList == null
+                              ? const Center(child: CircularProgressIndicator())
+                              : null,
+                        )
+                      else
+                        ..._goodList!.map((e) => _listItem(e)),
+                    ],
+                  ),
+                ))),
+                if (_goodList?.isNotEmpty == true)
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 20, right: 20, top: 18, bottom: 16),
+                    child: CustomButton(
+                      width: double.infinity,
+                      height: 46,
+                      onTap: () => {},
+                      text: 'purchase'.tr,
+                      bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
+                      textColor: UiColors.cDBFFFFFF,
+                      rightIcon: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Image.asset(
+                          'images/icon/ic_arrow_right.png',
+                          width: 22,
+                          height: 22,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                BottomItem(
+                  text: 'restore'.tr,
+                  onTap: () {
+                    GlobalData.buyShop.resumePurchase();
+                  },
+                )
+              ],
+            ),
           )
         ],
       ),
@@ -153,6 +177,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
           children: [
             Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -194,4 +219,34 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
       ),
     );
   }
+}
+
+String getWeekPrice(String priceText, int dividedNum) {
+  if (dividedNum <= 1) {
+    return priceText;
+  }
+  Pattern pattern = RegExp(r'\d');
+  // 找到第一个和最后一个数字的位置
+  int index = priceText.indexOf(pattern);
+  int endIndex = priceText.lastIndexOf(pattern);
+
+  // 如果找不到数字，则返回空字符串
+  if (index == -1 || endIndex == -1) {
+    return '';
+  }
+
+  // 提取单位部分
+  String unit = index == 0
+      ? priceText.substring(endIndex + 1)
+      : priceText.substring(0, index);
+
+  // 提取数值部分
+  String value = priceText.substring(index, endIndex + 1);
+  double? parsedValue = double.tryParse(value);
+  if (parsedValue == null) {
+    return '';
+  }
+
+  String result = (parsedValue / dividedNum).toStringAsFixed(2);
+  return index == 0 ? "$result$unit" : "$unit$result";
 }
