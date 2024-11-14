@@ -114,7 +114,13 @@ class LanguageEnUs {
       'videoValue': "Create %s videos",
       'downloadFailed': "Download Failed",
       'serverError': "Server Error",
-      'imageUploadFailed': "Image Upload Failed"
+      'imageUploadFailed': "Image Upload Failed",
+      'passwordWeak': "The password provided is too weak.",
+      'accountExists': "The account already exists for that email.",
+      'emailNoFound': "No found for that email.",
+      'passwordWrong': "Wrong password provided.",
+      'loginError': "Login Error",
+      'payError': "Pay Error",
     };
   }
 }

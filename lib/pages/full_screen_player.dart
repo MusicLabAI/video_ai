@@ -52,7 +52,11 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, result) => {back.call()},
+      onPopInvokedWithResult: (didPop, result) => {
+        if (!didPop) {
+          back.call()
+        }
+      },
       child: Scaffold(
         body: SafeArea(
           child: Stack(
@@ -99,6 +103,7 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
   }
 
   void back() {
+    print("返回了llll");
     // 恢复状态栏和系统 UI 控件
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     SystemChrome.setPreferredOrientations([
@@ -107,7 +112,11 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
 
     // 确保 widget 仍然在树上后再进行返回
     if (mounted) {
-      Navigator.pop(context);
+      Future.delayed(Duration(milliseconds: 100), () {
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      });
     }
   }
 }

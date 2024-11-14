@@ -22,7 +22,6 @@ class ShopModel with EquatableMixin {
   final int? availableSongNumber;
   final bool isForever;
   final int? weekNumber;
-  final int? creditNumber;
   final int? videoNumber;
   final int? badgeType;
 
@@ -43,7 +42,6 @@ class ShopModel with EquatableMixin {
     this.availableSongNumber,
     this.isForever = false,
     this.weekNumber,
-    this.creditNumber,
     this.videoNumber,
     this.badgeType,
   });
@@ -64,7 +62,6 @@ class ShopModel with EquatableMixin {
         availableSongNumber: json["availableSongNumber"] ?? 0,
         isForever: json["isForever"] ?? false,
         weekNumber: json["weekNumber"],
-        creditNumber: json["creditNumber"],
         videoNumber: json["videoNumber"],
         badgeType: json["badgeType"],
       );
@@ -107,31 +104,23 @@ class ShopModel with EquatableMixin {
 
   String get shopDescribeLocal {
     if (shopId == 'videoai_yearly_subscription') {
-      return 'yearShopDesc'
-          .trArgs(["${creditNumber ?? 0}", "${videoNumber ?? 0}"]);
+      return 'yearShopDesc'.trArgs(["${point ?? 0}", "${videoNumber ?? 0}"]);
     }
     if (shopId == "videoai_weekly_subscription" ||
         shopId == "videoai_weekly_subscription_ios" ||
         shopId == "videoai_weekly_subscription_pro" ||
         shopId == "videoai_weekly_subscription_ios_pro") {
-      return 'weekShopDesc'
-          .trArgs(["${creditNumber ?? 0}", "${videoNumber ?? 0}"]);
+      return 'weekShopDesc'.trArgs(["${point ?? 0}", "${videoNumber ?? 0}"]);
     }
     if (shopId == "videoai_100_credits_videoai" ||
-        shopId == "videoai_100_credits_videoai_ios") {
-      return "videoValue".trArgs(['100']);
-    }
-    if (shopId == "videoai_200_credits_videoai" ||
-        shopId == "videoai_200_credits_videoai_ios") {
-      return "videoValue".trArgs(['200']);
-    }
-    if (shopId == "videoai_500_credits_videoai" ||
-        shopId == "videoai_500_credits_videoai_ios") {
-      return "videoValue".trArgs(['500']);
-    }
-    if (shopId == "videoai_5000_credits_videoai" ||
+        shopId == "videoai_100_credits_videoai_ios" ||
+        shopId == "videoai_200_credits_videoai" ||
+        shopId == "videoai_200_credits_videoai_ios" ||
+        shopId == "videoai_500_credits_videoai" ||
+        shopId == "videoai_500_credits_videoai_ios" ||
+        shopId == "videoai_5000_credits_videoai" ||
         shopId == "videoai_5000_credits_videoai_ios") {
-      return "videoValue".trArgs(['5000']);
+      return "videoValue".trArgs(["${point ?? 0}"]);
     }
     return shopDescribe ?? "";
   }

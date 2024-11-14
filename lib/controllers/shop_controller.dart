@@ -47,8 +47,7 @@ class ShopController extends GetxController {
         Fluttertoast.showToast(
             msg: 'productNotFound'.tr,
             toastLength: Toast.LENGTH_LONG,
-            timeInSecForIosWeb: 5,
-            gravity: ToastGravity.CENTER);
+            timeInSecForIosWeb: 5);
         return;
       }
 

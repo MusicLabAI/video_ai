@@ -20,6 +20,7 @@ class Request {
   static const String _createOrder = '/videoLab/shop/createOrder';
   static const String _verifyOrder = '/videoLab/shop/verifyOrder';
   static const String _getOrderKey = '/videoLab/shop/getOrderKey';
+  static const String _userEdit = '/videoLab/user/edit';
 
   /// telegram_group\email
   static Future<void> getConfig(
@@ -38,12 +39,14 @@ class Request {
   }
 
   /// loginType 5 apple  2 google
-  static Future<dynamic> oneClickLogin(String uid, String email, int loginType) async {
+  static Future<dynamic> oneClickLogin(
+      String uid, String email, int loginType) async {
     return await DioUtil.httpPost(_oneClickLogin,
         data: {'uniqueId': uid, 'email': email, 'loginType': loginType});
   }
 
-  static Future<dynamic> aiGenerate(String prompt, String? inputImageUrl) async {
+  static Future<dynamic> aiGenerate(
+      String prompt, String? inputImageUrl) async {
     return await DioUtil.httpPost(_aiGenerate,
         data: {'prompt': prompt, 'inputImageUrl': inputImageUrl});
   }
@@ -97,10 +100,15 @@ class Request {
 
   /// 验证订单
   static Future<dynamic> verifyOrder(String data, int timeStamp) async {
-    return await DioUtil.httpPost(_verifyOrder, data: {"data": data, "timeStamp": timeStamp}, ignore208: true);
+    return await DioUtil.httpPost(_verifyOrder,
+        data: {"data": data, "timeStamp": timeStamp}, ignore208: true);
   }
 
   static Future<dynamic> getOrderKey() async {
     return await DioUtil.httpGet(_getOrderKey);
+  }
+
+  static Future<void> userEdit(String nickname) async {
+    return await DioUtil.httpPost(_userEdit, data: {'nickname': nickname});
   }
 }

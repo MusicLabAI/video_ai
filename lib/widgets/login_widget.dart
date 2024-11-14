@@ -34,7 +34,7 @@ class _LoginWidgetState extends State<LoginWidget> {
       ]);
     } on SignInWithAppleAuthorizationException catch (e) {
       Get.log(e.toString(), isError: true);
-      Fluttertoast.showToast(msg: e.message, gravity: ToastGravity.CENTER);
+      Fluttertoast.showToast(msg: e.message);
       rethrow;
     } catch (e) {
       Get.log(e.toString(), isError: true);
@@ -57,8 +57,7 @@ class _LoginWidgetState extends State<LoginWidget> {
       return await FirebaseAuth.instance.signInWithCredential(credential);
     } on PlatformException catch (e) {
       Get.log(e.toString(), isError: true);
-      Fluttertoast.showToast(
-          msg: e.message ?? 'login error', gravity: ToastGravity.CENTER);
+      Fluttertoast.showToast(msg: e.message ?? 'loginError'.tr);
       rethrow;
     } catch (e) {
       Get.log(e.toString(), isError: true);
@@ -117,9 +116,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   UserCredential userCredential = await signInWithGoogle();
                   final uid = userCredential.user?.uid;
                   if (uid?.isNotEmpty == true) {
-                    await userController.login(
-                        uid!,
-                        userCredential.user?.email,
+                    await userController.login(uid!, userCredential.user?.email,
                         UserController.loginGoogle);
                   }
                 } else {
@@ -176,9 +173,9 @@ class _LoginWidgetState extends State<LoginWidget> {
             GestureDetector(
               onTap: () {
                 if (isSignUp) {
-                  Get.to(() =>  const SignUpPage(), preventDuplicates: false);
+                  Get.to(() => const SignUpPage(), preventDuplicates: false);
                 } else {
-                  Get.to(() =>  const LoginPage(), preventDuplicates: false);
+                  Get.to(() => const LoginPage(), preventDuplicates: false);
                 }
               },
               child: Container(
@@ -196,9 +193,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       Image.asset('images/icon/ic_email.png', width: 18),
                       const SizedBox(width: 8),
                       Text(
-                          isSignUp
-                              ? 'signUpWithEmail'.tr
-                              : 'logInWithEmail'.tr,
+                          isSignUp ? 'signUpWithEmail'.tr : 'logInWithEmail'.tr,
                           style: const TextStyle(
                               color: UiColors.cDBFFFFFF,
                               fontSize: 16,
@@ -244,7 +239,9 @@ class _LoginWidgetState extends State<LoginWidget> {
             children: [
               GestureDetector(
                 onTap: () async {
-                  CommonUtil.openUrl(isAndroid ? GlobalData.termsOfUseUrl : GlobalData.eulaUrl);
+                  CommonUtil.openUrl(isAndroid
+                      ? GlobalData.termsOfUseUrl
+                      : GlobalData.eulaUrl);
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),

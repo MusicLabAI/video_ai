@@ -38,7 +38,7 @@ class BuyShop {
       _subscription.cancel();
     }, onError: (error) {
       error.printError();
-      Fluttertoast.showToast(msg: 'paymentInitiationFailure'.tr, toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 5,gravity: ToastGravity.CENTER);
+      Fluttertoast.showToast(msg: 'paymentInitiationFailure'.tr, toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 5);
     });
   }
 
@@ -52,7 +52,7 @@ class BuyShop {
             Get.back();
           }
           Get.log("支付出错:${purchaseDetails.error?.toString()}");
-          Fluttertoast.showToast(msg: purchaseDetails.error?.message ?? 'pay error', toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 5,gravity: ToastGravity.CENTER);
+          Fluttertoast.showToast(msg: purchaseDetails.error?.message ?? 'payError'.tr, toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 5);
         } else if (purchaseDetails.status == PurchaseStatus.canceled) {
           if (Get.isDialogOpen ?? false) {
             Get.back();
@@ -133,14 +133,14 @@ class BuyShop {
 
     if (orderNum == null || sign == null) {
       Get.back();
-      Fluttertoast.showToast(msg: 'orderCreationFailure'.tr, toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 5,gravity: ToastGravity.CENTER);
+      Fluttertoast.showToast(msg: 'orderCreationFailure'.tr, toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 5);
       return;
     }
 
     final bool isAvailable = await _inAppPurchase.isAvailable();
     if (!isAvailable) {
       Get.back();
-      Fluttertoast.showToast(msg: 'paymentInitiationFailure'.tr, toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 5,gravity: ToastGravity.CENTER);
+      Fluttertoast.showToast(msg: 'paymentInitiationFailure'.tr, toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 5);
       return;
     }
     try {
@@ -151,7 +151,7 @@ class BuyShop {
         await _inAppPurchase.buyConsumable(purchaseParam: purchaseParam);
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 5,gravity: ToastGravity.CENTER);
+      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 5);
       Get.back();
     }
   }

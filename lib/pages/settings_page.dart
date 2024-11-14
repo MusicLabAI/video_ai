@@ -37,7 +37,9 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, result) => {back.call()},
+      onPopInvokedWithResult: (didPop, result) => {
+        if (!didPop) {back.call()}
+      },
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -166,8 +168,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Align(
                     alignment: Alignment.centerRight,
                     child: (_userCtr.userInfo.value.isVip ?? false)
-                        ? Text('expiresOn'.trArgs([CommonUtil.formatTime(
-                        _userCtr.userInfo.value.expireDate ?? 0)]),
+                        ? Text(
+                            'expiresOn'.trArgs([
+                              CommonUtil.formatTime(
+                                  _userCtr.userInfo.value.expireDate ?? 0)
+                            ]),
                             style: const TextStyle(
                                 color: UiColors.c99FFFFFF,
                                 fontSize: 12,
@@ -199,36 +204,37 @@ class _SettingsPageState extends State<SettingsPage> {
                         BorderRadius.vertical(top: Radius.circular(16))),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 2,
-                        ),
-                        Text(
-                          _userCtr.userInfo.value.name ?? "",
-                          style: const TextStyle(
-                              fontSize: 14,
-                              color: UiColors.cDBFFFFFF,
-                              fontWeight: FontWeightExt.semiBold),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Get.dialog( EditNameDialog(onSubmit: (name) {
+                    GestureDetector(
+                        onTap: () {
+                          Get.dialog(
+                            EditNameDialog(onSubmit: (name) {
                               Get.back();
-
-                            }),);
-                          },
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: Image.asset(
-                              'images/icon/ic_edit.png',
-                              width: 16,
+                              _userCtr.userEdit(name);
+                            }),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 2,
                             ),
-                          ),
-                        )
-                      ],
-                    ),
+                            Obx(() => Text(
+                                  _userCtr.userInfo.value.name ?? "",
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      color: UiColors.cDBFFFFFF,
+                                      fontWeight: FontWeightExt.semiBold),
+                                )),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Image.asset(
+                                'images/icon/ic_edit.png',
+                                width: 16,
+                              ),
+                            ),
+                          ],
+                        )),
                     const SizedBox(
                       height: 12,
                     ),
@@ -306,7 +312,10 @@ class _SettingsPageState extends State<SettingsPage> {
                         onTap: () => Get.to(() => const PointPurchasePage()),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Image.asset('images/icon/ic_add.png', width: 16,),
+                          child: Image.asset(
+                            'images/icon/ic_add.png',
+                            width: 16,
+                          ),
                         ),
                       ),
                     const SizedBox(

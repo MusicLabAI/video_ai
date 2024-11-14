@@ -49,11 +49,11 @@ class UserController extends GetxController {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        Fluttertoast.showToast(msg: 'The password provided is too weak.', gravity: ToastGravity.CENTER);
+        Fluttertoast.showToast(msg: 'passwordWeak'.tr);
       } else if (e.code == 'email-already-in-use') {
-        Fluttertoast.showToast(msg: 'The account already exists for that email.', gravity: ToastGravity.CENTER);
+        Fluttertoast.showToast(msg: 'accountExists'.tr);
       } else {
-        Fluttertoast.showToast(msg: e.message ?? 'error', gravity: ToastGravity.CENTER);
+        Fluttertoast.showToast(msg: e.message ?? 'error');
       }
       Get.log(e.toString(), isError: true);
       rethrow;
@@ -105,11 +105,11 @@ class UserController extends GetxController {
       emailSend();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        Fluttertoast.showToast(msg: 'The password provided is too weak.', gravity: ToastGravity.CENTER);
+        Fluttertoast.showToast(msg: 'passwordWeak'.tr);
       } else if (e.code == 'email-already-in-use') {
-        Fluttertoast.showToast(msg: 'The account already exists for that email.', gravity: ToastGravity.CENTER);
+        Fluttertoast.showToast(msg: 'accountExists'.tr);
       } else {
-        Fluttertoast.showToast(msg: e.message ?? 'create error', gravity: ToastGravity.CENTER);
+        Fluttertoast.showToast(msg: e.message ?? 'create error');
       }
       Get.log(e.toString(), isError: true);
       rethrow;
@@ -139,11 +139,11 @@ class UserController extends GetxController {
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        Fluttertoast.showToast(msg: 'No found for that email.', gravity: ToastGravity.CENTER);
+        Fluttertoast.showToast(msg: 'emailNoFound'.tr);
       } else if (e.code == 'wrong-password') {
-        Fluttertoast.showToast(msg: 'Wrong password provided.', gravity: ToastGravity.CENTER);
+        Fluttertoast.showToast(msg: 'passwordWrong'.tr);
       } else {
-        Fluttertoast.showToast(msg: e.message ?? 'login error', gravity: ToastGravity.CENTER);
+        Fluttertoast.showToast(msg: e.message ?? 'loginError'.tr);
       }
       Get.log(e.toString(), isError: true);
     } catch (e) {
@@ -161,7 +161,8 @@ class UserController extends GetxController {
     try {
       final uidEncode = await Rsa.encodeString(uid);
       final emailEncode = await Rsa.encodeString(email);
-      final res = await Request.oneClickLogin(uidEncode, emailEncode, loginType);
+      final res =
+          await Request.oneClickLogin(uidEncode, emailEncode, loginType);
       final token = res['token'];
       if (token == null || token.isEmpty) {
         throw 'token 为空';
@@ -207,5 +208,21 @@ class UserController extends GetxController {
       value.remove('token');
     });
     Get.find<MineController>().onRefresh();
+  }
+
+  Future<void> userEdit(String nickname) async {
+    try {
+      Get.dialog(const LoadingDialog(), barrierDismissible: false);
+      await Request.userEdit(nickname);
+      final u = userInfo.value.toMap();
+      u['name'] = nickname;
+      userInfo.value = UserInfoModel.fromJson(u);
+    } catch (e) {
+      Get.log(e.toString(), isError: true);
+    } finally {
+      if (Get.isDialogOpen ?? false) {
+        Get.back();
+      }
+    }
   }
 }

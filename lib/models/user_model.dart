@@ -62,4 +62,22 @@ class UserInfoModel {
         "point": point,
         "isForever": isForever,
       };
+
+  Map<String, dynamic> toMap() {
+    return {
+      'userType': userType,
+      'userId': userId,
+      'isNew': isNew,
+      'expireDate': expireDate,
+      'name': name,
+      'email': email,
+      'token': token,
+      'userIdText': userIdText,
+      'expireTime': expireTime,
+      'expireTimeTips': expireTimeTips,
+      'isVip': isVip,
+      'point': point,
+      'isForever': isForever,
+    };
+  }
 }

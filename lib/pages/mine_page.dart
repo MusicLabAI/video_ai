@@ -14,9 +14,6 @@ import 'package:video_ai/pages/settings_page.dart';
 import 'package:video_ai/pages/video_detail_page.dart';
 import 'package:video_ai/widgets/dialogs.dart';
 
-import '../api/request.dart';
-import '../widgets/loading_dialog.dart';
-
 class MinePage extends StatefulWidget {
   const MinePage({super.key});
 
@@ -343,7 +340,10 @@ class _ProductionProgressViewState extends State<_ProductionProgressView>
                   fontWeight: FontWeightExt.semiBold),
             ),
           ),
-          Text('productionTips'.tr, style: const TextStyle(color: UiColors.c61FFFFFF, fontSize: 10),)
+          Text(
+            'productionTips'.tr,
+            style: const TextStyle(color: UiColors.c61FFFFFF, fontSize: 10),
+          )
         ],
       ),
     );
