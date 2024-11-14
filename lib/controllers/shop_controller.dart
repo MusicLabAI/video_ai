@@ -10,29 +10,24 @@ class ShopController extends GetxController {
   RxList shopList = <ShopModel>[].obs;
   Rx<ShopModel> currentShop = ShopModel().obs;
 
+  static int productPointType = 1; //积分商品
+  static int productProType = 2; //会员商品
+
   /// 是否正在请求数据
   RxBool isInRequest = true.obs;
 
-  void subscript() {
+  void purchase() {
     GlobalData.buyShop.submit(currentShop.value, false);
   }
 
-  Future<void> getShopList() async {
-    // final res = await Request.getShopList('0');
+  void subscript() {
+    GlobalData.buyShop.submit(currentShop.value, true);
+  }
 
-
+  Future<void> getShopList(int type) async {
+    final res = await Request.getShopList(type);
     try {
-      // final resList = res.map((e) => ShopModel.fromJson(e)).toList();
-      final resList = [
-        ShopModel(
-           id: 1,
-            shopId: 'videoai_weekly_subscription',
-            selected: true,),
-        ShopModel(
-           id: 2,
-            shopId: 'videoai_yearly_subscription',
-            selected: false,),
-      ];
+      final resList = res.map((e) => ShopModel.fromJson(e)).toList();
       resList.removeWhere((e) => e.shopId == null);
       final Set<String> ids = resList.map((e) => e.shopId!).toSet();
       ProductDetailsResponse? pdRes;
@@ -43,7 +38,6 @@ class ShopController extends GetxController {
         for (final apiShop in resList) {
           apiShop.productDetails = pdRes.productDetails
               .firstWhereOrNull((element) => apiShop.shopId == element.id);
-          print("${apiShop.productDetails?.price   }  ${apiShop.productDetails?.currencyCode}   ${apiShop.productDetails?.rawPrice}"  );
         }
       }
       resList.removeWhere((e) => e.productDetails == null);

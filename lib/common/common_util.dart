@@ -69,7 +69,7 @@ class CommonUtil {
     if (time <= 0) {
       return '';
     }
-    final format = DateFormat('dd-MM-yyyy');
+    final format = DateFormat('dd/MM/yyyy');
     return format.format(DateTime.fromMillisecondsSinceEpoch(time));
   }
 }

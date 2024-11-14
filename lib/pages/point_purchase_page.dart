@@ -6,6 +6,8 @@ import 'package:video_ai/models/shop_model.dart';
 import 'package:video_ai/widgets/bottom_item.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 
+import '../controllers/shop_controller.dart';
+
 class PointPurchasePage extends StatefulWidget {
   const PointPurchasePage({super.key});
 
@@ -14,41 +16,12 @@ class PointPurchasePage extends StatefulWidget {
 }
 
 class _PointPurchasePageState extends State<PointPurchasePage> {
-  List<ShopModel>? _goodList = null;
-  ShopModel? _currentItem;
+  final ShopController _shopCtr = ShopController();
 
   @override
   void initState() {
     super.initState();
-    _goodList = [
-      ShopModel(
-          id: 1,
-          remark: '',
-          point: 0,
-          memberType: 1,
-          shopType: 2,
-          shopId: '221',
-          shopName: 'week plan',
-          price: 5,
-          shopDescribe: "fjadsfkas",
-          selected: false,
-          status: 0),
-      ShopModel(
-          id: 2,
-          remark: '',
-          point: 0,
-          memberType: 1,
-          shopType: 2,
-          shopId: '23421',
-          shopName: 'year plan',
-          price: 67,
-          shopDescribe: "的法师讲法",
-          selected: false,
-          status: 0),
-    ];
-    setState(() {
-      _currentItem = _goodList![0];
-    });
+    _shopCtr.getShopList(ShopController.productPointType);
   }
 
   @override
@@ -61,8 +34,8 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
             'images/icon/img_pro_purchase_bg.png',
             fit: BoxFit.fitWidth,
           ),
-          SafeArea(
-            child: Column(
+          SafeArea(child:Obx( () =>
+             Column(
               children: [
                 Padding(
                   padding:
@@ -110,26 +83,26 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
                       const SizedBox(
                         height: 12,
                       ),
-                      if (_goodList == null || _goodList!.isEmpty)
-                        SizedBox(
-                          height: 100,
-                          child: _goodList == null
-                              ? const Center(child: CircularProgressIndicator())
-                              : null,
-                        )
+                      if (_shopCtr.isInRequest.value)
+                        const SizedBox(
+                            height: 100,
+                            child: Center(
+                                child: CircularProgressIndicator()))
                       else
-                        ..._goodList!.map((e) => _listItem(e)),
+                        ..._shopCtr.shopList.map((e) => _listItem(e)),
                     ],
                   ),
                 ))),
-                if (_goodList?.isNotEmpty == true)
+                if (_shopCtr.shopList.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(
                         left: 20, right: 20, top: 18, bottom: 16),
                     child: CustomButton(
                       width: double.infinity,
                       height: 46,
-                      onTap: () => {},
+                      onTap: () => {
+                        _shopCtr.purchase()
+                      },
                       text: 'purchase'.tr,
                       bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
                       textColor: UiColors.cDBFFFFFF,
@@ -151,7 +124,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
                   },
                 )
               ],
-            ),
+            ),),
           )
         ],
       ),
@@ -159,18 +132,15 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
   }
 
   Widget _listItem(ShopModel model) {
-    bool isSelected = _currentItem == model;
     return GestureDetector(
-      onTap: () => setState(() {
-        _currentItem = model;
-      }),
+      onTap: () => _shopCtr.currentShop.value = model,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         margin: const EdgeInsets.only(top: 12),
         decoration: BoxDecoration(
             color: UiColors.c2B2E38,
             border: Border.all(
-                color: isSelected ? UiColors.cBC8EF5 : UiColors.c2B2E38,
+                color: _shopCtr.currentShop.value == model ? UiColors.cBC8EF5 : UiColors.c2B2E38,
                 width: 2),
             borderRadius: BorderRadius.circular(12)),
         child: Row(
@@ -181,11 +151,11 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    model.shopName ?? '',
+                    model.shopNameLocal,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        color: isSelected ? Colors.white : UiColors.c99FFFFFF,
+                        color: _shopCtr.currentShop.value == model ? Colors.white : UiColors.c99FFFFFF,
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
                   ),
@@ -193,11 +163,11 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
                     height: 6,
                   ),
                   Text(
-                    model.shopDescribe ?? '',
+                    model.shopDescribeLocal,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        color: isSelected ? Colors.white : UiColors.c99FFFFFF,
+                        color: _shopCtr.currentShop.value == model ? Colors.white : UiColors.c99FFFFFF,
                         fontSize: 12,
                         fontWeight: FontWeightExt.medium),
                   ),
@@ -210,7 +180,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
             Text(
               model.productDetails?.price ?? '',
               style: TextStyle(
-                  color: isSelected ? Colors.white : UiColors.c99FFFFFF,
+                  color: _shopCtr.currentShop.value == model ? Colors.white : UiColors.c99FFFFFF,
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
             ),

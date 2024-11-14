@@ -333,16 +333,17 @@ class _ProductionProgressViewState extends State<_ProductionProgressView>
               height: 60,
             ),
           ),
-          const SizedBox(
-            height: 6,
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, bottom: 8),
+            child: Text(
+              'inProgress'.tr,
+              style: const TextStyle(
+                  fontSize: 12,
+                  color: UiColors.cDBFFFFFF,
+                  fontWeight: FontWeightExt.semiBold),
+            ),
           ),
-          Text(
-            'inProgress'.tr,
-            style: const TextStyle(
-                fontSize: 12,
-                color: UiColors.cDBFFFFFF,
-                fontWeight: FontWeightExt.semiBold),
-          )
+          Text('productionTips'.tr, style: const TextStyle(color: UiColors.c61FFFFFF, fontSize: 10),)
         ],
       ),
     );

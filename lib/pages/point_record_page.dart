@@ -1,5 +1,8 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:video_ai/api/request.dart';
+import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
@@ -18,71 +21,103 @@ class PointRecordPage extends StatefulWidget {
 
 class _PointRecordPageState extends State<PointRecordPage> {
   final UserController _userCtr = Get.find<UserController>();
-  List<PointRecordModel>? _dataList = null;
+  List _dataList = [];
+  int _pageNum = 1;
+  bool _isLoading = false;
+  bool _isLastPage = false;
 
   @override
   void initState() {
     super.initState();
-    // _dataList = [
-    //   PointRecordModel(),
-    //   PointRecordModel(),
-    //   PointRecordModel(),
-    //   PointRecordModel(),
-    // ];
-    _dataList = [];
+    _onRefresh();
+    // FireBaseUtil.logEventPageView(PageName.pointsHistoryPage);
+  }
+
+  Future<void> _onRefresh() async {
+    _isLastPage = false;
+    setState(() {
+      _isLoading = true;
+    });
+    _pageNum = 1;
+    try {
+      final res = await Request.getPointRecordList(pageNum: _pageNum);
+      _isLastPage = res['isLastPage'];
+      setState(() {
+        _isLoading = false;
+        _dataList = res['data'];
+      });
+    } catch(e) {
+      setState(() {
+        _isLoading = false;
+        _dataList = [];
+      });
+    }
+  }
+
+  Future<void> _onLoad() async {
+    if (_isLastPage) return;
+    _pageNum++;
+    final res = await Request.getPointRecordList(pageNum: _pageNum);
+    _isLastPage = res['isLastPage'];
+    setState(() {
+      _dataList.addAll(res['data']);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Image.asset('images/icon/ic_back.png'),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-        actions: [
-          CustomButton(
-            onTap: () => Get.to(() => (_userCtr.userInfo.value.isVip ?? false)
-                ? const PointPurchasePage()
-                : const ProPurchasePage()),
-            text: "${_userCtr.userInfo.value.point ?? 0}",
-            textColor: UiColors.c99FFFFFF,
-            border: Border.all(color: UiColors.c30333F),
-            borderRadius: 12,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            leftIcon: Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Image.asset(
-                'images/icon/ic_diamonds.png',
-                width: 21,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Image.asset('images/icon/ic_back.png'),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+          actions: [
+            CustomButton(
+              onTap: () => Get.to(() => (_userCtr.userInfo.value.isVip ?? false)
+                  ? const PointPurchasePage()
+                  : const ProPurchasePage()),
+              text: "${_userCtr.userInfo.value.point ?? 0}",
+              textColor: UiColors.c99FFFFFF,
+              border: Border.all(color: UiColors.c30333F),
+              borderRadius: 12,
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              leftIcon: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Image.asset(
+                  'images/icon/ic_diamonds.png',
+                  width: 21,
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            width: 16,
-          ),
-        ],
-      ),
-      body: SafeArea(
-          child: _dataList == null
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : _dataList!.isEmpty
-                  ? _emptyView()
-                  : ListView.builder(
-                      itemCount: _dataList!.length,
-                      itemBuilder: (context, index) {
-                        return _buildItem(_dataList![index]);
-                      },
-                    )),
-    );
+            const SizedBox(
+              width: 16,
+            ),
+          ],
+        ),
+        body: SafeArea(
+          child: _dataList.isEmpty
+              ? _emptyView()
+              : EasyRefresh(
+                  onRefresh: () {
+                    _onRefresh();
+                  },
+                  onLoad: () {
+                    _onLoad();
+                  },
+                  child: ListView.builder(
+                    itemCount: _dataList.length,
+                    itemBuilder: (context, index) {
+                      return _buildItem(_dataList[index]);
+                    },
+                  )),
+        ));
   }
 
-  Widget _buildItem(PointRecordModel model) {
+  Widget _buildItem(dynamic item) {
     return Container(
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.only(top: 16, left: 20, right: 20),
@@ -96,7 +131,7 @@ class _PointRecordPageState extends State<PointRecordPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'asdfasfas',
+                typeLocal(item['type']),
                 style: TextStyle(
                     color: UiColors.cD0D0D0,
                     fontSize: 14,
@@ -106,7 +141,7 @@ class _PointRecordPageState extends State<PointRecordPage> {
                 height: 4,
               ),
               Text(
-                'ewrqwer',
+                CommonUtil.formatTime(item['changeTime']),
                 style: TextStyle(
                     color: UiColors.c848484,
                     fontSize: 12,
@@ -115,7 +150,7 @@ class _PointRecordPageState extends State<PointRecordPage> {
             ],
           )),
           Text(
-            'dfas',
+            "${item['price']} ${'Credits'.tr}",
             style: TextStyle(
                 color: UiColors.cD0D0D0,
                 fontSize: 14,
@@ -127,11 +162,17 @@ class _PointRecordPageState extends State<PointRecordPage> {
   }
 
   Widget _emptyView() {
+    if (_isLoading) {
+      return const SizedBox();
+    }
     return Center(
         child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Image.asset('images/icon/img_no_records.png', width: 100,),
+        Image.asset(
+          'images/icon/img_no_records.png',
+          width: 100,
+        ),
         Padding(
           padding: const EdgeInsets.only(bottom: 8.0, top: 30),
           child: Text(
@@ -149,7 +190,9 @@ class _PointRecordPageState extends State<PointRecordPage> {
               fontSize: 14,
               fontWeight: FontWeightExt.semiBold),
         ),
-        const SizedBox(height: 30,),
+        const SizedBox(
+          height: 30,
+        ),
         CustomButton(
           onTap: () {
             Get.until((route) => Get.currentRoute == '/');
@@ -165,5 +208,22 @@ class _PointRecordPageState extends State<PointRecordPage> {
         )
       ],
     ));
+  }
+
+  String typeLocal(int type) {
+    switch (type) {
+      case 0:
+        return 'pointHistoryType0'.tr;
+      case 1:
+        return 'pointHistoryType1'.tr;
+      case 2:
+        return 'pointHistoryType2'.tr;
+      case 3:
+        return 'pointHistoryType3'.tr;
+      case 4:
+        return 'pointHistoryType4'.tr;
+      default:
+        return '';
+    }
   }
 }

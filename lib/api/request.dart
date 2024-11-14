@@ -12,6 +12,7 @@ class Request {
   static const String _aiGenerate = '/videoLab/aiGenerate';
   static const String _getConfig = '/videoLab/common/getConfig';
   static const String _getRecords = '/videoLab/aiGenerate/list';
+  static const String _pointRecordList = '/videoLab/user/pointRecordList';
   static const String _oneClickLogin = '/videoLab/user/oneClickLogin';
   static const String _recommendPrompt = '/videoLab/recommendPrompt/list';
   static const String _historyByIds = '/videoLab/aiGenerate/historyByIds';
@@ -28,6 +29,12 @@ class Request {
 
   static Future<dynamic> getUploadToken() async {
     return await DioUtil.httpGet(_uploadToken);
+  }
+
+  static Future<dynamic> getPointRecordList(
+      {required int pageNum, int pageSize = 10}) async {
+    return await DioUtil.httpGet(_pointRecordList,
+        allData: true, parameters: {"pageNum": pageNum, 'pageSize': pageSize});
   }
 
   /// loginType 5 apple  2 google
@@ -50,8 +57,8 @@ class Request {
       if (Get.isDialogOpen ?? false) {
         Get.back();
       }
-      Get.snackbar('Model.fromJson error', e.toString());
-      rethrow;
+      Get.log("Model.fromJson error ${e.toString()}");
+      return [];
     }
   }
 
@@ -79,7 +86,7 @@ class Request {
   /// 查询商品列表
   ///
   /// [type]: 0 会员商品
-  static Future<List<dynamic>> getShopList(String type) async {
+  static Future<List<dynamic>> getShopList(int type) async {
     return await DioUtil.httpGet(_getShopList, parameters: {"type": type});
   }
 
@@ -93,7 +100,7 @@ class Request {
     return await DioUtil.httpPost(_verifyOrder, data: {"data": data, "timeStamp": timeStamp}, ignore208: true);
   }
 
-  static Future<String> getOrderKey() async {
+  static Future<dynamic> getOrderKey() async {
     return await DioUtil.httpGet(_getOrderKey);
   }
 }

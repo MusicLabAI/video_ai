@@ -68,7 +68,7 @@ class BottomItem extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Text(
-              'privacyNotice'.tr,
+              'privacyPolicy'.tr,
               style: _bottomTextStyle,
             ),
           ),

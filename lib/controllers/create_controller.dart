@@ -17,6 +17,7 @@ class CreateController extends GetxController {
       if (imageFile != null) {
         imageUrl = await AwsUtils.uploadByFile(imageFile);
         if (imageUrl.isEmpty) {
+          Fluttertoast.showToast(msg: 'imageUploadFailed'.tr);
           Get.log('图片上传失败');
           return false;
         }

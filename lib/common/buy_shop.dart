@@ -63,7 +63,8 @@ class BuyShop {
           if (!(Get.isDialogOpen ?? false)) {
             Get.dialog(const Center(child: CircularProgressIndicator()), barrierDismissible: false);
           }
-          sign ??= await Request.getOrderKey();
+          final res = await Request.getOrderKey();
+          sign ??= res['sign'];
           await _checkPayInfo(purchaseDetails);
           // FireBaseUtil.subscribeSuccess(purchaseDetails.productID);
           await Get.find<UserController>().getUserInfo();
@@ -91,14 +92,13 @@ class BuyShop {
       'productId': purchaseDetails.productID,
       'purchaseToken': purchaseDetails.verificationData.serverVerificationData,
       'payOrderId': purchaseDetails.purchaseID,
-      'type': orderNum == null ? 1 : 0,
     };
     final jsonString = jsonEncode(data);
     final time = DateTime.now().millisecondsSinceEpoch;
     final dataString = DesUtil.desEncrypt(jsonString, desKey, time);
     Get.log("开始验证支付的订单");
     await Request.verifyOrder(dataString, time);
-    FireBaseUtil.logEvent(EventName.memberPurchaseSuccess);
+    // FireBaseUtil.logEvent(EventName.memberPurchaseSuccess);
     orderNum = null;
     Get.log("关闭支付的订单");
     try {
@@ -128,7 +128,7 @@ class BuyShop {
     }
     Get.dialog(const Center(child: CircularProgressIndicator()), barrierDismissible: false);
     final res = await Request.createOrder(currentItem.productDetails!.id);
-    orderNum = res['orderNum'];
+    orderNum = res['orderNumber'];
     sign = res['sign'];
 
     if (orderNum == null || sign == null) {

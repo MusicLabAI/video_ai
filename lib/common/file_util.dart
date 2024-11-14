@@ -7,12 +7,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image/image.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:video_ai/common/ui_colors.dart';
 
 import '../widgets/loading_dialog.dart';
 
 class FileUtil {
-  static Future<void> downlo2ad(String url, {Future<void> Function(String path)? extraOperate}) async {
+  static Future<void> downlo2ad(String url,
+      {Future<void> Function(String path)? extraOperate}) async {
     if (!(await _checkPermission())) {
       return;
     }
@@ -22,7 +22,9 @@ class FileUtil {
     if (GetPlatform.isIOS) {
       appDocDir = (await getApplicationDocumentsDirectory()).path;
     } else {
-      appDocDir = ((await getExternalStorageDirectory()) ?? (await getApplicationDocumentsDirectory())).path;
+      appDocDir = ((await getExternalStorageDirectory()) ??
+              (await getApplicationDocumentsDirectory()))
+          .path;
     }
     String savePath = '$appDocDir/${url.split('/').last}';
     if (await File(savePath).exists()) {
@@ -60,7 +62,7 @@ class FileUtil {
         Fluttertoast.showToast(msg: 'downloadComplete'.tr);
       } else {
         Get.back();
-        Get.snackbar('error', 'download failed', backgroundColor: UiColors.cF9F9F9);
+        Fluttertoast.showToast(msg: 'downloadFailed'.tr);
         Get.log('下载失败');
       }
       /* ,queryParameters: queryParams,cancelToken: cancelToken,onReceiveProgress: (count,total){
@@ -69,7 +71,6 @@ class FileUtil {
     } catch (e) {
       Get.back();
       Get.log(e.toString());
-      Get.snackbar('error', e.toString(), backgroundColor: UiColors.cF9F9F9);
       rethrow;
     }
   }
@@ -81,7 +82,6 @@ class FileUtil {
 
     return false;
   }
-
 
   static Future<File?> imageToFile(Image image) async {
     final appDocDir = (await getApplicationCacheDirectory()).path;
@@ -100,7 +100,11 @@ class FileUtil {
     return await file.writeAsBytes(list);
   }
 
-  static Future<void> saveFile({required String fileName, String? url, File? file, Uint8List? bytes}) async{
+  static Future<void> saveFile(
+      {required String fileName,
+      String? url,
+      File? file,
+      Uint8List? bytes}) async {
     file ??= (await downloadOnly(url));
     if (file == null && bytes == null) return;
     final outputFile = await FilePicker.platform.saveFile(
@@ -116,7 +120,8 @@ class FileUtil {
   static Future<File?> downloadOnly(String? url) async {
     if (url == null) return null;
     Get.dialog(const LoadingDialog(), barrierDismissible: false);
-    final savePath = '${(await getApplicationCacheDirectory()).path}/${url.split('/').last}';
+    final savePath =
+        '${(await getApplicationCacheDirectory()).path}/${url.split('/').last}';
     final File file = File(savePath);
     if (await file.exists()) {
       Get.back();
@@ -137,7 +142,7 @@ class FileUtil {
         return file;
       } else {
         Get.back();
-        Get.snackbar('error', 'download failed', backgroundColor: UiColors.cF9F9F9);
+        Fluttertoast.showToast(msg: 'downloadFailed'.tr);
         return null;
       }
       /* ,queryParameters: queryParams,cancelToken: cancelToken,onReceiveProgress: (count,total){
@@ -146,7 +151,7 @@ class FileUtil {
     } catch (e) {
       Get.back();
       Get.log(e.toString());
-      Get.snackbar('error', e.toString(), backgroundColor: UiColors.cF9F9F9);
+      Fluttertoast.showToast(msg: 'serverError'.tr);
       rethrow;
     }
   }

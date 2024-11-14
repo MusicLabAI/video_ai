@@ -166,9 +166,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Align(
                     alignment: Alignment.centerRight,
                     child: (_userCtr.userInfo.value.isVip ?? false)
-                        ? Text(
-                            CommonUtil.formatTime(
-                                _userCtr.userInfo.value.expireTime ?? 0),
+                        ? Text('expiresOn'.trArgs([CommonUtil.formatTime(
+                        _userCtr.userInfo.value.expireDate ?? 0)]),
                             style: const TextStyle(
                                 color: UiColors.c99FFFFFF,
                                 fontSize: 12,
@@ -307,7 +306,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         onTap: () => Get.to(() => const PointPurchasePage()),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Image.asset('images/icon/ic_add.png'),
+                          child: Image.asset('images/icon/ic_add.png', width: 16,),
                         ),
                       ),
                     const SizedBox(

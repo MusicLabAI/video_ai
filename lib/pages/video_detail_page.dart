@@ -199,7 +199,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                       const SizedBox(
                         width: 24,
                       ),
-                      InkWell(
+                      GestureDetector(
                         onTap: () {
                           Get.to(() => FullScreenPlayer(videoUrl: videoUrl!));
                         },

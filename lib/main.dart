@@ -71,7 +71,7 @@ class MainApp extends StatelessWidget {
       fallbackLocale: const Locale('en', 'US'),
       initialBinding: StartupBindings(),
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.transparent,
+        scaffoldBackgroundColor: Colors.black,
         appBarTheme: const AppBarTheme(
             backgroundColor: Colors.transparent, elevation: 0),
         colorScheme: ColorScheme.fromSeed(

@@ -21,7 +21,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
   @override
   void initState() {
     super.initState();
-    _shopCtr.getShopList();
+    _shopCtr.getShopList(ShopController.productProType);
   }
 
   @override
@@ -96,10 +96,6 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                             _IconLabelWidget(
                                 label: 'commercialUsePermitted'.tr),
                             const SizedBox(
-                              height: 10,
-                            ),
-                            _IconLabelWidget(label: 'removeWatermark'.tr),
-                            const SizedBox(
                               height: 24,
                             ),
                             if (_shopCtr.isInRequest.value)
@@ -120,9 +116,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                     child: CustomButton(
                       width: double.infinity,
                       height: 46,
-                      onTap: () => {
-                        _shopCtr.subscript()
-                      },
+                      onTap: () => {_shopCtr.subscript()},
                       text: 'subscribe'.tr,
                       bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
                       textColor: UiColors.cDBFFFFFF,
@@ -179,7 +173,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    model.productDetails?.title ?? '',
+                    model.shopNameLocal,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -202,7 +196,8 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                               fontWeight: FontWeightExt.medium),
                         ),
                         Text(
-                          getWeekPrice(model.productDetails?.price ?? '', (model.shopId ?? '').contains('year') ? 53 : 1),
+                          'weekValue'.trArgs([getWeekPrice(model.productDetails?.price ?? '',
+                              model.weekNumber ?? 1)]),
                           style: const TextStyle(
                               color: UiColors.cDBFFFFFF,
                               fontSize: 18,
@@ -212,7 +207,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                     ),
                   ),
                   Text(
-                    model.productDetails?.description ?? '',
+                    model.shopDescribeLocal ?? '',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -224,24 +219,26 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              decoration: const BoxDecoration(
-                  color: UiColors.cBC8EF5,
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(12),
-                      bottomLeft: Radius.circular(12))),
-              child: const Text(
-                '88% OFF',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeightExt.semiBold),
+          if (model.badgeContent.isNotEmpty)
+            Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                decoration: const BoxDecoration(
+                    color: UiColors.cBC8EF5,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(12),
+                        bottomLeft: Radius.circular(12))),
+                child: Text(
+                  model.badgeContent,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeightExt.semiBold),
+                ),
               ),
-            ),
-          )
+            )
         ]),
       ),
     );

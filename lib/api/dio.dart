@@ -1,6 +1,5 @@
+import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,7 +30,7 @@ class DioUtil {
     if (dl?.scriptCode != null && dl!.scriptCode!.isNotEmpty) {
       language += '_${dl.scriptCode}';
     }
-    const baseUrl = GlobalData.releaseBaseUrl;
+    const baseUrl = GlobalData.debugBaseUrl;
     _dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
@@ -41,14 +40,15 @@ class DioUtil {
         listFormat: ListFormat.multiCompatible,
         headers: {
           'token': (GetUtils.isBlank(token) ?? true) ? null : token,
-          'platform': GetPlatform.isAndroid ? 'android' : 'iOS',
+          'platform': GetPlatform.isAndroid ? 'android' : 'ios',
           'version-name': GlobalData.versionName,
           'region': Get.deviceLocale?.countryCode,
           'language': language,
         },
       ),
-      )..interceptors.add(LogInterceptor(responseBody: true));
-    // )..interceptors.add(CurlLoggerDioInterceptor(printOnSuccess: true));
+    )
+      ..interceptors.add(LogInterceptor(responseBody: true))
+      ..interceptors.add(CurlLoggerDioInterceptor(printOnSuccess: true));
   }
 
   static _exceptionHandling(String? message, Response? response) {
@@ -64,9 +64,9 @@ class DioUtil {
       UserController().showLogin();
     } else if (response?.statusCode == 500) {
       Get.log(response?.statusMessage ?? response!.statusCode!.toString());
-      // Get.snackbar('network error', response?.statusMessage ?? response!.statusCode!.toString());
     } else {
-      Get.log(response?.statusMessage ?? response?.statusCode?.toString() ??
+      Get.log(response?.statusMessage ??
+          response?.statusCode?.toString() ??
           'unknown error');
     }
   }

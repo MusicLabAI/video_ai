@@ -13,6 +13,7 @@ import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/prompt_model.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
 import 'package:video_ai/pages/pro_purchase_page.dart';
+import 'package:video_ai/pages/settings_page.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/user_info_widget.dart';
 
@@ -101,11 +102,10 @@ class _HomePageState extends State<HomePage>
         children: [
           Container(
             color: Colors.transparent,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.only(left: 16),
             height: 56,
             width: double.infinity,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'videoAi'.tr,
@@ -114,7 +114,17 @@ class _HomePageState extends State<HomePage>
                       color: UiColors.cDBFFFFFF,
                       fontWeight: FontWeightExt.semiBold),
                 ),
-                UserInfoWidget()
+                const Spacer(),
+                UserInfoWidget(),
+                IconButton(
+                    onPressed: () {
+                      Get.to(() => const SettingsPage());
+                    },
+                    icon: Image.asset(
+                      'images/icon/ic_user.png',
+                      width: 24,
+                      height: 24,
+                    ))
               ],
             ),
           ),
@@ -157,7 +167,8 @@ class _HomePageState extends State<HomePage>
                             GestureDetector(
                               onTap: () {
                                 if (_controller.text.isEmpty) {
-                                  Fluttertoast.showToast(msg: 'noPromptEntered'.tr);
+                                  Fluttertoast.showToast(
+                                      msg: 'noPromptEntered'.tr);
                                   return;
                                 }
                                 setState(() {
@@ -256,35 +267,36 @@ class _HomePageState extends State<HomePage>
                                           Border.all(color: UiColors.cBC8EF5)),
                                   child: Stack(children: [
                                     if (_image != null)
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 2.0, top: 2.0),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(6),
-                                          child: Image(
-                                            image: FileImage(_image!),
-                                            width: 34,
-                                            height: 34,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    if (_image != null)
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 28),
-                                        child: GestureDetector(
-                                          onTap: () => setState(() {
-                                            _image = null;
-                                          }),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(2.0),
-                                            child: Image.asset(
-                                              'images/icon/ic_remove.png',
-                                              width: 12,
+                                      GestureDetector(
+                                        onTap: () => setState(() {
+                                          _image = null;
+                                        }),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 2.0, top: 2.0),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                                child: Image(
+                                                  image: FileImage(_image!),
+                                                  width: 34,
+                                                  height: 34,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(6.0),
+                                              child: Image.asset(
+                                                'images/icon/ic_remove.png',
+                                                width: 16,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     Center(
@@ -435,9 +447,8 @@ class _HomePageState extends State<HomePage>
   Widget _listItem(String item, bool isLast, Function() onTap) {
     return Padding(
       padding: EdgeInsets.only(
-          top: 10, left: 20, right: 20, bottom: isLast ? 82 : 0),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(10),
+          top: 10, left: 20, right: 20, bottom: isLast ? 100 : 0),
+      child: GestureDetector(
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
