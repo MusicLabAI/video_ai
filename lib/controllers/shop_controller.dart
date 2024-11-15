@@ -34,9 +34,7 @@ class ShopController extends GetxController {
       final Set<String> ids = resList.map((e) => e.shopId!).toSet();
       ProductDetailsResponse? pdRes;
       if (ids.isNotEmpty) {
-        print(ids);
         pdRes = await GlobalData.buyShop.getProduct(ids);
-        print(pdRes.productDetails.toString());
       }
       if (pdRes != null && pdRes.productDetails.isNotEmpty) {
         for (final apiShop in resList) {

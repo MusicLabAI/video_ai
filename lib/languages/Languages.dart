@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:video_ai/languages/language_ru.dart';
 
 import 'language_ar.dart';
 import 'language_de.dart';
@@ -8,7 +9,7 @@ import 'language_fr.dart';
 import 'language_it.dart';
 import 'language_ja.dart';
 import 'language_ko.dart';
-import 'language_nl.dart';
+import 'language_id.dart';
 import 'language_pt.dart';
 import 'language_tr.dart';
 import 'language_zh_cn.dart';
@@ -37,10 +38,12 @@ class Languages extends Translations {
       'ja': LanguageJa.language,
       // 韩语
       'ko': LanguageKo.language,
-      // 荷兰语
-      'nl': LanguageNl.language,
+      // 印尼语
+      'id': LanguageId.language,
       // 葡萄牙语
       'pt': LanguagePt.language,
+      // 俄语
+      'ru': LanguageRu.language,
       // 土耳其
       'tr': LanguageTr.language,
     };
