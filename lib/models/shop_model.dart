@@ -103,7 +103,8 @@ class ShopModel with EquatableMixin {
   }
 
   String get shopDescribeLocal {
-    if (shopId == 'videoai_yearly_subscription') {
+    if (shopId == 'videoai_yearly_subscription' ||
+        shopId == 'videoai_yearly_subscription_ios') {
       return 'yearShopDesc'.trArgs(["${point ?? 0}", "${videoNumber ?? 0}"]);
     }
     if (shopId == "videoai_weekly_subscription" ||
