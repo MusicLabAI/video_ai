@@ -27,14 +27,6 @@ class _MinePageState extends State<MinePage>
   final MineController _mineCtr = Get.find<MineController>();
   final UserController _userCtr = Get.find<UserController>();
 
-  @override
-  void initState() {
-    super.initState();
-    ever(_mainCtr.refreshRecords, (value) {
-      _mineCtr.onRefresh();
-      _mainCtr.refreshRecords.value = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

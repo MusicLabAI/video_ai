@@ -9,6 +9,7 @@ import 'package:video_ai/api/request.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
+import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/prompt_model.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
@@ -30,6 +31,7 @@ class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
   final MainController _mainCtr = Get.find<MainController>();
   final UserController _userCtr = Get.find<UserController>();
+  final MineController _mineCtr = Get.find<MineController>();
   File? _image;
   final RxBool _isEnable = false.obs;
   late TextEditingController _controller;
@@ -499,7 +501,7 @@ class _HomePageState extends State<HomePage>
     if (result) {
       _userCtr.getUserInfo();
       _mainCtr.tabController.index = 1;
-      _mainCtr.refreshRecords.value = true;
+      _mineCtr.onRefresh();
     }
   }
 
