@@ -53,7 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 children: [
-                  if (!_userCtr.isLogin.value) _noLoginView(),
+                  if (!_userCtr.isLogin.value && !isSecond) _noLoginView(),
                   Expanded(
                       child: SingleChildScrollView(
                     child: Column(

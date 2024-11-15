@@ -118,6 +118,7 @@ class _HomePageState extends State<HomePage>
                 UserInfoWidget(),
                 IconButton(
                     onPressed: () {
+                      CommonUtil.hideKeyboard(context);
                       Get.to(() => const SettingsPage());
                     },
                     icon: Image.asset(
