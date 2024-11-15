@@ -47,8 +47,8 @@ class DioUtil {
           'language': language,
         },
       ),
-    )
-      ..interceptors.add(LogInterceptor(responseBody: true));
+    );
+      // ..interceptors.add(LogInterceptor(responseBody: true));
       // ..interceptors.add(CurlLoggerDioInterceptor(printOnSuccess: true));
   }
 

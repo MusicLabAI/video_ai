@@ -107,6 +107,7 @@ class BuyShop {
       'productId': purchaseDetails.productID,
       'purchaseToken': purchaseDetails.verificationData.serverVerificationData,
       'payOrderId': purchaseDetails.purchaseID,
+      'type': orderNum == null ? 1 : 0,
     };
     final jsonString = jsonEncode(data);
     final time = DateTime.now().millisecondsSinceEpoch;
