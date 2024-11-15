@@ -18,7 +18,9 @@ class Request {
   static const String _historyByIds = '/videoAi/aiGenerate/historyByIds';
   static const String _getShopList = '/videoAi/shop/getShopList';
   static const String _createOrder = '/videoAi/shop/createOrder';
+  static const String _createAppleOrder = '/videoAi/apple/newOrder';
   static const String _verifyOrder = '/videoAi/shop/verifyOrder';
+  static const String _verifyAppleOrder = '/videoAi/apple/verifyOrder';
   static const String _getOrderKey = '/videoAi/shop/getOrderKey';
   static const String _userEdit = '/videoAi/user/edit';
 
@@ -95,12 +97,12 @@ class Request {
 
   /// 创建订单
   static Future<dynamic> createOrder(String shopId) async {
-    return await DioUtil.httpPost(_createOrder, data: {"shopId": shopId});
+    return await DioUtil.httpPost(GetPlatform.isAndroid ? _createOrder : _createAppleOrder, data: {"shopId": shopId});
   }
 
   /// 验证订单
   static Future<dynamic> verifyOrder(String data, int timeStamp) async {
-    return await DioUtil.httpPost(_verifyOrder,
+    return await DioUtil.httpPost(GetPlatform.isAndroid ? _verifyOrder : _verifyAppleOrder,
         data: {"data": data, "timeStamp": timeStamp}, ignore208: true);
   }
 
