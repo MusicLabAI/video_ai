@@ -177,7 +177,7 @@ class BuyShop {
       if (buyNonConsumable) {
         await _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
       } else {
-        await _inAppPurchase.buyConsumable(purchaseParam: purchaseParam);
+        await _inAppPurchase.buyConsumable(purchaseParam: purchaseParam, autoConsume: GetPlatform.isIOS);
       }
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 5);
