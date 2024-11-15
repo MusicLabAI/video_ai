@@ -457,7 +457,7 @@ class _SettingsPageState extends State<SettingsPage> {
           try {
             final user = FirebaseAuth.instance.currentUser;
             if (user == null) {
-              Fluttertoast.showToast(msg: 'deleteAccountFailed'.tr);
+              Fluttertoast.showToast(msg: 'retryDeleteAccountTips'.tr);
               Get.back();
               return;
             }

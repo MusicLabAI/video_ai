@@ -122,6 +122,7 @@ class LanguageEnUs {
       'loginError': "Login Error",
       'payError': "Pay Error",
       'insufficientBalance': "Insufficient credits, please recharge and try again",
+      'retryDeleteAccountTips' : "Account deletion failed. Please log in again and try to delete the account.",
     };
   }
 }
