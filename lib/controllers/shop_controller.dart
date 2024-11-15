@@ -12,6 +12,8 @@ class ShopController extends GetxController {
 
   static int productPointType = 1; //积分商品
   static int productProType = 2; //会员商品
+  static int iosProductPointType = 3; //积分商品
+  static int iosProductProType = 4; //会员商品
 
   /// 是否正在请求数据
   RxBool isInRequest = true.obs;
@@ -32,7 +34,9 @@ class ShopController extends GetxController {
       final Set<String> ids = resList.map((e) => e.shopId!).toSet();
       ProductDetailsResponse? pdRes;
       if (ids.isNotEmpty) {
+        print(ids);
         pdRes = await GlobalData.buyShop.getProduct(ids);
+        print(pdRes.productDetails.toString());
       }
       if (pdRes != null && pdRes.productDetails.isNotEmpty) {
         for (final apiShop in resList) {

@@ -219,8 +219,10 @@ class _SettingsPageState extends State<SettingsPage> {
                               width: 2,
                             ),
                             Obx(() => Text(
+                                  maxLines: 1,
                                   _userCtr.userInfo.value.name ?? "",
                                   style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
                                       fontSize: 14,
                                       color: UiColors.cDBFFFFFF,
                                       fontWeight: FontWeightExt.semiBold),
@@ -353,12 +355,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 Get.to(() => const PointRecordPage());
               }),
         _SettingsItem(
-            iconPath: 'images/icon/ic_language.png',
-            item: 'language'.tr,
-            onTap: () {
-              CommonUtil.openUrl(GlobalData.privacyNoticeUrl);
-            }),
-        _SettingsItem(
             iconPath: 'images/icon/ic_join.png',
             item: 'joinUs'.tr,
             onTap: () {
@@ -462,6 +458,7 @@ class _SettingsPageState extends State<SettingsPage> {
             final user = FirebaseAuth.instance.currentUser;
             if (user == null) {
               Fluttertoast.showToast(msg: 'deleteAccountFailed'.tr);
+              Get.back();
               return;
             }
             await user.delete();

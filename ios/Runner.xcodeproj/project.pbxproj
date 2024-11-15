@@ -16,6 +16,7 @@
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		B81F2BDFCD38796429EE3DF3 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD27F7A9F62EB741DFF8D471 /* Pods_RunnerTests.framework */; };
 		C31C453B87572238FC5EC36D /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 116FA5366AC64D538D3F88D7 /* Pods_Runner.framework */; };
+		D675F52D2CE6E8CE00E4A6FA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D675F52C2CE6E8CE00E4A6FA /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		C329C1FC34630F092FC0F309 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		CD27F7A9F62EB741DFF8D471 /* Pods_RunnerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunnerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D61EF7902CDB519500C0D325 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		D675F52C2CE6E8CE00E4A6FA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C31C453B87572238FC5EC36D /* Pods_Runner.framework in Frameworks */,
+				D675F52D2CE6E8CE00E4A6FA /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +115,7 @@
 		74B298EBFF8547914CB70DBE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D675F52C2CE6E8CE00E4A6FA /* StoreKit.framework */,
 				116FA5366AC64D538D3F88D7 /* Pods_Runner.framework */,
 				CD27F7A9F62EB741DFF8D471 /* Pods_RunnerTests.framework */,
 			);
@@ -503,7 +507,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.voiceai.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.videoai.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -699,7 +703,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.voiceai.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.videoai.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -733,7 +737,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.voiceai.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.videoai.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

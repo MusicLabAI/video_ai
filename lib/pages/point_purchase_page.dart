@@ -21,7 +21,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
   @override
   void initState() {
     super.initState();
-    _shopCtr.getShopList(ShopController.productPointType);
+    _shopCtr.getShopList(GetPlatform.isAndroid ? ShopController.productPointType : ShopController.iosProductPointType);
   }
 
   @override

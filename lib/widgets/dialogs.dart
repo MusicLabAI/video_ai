@@ -112,6 +112,7 @@ class EditNameDialog extends StatelessWidget {
                   maxLines: 1,
                   controller: _controller,
                   cursorColor: UiColors.cDBFFFFFF,
+                  maxLength: 15,
                   style: TextStyle(
                       color: UiColors.cDBFFFFFF,
                       fontSize: 14,

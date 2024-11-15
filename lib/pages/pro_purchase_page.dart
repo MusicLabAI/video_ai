@@ -21,7 +21,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
   @override
   void initState() {
     super.initState();
-    _shopCtr.getShopList(ShopController.productProType);
+    _shopCtr.getShopList(GetPlatform.isAndroid ? ShopController.productProType : ShopController.iosProductProType);
   }
 
   @override
