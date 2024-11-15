@@ -121,6 +121,7 @@ class LanguageEnUs {
       'passwordWrong': "Wrong password provided.",
       'loginError': "Login Error",
       'payError': "Pay Error",
+      'insufficientBalance': "Insufficient credits, please recharge and try again",
     };
   }
 }

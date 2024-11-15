@@ -6,21 +6,21 @@ import '../models/shop_model.dart';
 import 'dio.dart';
 
 class Request {
-  static const String _userinfo = '/videoLab/user/detail';
-  static const String _userDelete = '/videoLab/user/delete';
-  static const String _uploadToken = '/videoLab/remoteFile/uploadToken';
-  static const String _aiGenerate = '/videoLab/aiGenerate';
-  static const String _getConfig = '/videoLab/common/getConfig';
-  static const String _getRecords = '/videoLab/aiGenerate/list';
-  static const String _pointRecordList = '/videoLab/user/pointRecordList';
-  static const String _oneClickLogin = '/videoLab/user/oneClickLogin';
-  static const String _recommendPrompt = '/videoLab/recommendPrompt/list';
-  static const String _historyByIds = '/videoLab/aiGenerate/historyByIds';
-  static const String _getShopList = '/videoLab/shop/getShopList';
-  static const String _createOrder = '/videoLab/shop/createOrder';
-  static const String _verifyOrder = '/videoLab/shop/verifyOrder';
-  static const String _getOrderKey = '/videoLab/shop/getOrderKey';
-  static const String _userEdit = '/videoLab/user/edit';
+  static const String _userinfo = '/videoAi/user/detail';
+  static const String _userDelete = '/videoAi/user/delete';
+  static const String _uploadToken = '/videoAi/remoteFile/uploadToken';
+  static const String _aiGenerate = '/videoAi/aiGenerate';
+  static const String _getConfig = '/videoAi/common/getConfig';
+  static const String _getRecords = '/videoAi/aiGenerate/list';
+  static const String _pointRecordList = '/videoAi/user/pointRecordList';
+  static const String _oneClickLogin = '/videoAi/user/oneClickLogin';
+  static const String _recommendPrompt = '/videoAi/recommendPrompt/list';
+  static const String _historyByIds = '/videoAi/aiGenerate/historyByIds';
+  static const String _getShopList = '/videoAi/shop/getShopList';
+  static const String _createOrder = '/videoAi/shop/createOrder';
+  static const String _verifyOrder = '/videoAi/shop/verifyOrder';
+  static const String _getOrderKey = '/videoAi/shop/getOrderKey';
+  static const String _userEdit = '/videoAi/user/edit';
 
   /// telegram_group\email
   static Future<void> getConfig(
