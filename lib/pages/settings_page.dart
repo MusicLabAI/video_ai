@@ -74,7 +74,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  if (_userCtr.isLogin.value)
+                  if (_userCtr.isLogin.value && isSecond)
                     CustomButton(
                       width: double.infinity,
                       height: 46,

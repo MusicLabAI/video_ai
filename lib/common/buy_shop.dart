@@ -22,6 +22,8 @@ class BuyShop {
   String? orderNum;
   String? sign;
 
+  bool _isResume = false;
+
   void onClose() {
     _subscription.cancel();
   }
@@ -33,12 +35,25 @@ class BuyShop {
     final Stream<List<PurchaseDetails>> purchaseUpdated = _inAppPurchase.purchaseStream;
     _subscription = purchaseUpdated.listen((purchaseDetailsList) {
       Get.log('检测到需要处理的订单数：${purchaseDetailsList.length}');
+      if (_isResume) {
+        _isResume = false;
+        if (purchaseDetailsList.isEmpty) {
+          if (Get.isDialogOpen ?? false) {
+            Get.back();
+          }
+          Fluttertoast.showToast(msg: 'restoreTips'.tr);
+        }
+      }
       _listenToPurchaseUpdated(purchaseDetailsList);
     }, onDone: () {
       _subscription.cancel();
     }, onError: (error) {
       error.printError();
-      Fluttertoast.showToast(msg: 'paymentInitiationFailure'.tr, toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 5);
+      Fluttertoast.showToast(
+        msg: 'paymentInitiationFailure'.tr,
+        toastLength: Toast.LENGTH_LONG,
+        timeInSecForIosWeb: 5,
+      );
     });
   }
 
@@ -111,9 +126,11 @@ class BuyShop {
   Future<void> resumePurchase() async {
     Get.dialog(const Center(child: CircularProgressIndicator()));
     try {
+      _isResume = true;
       await _inAppPurchase.restorePurchases();
       // Get.back();
     } catch (e) {
+      _isResume = false;
       if (Get.isDialogOpen ?? false) {
         Get.back();
       }
@@ -144,7 +161,18 @@ class BuyShop {
       return;
     }
     try {
-      final purchaseParam = PurchaseParam(productDetails: currentItem.productDetails!);
+      final uid = Get.find<UserController>().userInfo.value.userId;
+      if (uid == null) {
+        throw Exception('uid is null');
+      }
+      //obfuscatedExternalProfileId == orderNum
+      // obfuscatedExternalAccountId == uidGet.find<UserController>().getUserInfo();
+      final applicationUserName = '$orderNum,$uid';
+      // Get.log('applicationUserName: $applicationUserName');
+      final purchaseParam = PurchaseParam(
+        productDetails: currentItem.productDetails!,
+        applicationUserName: applicationUserName,
+      );
       if (buyNonConsumable) {
         await _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
       } else {
