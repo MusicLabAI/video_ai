@@ -31,12 +31,8 @@ class _MinePageState extends State<MinePage>
   void initState() {
     super.initState();
     ever(_mainCtr.refreshRecords, (value) {
-      setState(() {
-        if (value) {
-          _mineCtr.onRefresh();
-          _mainCtr.refreshRecords.value = false;
-        }
-      });
+      _mineCtr.onRefresh();
+      _mainCtr.refreshRecords.value = false;
     });
   }
 

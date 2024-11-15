@@ -57,9 +57,9 @@ class MineController extends GetxController {
   }
 
   Future<void> onRefresh() async {
+    stopTimer();
     if (!Get.find<UserController>().isLogin.value) {
       dataList.value = [];
-      stopTimer();
       return;
     }
     try {

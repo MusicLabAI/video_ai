@@ -105,7 +105,7 @@ dependencies {
 //
 //           println "buildTypeName  :" + buildTypeName.toLowerCase()
 //
-//           File parentFile = new File("/data/web/apk/VideoAI")
+//           File parentFile = new File("/data/web/apk/Video AI")
 //           if (!parentFile.exists()) {
 //               return
 //           }
@@ -128,7 +128,7 @@ dependencies {
 //           def versionName = android.defaultConfig.versionName
 //           def versionCode = android.defaultConfig.versionCode
 //           apkFiles.each { file ->
-//               def name = "${"VideoAI"}-${versionName}-${versionCode}-${getBuildId()}.apk"
+//               def name = "${"Video AI"}-${versionName}-${versionCode}-${getBuildId()}.apk"
 //               File newFile = new File(file.parentFile.absolutePath, name)
 //               boolean success = file.renameTo(newFile)
 //               println "name :" + name + "  success:" + success + " it:" + newFile.toString()
@@ -138,7 +138,7 @@ dependencies {
 //
 //           }
 //           aabFiles.each { file ->
-//               def name = "${"VideoAI"}-${versionName}-${versionCode}-${getBuildId()}.aab"
+//               def name = "${"Video AI"}-${versionName}-${versionCode}-${getBuildId()}.aab"
 //               File newFile = new File(file.parentFile.absolutePath, name)
 //               boolean success = file.renameTo(newFile)
 //               println "name :" + name + "  success:" + success + " it:" + newFile.toString()

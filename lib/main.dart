@@ -65,7 +65,6 @@ class MainApp extends StatelessWidget {
     return GetMaterialApp(
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
-      title: 'VideoAI',
       translations: Languages(),
       locale: Get.deviceLocale,
       fallbackLocale: const Locale('en', 'US'),

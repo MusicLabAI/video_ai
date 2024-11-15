@@ -107,9 +107,9 @@ class _HomePageState extends State<HomePage>
             width: double.infinity,
             child: Row(
               children: [
-                Text(
-                  'videoAi'.tr,
-                  style: const TextStyle(
+                const Text(
+                  'Video AI',
+                  style: TextStyle(
                       fontSize: 20,
                       color: UiColors.cDBFFFFFF,
                       fontWeight: FontWeightExt.semiBold),
@@ -496,6 +496,7 @@ class _HomePageState extends State<HomePage>
     }
     bool result = await createCtr.aiGenerate(_controller.text, _image);
     if (result) {
+      _userCtr.getUserInfo();
       _mainCtr.tabController.index = 1;
       _mainCtr.refreshRecords.value = true;
     }
