@@ -59,7 +59,9 @@ class _HomePageState extends State<HomePage>
   }
 
   void updateGenerateBtnStatus() {
-    _isEnable.value = _controller.text.isNotEmpty && (_createCtr.curTabIndex.value != 0 || _image != null);
+    setState(() {
+      _isEnable.value = _controller.text.isNotEmpty && (_createCtr.curTabIndex.value != 0 || _image != null);
+    });
   }
 
   @override
@@ -240,6 +242,7 @@ class _HomePageState extends State<HomePage>
                 height: 44,
                 onTap: () {
                   _createCtr.curTabIndex.value = 0;
+                  updateGenerateBtnStatus();
                 },
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(12)),
@@ -265,6 +268,7 @@ class _HomePageState extends State<HomePage>
                   child: CustomButton(
                 onTap: () {
                   _createCtr.curTabIndex.value = 1;
+                  updateGenerateBtnStatus();
                 },
                 height: 44,
                 borderRadius:
@@ -316,6 +320,7 @@ class _HomePageState extends State<HomePage>
                               if (_image != null) {
                                 setState(() {
                                   _image = null;
+                                  updateGenerateBtnStatus();
                                 });
                               }
                             },
@@ -343,6 +348,7 @@ class _HomePageState extends State<HomePage>
                               onTap: () {
                                 setState(() {
                                   _image = null;
+                                  updateGenerateBtnStatus();
                                 });
                               },
                               child: Image.asset(
