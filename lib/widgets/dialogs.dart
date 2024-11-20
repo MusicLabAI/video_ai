@@ -341,8 +341,7 @@ class _EffectDialogState extends State<EffectDialog> {
                           unSelectedColor: UiColors.c1B1B1F,
                           selectedColor: UiColors.cBC8EF5,
                           onTap: (model) {
-                            _createCtr.curTabIndex.value = 0;
-                            _createCtr.curEffects.value = model;
+                            _createCtr.selectEffects(model);
                             Get.back();
                           },
                         );

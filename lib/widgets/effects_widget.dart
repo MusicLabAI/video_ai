@@ -21,7 +21,6 @@ class EffectsWidget extends StatefulWidget {
       this.textSize,
       this.selectedColor,
       this.fromHome = true,
-      this.isScrolling = false,
       this.unSelectedColor});
 
   final EffectsModel model;
@@ -33,7 +32,6 @@ class EffectsWidget extends StatefulWidget {
   final Color? selectedColor;
   final Color? unSelectedColor;
   final bool fromHome;
-  final bool isScrolling;
 
   @override
   State<EffectsWidget> createState() => _EffectsWidgetState();

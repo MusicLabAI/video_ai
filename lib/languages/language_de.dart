@@ -99,6 +99,7 @@ class LanguageDe {
       "bestValue": "Bester Wert",
       "productionTips": "Erwartete Zeit: 3-15 Minuten.",
       "weekValue": "%s / Woche",
+      "yearValue": "%s / Jahr",
       "weekShopDesc": "%s Gutschriften (%s Videos) / wöchentlich",
       "yearShopDesc": "%s Gutschriften (%s Videos) / jährlich",
       "creditsValue": "%s Gutschriften",

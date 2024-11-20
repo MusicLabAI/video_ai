@@ -99,6 +99,7 @@ class LanguageAr {
       "bestValue": "أفضل قيمة",
       "productionTips": "من المتوقع أن يستغرق 3-15 دقيقة.",
       "weekValue": "%s / أسبوع",
+      "yearValue": "%s / سنة",
       "weekShopDesc": "%s أرصدة (%s فيديو) / أسبوع",
       "yearShopDesc": "%s أرصدة (%s فيديو) / سنوي",
       "creditsValue": "%s أرصدة",

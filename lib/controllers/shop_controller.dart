@@ -27,8 +27,8 @@ class ShopController extends GetxController {
   }
 
   Future<void> getShopList(int type) async {
-    isInRequest.value = true;
     try {
+      isInRequest.value = true;
       final res = await Request.getShopList(type);
       final resList = res.map((e) => ShopModel.fromJson(e)).toList();
       resList.removeWhere((e) => e.shopId == null);
@@ -46,7 +46,6 @@ class ShopController extends GetxController {
       resList.removeWhere((e) => e.productDetails == null);
       shopList.value = resList;
       if (shopList.isEmpty) {
-        isInRequest.value = false;
         Fluttertoast.showToast(msg: 'productNotFound'.tr);
         return;
       }
@@ -54,10 +53,10 @@ class ShopController extends GetxController {
       currentShop.value =
           resList.firstWhereOrNull((e) => (e.selected ?? false)) ??
               resList.first;
-      isInRequest.value = false;
     } catch (e) {
       Get.log(e.toString(), isError: true);
-      rethrow;
+    } finally {
+      isInRequest.value = false;
     }
   }
 }

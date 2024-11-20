@@ -4,6 +4,7 @@ import 'package:video_ai/api/dio.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/global_data.dart';
+import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/pages/home_page.dart';
@@ -24,6 +25,7 @@ class _MainPageState extends State<MainPage>
   final MainController _mainCtr = Get.find();
   final UserController _userCtr = Get.find();
   final MineController _mineCtr = Get.find();
+  final CreateController _createCtr = Get.find();
 
   @override
   void initState() {
@@ -65,6 +67,9 @@ class _MainPageState extends State<MainPage>
                   onTap: (index) {
                     setState(() {
                       _mainCtr.tabController.index = index;
+                      if (index == 0) {
+                        _createCtr.retry();
+                      }
                       if (index == 1) {
                         CommonUtil.hideKeyboard(context);
                         _mineCtr.retry();

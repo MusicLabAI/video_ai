@@ -1,4 +1,5 @@
 import 'package:get/instance_manager.dart';
+import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 
@@ -10,5 +11,6 @@ class StartupBindings with Bindings {
     Get.put(MainController(), permanent: true);
     Get.put(UserController(), permanent: true);
     Get.put(MineController(), permanent: true);
+    Get.put(CreateController(), permanent: true);
   }
 }

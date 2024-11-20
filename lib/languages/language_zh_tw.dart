@@ -99,6 +99,7 @@ class LanguageZhTw {
       "bestValue": "最佳價值",
       "productionTips": "預計用時：3-15分鐘。",
       "weekValue": "%s / 週",
+      "yearValue": "%s / 年",
       "weekShopDesc": "%s積分（%s視頻）/ 每週",
       "yearShopDesc": "%s積分（%s視頻）/ 每年",
       "creditsValue": "%s積分",

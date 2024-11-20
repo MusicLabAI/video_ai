@@ -192,24 +192,12 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                         fontWeight: FontWeight.bold),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 4.0, top: 12),
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          model.productDetails?.price ?? '',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: UiColors.c99FFFFFF,
-                              fontSize: 12,
-                              fontWeight: FontWeightExt.medium),
-                        ),
-                        Text(
-                          'weekValue'.trArgs([
-                            getWeekPrice(model.productDetails?.price ?? '',
-                                model.weekNumber ?? 1)
-                          ]),
+                          model.shopSecondDescribeLocal,
                           style: const TextStyle(
                               color: UiColors.cDBFFFFFF,
                               fontSize: 18,
