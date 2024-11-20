@@ -99,6 +99,7 @@ class LanguagePt {
       "bestValue": "Melhor Valor",
       "productionTips": "Previsto para levar de 3 a 15 min.",
       "weekValue": "%s / semana",
+      "yearValue": "%s / ano",
       "weekShopDesc": "%s créditos (%s vídeos) / semanal",
       "yearShopDesc": "%s créditos (%s vídeos) / anual",
       "creditsValue": "%s créditos",

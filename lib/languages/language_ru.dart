@@ -99,6 +99,7 @@ class LanguageRu {
       "bestValue": "Лучшее предложение",
       "productionTips": "Ожидаемое время: 3-15 мин.",
       "weekValue": "%s / неделя",
+      "yearValue": "%s / год",
       "weekShopDesc": "%s кредитов (%s видео) / еженедельно",
       "yearShopDesc": "%s кредитов (%s видео) / ежегодно",
       "creditsValue": "%s кредитов",

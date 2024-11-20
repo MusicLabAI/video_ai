@@ -209,33 +209,3 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
     );
   }
 }
-
-String getWeekPrice(String priceText, int dividedNum) {
-  if (dividedNum <= 1) {
-    return priceText;
-  }
-  Pattern pattern = RegExp(r'\d');
-  // 找到第一个和最后一个数字的位置
-  int index = priceText.indexOf(pattern);
-  int endIndex = priceText.lastIndexOf(pattern);
-
-  // 如果找不到数字，则返回空字符串
-  if (index == -1 || endIndex == -1) {
-    return '';
-  }
-
-  // 提取单位部分
-  String unit = index == 0
-      ? priceText.substring(endIndex + 1)
-      : priceText.substring(0, index);
-
-  // 提取数值部分
-  String value = priceText.substring(index, endIndex + 1);
-  double? parsedValue = double.tryParse(value);
-  if (parsedValue == null) {
-    return '';
-  }
-
-  String result = (parsedValue / dividedNum).toStringAsFixed(2);
-  return index == 0 ? "$result$unit" : "$unit$result";
-}

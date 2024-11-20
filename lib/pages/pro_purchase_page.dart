@@ -206,10 +206,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                               fontWeight: FontWeightExt.medium),
                         ),
                         Text(
-                          'weekValue'.trArgs([
-                            getWeekPrice(model.productDetails?.price ?? '',
-                                model.weekNumber ?? 1)
-                          ]),
+                          model.shopSecondDescribeLocal,
                           style: const TextStyle(
                               color: UiColors.cDBFFFFFF,
                               fontSize: 18,
