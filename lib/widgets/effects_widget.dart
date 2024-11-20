@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/models/effects_model.dart';
 import 'package:video_ai/widgets/custom_button.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../common/ui_colors.dart';
 
