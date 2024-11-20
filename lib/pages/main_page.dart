@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/api/dio.dart';
 import 'package:video_ai/common/common_util.dart';
+import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/pages/home_page.dart';
@@ -26,6 +27,8 @@ class _MainPageState extends State<MainPage>
   @override
   void initState() {
     super.initState();
+    _mainCtr.isCreationLayoutSwitch.value = GlobalData.isCreationLayoutSwitch;
+    _mainCtr.getCommonConfig();
     _mainCtr.tabController = TabController(length: 2, vsync: this);
     _mainCtr.tabController.addListener(() {
       setState(() {});
@@ -47,18 +50,16 @@ class _MainPageState extends State<MainPage>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Stack(
+        child: Column(
           children: [
-            TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: _mainCtr.tabController,
-              children: const [HomePage(), MinePage()],
+            Expanded(
+              child: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: _mainCtr.tabController,
+                children: const [HomePage(), MinePage()],
+              ),
             ),
-            Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: CustomBottomNavBar(
+            CustomBottomNavBar(
                   currentIndex: _mainCtr.tabController.index,
                   onTap: (index) {
                     setState(() {
@@ -69,7 +70,7 @@ class _MainPageState extends State<MainPage>
                       }
                     });
                   },
-                ))
+                )
           ],
         ),
       ),

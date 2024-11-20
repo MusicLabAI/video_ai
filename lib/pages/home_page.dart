@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,14 +13,19 @@ import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
+import 'package:video_ai/models/effects_model.dart';
 import 'package:video_ai/models/prompt_model.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
 import 'package:video_ai/pages/pro_purchase_page.dart';
 import 'package:video_ai/pages/settings_page.dart';
+import 'package:video_ai/pages/video_detail_page.dart';
 import 'package:video_ai/widgets/custom_button.dart';
+import 'package:video_ai/widgets/dialogs.dart';
+import 'package:video_ai/widgets/loading_dialog.dart';
 import 'package:video_ai/widgets/user_info_widget.dart';
 
 import '../controllers/main_controller.dart';
+import '../widgets/effects_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,9 +42,10 @@ class _HomePageState extends State<HomePage>
   File? _image;
   final RxBool _isEnable = false.obs;
   late TextEditingController _controller;
-  final createCtr = Get.put(CreateController());
+  final _createCtr = Get.put(CreateController());
   List<PromptModel> _items = [];
   List<PromptModel> _randomItems = [];
+  var _isScrolling = false;
 
   Future<void> _pickImage() async {
     final pickedFile =
@@ -45,21 +53,26 @@ class _HomePageState extends State<HomePage>
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        updateGenerateBtnStatus();
       }
     });
+  }
+
+  void updateGenerateBtnStatus() {
+    _isEnable.value = _controller.text.isNotEmpty && (_createCtr.curTabIndex.value != 0 || _image != null);
   }
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: _mainCtr.prompt.value);
+    _controller = TextEditingController(text: _createCtr.prompt.value);
     _controller.addListener(() {
-      _isEnable.value = _controller.text.isNotEmpty;
+      updateGenerateBtnStatus();
     });
-    ever(_mainCtr.prompt, (value) {
+    ever(_createCtr.prompt, (value) {
       setState(() {
         _controller.text = value;
-        _isEnable.value = _controller.text.isNotEmpty;
+        updateGenerateBtnStatus();
       });
     });
     _getRecommendPrompt();
@@ -71,7 +84,7 @@ class _HomePageState extends State<HomePage>
     super.dispose();
   }
 
-  void _getRecommendPrompt() async {
+  Future<void> _getRecommendPrompt() async {
     final data = await Request.getRecommendPrompt();
     _items =
         (data as List).map((record) => PromptModel.fromJson(record)).toList();
@@ -99,9 +112,8 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => CommonUtil.hideKeyboard(context),
-      child: Column(
-        children: [
+        onTap: () => CommonUtil.hideKeyboard(context),
+        child: Column(children: [
           Container(
             color: Colors.transparent,
             padding: const EdgeInsets.only(left: 16),
@@ -132,325 +144,456 @@ class _HomePageState extends State<HomePage>
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Stack(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 20),
-                          height: 52,
-                          width: double.infinity,
-                          decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(16),
-                                  topRight: Radius.circular(16)),
-                              color: UiColors.c42BE8FF7),
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(
-                              'images/icon/ic_video_player.png',
-                              width: 76,
-                              height: 76,
-                            ),
-                            const SizedBox(
-                              width: 3,
-                            ),
-                            Text(
-                              'prompt'.tr,
-                              style: const TextStyle(
-                                  color: UiColors.cBC8EF5,
-                                  fontSize: 14,
-                                  fontWeight: FontWeightExt.semiBold),
-                            ),
-                            const Spacer(),
-                            GestureDetector(
-                              onTap: () {
-                                if (_controller.text.isEmpty) {
-                                  Fluttertoast.showToast(
-                                      msg: 'noPromptEntered'.tr);
-                                  return;
-                                }
-                                setState(() {
-                                  _controller.text = "";
-                                });
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(6),
-                                margin: const EdgeInsets.only(right: 8),
-                                decoration: BoxDecoration(
-                                    color: UiColors.c666949A1,
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Image.asset(
-                                  'images/icon/ic_clear.png',
-                                  width: 14,
-                                ),
-                              ),
-                            ),
-                            CustomButton(
-                                borderRadius: 8,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 6, horizontal: 6),
-                                bgColor: UiColors.c666949A1,
-                                leftIcon: Padding(
-                                  padding: const EdgeInsets.only(right: 4.0),
-                                  child: Image.asset(
-                                    'images/icon/ic_shuffle.png',
-                                    width: 14,
-                                    height: 14,
-                                  ),
-                                ),
-                                text: 'inspireMe'.tr,
-                                textSize: 10,
-                                textColor: UiColors.cDBFFFFFF,
-                                onTap: () {
-                                  if (_randomItems.isEmpty) {
-                                    return;
-                                  }
-                                  setState(() {
-                                    _controller.text = _randomItems[Random()
-                                                .nextInt(_randomItems.length)]
-                                            .prompt ??
-                                        "";
-                                  });
-                                }),
-                            const SizedBox(
-                              width: 10,
-                            )
-                          ],
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(
-                              left: 16, right: 8, top: 16, bottom: 16),
-                          margin: const EdgeInsets.only(top: 56),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: UiColors.c1B1B1F,
-                              border: Border.all(color: UiColors.c30333F)),
-                          child: Column(
-                            children: [
-                              TextField(
-                                controller: _controller,
-                                onChanged: (str) {
-                                  setState(() {
-                                    _isEnable.value = str.isNotEmpty;
-                                  });
-                                },
-                                cursorColor: UiColors.c61FFFFFF,
-                                maxLines: 6,
-                                maxLength: 500,
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeightExt.regular,
-                                    color: UiColors.cDBFFFFFF),
-                                decoration: InputDecoration(
-                                  hintStyle: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeightExt.regular,
-                                      color: UiColors.c61FFFFFF),
-                                  contentPadding: EdgeInsets.zero,
-                                  hintText: 'enterAPromptTips'.tr,
-                                  border: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () => _pickImage(),
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 40,
-                                  margin: const EdgeInsets.only(top: 8),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border:
-                                          Border.all(color: UiColors.cBC8EF5)),
-                                  child: Stack(children: [
-                                    if (_image != null)
-                                      GestureDetector(
-                                        onTap: () => setState(() {
-                                          _image = null;
-                                        }),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 2.0, top: 2.0),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(6),
-                                                child: Image(
-                                                  image: FileImage(_image!),
-                                                  width: 34,
-                                                  height: 34,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(6.0),
-                                              child: Image.asset(
-                                                'images/icon/ic_remove.png',
-                                                width: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    Center(
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Image.asset(
-                                            _image == null
-                                                ? 'images/icon/ic_pick_image.png'
-                                                : 'images/icon/ic_reset.png',
-                                            width: 16,
-                                          ),
-                                          const SizedBox(
-                                            width: 6,
-                                          ),
-                                          Text(
-                                            _image == null
-                                                ? 'addImage'.tr
-                                                : 'replaceImage'.tr,
-                                            style: TextStyle(
-                                                color: UiColors.cBC8EF5,
-                                                fontSize: 12,
-                                                fontWeight:
-                                                    FontWeightExt.medium),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ]),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  _getGenerateBtn(context),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'images/icon/ic_suggestion.png',
-                          width: 24,
-                          height: 24,
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          'giveMeSomeInspiration'.tr,
-                          style: const TextStyle(
-                              fontSize: 14,
-                              color: UiColors.cBC8EF5,
-                              fontWeight: FontWeightExt.semiBold),
-                        ),
-                        const Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 6),
-                          child: InkWell(
-                            onTap: () {
-                              if (_items.isEmpty) {
-                                _getRecommendPrompt();
-                              } else {
-                                _randomRecommend();
-                              }
-                            },
-                            borderRadius: BorderRadius.circular(10),
-                            child: Container(
-                              padding: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: UiColors.c272931),
-                              child: Image.asset(
-                                'images/icon/ic_refresh.png',
-                                width: 24,
-                                height: 24,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  ..._randomItems.map((item) {
-                    final prompt = item.prompt ?? "";
-                    return _listItem(prompt, item == _randomItems.last, () {
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: SingleChildScrollView(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _topView(),
+                          _getGenerateBtn(context),
+                          _bottomView(),
+                        ]),
+                  )))
+        ]));
+  }
+
+  Widget _bottomView() {
+    return Obx(
+      () {
+        if (_mainCtr.isCreationLayoutSwitch.value) {
+          // 提示词布局
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _inspireLabel(),
+              ..._randomItems.map(
+                (item) {
+                  final prompt = item.prompt ?? "";
+                  return _inspiresItem(
+                    prompt,
+                    item == _randomItems.last,
+                    () {
                       setState(() {
                         _controller.text = prompt;
                       });
+                    },
+                  );
+                },
+              ), // 确保 map 的结果转换为列表
+            ],
+          );
+        } else {
+          // 特效图布局
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomButton(
+                margin: const EdgeInsets.symmetric(vertical: 16),
+                text: 'imageMagic'.tr,
+                textColor: UiColors.cBC8EF5,
+                textSize: 14,
+                leftIcon: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Image.asset(
+                    'images/icon/ic_effects_selected.png',
+                    width: 20,
+                  ),
+                ),
+              ),
+              GridView.builder(
+                itemCount: _createCtr.effectsList.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 154 / 212,
+                  mainAxisSpacing: 16.0,
+                  crossAxisSpacing: 10.0,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return EffectsWidget(
+                    model: _createCtr.effectsList[index],
+                    isScrolling: _isScrolling,
+                    onTap: (model) {
+                      _createCtr.curTabIndex.value = 0;
+                      _createCtr.curEffects.value = model;
+                    },
+                  );
+                },
+              ),
+            ],
+          );
+        }
+      },
+    );
+  }
+
+  Widget _topView() {
+    return Obx(
+      () => Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                  child: CustomButton(
+                height: 44,
+                onTap: () {
+                  _createCtr.curTabIndex.value = 0;
+                },
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(12)),
+                bgColor: _createCtr.curTabIndex.value == 0
+                    ? UiColors.c4A3663
+                    : UiColors.c1B1B1F,
+                text: 'imageToVideo'.tr,
+                textColor: _createCtr.curTabIndex.value == 0
+                    ? UiColors.cE18FF8
+                    : UiColors.c61FFFFFF,
+                textSize: 12,
+                leftIcon: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Image.asset(
+                    _createCtr.curTabIndex.value == 0
+                        ? 'images/icon/ic_image_selected.png'
+                        : 'images/icon/ic_image_unselected.png',
+                    width: 32,
+                  ),
+                ),
+              )),
+              Expanded(
+                  child: CustomButton(
+                onTap: () {
+                  _createCtr.curTabIndex.value = 1;
+                },
+                height: 44,
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(12)),
+                bgColor: _createCtr.curTabIndex.value != 0
+                    ? UiColors.c4A3663
+                    : UiColors.c1B1B1F,
+                text: 'textToVideo'.tr,
+                textColor: _createCtr.curTabIndex.value != 0
+                    ? UiColors.cE18FF8
+                    : UiColors.c61FFFFFF,
+                textSize: 12,
+                leftIcon: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Image.asset(
+                    _createCtr.curTabIndex.value != 0
+                        ? 'images/icon/ic_video_selected.png'
+                        : 'images/icon/ic_video_unselected.png',
+                    width: 32,
+                  ),
+                ),
+              )),
+            ],
+          ),
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+                color: UiColors.c1B1B1F,
+                borderRadius:
+                    const BorderRadius.vertical(bottom: Radius.circular(16)),
+                border: Border.all(color: UiColors.c4A3663, width: 2)),
+            child: Column(
+              children: [
+                if (_createCtr.curTabIndex.value == 0)
+                  Container(
+                    height: 52,
+                    margin: const EdgeInsets.only(bottom: 10),
+                    decoration: BoxDecoration(
+                        color: UiColors.c383142,
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 8,
+                          top: 8,
+                          bottom: 8,
+                          child: GestureDetector(
+                            onTap: () {
+                              if (_image != null) {
+                                setState(() {
+                                  _image = null;
+                                });
+                              }
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: _image == null
+                                  ? Image.asset(
+                                      'images/icon/img_upload_default.png',
+                                      width: 36,
+                                    )
+                                  : Image(
+                                      image: FileImage(_image!),
+                                      width: 36,
+                                      height: 36,
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
+                          ),
+                        ),
+                        if (_image != null)
+                          Positioned(
+                            left: 36,
+                            bottom: 8,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _image = null;
+                                });
+                              },
+                              child: Image.asset(
+                                'images/icon/ic_remove.png',
+                                width: 16,
+                              ),
+                            ),
+                          ),
+                        Positioned(
+                            right: 12,
+                            top: 0,
+                            bottom: 0,
+                            child: CustomButton(
+                              onTap: _pickImage,
+                              text: _image == null
+                                  ? 'addImage'.tr
+                                  : 'replaceImage'.tr,
+                              textColor: UiColors.cBC8EF5,
+                              textSize: 12,
+                              rightIcon: Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Image.asset(
+                                  _image == null
+                                      ? 'images/icon/ic_add_rect.png'
+                                      : "images/icon/ic_reset.png",
+                                  width: 20,
+                                ),
+                              ),
+                            ))
+                      ],
+                    ),
+                  ),
+                TextField(
+                  controller: _controller,
+                  onChanged: (str) {
+                    setState(() {
+                      updateGenerateBtnStatus();
                     });
-                  }),
-                  //
-                  // Expanded(
-                  //   child: ListView.builder(
-                  //       itemCount: _randomItems.length,
-                  //       itemBuilder: (context, index) {
-                  //         final prompt = _randomItems[index].prompt ?? "";
-                  //         return _listItem(prompt, index == _randomItems.length - 1, () {
-                  //           setState(() {
-                  //             _controller.text = prompt;
-                  //           });
-                  //         });
-                  //       }),
-                  // ),
-                ],
+                  },
+                  cursorColor: UiColors.c61FFFFFF,
+                  maxLines: 6,
+                  maxLength: 500,
+                  style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeightExt.regular,
+                      color: UiColors.cDBFFFFFF),
+                  decoration: InputDecoration(
+                    counterStyle: const TextStyle(
+                        fontSize: 10, color: UiColors.c61FFFFFF),
+                    hintStyle: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeightExt.regular,
+                        color: UiColors.c61FFFFFF),
+                    contentPadding: EdgeInsets.zero,
+                    hintText: 'enterAPromptTips'.tr,
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                  ),
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                Row(
+                  children: [
+                    CustomButton(
+                        height: 26,
+                        borderRadius: BorderRadius.circular(8),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 8),
+                        bgColor: UiColors.c666949A1,
+                        leftIcon: Padding(
+                          padding: const EdgeInsets.only(right: 4.0),
+                          child: Image.asset(
+                            'images/icon/ic_shuffle.png',
+                            width: 14,
+                            height: 14,
+                          ),
+                        ),
+                        text: 'inspireMe'.tr,
+                        textSize: 10,
+                        textColor: UiColors.cDBFFFFFF,
+                        onTap: () async {
+                          if (_items.isEmpty) {
+                            await _getRecommendPrompt();
+                          }
+                          if (_items.isNotEmpty) {
+                            setState(() {
+                              _controller.text =
+                                  _items[Random().nextInt(_items.length)]
+                                          .prompt ??
+                                      "";
+                            });
+                          }
+                        }),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    if (_createCtr.curTabIndex.value == 0 && !_mainCtr.isCreationLayoutSwitch.value)
+                      CustomButton(
+                        height: 26,
+                        borderRadius: BorderRadius.circular(8),
+                        contentPadding: EdgeInsets.only(
+                            left: 8,
+                            right: _createCtr.curEffects.value == null ? 8 : 4),
+                        bgColor: UiColors.c666949A1,
+                        leftIcon: Padding(
+                          padding: const EdgeInsets.only(right: 4.0),
+                          child: Image.asset(
+                            _createCtr.curEffects.value != null
+                                ? 'images/icon/ic_effects_selected.png'
+                                : 'images/icon/ic_effects_unselected.png',
+                            width: 14,
+                            height: 14,
+                          ),
+                        ),
+                        rightIcon: _createCtr.curEffects.value != null
+                            ? GestureDetector(
+                                onTap: () {
+                                  _createCtr.curEffects.value = null;
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Image.asset(
+                                    'images/icon/ic_close_little.png',
+                                    width: 14,
+                                  ),
+                                ),
+                              )
+                            : null,
+                        text: _createCtr.curEffects.value != null
+                            ? _createCtr.curEffects.value!.tag ?? ""
+                            : 'effect'.tr,
+                        textSize: 10,
+                        textColor: _createCtr.curEffects.value != null
+                            ? UiColors.cBC8EF5
+                            : UiColors.cDBFFFFFF,
+                        onTap: () async {
+                          if (_createCtr.effectsList.isEmpty) {
+                            Get.dialog(const LoadingDialog());
+                            await _createCtr.getEffectsTags();
+                            Get.back();
+                          }
+                          _createCtr.showEffectsDialog.value = true;
+                          await Get.bottomSheet(EffectDialog());
+                          _createCtr.showEffectsDialog.value = false;
+                        }),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        if (_controller.text.isEmpty) {
+                          Fluttertoast.showToast(msg: 'noPromptEntered'.tr);
+                          return;
+                        }
+                        setState(() {
+                          _controller.text = "";
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                            color: UiColors.c666949A1,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Image.asset(
+                          'images/icon/ic_clear.png',
+                          width: 14,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _inspireLabel() {
+    return Container(
+      margin: const EdgeInsets.only(top: 16),
+      child: Row(
+        children: [
+          Image.asset(
+            'images/icon/ic_suggestion.png',
+            width: 24,
+            height: 24,
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          Text(
+            'giveMeSomeInspiration'.tr,
+            style: const TextStyle(
+                fontSize: 14,
+                color: UiColors.cBC8EF5,
+                fontWeight: FontWeightExt.semiBold),
+          ),
+          const Spacer(),
+          InkWell(
+            onTap: () {
+              if (_items.isEmpty) {
+                _getRecommendPrompt();
+              } else {
+                _randomRecommend();
+              }
+            },
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: UiColors.c272931),
+              child: Image.asset(
+                'images/icon/ic_refresh.png',
+                width: 24,
+                height: 24,
               ),
             ),
-          ),
+          )
         ],
       ),
     );
   }
 
   Widget _getGenerateBtn(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 24, bottom: 28, left: 20, right: 20),
-      child: CustomButton(
-        onTap: () {
-          if (_isEnable.value) {
-            CommonUtil.hideKeyboard(context);
-            generate();
-          } else {
-            Fluttertoast.showToast(msg: 'prompt_empty_tips'.tr);
-          }
-        },
-        text: 'generate'.tr,
-        textColor: _isEnable.value ? UiColors.cDBFFFFFF : UiColors.c61FFFFFF,
-        bgColors: _isEnable.value
-            ? [UiColors.c7631EC, UiColors.cA359EF]
-            : [UiColors.c272931, UiColors.c272931],
-        width: double.infinity,
-        height: 46,
-        textSize: 16,
-        rightIcon: Padding(
-          padding: const EdgeInsets.only(left: 4.0),
-          child: Image.asset(
-            'images/icon/ic_arrow_right.png',
-            width: 22,
-            color: _isEnable.value ? Colors.white : null,
-          ),
-        ),
-      ),
+    return CustomButton(
+      margin: const EdgeInsets.only(top: 24),
+      onTap: () {
+        if (_isEnable.value) {
+          CommonUtil.hideKeyboard(context);
+          generate();
+        } else {
+          Fluttertoast.showToast(msg: _controller.text.isEmpty ? 'prompt_empty_tips'.tr : "image_empty_tips".tr);
+        }
+      },
+      text: 'generate'.tr,
+      textColor: _isEnable.value ? UiColors.cDBFFFFFF : UiColors.c61FFFFFF,
+      bgColors: _isEnable.value
+          ? [UiColors.c7631EC, UiColors.cA359EF]
+          : [UiColors.c23242A, UiColors.c23242A],
+      width: double.infinity,
+      height: 46,
+      textSize: 16,
     );
   }
 
-  Widget _listItem(String item, bool isLast, Function() onTap) {
+  Widget _inspiresItem(String item, bool isLast, Function() onTap) {
     return Padding(
-      padding: EdgeInsets.only(
-          top: 10, left: 20, right: 20, bottom: isLast ? 100 : 0),
+      padding: EdgeInsets.only(top: 10, bottom: isLast ? 10 : 0),
       child: GestureDetector(
         onTap: onTap,
         child: Container(
@@ -497,7 +640,8 @@ class _HomePageState extends State<HomePage>
       }
       return;
     }
-    bool result = await createCtr.aiGenerate(_controller.text, _image);
+    bool result = await _createCtr.aiGenerate(
+        _controller.text, _image, _createCtr.curEffects.value?.id);
     if (result) {
       _userCtr.getUserInfo();
       _mainCtr.tabController.index = 1;

@@ -1,3 +1,4 @@
+
 {
   "project_info": {
     "project_number": "378344217481",
@@ -19,6 +20,14 @@
           "android_info": {
             "package_name": "luma.sora.pika.runway.video.ai",
             "certificate_hash": "16271bc2aabe2050c127eadf51dab543876e2264"
+          }
+        },
+        {
+          "client_id": "378344217481-dvbsmlcjm0nhs73m27mm0182fkg0ifg1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "luma.sora.pika.runway.video.ai",
+            "certificate_hash": "1306a239f8395c55eada6cb8eda91236ff2bab55"
           }
         },
         {

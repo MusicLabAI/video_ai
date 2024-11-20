@@ -10,7 +10,7 @@ import 'package:video_ai/pages/point_purchase_page.dart';
 import 'package:video_ai/pages/pro_purchase_page.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 
-import '../models/point_record_model.dart';
+import '../models/effects_model.dart';
 
 class PointRecordPage extends StatefulWidget {
   const PointRecordPage({super.key});
@@ -82,7 +82,6 @@ class _PointRecordPageState extends State<PointRecordPage> {
               text: "${_userCtr.userInfo.value.point ?? 0}",
               textColor: UiColors.c99FFFFFF,
               border: Border.all(color: UiColors.c30333F),
-              borderRadius: 12,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               leftIcon: Padding(
@@ -203,7 +202,7 @@ class _PointRecordPageState extends State<PointRecordPage> {
           textSize: 14,
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 30, vertical: 11),
-          borderRadius: 26,
+          borderRadius: BorderRadius.circular(26),
           bgColor: UiColors.cA754FC,
         )
       ],

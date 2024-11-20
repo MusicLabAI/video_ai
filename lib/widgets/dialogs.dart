@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/common/ui_colors.dart';
+import 'package:video_ai/controllers/create_controller.dart';
+import 'package:video_ai/widgets/effects_widget.dart';
 
 import 'custom_button.dart';
 
@@ -159,7 +161,6 @@ Expanded _buildCancelBtn({String? text, VoidCallback? onTap}) {
       text: text ?? 'cancel'.tr,
       textColor: UiColors.cDBFFFFFF,
       bgColor: UiColors.c30333F,
-      borderRadius: 12,
     ),
   );
 }
@@ -173,7 +174,6 @@ Expanded _buildConfirmBtn(String text, VoidCallback? onTap) {
       text: text,
       textColor: UiColors.cDBFFFFFF,
       bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
-      borderRadius: 12,
     ),
   );
 }
@@ -252,6 +252,118 @@ class BottomPopOptions extends StatelessWidget {
           const SizedBox(height: 16),
           ...children,
         ],
+      ),
+    );
+  }
+}
+
+class EffectDialog extends StatefulWidget {
+  EffectDialog({super.key});
+
+  @override
+  State<EffectDialog> createState() => _EffectDialogState();
+}
+
+class _EffectDialogState extends State<EffectDialog> {
+  final CreateController _createCtr = Get.find<CreateController>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Container(
+        decoration: const BoxDecoration(
+            color: UiColors.c23242A,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+        padding: const EdgeInsets.only(left: 24, top: 16, bottom: 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Stack(
+                children: [
+                  Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          'effect'.tr,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'images/icon/ic_close.png',
+                          width: 24,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            SizedBox(
+                width: double.infinity,
+                height: 342,
+                child: CustomScrollView(
+                  scrollDirection: Axis.horizontal,
+                  slivers: [
+                    SliverGrid(
+                      delegate: SliverChildBuilderDelegate(
+                          childCount: _createCtr.effectsList.length,
+                          (BuildContext context, int index) {
+                        return EffectsWidget(
+                          model: _createCtr.effectsList[index],
+                          containerRadius: 12,
+                          fromHome: false,
+                          videoRadius: 6,
+                          padding: 6,
+                          textSize: 10,
+                          unSelectedColor: UiColors.c1B1B1F,
+                          selectedColor: UiColors.cBC8EF5,
+                          onTap: (model) {
+                            _createCtr.curTabIndex.value = 0;
+                            _createCtr.curEffects.value = model;
+                            Get.back();
+                          },
+                        );
+                      }),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              mainAxisExtent: 116,
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 8,
+                              crossAxisSpacing: 12,
+                              childAspectRatio: 116 / 160),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        width: 24,
+                      ),
+                    )
+                  ],
+                ))
+          ],
+        ),
       ),
     );
   }

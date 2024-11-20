@@ -123,7 +123,13 @@ class LanguageEnUs {
       'payError': "Pay Error",
       'insufficientBalance': "Insufficient credits, please recharge and try again",
       'retryDeleteAccountTips' : "Account deletion failed. Please log in again and try to delete the account.",
-      'shopRefreshTips': "Network connection is unstable. Please try retrieving the product information again."
+      'shopRefreshTips': "Network connection is unstable. Please try retrieving the product information again.",
+      'imageToVideo': "Image To Video",
+      'textToVideo': "Text To Video",
+      'effect': "Effect",
+      'tryIt': "Try It",
+      'imageMagic': "Image magic",
+      'image_empty_tips': 'Please pick a image first.',
     };
   }
 }

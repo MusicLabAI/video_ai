@@ -16,6 +16,8 @@ class RecordModel {
   int? failureCode; // 1511时 点击toast failureReason
   String? failureReason;
   String? prompt;
+  String? effect;
+  int? effectId;
 
   RecordModel({
     this.createTime,
@@ -35,6 +37,8 @@ class RecordModel {
     this.failureCode,
     this.failureReason,
     this.prompt,
+    this.effect,
+    this.effectId,
   });
 
   bool isCompleted() {
@@ -67,6 +71,8 @@ class RecordModel {
         failureCode: json["failureCode"],
         failureReason: json["failureReason"],
         prompt: json["prompt"],
+        effect: json["effect"],
+        effectId: json["effectId"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -89,5 +95,7 @@ class RecordModel {
         "failureCode": failureCode,
         "failureReason": failureReason,
         "prompt": prompt,
+        "effect": effect,
+        "effectId": effectId,
       };
 }

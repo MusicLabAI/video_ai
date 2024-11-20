@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:video_ai/models/effects_model.dart';
 
+import '../models/config_model.dart';
 import '../models/record_model.dart';
 import '../models/shop_model.dart';
 import 'dio.dart';
@@ -10,7 +12,6 @@ class Request {
   static const String _userDelete = '/videoAi/user/delete';
   static const String _uploadToken = '/videoAi/remoteFile/uploadToken';
   static const String _aiGenerate = '/videoAi/aiGenerate';
-  static const String _getConfig = '/videoAi/common/getConfig';
   static const String _getRecords = '/videoAi/aiGenerate/list';
   static const String _pointRecordList = '/videoAi/user/pointRecordList';
   static const String _oneClickLogin = '/videoAi/user/oneClickLogin';
@@ -23,11 +24,21 @@ class Request {
   static const String _verifyAppleOrder = '/videoAi/apple/verifyOrder';
   static const String _getOrderKey = '/videoAi/shop/getOrderKey';
   static const String _userEdit = '/videoAi/user/edit';
+  static const String _getEffectTags = '/videoAi/configure/getEffectTags';
+  static const String _commonConfigList = '/videoAi/configure/getCommonConfigList';
 
-  /// telegram_group\email
-  static Future<void> getConfig(
-      [List<String> conKey = const ['telegram_group', 'email']]) async {
-    return await DioUtil.httpPost(_getConfig, data: {'conKey': conKey});
+  static Future<ConfigModel> getCommonConfig() async {
+    final res = await DioUtil.httpPost(_commonConfigList, data: {
+      "configList": [
+        {"configName": "creation_layout_switch", "configType": 0},
+      ]
+    });
+    try {
+      return ConfigModel.fromJson(res);
+    } catch (e) {
+      Get.snackbar('Model.fromJson error', e.toString());
+      rethrow;
+    }
   }
 
   static Future<dynamic> getUploadToken() async {
@@ -48,9 +59,9 @@ class Request {
   }
 
   static Future<dynamic> aiGenerate(
-      String prompt, String? inputImageUrl) async {
+      String prompt, String? inputImageUrl, int? effectId) async {
     return await DioUtil.httpPost(_aiGenerate,
-        data: {'prompt': prompt, 'inputImageUrl': inputImageUrl});
+        data: {'prompt': prompt, 'inputImageUrl': inputImageUrl, "effectId": effectId});
   }
 
   static Future<List<RecordModel>> historyByIds(
@@ -108,6 +119,10 @@ class Request {
 
   static Future<dynamic> getOrderKey() async {
     return await DioUtil.httpGet(_getOrderKey);
+  }
+
+  static Future<List<dynamic>> getEffectsTags() async {
+    return await DioUtil.httpGet(_getEffectTags);
   }
 
   static Future<void> userEdit(String nickname) async {

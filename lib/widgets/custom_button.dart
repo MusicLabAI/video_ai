@@ -16,6 +16,7 @@ class CustomButton extends StatelessWidget {
     this.rightIcon,
     this.borderRadius,
     this.contentPadding,
+    this.margin,
     this.border,
   });
 
@@ -29,8 +30,9 @@ class CustomButton extends StatelessWidget {
   final double? width;
   final double? height;
   final Function()? onTap;
-  final double? borderRadius;
+  final BorderRadius? borderRadius;
   final EdgeInsetsGeometry? contentPadding;
+  final EdgeInsetsGeometry? margin;
   final BoxBorder? border;
 
   @override
@@ -41,6 +43,7 @@ class CustomButton extends StatelessWidget {
         width: width,
         height: height,
         padding: contentPadding,
+        margin: margin,
         decoration: BoxDecoration(
           color: bgColors != null ? null : bgColor,
           gradient: bgColors == null
@@ -48,7 +51,7 @@ class CustomButton extends StatelessWidget {
               : LinearGradient(
                   colors: bgColors!,
                 ),
-          borderRadius: BorderRadius.circular(borderRadius ?? 12),
+          borderRadius: borderRadius ?? BorderRadius.circular(12),
           border: border
         ),
         child: Row(

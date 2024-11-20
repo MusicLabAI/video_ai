@@ -31,4 +31,7 @@ class GlobalData {
   static String passwordReg = r'^.{6,}$';
 
   static BuyShop buyShop = BuyShop();
+
+  static String KEY_CREATION_LAYOUT_SWITCH = "key_creation_layout_switch";
+  static bool isCreationLayoutSwitch = false;
 }

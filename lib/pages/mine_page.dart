@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/common/ui_colors.dart';
+import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
@@ -24,6 +25,7 @@ class MinePage extends StatefulWidget {
 class _MinePageState extends State<MinePage>
     with AutomaticKeepAliveClientMixin {
   final MainController _mainCtr = Get.find<MainController>();
+  final CreateController _createCtr = Get.find<CreateController>();
   final MineController _mineCtr = Get.find<MineController>();
   final UserController _userCtr = Get.find<UserController>();
 
@@ -174,7 +176,7 @@ class _MinePageState extends State<MinePage>
               recordModel: recordItem,
             ));
         if (data is RecordModel) {
-          _mainCtr.prompt.value = data.prompt ?? '';
+          _createCtr.reuseCurrent(data.prompt ?? '', data.effectId);
           _mainCtr.tabController.index = 0;
         }
       },

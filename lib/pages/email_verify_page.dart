@@ -138,7 +138,6 @@ class _EmailVerifyPageState extends State<EmailVerifyPage> {
                         : 'returnToLogin'.tr,
                     textColor: UiColors.cDBFFFFFF,
                     bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
-                    borderRadius: 12,
                     onTap: () {
                       if (widget.isSignUp) {
                         _userCtr.emailVerifiedReload();

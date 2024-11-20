@@ -48,6 +48,7 @@ Future<void> initMain() async {
   SharedPreferences.setPrefix("video_lab");
   final prefs = await SharedPreferences.getInstance();
   final String? token = prefs.getString('token');
+  GlobalData.isCreationLayoutSwitch = prefs.getBool(GlobalData.KEY_CREATION_LAYOUT_SWITCH) ?? false;
 
   if (token != null) {
     DioUtil.token = token;

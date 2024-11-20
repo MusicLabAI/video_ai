@@ -28,8 +28,8 @@ class ShopController extends GetxController {
 
   Future<void> getShopList(int type) async {
     isInRequest.value = true;
-    final res = await Request.getShopList(type);
     try {
+      final res = await Request.getShopList(type);
       final resList = res.map((e) => ShopModel.fromJson(e)).toList();
       resList.removeWhere((e) => e.shopId == null);
       final Set<String> ids = resList.map((e) => e.shopId!).toSet();

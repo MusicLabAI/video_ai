@@ -12,10 +12,7 @@ class CustomBottomNavBar extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       child: Container(
-          margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-          decoration: BoxDecoration(
-              color: UiColors.c171C26,
-              borderRadius: BorderRadius.circular(256)),
+          color: UiColors.c23242A,
           child: Theme(
             data: ThemeData(
               splashColor: Colors.transparent,

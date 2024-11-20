@@ -137,7 +137,6 @@ class _LoginPageState extends State<LoginPage> {
                             bgColors: _isButtonEnabled
                                 ? const [UiColors.c7631EC, UiColors.cBC8EF5]
                                 : const [UiColors.c30333F, UiColors.c30333F],
-                            borderRadius: 12,
                             onTap: () {
                               if (!_isButtonEnabled) {
                                 return;
