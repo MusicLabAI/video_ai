@@ -99,6 +99,7 @@ class LanguageJa {
       "bestValue": "ベストバリュー",
       "productionTips": "推定時間: 3～15分。",
       "weekValue": "%s / 週",
+      "yearValue": "%s / 年",
       "weekShopDesc": "%sクレジット（%sビデオ）/ 週",
       "yearShopDesc": "%sクレジット（%sビデオ）/ 年",
       "creditsValue": "%sクレジット",

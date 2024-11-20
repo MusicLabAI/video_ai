@@ -99,6 +99,7 @@ class LanguageIt {
       "bestValue": "Miglior valore",
       "productionTips": "Tempo previsto: 3-15 min.",
       "weekValue": "%s / settimana",
+      "yearValue": "%s / anno",
       "weekShopDesc": "%s crediti (%s video) / settimanale",
       "yearShopDesc": "%s crediti (%s video) / annuale",
       "creditsValue": "%s crediti",

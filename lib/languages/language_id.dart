@@ -99,6 +99,7 @@ class LanguageId {
       "bestValue": "Nilai Terbaik",
       "productionTips": "Diperkirakan memakan waktu 3-15 menit.",
       "weekValue": "%s / minggu",
+      "yearValue": "%s / tahun",
       "weekShopDesc": "%s kredit (%s video) / mingguan",
       "yearShopDesc": "%s kredit (%s video) / tahunan",
       "creditsValue": "%s kredit",

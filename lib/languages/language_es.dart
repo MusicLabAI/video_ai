@@ -99,6 +99,7 @@ class LanguageEs {
       "bestValue": "Mejor Valor",
       "productionTips": "Se espera que tome de 3 a 15 minutos.",
       "weekValue": "%s / semana",
+      "yearValue": "%s / año",
       "weekShopDesc": "%s créditos (%s videos) / semanal",
       "yearShopDesc": "%s créditos (%s videos) / anual",
       "creditsValue": "%s créditos",

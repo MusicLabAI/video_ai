@@ -99,6 +99,7 @@ class LanguageFr {
       "bestValue": "Meilleure Valeur",
       "productionTips": "Il est prévu de prendre entre 3 et 15 minutes.",
       "weekValue": "%s / semaine",
+      "yearValue": "%s / an",
       "weekShopDesc": "%s crédits (%s vidéos) / hebdomadaire",
       "yearShopDesc": "%s crédits (%s vidéos) / annuel",
       "creditsValue": "%s crédits",

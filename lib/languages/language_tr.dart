@@ -100,6 +100,7 @@ class LanguageTr {
       "bestValue": "En İyi Değer",
       "productionTips": "Tahmini süre: 3-15 dakika.",
       "weekValue": "%s / hafta",
+      "yearValue": "%s / yıl",
       "weekShopDesc": "%s kredi (%s video) / haftalık",
       "yearShopDesc": "%s kredi (%s video) / yıllık",
       "creditsValue": "%s kredi",

@@ -105,6 +105,7 @@ class LanguageEnUs {
       'bestValue': "Best Value",
       'productionTips': "Expected to take 3-15 min.",
       'weekValue': "%s / week",
+      'yearValue': "%s / year",
       'weekShopDesc': "%s credits (%s videos) / weekly ",
       'yearShopDesc': "%s credits (%s videos) / yearly ",
       'creditsValue': "%s credits",

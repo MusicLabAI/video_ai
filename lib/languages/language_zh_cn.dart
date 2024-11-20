@@ -99,6 +99,7 @@ class LanguageZhCn {
       "bestValue": "最佳价值",
       "productionTips": "预计时间：3-15分钟。",
       "weekValue": "%s / 周",
+      "yearValue": "%s / 年",
       "weekShopDesc": "%s积分（%s视频）/ 每周",
       "yearShopDesc": "%s积分（%s视频）/ 每年",
       "creditsValue": "%s积分",

@@ -99,6 +99,7 @@ class LanguageKo {
       "bestValue": "최고 가치",
       "productionTips": "예상 시간: 3~15분.",
       "weekValue": "%s / 주",
+      "yearValue": "%s / 년",
       "weekShopDesc": "%s 크레딧 (%s 비디오) / 주",
       "yearShopDesc": "%s 크레딧 (%s 비디오) / 년",
       "creditsValue": "%s 크레딧",
