@@ -20,6 +20,7 @@ class CreateController extends GetxController {
 
   RxList<PromptModel> items = RxList();
   RxList<PromptModel> randomItems = RxList();
+  Rxn<String> imagePath = Rxn(null);
 
   @override
   onInit() {
@@ -63,8 +64,11 @@ class CreateController extends GetxController {
   }
 
   /// 复用
-  void reuseCurrent(String newPrompt, int? newEffectId) {
-    prompt.value = newPrompt;
+  void reuseCurrent(String newPrompt, String? inputImageUrl, int? newEffectId) {
+    if (inputImageUrl != null && inputImageUrl.isNotEmpty) {
+      imagePath.value = inputImageUrl;
+    }
+    bool hasEffects = false;
     if (newEffectId == null) {
       curEffects.value = null;
     } else {
@@ -73,9 +77,13 @@ class CreateController extends GetxController {
       });
       curEffects.value = result;
       if (result != null) {
-        curTabIndex.value = 0;
+        hasEffects = true;
       }
     }
+    if (hasEffects || inputImageUrl?.isNotEmpty == true) {
+      curTabIndex.value = 0;
+    }
+    prompt.value = newPrompt;
   }
 
   Future<void> getEffectsTags() async {
@@ -92,16 +100,21 @@ class CreateController extends GetxController {
     }
   }
 
-  Future<bool> aiGenerate(String prompt, File? imageFile, int? effectId) async {
+  ///如果有复用的图片，使用复用的图片
+  Future<bool> aiGenerate(String prompt, String? imagePath, int? effectId) async {
     try {
       Get.dialog(const LoadingDialog());
       String? imageUrl;
-      if (imageFile != null) {
-        imageUrl = await AwsUtils.uploadByFile(imageFile);
-        if (imageUrl.isEmpty) {
-          Fluttertoast.showToast(msg: 'imageUploadFailed'.tr);
-          Get.log('图片上传失败');
-          return false;
+      if (imagePath?.isNotEmpty == true) {
+        if (RegExp(r'^https?://').hasMatch(imagePath!)) {
+          imageUrl = imagePath;
+        } else {
+          imageUrl = await AwsUtils.uploadByFile(File(imagePath));
+          if (imageUrl.isEmpty) {
+            Fluttertoast.showToast(msg: 'imageUploadFailed'.tr);
+            Get.log('图片上传失败');
+            return false;
+          }
         }
       }
       final res = await Request.aiGenerate(prompt, imageUrl, effectId);

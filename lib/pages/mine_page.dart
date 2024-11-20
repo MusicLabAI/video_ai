@@ -176,7 +176,7 @@ class _MinePageState extends State<MinePage>
               recordModel: recordItem,
             ));
         if (data is RecordModel) {
-          _createCtr.reuseCurrent(data.prompt ?? '', data.effectId);
+          _createCtr.reuseCurrent(data.prompt ?? '', data.inputImageUrl, data.effectId);
           _mainCtr.tabController.index = 0;
         }
       },

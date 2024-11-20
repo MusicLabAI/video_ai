@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -36,7 +37,6 @@ class _HomePageState extends State<HomePage>
   final UserController _userCtr = Get.find<UserController>();
   final MineController _mineCtr = Get.find<MineController>();
   final CreateController _createCtr = Get.find<CreateController>();
-  File? _image;
   final RxBool _isEnable = false.obs;
   late TextEditingController _controller;
 
@@ -51,21 +51,23 @@ class _HomePageState extends State<HomePage>
   }
 
   Future<void> _pickImage() async {
+    String buttonName = (_createCtr.imagePath.isNotEmpty == true)
+        ? 'change_image_button'
+        : 'add_image_button';
+    FireBaseUtil.logEventButtonClick('HomePage', buttonName);
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        updateGenerateBtnStatus();
-      }
-    });
-    String buttonName = (_image == null) ? 'add_image_button' : 'change_image_button';
-    FireBaseUtil.logEventButtonClick('HomePage', buttonName);
+    if (pickedFile != null) {
+      _createCtr.imagePath.value = pickedFile.path;
+      updateGenerateBtnStatus();
+    }
   }
 
   void updateGenerateBtnStatus() {
     setState(() {
-      _isEnable.value = _controller.text.isNotEmpty && (_createCtr.curTabIndex.value != 0 || _image != null);
+      _isEnable.value = _controller.text.isNotEmpty &&
+          (_createCtr.curTabIndex.value != 0 ||
+              _createCtr.imagePath.isNotEmpty == true);
     });
   }
 
@@ -118,7 +120,8 @@ class _HomePageState extends State<HomePage>
                     onPressed: () {
                       CommonUtil.hideKeyboard(context);
                       Get.to(() => const SettingsPage());
-                      FireBaseUtil.logEventButtonClick('HomePage', 'mine_button');
+                      FireBaseUtil.logEventButtonClick(
+                          'HomePage', 'mine_button');
                     },
                     icon: Image.asset(
                       'images/icon/ic_user.png',
@@ -139,7 +142,9 @@ class _HomePageState extends State<HomePage>
                           _topView(),
                           _getGenerateBtn(context),
                           _bottomView(),
-                          const SizedBox(height: 10,)
+                          const SizedBox(
+                            height: 10,
+                          )
                         ]),
                   )))
         ]));
@@ -212,6 +217,12 @@ class _HomePageState extends State<HomePage>
         }
       },
     );
+  }
+
+  void clearImage() {
+    _createCtr.imagePath.value = '';
+    updateGenerateBtnStatus();
+    FireBaseUtil.logEventButtonClick('HomePage', 'delete_image_button');
   }
 
   Widget _topView() {
@@ -300,40 +311,40 @@ class _HomePageState extends State<HomePage>
                           bottom: 8,
                           child: GestureDetector(
                             onTap: () {
-                              if (_image != null) {
-                                setState(() {
-                                  _image = null;
-                                  updateGenerateBtnStatus();
-                                });
-                              }
+                              clearImage();
                             },
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8),
-                              child: _image == null
-                                  ? Image.asset(
+                              child: _createCtr.imagePath.isNotEmpty == true
+                                  ? RegExp(r'^https?://')
+                                          .hasMatch(_createCtr.imagePath.value!)
+                                      ? CachedNetworkImage(
+                                          imageUrl: _createCtr.imagePath.value!,
+                                          width: 36,
+                                          height: 36,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image(
+                                          image: FileImage(File(
+                                              _createCtr.imagePath.value!)),
+                                          width: 36,
+                                          height: 36,
+                                          fit: BoxFit.cover,
+                                        )
+                                  : Image.asset(
                                       'images/icon/img_upload_default.png',
                                       width: 36,
-                                    )
-                                  : Image(
-                                      image: FileImage(_image!),
-                                      width: 36,
-                                      height: 36,
-                                      fit: BoxFit.cover,
                                     ),
                             ),
                           ),
                         ),
-                        if (_image != null)
+                        if (_createCtr.imagePath.isNotEmpty == true)
                           Positioned(
                             left: 36,
                             bottom: 8,
                             child: GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  _image = null;
-                                  updateGenerateBtnStatus();
-                                });
-                                FireBaseUtil.logEventButtonClick('HomePage', 'delete_image_button');
+                                clearImage();
                               },
                               child: Image.asset(
                                 'images/icon/ic_remove.png',
@@ -347,17 +358,17 @@ class _HomePageState extends State<HomePage>
                             bottom: 0,
                             child: CustomButton(
                               onTap: _pickImage,
-                              text: _image == null
-                                  ? 'addImage'.tr
-                                  : 'replaceImage'.tr,
+                              text: _createCtr.imagePath.isNotEmpty == true
+                                  ? 'replaceImage'.tr
+                                  : 'addImage'.tr,
                               textColor: UiColors.cBC8EF5,
                               textSize: 12,
                               rightIcon: Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Image.asset(
-                                  _image == null
-                                      ? 'images/icon/ic_add_rect.png'
-                                      : "images/icon/ic_reset.png",
+                                  _createCtr.imagePath.isNotEmpty == true
+                                      ? 'images/icon/ic_reset.png'
+                                      : "images/icon/ic_add_rect.png",
                                   width: 20,
                                 ),
                               ),
@@ -428,58 +439,61 @@ class _HomePageState extends State<HomePage>
                                       "";
                             });
                           }
-                          FireBaseUtil.logEventButtonClick('HomePage', 'insprire_button');
+                          FireBaseUtil.logEventButtonClick(
+                              'HomePage', 'insprire_button');
                         }),
                     const SizedBox(
                       width: 10,
                     ),
-                    if (_createCtr.curTabIndex.value == 0 && !_mainCtr.isCreationLayoutSwitch.value)
+                    if (_createCtr.curTabIndex.value == 0 &&
+                        !_mainCtr.isCreationLayoutSwitch.value)
                       CustomButton(
-                        height: 26,
-                        borderRadius: BorderRadius.circular(8),
-                        contentPadding: EdgeInsets.only(
-                            left: 8,
-                            right: _createCtr.curEffects.value == null ? 8 : 4),
-                        bgColor: UiColors.c666949A1,
-                        leftIcon: Padding(
-                          padding: const EdgeInsets.only(right: 4.0),
-                          child: Image.asset(
-                            _createCtr.curEffects.value != null
-                                ? 'images/icon/ic_effects_selected.png'
-                                : 'images/icon/ic_effects_unselected.png',
-                            width: 14,
-                            height: 14,
+                          height: 26,
+                          borderRadius: BorderRadius.circular(8),
+                          contentPadding: EdgeInsets.only(
+                              left: 8,
+                              right:
+                                  _createCtr.curEffects.value == null ? 8 : 4),
+                          bgColor: UiColors.c666949A1,
+                          leftIcon: Padding(
+                            padding: const EdgeInsets.only(right: 4.0),
+                            child: Image.asset(
+                              _createCtr.curEffects.value != null
+                                  ? 'images/icon/ic_effects_selected.png'
+                                  : 'images/icon/ic_effects_unselected.png',
+                              width: 14,
+                              height: 14,
+                            ),
                           ),
-                        ),
-                        rightIcon: _createCtr.curEffects.value != null
-                            ? GestureDetector(
-                                onTap: () {
-                                  _createCtr.curEffects.value = null;
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Image.asset(
-                                    'images/icon/ic_close_little.png',
-                                    width: 14,
+                          rightIcon: _createCtr.curEffects.value != null
+                              ? GestureDetector(
+                                  onTap: () {
+                                    _createCtr.curEffects.value = null;
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Image.asset(
+                                      'images/icon/ic_close_little.png',
+                                      width: 14,
+                                    ),
                                   ),
-                                ),
-                              )
-                            : null,
-                        text: _createCtr.curEffects.value != null
-                            ? _createCtr.curEffects.value!.tag ?? ""
-                            : 'effect'.tr,
-                        textSize: 10,
-                        textColor: _createCtr.curEffects.value != null
-                            ? UiColors.cBC8EF5
-                            : UiColors.cDBFFFFFF,
-                        onTap: () async {
-                          if (_createCtr.effectsList.isEmpty) {
-                            Get.dialog(const LoadingDialog());
-                            await _createCtr.getEffectsTags();
-                            Get.back();
-                          }
-                          await Get.bottomSheet(EffectDialog());
-                        }),
+                                )
+                              : null,
+                          text: _createCtr.curEffects.value != null
+                              ? _createCtr.curEffects.value!.tag ?? ""
+                              : 'effect'.tr,
+                          textSize: 10,
+                          textColor: _createCtr.curEffects.value != null
+                              ? UiColors.cBC8EF5
+                              : UiColors.cDBFFFFFF,
+                          onTap: () async {
+                            if (_createCtr.effectsList.isEmpty) {
+                              Get.dialog(const LoadingDialog());
+                              await _createCtr.getEffectsTags();
+                              Get.back();
+                            }
+                            await Get.bottomSheet(EffectDialog());
+                          }),
                     const Spacer(),
                     GestureDetector(
                       onTap: () {
@@ -490,7 +504,8 @@ class _HomePageState extends State<HomePage>
                         setState(() {
                           _controller.text = "";
                         });
-                        FireBaseUtil.logEventButtonClick('HomePage', 'clean_button');
+                        FireBaseUtil.logEventButtonClick(
+                            'HomePage', 'clean_button');
                       },
                       child: Container(
                         padding: const EdgeInsets.all(6),
@@ -569,7 +584,10 @@ class _HomePageState extends State<HomePage>
           generate();
           FireBaseUtil.logEvent(EventName.requestCreation);
         } else {
-          Fluttertoast.showToast(msg: _controller.text.isEmpty ? 'prompt_empty_tips'.tr : "image_empty_tips".tr);
+          Fluttertoast.showToast(
+              msg: _controller.text.isEmpty
+                  ? 'prompt_empty_tips'.tr
+                  : "image_empty_tips".tr);
         }
       },
       text: 'generate'.tr,
@@ -634,8 +652,8 @@ class _HomePageState extends State<HomePage>
       }
       return;
     }
-    bool result = await _createCtr.aiGenerate(
-        _controller.text, _image, _createCtr.curEffects.value?.id);
+    bool result = await _createCtr.aiGenerate(_controller.text,
+        _createCtr.imagePath.value, _createCtr.curEffects.value?.id);
     if (result) {
       _userCtr.getUserInfo();
       _mainCtr.tabController.index = 1;
