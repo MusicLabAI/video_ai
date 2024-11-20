@@ -18,12 +18,12 @@ class ShopController extends GetxController {
   /// 是否正在请求数据
   RxBool isInRequest = true.obs;
 
-  void purchase() {
-    GlobalData.buyShop.submit(currentShop.value, false);
+  void purchase(String pageName) {
+    GlobalData.buyShop.submit(currentShop.value, false, pageName);
   }
 
-  void subscript() {
-    GlobalData.buyShop.submit(currentShop.value, true);
+  void subscript(String pageName) {
+    GlobalData.buyShop.submit(currentShop.value, true, pageName);
   }
 
   Future<void> getShopList(int type) async {
