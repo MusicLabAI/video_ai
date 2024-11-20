@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_ai/api/request.dart';
 import 'package:video_ai/common/common_util.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/mine_controller.dart';
@@ -56,6 +57,8 @@ class _HomePageState extends State<HomePage>
         updateGenerateBtnStatus();
       }
     });
+    String buttonName = (_image == null) ? 'add_image_button' : 'change_image_button';
+    FireBaseUtil.logEventButtonClick('HomePage', buttonName);
   }
 
   void updateGenerateBtnStatus() {
@@ -136,12 +139,13 @@ class _HomePageState extends State<HomePage>
                     onPressed: () {
                       CommonUtil.hideKeyboard(context);
                       Get.to(() => const SettingsPage());
+                      FireBaseUtil.logEventButtonClick('HomePage', 'mine_button');
                     },
                     icon: Image.asset(
                       'images/icon/ic_user.png',
                       width: 24,
                       height: 24,
-                    ))
+                    )),
               ],
             ),
           ),
@@ -350,6 +354,7 @@ class _HomePageState extends State<HomePage>
                                   _image = null;
                                   updateGenerateBtnStatus();
                                 });
+                                FireBaseUtil.logEventButtonClick('HomePage', 'delete_image_button');
                               },
                               child: Image.asset(
                                 'images/icon/ic_remove.png',
@@ -443,6 +448,7 @@ class _HomePageState extends State<HomePage>
                                       "";
                             });
                           }
+                          FireBaseUtil.logEventButtonClick('HomePage', 'insprire_button');
                         }),
                     const SizedBox(
                       width: 10,
@@ -506,6 +512,7 @@ class _HomePageState extends State<HomePage>
                         setState(() {
                           _controller.text = "";
                         });
+                        FireBaseUtil.logEventButtonClick('HomePage', 'clean_button');
                       },
                       child: Container(
                         padding: const EdgeInsets.all(6),
@@ -582,6 +589,7 @@ class _HomePageState extends State<HomePage>
         if (_isEnable.value) {
           CommonUtil.hideKeyboard(context);
           generate();
+          FireBaseUtil.logEvent(EventName.requestCreation);
         } else {
           Fluttertoast.showToast(msg: _controller.text.isEmpty ? 'prompt_empty_tips'.tr : "image_empty_tips".tr);
         }
@@ -641,8 +649,10 @@ class _HomePageState extends State<HomePage>
     if ((userInfo.point ?? 0) < 10) {
       if (userInfo.isVip ?? false) {
         Get.to(() => const PointPurchasePage());
+        FireBaseUtil.logEventButtonClick('HomePage', 'global_credits_button');
       } else {
         Get.to(() => const ProPurchasePage());
+        FireBaseUtil.logEventButtonClick('HomePage', 'global_pro_button');
       }
       return;
     }

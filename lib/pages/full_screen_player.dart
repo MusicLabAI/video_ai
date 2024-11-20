@@ -112,7 +112,7 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
 
     // 确保 widget 仍然在树上后再进行返回
     if (mounted) {
-      Future.delayed(Duration(milliseconds: 100), () {
+      Future.delayed(const Duration(milliseconds: 100), () {
         if (mounted) {
           Navigator.pop(context);
         }

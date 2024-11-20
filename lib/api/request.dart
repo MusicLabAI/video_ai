@@ -1,10 +1,7 @@
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:video_ai/models/effects_model.dart';
 
 import '../models/config_model.dart';
 import '../models/record_model.dart';
-import '../models/shop_model.dart';
 import 'dio.dart';
 
 class Request {

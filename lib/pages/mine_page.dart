@@ -5,6 +5,7 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
@@ -51,6 +52,7 @@ class _MinePageState extends State<MinePage>
             IconButton(
                 onPressed: () {
                   Get.to(() => const SettingsPage());
+                  FireBaseUtil.logEventButtonClick('MinePage', 'mine_button');
                 },
                 icon: Image.asset(
                   'images/icon/ic_user.png',
@@ -147,9 +149,6 @@ class _MinePageState extends State<MinePage>
 
   //删除
   Future<void> _deleteItem(RecordModel recordItem) async {
-    if (recordItem.id == null) {
-      return;
-    }
     Get.dialog(CustomDialog(
       title: 'confirmDeletion'.tr,
       icon: Padding(
@@ -167,6 +166,7 @@ class _MinePageState extends State<MinePage>
         _mineCtr.delete(recordItem.id);
       },
     ));
+    FireBaseUtil.logEventButtonClick('MinePage', 'delete_video_button', popupName: 'delete_video_popup');
   }
 
   Widget _productionSucceed(RecordModel recordItem) {
@@ -280,7 +280,7 @@ class _MinePageState extends State<MinePage>
 }
 
 class _ProductionProgressView extends StatefulWidget {
-  const _ProductionProgressView({super.key});
+  const _ProductionProgressView();
 
   @override
   State<_ProductionProgressView> createState() =>

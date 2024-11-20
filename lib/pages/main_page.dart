@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/api/dio.dart';
 import 'package:video_ai/common/common_util.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/mine_controller.dart';
@@ -69,6 +70,7 @@ class _MainPageState extends State<MainPage>
                         _mineCtr.retry();
                       }
                     });
+                    FireBaseUtil.logEventPageView(index == 0 ? 'HomePage' : 'MinePage');
                   },
                 )
           ],

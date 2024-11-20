@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/startup_bindings.dart';
@@ -41,7 +42,7 @@ Future<void> initMain() async {
     Get.log('Firebase initialization error: $e');
   }
   EasyRefreshCustom.setup();
-  // FireBaseUtil.initAnalyticsServices();
+  FireBaseUtil.initAnalyticsServices();
   var packageInfo = await PackageInfo.fromPlatform();
   GlobalData.packageName = packageInfo.packageName;
   GlobalData.versionName = packageInfo.version;
@@ -78,6 +79,11 @@ class MainApp extends StatelessWidget {
             seedColor: Colors.black, primary: UiColors.primary),
         useMaterial3: true,
       ),
+      routingCallback: (value) {
+        if (value != null) {
+          FireBaseUtil.logEventPageView(value.current);
+        }
+      },
       home: const MainPage(),
     );
   }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/widgets/login_widget.dart';
 
 import '../api/dio.dart';
@@ -21,6 +22,7 @@ class UserController extends GetxController {
 
   void showLogin() {
     Get.bottomSheet(LoginWidget());
+    FireBaseUtil.logEventPopupView('login_popup');
   }
 
   @override
@@ -112,6 +114,7 @@ class UserController extends GetxController {
         Fluttertoast.showToast(msg: e.message ?? 'create error');
       }
       Get.log(e.toString(), isError: true);
+      FireBaseUtil.logEvent(EventName.registrationSuccessful);
       rethrow;
     } catch (e) {
       Get.log(e.toString(), isError: true);
@@ -133,7 +136,6 @@ class UserController extends GetxController {
       final uid = currentCredential.user?.uid;
       if (uid != null) {
         await login(uid, currentCredential.user?.email, loginGoogle);
-        // FireBaseUtil.logEvent(EventName.passwordLoginSuccess);
         Get.back(closeOverlays: true);
         Get.back();
       }
@@ -146,6 +148,7 @@ class UserController extends GetxController {
         Fluttertoast.showToast(msg: e.message ?? 'loginError'.tr);
       }
       Get.log(e.toString(), isError: true);
+      FireBaseUtil.logEvent(EventName.loginSuccessful);
     } catch (e) {
       Get.log(e.toString(), isError: true);
     } finally {
@@ -177,6 +180,7 @@ class UserController extends GetxController {
       });
       Fluttertoast.showToast(msg: 'loginSucceed'.tr);
       Get.find<MineController>().onRefresh();
+      FireBaseUtil.logEvent(EventName.loginSuccessful);
     } catch (e) {
       Get.log(e.toString(), isError: true);
       rethrow;
@@ -217,8 +221,10 @@ class UserController extends GetxController {
       final u = userInfo.value.toMap();
       u['name'] = nickname;
       userInfo.value = UserInfoModel.fromJson(u);
+      FireBaseUtil.logEvent(EventName.usernameEditSuccessful);
     } catch (e) {
       Get.log(e.toString(), isError: true);
+      FireBaseUtil.logEvent(EventName.usernameEditFailed);
     } finally {
       if (Get.isDialogOpen ?? false) {
         Get.back();

@@ -10,7 +10,6 @@ import 'package:video_ai/pages/point_purchase_page.dart';
 import 'package:video_ai/pages/pro_purchase_page.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 
-import '../models/effects_model.dart';
 
 class PointRecordPage extends StatefulWidget {
   const PointRecordPage({super.key});

@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:get/get.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 
 import '../api/request.dart';
@@ -111,6 +111,7 @@ class MineController extends GetxController {
     final result = await Request.deleteRecord(id);
     if (result != null && result['code'] == 0) {
       onRefresh();
+      FireBaseUtil.logEvent(EventName.deleteCreation);
     }
     if (Get.isDialogOpen ?? false) {
       Get.back();

@@ -8,6 +8,7 @@ import 'package:video_ai/models/record_model.dart';
 import 'package:video_ai/pages/full_screen_player.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/loading_dialog.dart';
+import 'package:video_ai/common/firebase_util.dart';
 
 import '../common/file_util.dart';
 
@@ -79,6 +80,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                 if (Get.isDialogOpen ?? false) {
                   Get.back();
                 }
+                FireBaseUtil.logEventButtonClick('VideoDetailPage', 'download_video_button');
               }
             },
             icon: Image.asset(
@@ -92,6 +94,8 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
               if (videoUrl?.isNotEmpty ?? false) {
                 Share.share(videoUrl!);
               }
+              FireBaseUtil.logEventButtonClick('VideoDetailPage', 'share_video_button');
+              FireBaseUtil.logEvent(EventName.shareRequest);
             },
             icon: Image.asset(
               'images/icon/ic_share.png',
@@ -202,6 +206,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                       GestureDetector(
                         onTap: () {
                           Get.to(() => FullScreenPlayer(videoUrl: videoUrl!));
+                          FireBaseUtil.logEventButtonClick('VideoDetailPage', 'full_screen_button');
                         },
                         child: Image.asset(
                           'images/icon/ic_enlarge.png',

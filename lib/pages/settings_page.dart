@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/api/request.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/user_controller.dart';
@@ -179,7 +180,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                 fontWeight: FontWeightExt.semiBold),
                           )
                         : GestureDetector(
-                            onTap: () => Get.to(() => const ProPurchasePage()),
+                            onTap: () {
+                              Get.to(() => const ProPurchasePage());
+                              FireBaseUtil.logEventButtonClick('SettingsPage', 'mine_pro_button');
+                            },
                             child: Container(
                                 height: 32,
                                 decoration: BoxDecoration(
@@ -212,6 +216,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               _userCtr.userEdit(name);
                             }),
                           );
+                          FireBaseUtil.logEventPopupView('change_username_popup');
                         },
                         child: Row(
                           children: [
@@ -261,6 +266,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             Clipboard.setData(ClipboardData(
                                 text: "${_userCtr.userInfo.value.userId}"));
                             Fluttertoast.showToast(msg: 'copySucceed'.tr);
+                            FireBaseUtil.logEventButtonClick('SettingsPage', 'copy_id_button');
                           },
                           child: Padding(
                             padding:
@@ -311,7 +317,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     if (_userCtr.userInfo.value.isVip ?? false)
                       GestureDetector(
-                        onTap: () => Get.to(() => const PointPurchasePage()),
+                        onTap: () {
+                          Get.to(() => const PointPurchasePage());
+                          FireBaseUtil.logEventButtonClick('SettingsPage', 'mine_credits_button');
+                        },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Image.asset(
@@ -353,18 +362,21 @@ class _SettingsPageState extends State<SettingsPage> {
               item: 'creditsUsageHistory'.tr,
               onTap: () {
                 Get.to(() => const PointRecordPage());
+                
               }),
         _SettingsItem(
             iconPath: 'images/icon/ic_join.png',
             item: 'joinUs'.tr,
             onTap: () {
               CommonUtil.openUrl(GlobalData.tgUrl);
+              FireBaseUtil.logEventButtonClick('SettingsPage', 'telegram_entry');
             }),
         _SettingsItem(
             iconPath: 'images/icon/ic_contact.png',
             item: 'contactUs'.tr,
             onTap: () {
               CommonUtil.sendEmail();
+              FireBaseUtil.logEventButtonClick('SettingsPage', 'email_entry');
             }),
         _SettingsItem(
             iconPath: 'images/icon/ic_settings.png',
@@ -402,6 +414,7 @@ class _SettingsPageState extends State<SettingsPage> {
               CommonUtil.openUrl(GetPlatform.isAndroid
                   ? GlobalData.unsubscribeAndroidUrl
                   : GlobalData.unsubscribeIosUrl);
+              FireBaseUtil.logEventButtonClick('SettingsPage', 'unsubscribe_entry');
             }),
         if (_userCtr.isLogin.value)
           _SettingsItem(
@@ -431,6 +444,7 @@ class _SettingsPageState extends State<SettingsPage> {
         onConfirm: () async {
           await _userCtr.logout();
           Get.back();
+          FireBaseUtil.logEvent(EventName.logoutSuccessful);
         },
       ),
     );
@@ -471,6 +485,7 @@ class _SettingsPageState extends State<SettingsPage> {
         await Request.userDelete();
         await _userCtr.logout();
         Get.back();
+        FireBaseUtil.logEvent(EventName.deleteAccount);
       },
     ));
   }

@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/models/shop_model.dart';
 
 import '../api/request.dart';
 import '../controllers/user_controller.dart';
 import 'des_util.dart';
-import 'firebase_util.dart';
 import 'rsa.dart';
 
 class BuyShop {
@@ -21,6 +21,8 @@ class BuyShop {
 
   String? orderNum;
   String? sign;
+  ShopModel? currentShopModel;
+  String? currentPageName;
 
   bool _isResume = false;
 
@@ -68,11 +70,17 @@ class BuyShop {
           }
           Get.log("支付出错:${purchaseDetails.error?.toString()}");
           Fluttertoast.showToast(msg: purchaseDetails.error?.message ?? 'payError'.tr, toastLength: Toast.LENGTH_LONG,timeInSecForIosWeb: 5);
+          if (currentShopModel != null && currentPageName != null) {
+            FireBaseUtil.logEventPayOrder(currentShopModel!, false, currentPageName!);
+          }
         } else if (purchaseDetails.status == PurchaseStatus.canceled) {
           if (Get.isDialogOpen ?? false) {
             Get.back();
           }
           Fluttertoast.showToast(msg: 'paymentHasBeenCanceled'.tr);
+          if (currentShopModel != null) {
+            FireBaseUtil.logEventPayOrder(currentShopModel!, false, currentPageName!);
+          }
         } else if (purchaseDetails.status == PurchaseStatus.purchased || purchaseDetails.status == PurchaseStatus.restored) {
           Get.log("监控到需要验证的订单，订单号：$orderNum");
           if (!(Get.isDialogOpen ?? false)) {
@@ -81,7 +89,9 @@ class BuyShop {
           final res = await Request.getOrderKey();
           sign ??= res['sign'];
           await _checkPayInfo(purchaseDetails);
-          // FireBaseUtil.subscribeSuccess(purchaseDetails.productID);
+          if (currentShopModel != null) {
+            FireBaseUtil.logEventPayOrder(currentShopModel!, true, currentPageName!);
+          }
           await Get.find<UserController>().getUserInfo();
           Get.back(closeOverlays: Get.currentRoute != '/');
         }
@@ -139,11 +149,13 @@ class BuyShop {
     }
   }
 
-  void submit(ShopModel currentItem, bool buyNonConsumable) async {
-    // FireBaseUtil.subscribeCreate(currentItem.productDetails?.id);
+  void submit(ShopModel currentItem, bool buyNonConsumable, String pageName) async {
     if (currentItem.productDetails?.id == null) {
       return;
     }
+    currentShopModel = currentItem;
+    currentPageName = pageName;
+    FireBaseUtil.logEventCreateOrder(currentItem, pageName);
     Get.dialog(const Center(child: CircularProgressIndicator()), barrierDismissible: false);
     final res = await Request.createOrder(currentItem.productDetails!.id);
     orderNum = res['orderNumber'];

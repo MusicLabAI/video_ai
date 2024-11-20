@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
 import 'package:video_ai/pages/pro_purchase_page.dart';
@@ -20,6 +21,7 @@ class UserInfoWidget extends StatelessWidget {
                 onTap: () {
                   CommonUtil.hideKeyboard(context);
                   Get.to(() => const PointPurchasePage());
+                  FireBaseUtil.logEventButtonClick('HomePage', 'global_credits_button');
                 },
                 child: Container(
                   height: 32,
@@ -53,6 +55,7 @@ class UserInfoWidget extends StatelessWidget {
                     return;
                   }
                   Get.to(() => const ProPurchasePage());
+                  FireBaseUtil.logEventButtonClick('HomePage', 'global_pro_button');
                 },
                 child: Image.asset(
                   'images/icon/img_pro.png',

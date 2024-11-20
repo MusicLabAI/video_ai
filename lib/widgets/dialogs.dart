@@ -258,7 +258,7 @@ class BottomPopOptions extends StatelessWidget {
 }
 
 class EffectDialog extends StatefulWidget {
-  EffectDialog({super.key});
+  const EffectDialog({super.key});
 
   @override
   State<EffectDialog> createState() => _EffectDialogState();

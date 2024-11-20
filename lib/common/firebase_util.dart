@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:video_ai/models/shop_model.dart';
 
 class FireBaseUtil {
   static late FirebaseAnalytics _analytics;
@@ -28,125 +31,110 @@ class FireBaseUtil {
       parameters: parameters,
     );
   }
-
-  /// 调起支付页面
-  static void subscribePageEvent(String fromPage) {
+  
+  /// 页面浏览
+  static void logEventPageView(String pageName) {
     _analytics.logEvent(
-      name: EventName.subscribePage,
-      parameters: {'from_event': fromPage},
+      name: EventName.pageView,
+      parameters: {'pageName': pageName},
     );
   }
 
-  /// 调起登录页面
-  static void loginPageEvent(String fromPage) {
+  /// 按钮点击
+  static void logEventButtonClick(String pageName, String buttonName, {String popupName = ''}) {
     _analytics.logEvent(
-      name: EventName.loginPage,
-      parameters: {'from_event': fromPage},
+      name: EventName.buttonClick,
+      parameters: {'pageName': pageName, 'buttonName': buttonName, 'popupName': popupName},
     );
   }
+
+  /// 弹窗展示
+  static void logEventPopupView(String popupName) {
+    _analytics.logEvent(
+      name: EventName.popupView,
+      parameters: {'popupName': popupName},
+    );
+  }
+
+  /// 创建订单
+  static void logEventCreateOrder(ShopModel currentItem, String pageName) {
+    String? productId = currentItem.shopId;
+    int? productType = currentItem.shopType;
+    if (productId != null && productType != null) {
+      _analytics.logEvent(
+        name: EventName.createOrder,
+        parameters: {'productId': productId, 'productType': productType, 'pageName': pageName},
+      );
+    }
+  }
+
+  /// 支付订单
+  static void logEventPayOrder(ShopModel currentItem, bool result, String pageName) {
+    String? productId = currentItem.shopId;
+    int? productType = currentItem.shopType;
+    if (productId != null && productType != null) {
+      _analytics.logEvent(
+        name: EventName.payOrder,
+        parameters: {'productId': productId, 'result': result, 'productType': productType, 'pageName': pageName},
+      );
+    }
+  }
+
+  // /// 调起支付页面
+  // static void subscribePageEvent(String fromPage) {
+  //   _analytics.logEvent(
+  //     name: EventName.subscribePage,
+  //     parameters: {'from_event': fromPage},
+  //   );
+  // }
 }
 
 /// 事件名称
 class EventName {
-  /// 打开登陆页面
-  static const String loginPage = 'login_page';
+  
+  /// 页面浏览
+  static const String pageView = 'page_view';
 
-  /// google登陆按钮
-  static const String gaLoginBtn = 'ga_login_btn';
+  /// 按钮点击
+  static const String buttonClick = 'button_click';
 
-  /// google登陆成功
-  static const String gaLoginSuccess = 'ga_login_success';
+  /// 弹窗展示
+  static const String popupView = 'popup_view';
 
-  /// google登陆失败
-  static const String gaLoginFailure = 'ga_login_failure';
+  /// 请求创作内容
+  static const String requestCreation = 'request_creation';
+  
+  /// 保存创作结果
+  static const String saveCreation = 'save_creation';
+  
+  /// 删除创作结果
+  static const String deleteCreation = 'delete_creation';
 
-  /// 邮箱密码登陆按钮
-  static const String passwordLoginBtn = 'password_login_btn';
+  /// 拉起分享
+  static const String shareRequest = 'share_request';
 
-  /// 邮箱密码登陆成功
-  static const String passwordLoginSuccess = 'password_login_success';
+  /// 创建订单
+  static const String createOrder = 'create_order';
+  
+  /// 支付订单
+  static const String payOrder = 'pay_order';
 
-  /// 邮箱密码登陆失败
-  static const String passwordLoginFailure = 'password_login_failure';
+  /// 注册成功
+  static const String registrationSuccessful = 'registration_successful';
 
-  /// 点击Sign up发送邮箱验证
-  static const String emailVerification = 'email_verification';
+  /// 登陆成功
+  static const String loginSuccessful = 'login_successful';
 
-  /// 重发验证邮件
-  static const String resendVerification = 'resend_verification';
+  /// 用户名修改成功
+  static const String usernameEditSuccessful = 'username_edit_successful';
 
-  /// 重置密码点击‘done’
-  static const String resetPassword = 'reset_password';
+  /// 用户名修改失败
+  static const String usernameEditFailed = 'username_edit_failed';
 
-  /// apple登陆按钮
-  static const String apLoginBtn = 'ap_login_btn';
+  /// 删除账户
+  static const String deleteAccount = 'delete_account';
 
-  /// apple登陆成功
-  static const String apLoginSuccess = 'ap_login_success';
-
-  /// apple登陆失败
-  static const String apLoginFailure = 'ap_login_failure';
-
-  /// 首页点击个人中心
-  static const String homeSettingBtn = 'home_setting_btn';
-
-  /// 首页点击‘Identify’
-  static const String homeIdentify = 'home_identify';
-
-  /// 首页点击‘Dianose’
-  static const String homeDianose = 'home_dianose';
-
-  /// 首页点击底部拍照icon
-  static const String homeShootBttom = 'home_shoot_buttom';
-
-  /// 调起支付页面
-  static const String subscribePage = 'subscribe_page';
-
-  /// 用户发起会员订阅
-  static const String memberPurchaseSelect = 'member_purchase_select';
-
-  /// 会员付款成功
-  static const String memberPurchaseSuccess = 'member_purchase_success';
-
-  /// 会员订阅界面‘restore’
-  static const String subscribeRestore = 'subscribe_restore';
-
-  /// 拍照界面点击拍照提示icon
-  static const String shootHelp = 'shoot_help';
-
-  /// 点击相册选图icon
-  static const String shootAlbum = 'shoot_album';
-
-  /// 拍照界面点击‘Dianose’
-  static const String shootDianose = 'shoot_dianose';
-
-  /// 拍照界面点击‘Identify’
-  static const String shootIdentify = 'shoot_identify';
-
-  /// 详情页点击‘save’按钮
-  static const String infoSave = 'info_save';
-
-  /// 详情页点击‘share’icon
-  static const String infoShare = 'info_share';
-
-  /// 详情页点击‘拍照’icon
-  static const String infoShoot = 'info_shoot';
-
-  /// 诊断详情页点击‘plant info’
-  static const String dianoseInfoPlantinfo = 'dianose_info_plantinfo';
-
-  /// 诊断详情页点击‘Retake’
-  static const String dianoseInfoRetake = 'dianose_info_retake';
-
-  /// 列表页点击rename
-  static const String listRename = 'list_rename';
-
-  /// 列表页点击remove
-  static const String listRemove = 'list_remove';
-
-  /// 用户remove弹窗二次确认删除
-  static const String listRemoveAgree = 'list_remove_agree';
-
-  /// 设置界面分享app
-  static const String settingShareApp = 'setting_share_app';
+  /// 退出登录
+  static const String logoutSuccessful = 'logout_successful';
+  
 }

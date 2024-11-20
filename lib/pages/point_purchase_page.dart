@@ -112,7 +112,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
                       child: CustomButton(
                         width: double.infinity,
                         height: 46,
-                        onTap: () => {_shopCtr.purchase()},
+                        onTap: () => {_shopCtr.purchase('PointPurchasePage')},
                         text: 'purchase'.tr,
                         bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
                         textColor: UiColors.cDBFFFFFF,

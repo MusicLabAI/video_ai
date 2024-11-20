@@ -126,7 +126,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                     child: CustomButton(
                       width: double.infinity,
                       height: 46,
-                      onTap: () => {_shopCtr.subscript()},
+                      onTap: () => {_shopCtr.subscript('ProPurchasePage')},
                       text: 'subscribe'.tr,
                       bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
                       textColor: UiColors.cDBFFFFFF,
@@ -258,7 +258,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
 }
 
 class _IconLabelWidget extends StatelessWidget {
-  const _IconLabelWidget({super.key, required this.label});
+  const _IconLabelWidget({required this.label});
 
   final String label;
 
