@@ -1,24 +1,19 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:video_ai/api/request.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
-import 'package:video_ai/models/effects_model.dart';
-import 'package:video_ai/models/prompt_model.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
 import 'package:video_ai/pages/pro_purchase_page.dart';
 import 'package:video_ai/pages/settings_page.dart';
-import 'package:video_ai/pages/video_detail_page.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/dialogs.dart';
 import 'package:video_ai/widgets/loading_dialog.dart';
@@ -39,13 +34,20 @@ class _HomePageState extends State<HomePage>
   final MainController _mainCtr = Get.find<MainController>();
   final UserController _userCtr = Get.find<UserController>();
   final MineController _mineCtr = Get.find<MineController>();
+  final CreateController _createCtr = Get.find<CreateController>();
   File? _image;
   final RxBool _isEnable = false.obs;
   late TextEditingController _controller;
-  final _createCtr = Get.put(CreateController());
-  List<PromptModel> _items = [];
-  List<PromptModel> _randomItems = [];
-  var _isScrolling = false;
+
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      0, // 滚动到顶部的位置
+      duration: const Duration(milliseconds: 100), // 动画持续时间
+      curve: Curves.easeInOut, // 动画曲线
+    );
+  }
 
   Future<void> _pickImage() async {
     final pickedFile =
@@ -77,38 +79,15 @@ class _HomePageState extends State<HomePage>
         updateGenerateBtnStatus();
       });
     });
-    _getRecommendPrompt();
+    ever(_createCtr.curEffects, (value) {
+      _scrollToTop();
+    });
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
-  Future<void> _getRecommendPrompt() async {
-    final data = await Request.getRecommendPrompt();
-    _items =
-        (data as List).map((record) => PromptModel.fromJson(record)).toList();
-    _randomRecommend();
-  }
-
-  void _randomRecommend() {
-    if (!mounted) {
-      return;
-    }
-    setState(() {
-      if (_items.isNotEmpty) {
-        if (_items.length > 5) {
-          _items.shuffle(Random());
-          _randomItems = _items.sublist(0, 5);
-        } else {
-          _randomItems = _items;
-        }
-      } else {
-        _randomItems = [];
-      }
-    });
   }
 
   @override
@@ -149,12 +128,14 @@ class _HomePageState extends State<HomePage>
               child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: SingleChildScrollView(
+                    controller: _scrollController,
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _topView(),
                           _getGenerateBtn(context),
                           _bottomView(),
+                          const SizedBox(height: 10,)
                         ]),
                   )))
         ]));
@@ -169,12 +150,12 @@ class _HomePageState extends State<HomePage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _inspireLabel(),
-              ..._randomItems.map(
+              ..._createCtr.randomItems.value.map(
                 (item) {
                   final prompt = item.prompt ?? "";
                   return _inspiresItem(
                     prompt,
-                    item == _randomItems.last,
+                    false,
                     () {
                       setState(() {
                         _controller.text = prompt;
@@ -216,10 +197,8 @@ class _HomePageState extends State<HomePage>
                 itemBuilder: (BuildContext context, int index) {
                   return EffectsWidget(
                     model: _createCtr.effectsList[index],
-                    isScrolling: _isScrolling,
                     onTap: (model) {
-                      _createCtr.curTabIndex.value = 0;
-                      _createCtr.curEffects.value = model;
+                      _createCtr.selectEffects(model);
                     },
                   );
                 },
@@ -432,13 +411,14 @@ class _HomePageState extends State<HomePage>
                         textSize: 10,
                         textColor: UiColors.cDBFFFFFF,
                         onTap: () async {
-                          if (_items.isEmpty) {
-                            await _getRecommendPrompt();
+                          if (_createCtr.items.isEmpty) {
+                            await _createCtr.getRecommendPrompt();
                           }
-                          if (_items.isNotEmpty) {
+                          final items = _createCtr.items.value;
+                          if (items.isNotEmpty) {
                             setState(() {
                               _controller.text =
-                                  _items[Random().nextInt(_items.length)]
+                                  items[Random().nextInt(items.length)]
                                           .prompt ??
                                       "";
                             });
@@ -492,9 +472,7 @@ class _HomePageState extends State<HomePage>
                             await _createCtr.getEffectsTags();
                             Get.back();
                           }
-                          _createCtr.showEffectsDialog.value = true;
                           await Get.bottomSheet(EffectDialog());
-                          _createCtr.showEffectsDialog.value = false;
                         }),
                     const Spacer(),
                     GestureDetector(
@@ -551,10 +529,10 @@ class _HomePageState extends State<HomePage>
           const Spacer(),
           InkWell(
             onTap: () {
-              if (_items.isEmpty) {
-                _getRecommendPrompt();
+              if (_createCtr.items.isEmpty) {
+                _createCtr.getRecommendPrompt();
               } else {
-                _randomRecommend();
+                _createCtr.randomRecommend();
               }
             },
             borderRadius: BorderRadius.circular(10),
@@ -599,7 +577,7 @@ class _HomePageState extends State<HomePage>
 
   Widget _inspiresItem(String item, bool isLast, Function() onTap) {
     return Padding(
-      padding: EdgeInsets.only(top: 10, bottom: isLast ? 10 : 0),
+      padding: const EdgeInsets.only(top: 10),
       child: GestureDetector(
         onTap: onTap,
         child: Container(

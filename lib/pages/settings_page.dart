@@ -30,7 +30,9 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    _userCtr.getUserInfo();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _userCtr.getUserInfo();
+    });
   }
 
   @override

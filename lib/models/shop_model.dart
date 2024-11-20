@@ -127,15 +127,15 @@ class ShopModel with EquatableMixin {
   }
 
   String get shopSecondDescribeLocal {
-    if (shopId == 'videoai_yearly_subscription_ios') {
+    if (shopId == 'videoai_yearly_subscription' ||
+        shopId == 'videoai_yearly_subscription_ios') {
       return 'yearValue'.trArgs([(productDetails?.price ?? '')]);
     }
-    if (shopId == 'videoai_yearly_subscription' ||
-        shopId == "videoai_weekly_subscription" ||
+    if (shopId == "videoai_weekly_subscription" ||
         shopId == "videoai_weekly_subscription_ios" ||
         shopId == "videoai_weekly_subscription_pro" ||
         shopId == "videoai_weekly_subscription_ios_pro") {
-      return 'weekValue'.trArgs([getWeekPrice(productDetails?.price ?? '', weekNumber ?? 1)]);
+      return 'weekValue'.trArgs([(productDetails?.price ?? '')]);
     }
     return shopDescribe ?? "";
   }
