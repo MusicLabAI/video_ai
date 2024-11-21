@@ -22,6 +22,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
   @override
   void initState() {
     super.initState();
+    FireBaseUtil.logEventPageView('pro_purchase_page');
     _getShops();
   }
 
@@ -33,7 +34,6 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
 
   @override
   Widget build(BuildContext context) {
-    FireBaseUtil.logEventPageView('pro_purchase_page');
     return Scaffold(
       backgroundColor: UiColors.c121212,
       body: Stack(

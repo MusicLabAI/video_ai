@@ -30,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    FireBaseUtil.logEventPageView('email_login_page');
     _emailController.addListener(_updateButtonState);
     _pwdController.addListener(_updateButtonState);
   }
@@ -59,7 +60,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    FireBaseUtil.logEventPageView('email_login_page');
     return GestureDetector(
       onTap: () => CommonUtil.hideKeyboard(context),
       child: Scaffold(

@@ -28,6 +28,7 @@ class _EmailVerifyPageState extends State<EmailVerifyPage> {
   @override
   void initState() {
     super.initState();
+    FireBaseUtil.logEventPageView('forget_password_verify_email_page');
     _startTimer();
   }
 
@@ -43,13 +44,12 @@ class _EmailVerifyPageState extends State<EmailVerifyPage> {
     }
     const period = Duration(seconds: 10);
     _timer = Timer.periodic(period, (timer) {
-      _userCtr.emailVerifiedReload();
+      _userCtr.emailVerifiedReload(isSignUp: widget.isSignUp);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    FireBaseUtil.logEventPageView('forget_password_verify_email_page');
     return Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(

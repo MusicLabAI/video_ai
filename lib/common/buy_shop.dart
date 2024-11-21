@@ -86,12 +86,12 @@ class BuyShop {
           if (!(Get.isDialogOpen ?? false)) {
             Get.dialog(const Center(child: CircularProgressIndicator()), barrierDismissible: false);
           }
+          if (currentShopModel != null && purchaseDetails.status == PurchaseStatus.purchased) {
+            FireBaseUtil.logEventPayOrder(currentShopModel!, true, currentPageName!);
+          }
           final res = await Request.getOrderKey();
           sign ??= res['sign'];
           await _checkPayInfo(purchaseDetails);
-          if (currentShopModel != null) {
-            FireBaseUtil.logEventPayOrder(currentShopModel!, true, currentPageName!);
-          }
           await Get.find<UserController>().getUserInfo();
           Get.back(closeOverlays: Get.currentRoute != '/');
         }
@@ -124,7 +124,9 @@ class BuyShop {
     final dataString = DesUtil.desEncrypt(jsonString, desKey, time);
     Get.log("开始验证支付的订单");
     await Request.verifyOrder(dataString, time);
-    // FireBaseUtil.logEvent(EventName.memberPurchaseSuccess);
+    if (currentShopModel != null) {
+      FireBaseUtil.logEventConsumptionOrder(currentShopModel!, true, currentPageName!);
+    }
     orderNum = null;
     Get.log("关闭支付的订单");
     try {

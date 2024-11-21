@@ -30,6 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   void initState() {
     super.initState();
+    FireBaseUtil.logEventPageView('email_signup_page');
     _emailController.addListener(_updateButtonState);
     _pwdController.addListener(_updateButtonState);
   }
@@ -59,7 +60,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    FireBaseUtil.logEventPageView('email_signup_page');
     return GestureDetector(
       onTap: () => CommonUtil.hideKeyboard(context),
       child: Scaffold(

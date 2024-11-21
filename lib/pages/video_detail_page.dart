@@ -34,6 +34,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
   @override
   void initState() {
     super.initState();
+    FireBaseUtil.logEventPageView('video_play_page');
     videoUrl = widget.recordModel.outputVideoUrl;
     _controller =
         CachedVideoPlayerPlusController.networkUrl(Uri.parse(videoUrl ?? ''))
@@ -60,7 +61,6 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    FireBaseUtil.logEventPageView('video_play_page');
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

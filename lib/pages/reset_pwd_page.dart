@@ -28,6 +28,7 @@ class _ResetPwdPageState extends State<ResetPwdPage> {
   @override
   void initState() {
     super.initState();
+    FireBaseUtil.logEventPageView('forget_password_page');
     _emailController.addListener(_updateButtonState);
   }
 
@@ -48,7 +49,6 @@ class _ResetPwdPageState extends State<ResetPwdPage> {
 
   @override
   Widget build(BuildContext context) {
-    FireBaseUtil.logEventPageView('forget_password_page');
     return GestureDetector(
       onTap: () => CommonUtil.hideKeyboard(context),
       child: Scaffold(

@@ -79,6 +79,18 @@ class FireBaseUtil {
       );
     }
   }
+
+  /// 消耗订单
+  static void logEventConsumptionOrder(ShopModel currentItem, bool result, String pageName) {
+    String? productId = currentItem.shopId;
+    int? productType = currentItem.shopType;
+    if (productId != null && productType != null) {
+      _analytics.logEvent(
+        name: EventName.consumptionOrder,
+        parameters: {'productId': productId, 'result': result, 'productType': productType, 'pageName': pageName},
+      );
+    }
+  }
   
 }
 
@@ -111,6 +123,9 @@ class EventName {
   
   /// 支付订单
   static const String payOrder = 'pay_order';
+
+  /// 消耗订单
+  static const String consumptionOrder = 'consumption_order';
 
   /// 注册成功
   static const String registrationSuccessful = 'registration_successful';

@@ -23,6 +23,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
   @override
   void initState() {
     super.initState();
+    FireBaseUtil.logEventPageView('credits_purchase_page');
     _getShops();
   }
 
@@ -34,7 +35,6 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
 
   @override
   Widget build(BuildContext context) {
-    FireBaseUtil.logEventPageView('credits_purchase_page');
     return Scaffold(
       backgroundColor: UiColors.c121212,
       body: Stack(

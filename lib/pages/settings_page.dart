@@ -31,6 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
+    FireBaseUtil.logEventPageView('mine_page');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _userCtr.getUserInfo();
     });
@@ -38,7 +39,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    FireBaseUtil.logEventPageView('mine_page');
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) => {
@@ -365,7 +365,6 @@ class _SettingsPageState extends State<SettingsPage> {
               item: 'creditsUsageHistory'.tr,
               onTap: () {
                 Get.to(() => const PointRecordPage());
-                FireBaseUtil.logEventPageView('credits_page');
               }),
         _SettingsItem(
             iconPath: 'images/icon/ic_join.png',

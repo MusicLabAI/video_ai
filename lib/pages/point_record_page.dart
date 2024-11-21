@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/api/request.dart';
 import 'package:video_ai/common/common_util.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
@@ -29,7 +30,7 @@ class _PointRecordPageState extends State<PointRecordPage> {
   void initState() {
     super.initState();
     _onRefresh();
-    // FireBaseUtil.logEventPageView(PageName.pointsHistoryPage);
+    FireBaseUtil.logEventPageView('credits_page');
   }
 
   Future<void> _onRefresh() async {

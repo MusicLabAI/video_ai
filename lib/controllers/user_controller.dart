@@ -66,7 +66,7 @@ class UserController extends GetxController {
   }
 
   /// 刷新用户验证信息
-  Future<bool> emailVerifiedReload() async {
+  Future<bool> emailVerifiedReload({bool isSignUp = false}) async {
     bool isVerified = firebaseAuth.currentUser?.emailVerified ?? false;
     if (isVerified) {
       return true;
@@ -75,6 +75,9 @@ class UserController extends GetxController {
       await firebaseAuth.currentUser?.reload();
       isVerified = firebaseAuth.currentUser?.emailVerified ?? false;
       if (isVerified) {
+        if (isSignUp) {
+          FireBaseUtil.logEvent(EventName.registrationSuccessful);
+        }
         final uid = firebaseAuth.currentUser?.uid;
         if (uid != null) {
           Get.dialog(const LoadingDialog(), barrierDismissible: false);
@@ -114,7 +117,6 @@ class UserController extends GetxController {
         Fluttertoast.showToast(msg: e.message ?? 'create error');
       }
       Get.log(e.toString(), isError: true);
-      FireBaseUtil.logEvent(EventName.registrationSuccessful);
       rethrow;
     } catch (e) {
       Get.log(e.toString(), isError: true);
