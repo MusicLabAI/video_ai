@@ -118,7 +118,19 @@ class LanguageKo {
       "payError": "결제 오류",
       "insufficientBalance": "크레딧이 부족합니다. 충전 후 다시 시도하세요",
       "retryDeleteAccountTips": "계정 삭제 실패. 다시 로그인 후 삭제를 시도하세요.",
-      'shopRefreshTips': "네트워크 연결이 불안정합니다. 제품 정보를 다시 시도해 주세요."
+      'shopRefreshTips': "네트워크 연결이 불안정합니다. 제품 정보를 다시 시도해 주세요.",
+      "photoLibraryTitle": "권한 요청",
+      "photoLibraryRequestText": "동영상을 생성하려면 사진 라이브러리 접근을 허용해주세요.",
+      "photoLibrarySaveText": "사진 라이브러리에 동영상을 저장하도록 허용해주세요.",
+      "settingsButton": "설정으로 이동",
+      "imageToVideo": "이미지에서 동영상으로",
+      "textToVideo": "텍스트에서 동영상으로",
+      "effect": "효과",
+      "tryIt": "시도해보기",
+      "imageMagic": "이미지 마법",
+      "image_empty_tips": "먼저 이미지를 선택해주세요.",
+      "saveVideoSuccess": "앨범에 성공적으로 저장되었습니다",
+      "saveVideoFail": "동영상을 앨범에 저장하지 못했습니다",
     };
   }
 }

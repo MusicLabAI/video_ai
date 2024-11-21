@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -55,11 +56,21 @@ class _HomePageState extends State<HomePage>
         ? 'change_image_button'
         : 'add_image_button';
     FireBaseUtil.logEventButtonClick('HomePage', buttonName);
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      _createCtr.imagePath.value = pickedFile.path;
-      updateGenerateBtnStatus();
+    try {
+      final pickedFile =
+      await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        _createCtr.imagePath.value = pickedFile.path;
+        updateGenerateBtnStatus();
+      }
+    } on PlatformException catch (e) {
+      if (e.code == 'photo_access_denied') {
+        Get.dialog(getRequestPermissionDialog('photoLibraryRequestText'.tr));
+      } else {
+        Get.log('PlatformException: $e', isError: true);
+      }
+    } catch (e){
+      Get.log('Error picking image: $e', isError: true);
     }
   }
 

@@ -119,7 +119,19 @@ class LanguageTr {
       "payError": "Ödeme hatası",
       "insufficientBalance": "Yetersiz kredi, lütfen yükleyip tekrar deneyin",
       "retryDeleteAccountTips": "Hesap silinemedi. Lütfen tekrar giriş yapın ve hesap silmeyi deneyin.",
-      'shopRefreshTips': "Ağ bağlantısı kararsız. Lütfen ürün bilgilerini yeniden almaya çalışın."
+      'shopRefreshTips': "Ağ bağlantısı kararsız. Lütfen ürün bilgilerini yeniden almaya çalışın.",
+      "photoLibraryTitle": "İzin Talebi",
+      "photoLibraryRequestText": "Video oluşturmak için fotoğraf kütüphanesine erişime izin verin.",
+      "photoLibrarySaveText": "Videoları fotoğraf kütüphanesine kaydetmeye izin verin.",
+      "settingsButton": "Ayarlar'a git",
+      "imageToVideo": "Görüntüden Videoya",
+      "textToVideo": "Metinden Videoya",
+      "effect": "Efekt",
+      "tryIt": "Dene",
+      "imageMagic": "Görüntü Büyüsü",
+      "image_empty_tips": "Lütfen önce bir resim seçin.",
+      "saveVideoSuccess": "Albüme başarıyla kaydedildi",
+      "saveVideoFail": "Video albüme kaydedilemedi",
     };
   }
 }

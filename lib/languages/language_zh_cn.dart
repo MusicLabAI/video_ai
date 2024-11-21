@@ -118,7 +118,19 @@ class LanguageZhCn {
       "payError": "支付错误",
       "insufficientBalance": "余额不足，请充值后重试",
       "retryDeleteAccountTips": "账户删除失败。请重新登录并尝试删除账户。",
-      'shopRefreshTips': "网络连接不稳定，请重新尝试获取商品信息。"
+      'shopRefreshTips': "网络连接不稳定，请重新尝试获取商品信息。",
+      "photoLibraryTitle": "权限请求",
+      "photoLibraryRequestText": "允许访问照片库以生成视频。",
+      "photoLibrarySaveText": "允许将视频保存到照片库。",
+      "settingsButton": "前往设置",
+      "imageToVideo": "图片转视频",
+      "textToVideo": "文字转视频",
+      "effect": "特效",
+      "tryIt": "试试",
+      "imageMagic": "图片魔术",
+      "image_empty_tips": "请先选择一张图片。",
+      "saveVideoSuccess": "保存到相册成功",
+      "saveVideoFail": "视频保存到相册失败",
     };
   }
 }

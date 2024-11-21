@@ -1,12 +1,16 @@
 import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gallery_saver_plus/gallery_saver.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:video_ai/common/file_utils.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/models/record_model.dart';
 import 'package:video_ai/pages/full_screen_player.dart';
 import 'package:video_ai/widgets/custom_button.dart';
+import 'package:video_ai/widgets/dialogs.dart';
 import 'package:video_ai/widgets/loading_dialog.dart';
 import 'package:video_ai/common/firebase_util.dart';
 
@@ -71,17 +75,39 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
         actions: [
           IconButton(
             onPressed: () async {
-              if (videoUrl?.isNotEmpty ?? false) {
+              if (videoUrl?.isEmpty ?? true) {
+                return;
+              }
+              try {
+                if (GetPlatform.isIOS) {
+                  final addOnlyStatus = await Permission.photosAddOnly
+                      .request();
+                  if (!addOnlyStatus.isGranted) {
+                    final photoStatus = await Permission.photos.request();
+                    if (!photoStatus.isGranted) {
+                      Get.dialog(
+                          getRequestPermissionDialog(
+                              'photoLibrarySaveText'.tr));
+                      return;
+                    }
+                  }
+                }
                 Get.dialog(const LoadingDialog());
-                await FileUtil.saveFile(
-                    fileName: FileUtils.getFileNameFromUrl(videoUrl!),
-                    url: videoUrl!);
-
+                final result = await GallerySaver.saveVideo(videoUrl!);
+                Get.back();
+                Fluttertoast.showToast(
+                    msg: result ?? false
+                        ? 'saveVideoSuccess'.tr
+                        : 'saveVideoFail'.tr);
+              } catch (e) {
+                Get.log(e.toString(), isError: true);
                 if (Get.isDialogOpen ?? false) {
                   Get.back();
                 }
-                FireBaseUtil.logEventButtonClick('VideoDetailPage', 'download_video_button');
+                Fluttertoast.showToast(msg: 'saveVideoFail'.tr);
               }
+              FireBaseUtil.logEventButtonClick(
+                  'VideoDetailPage', 'download_video_button');
             },
             icon: Image.asset(
               'images/icon/ic_download.png',
@@ -94,7 +120,8 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
               if (videoUrl?.isNotEmpty ?? false) {
                 Share.share(videoUrl!);
               }
-              FireBaseUtil.logEventButtonClick('VideoDetailPage', 'share_video_button');
+              FireBaseUtil.logEventButtonClick(
+                  'VideoDetailPage', 'share_video_button');
               FireBaseUtil.logEvent(EventName.shareRequest);
             },
             icon: Image.asset(
@@ -206,7 +233,8 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                       GestureDetector(
                         onTap: () {
                           Get.to(() => FullScreenPlayer(videoUrl: videoUrl!));
-                          FireBaseUtil.logEventButtonClick('VideoDetailPage', 'full_screen_button');
+                          FireBaseUtil.logEventButtonClick(
+                              'VideoDetailPage', 'full_screen_button');
                         },
                         child: Image.asset(
                           'images/icon/ic_enlarge.png',

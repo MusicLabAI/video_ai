@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/widgets/effects_widget.dart';
@@ -11,6 +12,7 @@ class CustomDialog extends StatelessWidget {
     super.key,
     required this.title,
     this.subText,
+    this.subTextPadding,
     required this.confirmText,
     this.cancelText,
     this.icon,
@@ -21,6 +23,7 @@ class CustomDialog extends StatelessWidget {
 
   final String title;
   final String? subText;
+  final EdgeInsetsGeometry? subTextPadding;
   final String confirmText;
   final Function()? onConfirm;
   final String? cancelText;
@@ -46,14 +49,17 @@ class CustomDialog extends StatelessWidget {
           ),
           if (icon != null) icon!,
           if (subText != null)
-            Text(
-              subText!,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: UiColors.c61FFFFFF,
-                fontSize: 14,
-                fontWeight: FontWeightExt.medium,
-                decoration: TextDecoration.none,
+            Padding(
+              padding: subTextPadding ?? const EdgeInsets.all(0),
+              child: Text(
+                subText!,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: UiColors.c61FFFFFF,
+                  fontSize: 14,
+                  fontWeight: FontWeightExt.medium,
+                  decoration: TextDecoration.none,
+                ),
               ),
             ),
           Container(
@@ -366,4 +372,18 @@ class _EffectDialogState extends State<EffectDialog> {
       ),
     );
   }
+}
+
+Widget getRequestPermissionDialog(String desc) {
+  return CustomDialog(
+    title: 'photoLibraryTitle'.tr,
+    subText: desc,
+    subTextPadding: const EdgeInsets.only(top: 12),
+    cancelText: 'cancel'.tr,
+    confirmText: 'settingsButton'.tr,
+    onConfirm: () async {
+      Get.back();
+      await openAppSettings();
+    },
+  );
 }

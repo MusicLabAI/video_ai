@@ -118,7 +118,19 @@ class LanguageAr {
       "payError": "خطأ في الدفع",
       "insufficientBalance": "رصيد غير كافٍ، يرجى إعادة الشحن والمحاولة مرة أخرى",
       "retryDeleteAccountTips": "فشل حذف الحساب. يرجى تسجيل الدخول مرة أخرى ومحاولة الحذف.",
-      'shopRefreshTips': "الاتصال بالشبكة غير مستقر. يُرجى إعادة محاولة استرجاع معلومات المنتج."
+      'shopRefreshTips': "الاتصال بالشبكة غير مستقر. يُرجى إعادة محاولة استرجاع معلومات المنتج.",
+      "photoLibraryTitle": "طلب إذن",
+      "photoLibraryRequestText": "اسمح بالوصول إلى مكتبة الصور لإنشاء مقاطع الفيديو.",
+      "photoLibrarySaveText": "اسمح بحفظ مقاطع الفيديو في مكتبة الصور.",
+      "settingsButton": "انتقل إلى الإعدادات",
+      "imageToVideo": "الصورة إلى فيديو",
+      "textToVideo": "النص إلى فيديو",
+      "effect": "تأثير",
+      "tryIt": "جربه",
+      "imageMagic": "سحر الصورة",
+      "image_empty_tips": "يرجى اختيار صورة أولاً.",
+      "saveVideoSuccess": "تم الحفظ في الألبوم بنجاح",
+      "saveVideoFail": "فشل حفظ الفيديو في الألبوم",
     };
   }
 }

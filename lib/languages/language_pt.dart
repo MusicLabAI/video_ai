@@ -118,7 +118,19 @@ class LanguagePt {
       "payError": "Erro no pagamento",
       "insufficientBalance": "Créditos insuficientes, por favor, recarregue e tente novamente",
       "retryDeleteAccountTips": "Falha ao excluir a conta. Faça login novamente e tente excluir a conta.",
-      'shopRefreshTips': "A conexão de rede está instável. Por favor, tente recuperar as informações do produto novamente."
+      'shopRefreshTips': "A conexão de rede está instável. Por favor, tente recuperar as informações do produto novamente.",
+      "photoLibraryTitle": "Solicitação de permissão",
+      "photoLibraryRequestText": "Permita acesso à biblioteca de fotos para gerar vídeos.",
+      "photoLibrarySaveText": "Permita salvar vídeos na biblioteca de fotos.",
+      "settingsButton": "Ir para configurações",
+      "imageToVideo": "Imagem para Vídeo",
+      "textToVideo": "Texto para Vídeo",
+      "effect": "Efeito",
+      "tryIt": "Experimente",
+      "imageMagic": "Magia da Imagem",
+      "image_empty_tips": "Por favor, escolha uma imagem primeiro.",
+      "saveVideoSuccess": "Salvo no álbum com sucesso",
+      "saveVideoFail": "Falha ao salvar o vídeo no álbum",
     };
   }
 }

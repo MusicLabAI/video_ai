@@ -118,7 +118,19 @@ class LanguageId {
       "payError": "Kesalahan Pembayaran",
       "insufficientBalance": "Kredit tidak mencukupi, silakan isi ulang dan coba lagi",
       "retryDeleteAccountTips": "Penghapusan akun gagal. Silakan masuk kembali dan coba hapus akun.",
-      'shopRefreshTips': "Koneksi jaringan tidak stabil. Silakan coba mendapatkan informasi produk lagi."
+      'shopRefreshTips': "Koneksi jaringan tidak stabil. Silakan coba mendapatkan informasi produk lagi.",
+      "photoLibraryTitle": "Permintaan Izin",
+      "photoLibraryRequestText": "Izinkan akses ke perpustakaan foto untuk membuat video.",
+      "photoLibrarySaveText": "Izinkan menyimpan video ke perpustakaan foto.",
+      "settingsButton": "Pergi ke pengaturan",
+      "imageToVideo": "Gambar ke Video",
+      "textToVideo": "Teks ke Video",
+      "effect": "Efek",
+      "tryIt": "Coba",
+      "imageMagic": "Sihir Gambar",
+      "image_empty_tips": "Silakan pilih gambar terlebih dahulu.",
+      "saveVideoSuccess": "Berhasil disimpan ke album",
+      "saveVideoFail": "Gagal menyimpan video ke album",
     };
   }
 }

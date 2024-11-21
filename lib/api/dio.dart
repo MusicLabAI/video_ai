@@ -1,3 +1,4 @@
+import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart' hide Response;
@@ -47,8 +48,8 @@ class DioUtil {
         },
       ),
     )
-      ..interceptors.add(LogInterceptor(responseBody: true));
-      // ..interceptors.add(CurlLoggerDioInterceptor(printOnSuccess: true));
+      // ..interceptors.add(LogInterceptor(responseBody: true));
+      ..interceptors.add(CurlLoggerDioInterceptor(printOnSuccess: true));
   }
 
   static _exceptionHandling(String? message, Response? response) {

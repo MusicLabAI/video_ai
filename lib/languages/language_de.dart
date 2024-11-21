@@ -118,7 +118,19 @@ class LanguageDe {
       "payError": "Zahlungsfehler",
       "insufficientBalance": "Unzureichende Gutschriften, bitte aufladen und erneut versuchen",
       "retryDeleteAccountTips": "Kontolöschung fehlgeschlagen. Bitte erneut einloggen und versuchen, das Konto zu löschen.",
-      'shopRefreshTips': "Die Netzwerkverbindung ist instabil. Bitte versuchen Sie erneut, die Produktinformationen abzurufen."
+      'shopRefreshTips': "Die Netzwerkverbindung ist instabil. Bitte versuchen Sie erneut, die Produktinformationen abzurufen.",
+      "photoLibraryTitle": "Berechtigungsanfrage",
+      "photoLibraryRequestText": "Erlauben Sie den Zugriff auf die Fotobibliothek, um Videos zu erstellen.",
+      "photoLibrarySaveText": "Erlauben Sie das Speichern von Videos in der Fotobibliothek.",
+      "settingsButton": "Zu den Einstellungen gehen",
+      "imageToVideo": "Bild zu Video",
+      "textToVideo": "Text zu Video",
+      "effect": "Effekt",
+      "tryIt": "Probier es aus",
+      "imageMagic": "Bildmagie",
+      "image_empty_tips": "Bitte wählen Sie zuerst ein Bild aus.",
+      "saveVideoSuccess": "Erfolgreich im Album gespeichert",
+      "saveVideoFail": "Video konnte nicht im Album gespeichert werden",
     };
   }
 }

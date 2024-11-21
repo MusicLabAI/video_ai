@@ -118,7 +118,19 @@ class LanguageFr {
       "payError": "Erreur de paiement",
       "insufficientBalance": "Crédits insuffisants, veuillez recharger et réessayer",
       "retryDeleteAccountTips": "Échec de la suppression du compte. Veuillez vous reconnecter et essayer de supprimer le compte.",
-      'shopRefreshTips': "La connexion réseau est instable. Veuillez réessayer de récupérer les informations du produit."
+      'shopRefreshTips': "La connexion réseau est instable. Veuillez réessayer de récupérer les informations du produit.",
+      "photoLibraryTitle": "Demande d'autorisation",
+      "photoLibraryRequestText": "Autoriser l'accès à la bibliothèque de photos pour générer des vidéos.",
+      "photoLibrarySaveText": "Autoriser la sauvegarde des vidéos dans la bibliothèque de photos.",
+      "settingsButton": "Aller aux paramètres",
+      "imageToVideo": "Image en Vidéo",
+      "textToVideo": "Texte en Vidéo",
+      "effect": "Effet",
+      "tryIt": "Essayez-le",
+      "imageMagic": "Magie d'Image",
+      "image_empty_tips": "Veuillez sélectionner une image d'abord.",
+      "saveVideoSuccess": "Enregistré dans l'album avec succès",
+      "saveVideoFail": "Échec de l'enregistrement de la vidéo dans l'album",
     };
   }
 }

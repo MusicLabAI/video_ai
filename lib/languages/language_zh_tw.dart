@@ -118,7 +118,19 @@ class LanguageZhTw {
       "payError": "支付錯誤",
       "insufficientBalance": "餘額不足，請充值後重試",
       "retryDeleteAccountTips": "帳戶刪除失敗。請重新登入並嘗試刪除帳戶。",
-      'shopRefreshTips': "網絡連接不穩定，請重新嘗試獲取商品信息。"
+      'shopRefreshTips': "網絡連接不穩定，請重新嘗試獲取商品信息。",
+      "photoLibraryTitle": "權限請求",
+      "photoLibraryRequestText": "允許訪問相簿以生成視頻。",
+      "photoLibrarySaveText": "允許將視頻保存到相簿。",
+      "settingsButton": "前往設置",
+      "imageToVideo": "圖片轉視頻",
+      "textToVideo": "文字轉視頻",
+      "effect": "特效",
+      "tryIt": "試試",
+      "imageMagic": "圖片魔術",
+      "image_empty_tips": "請先選擇一張圖片。",
+      "saveVideoSuccess": "保存到相册成功",
+      "saveVideoFail": "視頻保存到相簿失敗",
     };
   }
 }

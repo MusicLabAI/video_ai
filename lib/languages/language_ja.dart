@@ -118,7 +118,19 @@ class LanguageJa {
       "payError": "支払いエラー",
       "insufficientBalance": "クレジットが不足しています。リチャージして再試行してください",
       "retryDeleteAccountTips": "アカウントの削除に失敗しました。再度ログインして削除を試してください。",
-      'shopRefreshTips': "ネットワーク接続が不安定です。商品情報の取得を再試行してください。"
+      'shopRefreshTips': "ネットワーク接続が不安定です。商品情報の取得を再試行してください。",
+      "photoLibraryTitle": "許可リクエスト",
+      "photoLibraryRequestText": "動画を生成するためにフォトライブラリへのアクセスを許可してください。",
+      "photoLibrarySaveText": "フォトライブラリに動画を保存することを許可してください。",
+      "settingsButton": "設定に移動",
+      "imageToVideo": "画像から動画へ",
+      "textToVideo": "テキストから動画へ",
+      "effect": "エフェクト",
+      "tryIt": "試してみる",
+      "imageMagic": "画像マジック",
+      "image_empty_tips": "最初に画像を選択してください。",
+      "saveVideoSuccess": "アルバムに正常に保存されました",
+      "saveVideoFail": "アルバムに動画を保存できませんでした",
     };
   }
 }

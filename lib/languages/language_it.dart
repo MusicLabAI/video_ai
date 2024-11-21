@@ -118,7 +118,19 @@ class LanguageIt {
       "payError": "Errore di pagamento",
       "insufficientBalance": "Crediti insufficienti, ricarica e riprova",
       "retryDeleteAccountTips": "Eliminazione dell'account fallita. Accedi di nuovo e prova a eliminare l'account.",
-      'shopRefreshTips': "La connessione di rete è instabile. Si prega di riprovare a recuperare le informazioni sul prodotto."
+      'shopRefreshTips': "La connessione di rete è instabile. Si prega di riprovare a recuperare le informazioni sul prodotto.",
+      "photoLibraryTitle": "Richiesta di autorizzazione",
+      "photoLibraryRequestText": "Consenti l'accesso alla libreria di foto per generare video.",
+      "photoLibrarySaveText": "Consenti di salvare i video nella libreria di foto.",
+      "settingsButton": "Vai alle impostazioni",
+      "imageToVideo": "Immagine in Video",
+      "textToVideo": "Testo in Video",
+      "effect": "Effetto",
+      "tryIt": "Provalo",
+      "imageMagic": "Magia dell'immagine",
+      "image_empty_tips": "Seleziona prima un'immagine.",
+      "saveVideoSuccess": "Salvato nell'album con successo",
+      "saveVideoFail": "Impossibile salvare il video nell'album",
     };
   }
 }
