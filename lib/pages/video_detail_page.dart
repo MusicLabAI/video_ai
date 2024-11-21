@@ -79,6 +79,8 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
               if (videoUrl?.isEmpty ?? true) {
                 return;
               }
+              FireBaseUtil.logEventButtonClick(
+                  'video_play_page', 'download_video_button');
               try {
                 if (GetPlatform.isIOS) {
                   final addOnlyStatus = await Permission.photosAddOnly
@@ -95,6 +97,9 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                 }
                 Get.dialog(const LoadingDialog());
                 final result = await GallerySaver.saveVideo(videoUrl!);
+                if (result ?? false) {
+                  FireBaseUtil.logEvent(EventName.saveCreation, parameters: {'workId': '$widget.recordModel.id', 'video_url': widget.recordModel.outputVideoUrl ?? ''});
+                }
                 Get.back();
                 Fluttertoast.showToast(
                     msg: result ?? false
@@ -105,11 +110,8 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                 if (Get.isDialogOpen ?? false) {
                   Get.back();
                 }
-                FireBaseUtil.logEventButtonClick('video_play_page', 'download_video_button');
                 Fluttertoast.showToast(msg: 'saveVideoFail'.tr);
               }
-              FireBaseUtil.logEventButtonClick(
-                  'VideoDetailPage', 'download_video_button');
             },
             icon: Image.asset(
               'images/icon/ic_download.png',

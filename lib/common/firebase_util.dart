@@ -144,5 +144,4 @@ class EventName {
 
   /// 退出登录
   static const String logoutSuccessful = 'logout_successful';
-
 }
