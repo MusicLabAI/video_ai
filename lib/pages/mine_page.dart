@@ -78,10 +78,6 @@ class _MinePageState extends State<MinePage>
     return Center(
       child: GestureDetector(
         onTap: () {
-          if (!_userCtr.isLogin.value) {
-            _userCtr.showLogin();
-            return;
-          }
           _mainCtr.tabController.index = 0;
         },
         child: Column(
