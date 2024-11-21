@@ -102,6 +102,7 @@ class CreateController extends GetxController {
 
   ///如果有复用的图片，使用复用的图片
   Future<bool> aiGenerate(String prompt, String? imagePath, int? effectId) async {
+    Get.log("prompt: $prompt -- imagePath: $imagePath  effectId: $effectId");
     try {
       Get.dialog(const LoadingDialog());
       String? imageUrl;

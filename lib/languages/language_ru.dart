@@ -29,7 +29,7 @@ class LanguageRu {
       "copySucceed": "Копирование успешно",
       "tryVideo": "Попробовать видео",
       "downloadComplete": "Загрузка завершена",
-      "prompt_empty_tips": "Пожалуйста, введите запрос.",
+      "promptEmptyTips": "Пожалуйста, введите запрос.",
       "signIn": "Войти",
       "logOut": "Выйти",
       "logIn": "Войти",
@@ -128,7 +128,7 @@ class LanguageRu {
       "effect": "Эффект",
       "tryIt": "Попробуй",
       "imageMagic": "Магия изображений",
-      "image_empty_tips": "Пожалуйста, сначала выберите изображение.",
+      "imageEmptyTips": "Пожалуйста, выберите изображение и введите подсказку или выберите эффект",
       "saveVideoSuccess": "Успешно сохранено в альбом",
       "saveVideoFail": "Не удалось сохранить видео в альбом",
     };

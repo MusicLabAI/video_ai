@@ -29,7 +29,7 @@ class LanguageId {
       "copySucceed": "Salin Berhasil",
       "tryVideo": "Coba Video",
       "downloadComplete": "Unduhan Selesai",
-      "prompt_empty_tips": "Harap masukkan prompt terlebih dahulu.",
+      "promptEmptyTips": "Harap masukkan prompt terlebih dahulu.",
       "signIn": "Masuk",
       "logOut": "Keluar",
       "logIn": "Masuk",
@@ -128,7 +128,7 @@ class LanguageId {
       "effect": "Efek",
       "tryIt": "Coba",
       "imageMagic": "Sihir Gambar",
-      "image_empty_tips": "Silakan pilih gambar terlebih dahulu.",
+      "imageEmptyTips": "Silakan pilih gambar dan masukkan prompt atau pilih efek",
       "saveVideoSuccess": "Berhasil disimpan ke album",
       "saveVideoFail": "Gagal menyimpan video ke album",
     };

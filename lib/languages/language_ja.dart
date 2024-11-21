@@ -29,7 +29,7 @@ class LanguageJa {
       "copySucceed": "コピー成功",
       "tryVideo": "ビデオを試す",
       "downloadComplete": "ダウンロード完了",
-      "prompt_empty_tips": "まずプロンプトを入力してください。",
+      "promptEmptyTips": "まずプロンプトを入力してください。",
       "signIn": "サインイン",
       "logOut": "ログアウト",
       "logIn": "ログイン",
@@ -128,7 +128,7 @@ class LanguageJa {
       "effect": "エフェクト",
       "tryIt": "試してみる",
       "imageMagic": "画像マジック",
-      "image_empty_tips": "最初に画像を選択してください。",
+      "imageEmptyTips": "画像を選択してプロンプトを入力するか、エフェクトを選択してください",
       "saveVideoSuccess": "アルバムに正常に保存されました",
       "saveVideoFail": "アルバムに動画を保存できませんでした",
     };

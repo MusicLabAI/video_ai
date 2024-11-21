@@ -29,7 +29,7 @@ class LanguageZhTw {
       "copySucceed": "複製成功",
       "tryVideo": "嘗試視頻",
       "downloadComplete": "下載完成",
-      "prompt_empty_tips": "請先輸入一個提示詞。",
+      "promptEmptyTips": "請先輸入一個提示詞。",
       "signIn": "登入",
       "logOut": "登出",
       "logIn": "登入",
@@ -128,7 +128,7 @@ class LanguageZhTw {
       "effect": "特效",
       "tryIt": "試試",
       "imageMagic": "圖片魔術",
-      "image_empty_tips": "請先選擇一張圖片。",
+      "imageEmptyTips": "請選擇一張圖片並輸入提示詞或者選擇一個效果",
       "saveVideoSuccess": "保存到相册成功",
       "saveVideoFail": "視頻保存到相簿失敗",
     };

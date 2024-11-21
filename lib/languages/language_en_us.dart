@@ -31,7 +31,7 @@ class LanguageEnUs {
       'copySucceed': 'Copy Succeed',
       'tryVideo': 'Try Video',
       'downloadComplete': 'Download Complete',
-      'prompt_empty_tips': 'Please enter a prompt first.',
+      'promptEmptyTips': 'Please enter a prompt first.',
       'signIn': "Sign In",
       'logOut': 'Log out',
       'logIn': 'Log in',
@@ -134,7 +134,7 @@ class LanguageEnUs {
       "effect": "Effect",
       "tryIt": "Try It",
       "imageMagic": "Image magic",
-      "image_empty_tips": "Please pick a image first.",
+      "imageEmptyTips": "Please select an image and enter a prompt or choose an effect",
       "saveVideoSuccess": "Saved to album successfully",
       "saveVideoFail": "Video failed to save to album",
     };

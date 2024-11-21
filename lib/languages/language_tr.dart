@@ -30,7 +30,7 @@ class LanguageTr {
       "copySucceed": "Kopyalama Başarılı",
       "tryVideo": "Videoyu Dene",
       "downloadComplete": "İndirme Tamamlandı",
-      "prompt_empty_tips": "Lütfen önce bir komut girin.",
+      "promptEmptyTips": "Lütfen önce bir komut girin.",
       "signIn": "Giriş Yap",
       "logOut": "Çıkış Yap",
       "logIn": "Giriş Yap",
@@ -129,7 +129,7 @@ class LanguageTr {
       "effect": "Efekt",
       "tryIt": "Dene",
       "imageMagic": "Görüntü Büyüsü",
-      "image_empty_tips": "Lütfen önce bir resim seçin.",
+      "imageEmptyTips": "Lütfen bir resim seçin ve bir istem girin veya bir efekt seçin",
       "saveVideoSuccess": "Albüme başarıyla kaydedildi",
       "saveVideoFail": "Video albüme kaydedilemedi",
     };

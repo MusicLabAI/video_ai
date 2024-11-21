@@ -29,7 +29,7 @@ class LanguageZhCn {
       "copySucceed": "复制成功",
       "tryVideo": "尝试视频",
       "downloadComplete": "下载完成",
-      "prompt_empty_tips": "请先输入一个提示词。",
+      "promptEmptyTips": "请先输入一个提示词。",
       "signIn": "登录",
       "logOut": "退出登录",
       "logIn": "登录",
@@ -128,7 +128,7 @@ class LanguageZhCn {
       "effect": "特效",
       "tryIt": "试试",
       "imageMagic": "图片魔术",
-      "image_empty_tips": "请先选择一张图片。",
+      "imageEmptyTips": "请选择一张图片并输入提示词或者选择一个效果",
       "saveVideoSuccess": "保存到相册成功",
       "saveVideoFail": "视频保存到相册失败",
     };

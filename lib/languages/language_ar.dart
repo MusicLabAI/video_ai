@@ -29,7 +29,7 @@ class LanguageAr {
       "copySucceed": "تم النسخ بنجاح",
       "tryVideo": "جرب الفيديو",
       "downloadComplete": "اكتمل التنزيل",
-      "prompt_empty_tips": "يرجى إدخال التوجيه أولاً.",
+      "promptEmptyTips": "يرجى إدخال التوجيه أولاً.",
       "signIn": "تسجيل الدخول",
       "logOut": "تسجيل الخروج",
       "logIn": "تسجيل الدخول",
@@ -128,7 +128,7 @@ class LanguageAr {
       "effect": "تأثير",
       "tryIt": "جربه",
       "imageMagic": "سحر الصورة",
-      "image_empty_tips": "يرجى اختيار صورة أولاً.",
+      "imageEmptyTips": "يرجى اختيار صورة وإدخال مطالبة أو اختيار تأثير",
       "saveVideoSuccess": "تم الحفظ في الألبوم بنجاح",
       "saveVideoFail": "فشل حفظ الفيديو في الألبوم",
     };

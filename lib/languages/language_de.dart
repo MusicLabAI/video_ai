@@ -29,7 +29,7 @@ class LanguageDe {
       "copySucceed": "Kopieren erfolgreich",
       "tryVideo": "Video ausprobieren",
       "downloadComplete": "Download abgeschlossen",
-      "prompt_empty_tips": "Bitte geben Sie zuerst einen Prompt ein.",
+      "promptEmptyTips": "Bitte geben Sie zuerst einen Prompt ein.",
       "signIn": "Anmelden",
       "logOut": "Abmelden",
       "logIn": "Einloggen",
@@ -128,7 +128,7 @@ class LanguageDe {
       "effect": "Effekt",
       "tryIt": "Probier es aus",
       "imageMagic": "Bildmagie",
-      "image_empty_tips": "Bitte wählen Sie zuerst ein Bild aus.",
+      "imageEmptyTips": "Bitte wählen Sie ein Bild aus und geben Sie eine Eingabeaufforderung ein oder wählen Sie einen Effekt",
       "saveVideoSuccess": "Erfolgreich im Album gespeichert",
       "saveVideoFail": "Video konnte nicht im Album gespeichert werden",
     };

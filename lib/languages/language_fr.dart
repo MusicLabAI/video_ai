@@ -29,7 +29,7 @@ class LanguageFr {
       "copySucceed": "Copie réussie",
       "tryVideo": "Essayer la vidéo",
       "downloadComplete": "Téléchargement terminé",
-      "prompt_empty_tips": "Veuillez d'abord entrer un prompt.",
+      "promptEmptyTips": "Veuillez d'abord entrer un prompt.",
       "signIn": "Se connecter",
       "logOut": "Se déconnecter",
       "logIn": "Se connecter",
@@ -128,7 +128,7 @@ class LanguageFr {
       "effect": "Effet",
       "tryIt": "Essayez-le",
       "imageMagic": "Magie d'Image",
-      "image_empty_tips": "Veuillez sélectionner une image d'abord.",
+      "imageEmptyTips": "Veuillez sélectionner une image et entrer une invite ou choisir un effet",
       "saveVideoSuccess": "Enregistré dans l'album avec succès",
       "saveVideoFail": "Échec de l'enregistrement de la vidéo dans l'album",
     };

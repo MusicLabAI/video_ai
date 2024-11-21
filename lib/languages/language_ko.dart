@@ -29,7 +29,7 @@ class LanguageKo {
       "copySucceed": "복사 성공",
       "tryVideo": "비디오 시도",
       "downloadComplete": "다운로드 완료",
-      "prompt_empty_tips": "먼저 프롬프트를 입력하세요.",
+      "promptEmptyTips": "먼저 프롬프트를 입력하세요.",
       "signIn": "로그인",
       "logOut": "로그아웃",
       "logIn": "로그인",
@@ -128,7 +128,7 @@ class LanguageKo {
       "effect": "효과",
       "tryIt": "시도해보기",
       "imageMagic": "이미지 마법",
-      "image_empty_tips": "먼저 이미지를 선택해주세요.",
+      "imageEmptyTips": "이미지를 선택하고 프롬프트를 입력하거나 효과를 선택하세요",
       "saveVideoSuccess": "앨범에 성공적으로 저장되었습니다",
       "saveVideoFail": "동영상을 앨범에 저장하지 못했습니다",
     };

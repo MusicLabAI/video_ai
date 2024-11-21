@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage>
     FireBaseUtil.logEventButtonClick('create_page', buttonName);
     try {
       final pickedFile =
-      await ImagePicker().pickImage(source: ImageSource.gallery);
+          await ImagePicker().pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         _createCtr.imagePath.value = pickedFile.path;
         updateGenerateBtnStatus();
@@ -69,16 +69,20 @@ class _HomePageState extends State<HomePage>
       } else {
         Get.log('PlatformException: $e', isError: true);
       }
-    } catch (e){
+    } catch (e) {
       Get.log('Error picking image: $e', isError: true);
     }
   }
 
   void updateGenerateBtnStatus() {
     setState(() {
-      _isEnable.value = _controller.text.isNotEmpty &&
-          (_createCtr.curTabIndex.value != 0 ||
-              _createCtr.imagePath.isNotEmpty == true);
+      if (_createCtr.curTabIndex.value == 0) {
+        _isEnable.value = (_controller.text.isNotEmpty ||
+                _createCtr.curEffects.value != null) &&
+            _createCtr.imagePath.isNotEmpty == true;
+      } else {
+        _isEnable.value = _controller.text.isNotEmpty;
+      }
     });
   }
 
@@ -97,6 +101,10 @@ class _HomePageState extends State<HomePage>
     });
     ever(_createCtr.curEffects, (value) {
       _scrollToTop();
+      updateGenerateBtnStatus();
+    });
+    ever(_createCtr.curTabIndex, (value) {
+      updateGenerateBtnStatus();
     });
   }
 
@@ -150,7 +158,7 @@ class _HomePageState extends State<HomePage>
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _topView(),
+                          _topView(context),
                           _getGenerateBtn(context),
                           _bottomView(),
                           const SizedBox(
@@ -236,7 +244,7 @@ class _HomePageState extends State<HomePage>
     FireBaseUtil.logEventButtonClick('create_page', 'delete_image_button');
   }
 
-  Widget _topView() {
+  Widget _topView(BuildContext context) {
     return Obx(
       () => Column(
         children: [
@@ -503,7 +511,12 @@ class _HomePageState extends State<HomePage>
                               await _createCtr.getEffectsTags();
                               Get.back();
                             }
-                            await Get.bottomSheet(EffectDialog());
+                            if (mounted) {
+                              setState(() {
+                                CommonUtil.hideKeyboard(context);
+                              });
+                            }
+                            Get.bottomSheet(const EffectDialog());
                           }),
                     const Spacer(),
                     GestureDetector(
@@ -595,9 +608,9 @@ class _HomePageState extends State<HomePage>
           generate();
         } else {
           Fluttertoast.showToast(
-              msg: _controller.text.isEmpty
-                  ? 'prompt_empty_tips'.tr
-                  : "image_empty_tips".tr);
+              msg: _createCtr.curTabIndex.value == 0
+                  ? 'imageEmptyTips'.tr
+                  : 'promptEmptyTips'.tr);
         }
       },
       text: 'generate'.tr,
@@ -662,11 +675,17 @@ class _HomePageState extends State<HomePage>
       }
       return;
     }
-    String createType = (_createCtr.imagePath.value == null) ? 'TextToVideo' : 'ImageToVideo';
+    String createType =
+        (_createCtr.curTabIndex.value != 0) ? 'TextToVideo' : 'ImageToVideo';
     String effect = _createCtr.curEffects.value?.tag ?? '';
-    FireBaseUtil.logEvent(EventName.requestCreation, parameters: {'createType': createType, 'effect' : effect});
-    bool result = await _createCtr.aiGenerate(_controller.text,
-        _createCtr.imagePath.value, _createCtr.curEffects.value?.id);
+    FireBaseUtil.logEvent(EventName.requestCreation,
+        parameters: {'createType': createType, 'effect': effect});
+    bool result = await _createCtr.aiGenerate(
+        _controller.text,
+        _createCtr.curTabIndex.value == 0 ? _createCtr.imagePath.value : "",
+        _createCtr.curTabIndex.value == 0
+            ? _createCtr.curEffects.value?.id
+            : null);
     if (result) {
       _userCtr.getUserInfo();
       _mainCtr.tabController.index = 1;
