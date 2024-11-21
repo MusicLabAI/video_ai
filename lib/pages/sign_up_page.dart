@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/common/common_util.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/pages/email_verify_page.dart';
@@ -58,6 +59,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    FireBaseUtil.logEventPageView('email_signup_page');
     return GestureDetector(
       onTap: () => CommonUtil.hideKeyboard(context),
       child: Scaffold(

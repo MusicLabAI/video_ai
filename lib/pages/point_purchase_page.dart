@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/models/shop_model.dart';
@@ -33,6 +34,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
 
   @override
   Widget build(BuildContext context) {
+    FireBaseUtil.logEventPageView('credits_purchase_page');
     return Scaffold(
       backgroundColor: UiColors.c121212,
       body: Stack(
@@ -112,7 +114,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
                       child: CustomButton(
                         width: double.infinity,
                         height: 46,
-                        onTap: () => {_shopCtr.purchase('PointPurchasePage')},
+                        onTap: () => {_shopCtr.purchase('credits_purchase_page')},
                         text: 'purchase'.tr,
                         bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
                         textColor: UiColors.cDBFFFFFF,

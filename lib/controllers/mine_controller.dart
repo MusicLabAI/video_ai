@@ -111,7 +111,7 @@ class MineController extends GetxController {
     final result = await Request.deleteRecord(id);
     if (result != null && result['code'] == 0) {
       onRefresh();
-      FireBaseUtil.logEvent(EventName.deleteCreation);
+      FireBaseUtil.logEvent(EventName.deleteCreation, parameters: {'workId': '$id'});
     }
     if (Get.isDialogOpen ?? false) {
       Get.back();

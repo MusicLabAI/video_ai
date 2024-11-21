@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/pages/email_verify_page.dart';
 
 import '../common/common_util.dart';
@@ -47,6 +48,7 @@ class _ResetPwdPageState extends State<ResetPwdPage> {
 
   @override
   Widget build(BuildContext context) {
+    FireBaseUtil.logEventPageView('forget_password_page');
     return GestureDetector(
       onTap: () => CommonUtil.hideKeyboard(context),
       child: Scaffold(

@@ -52,7 +52,7 @@ class _MinePageState extends State<MinePage>
             IconButton(
                 onPressed: () {
                   Get.to(() => const SettingsPage());
-                  FireBaseUtil.logEventButtonClick('MinePage', 'mine_button');
+                  FireBaseUtil.logEventButtonClick('history_page', 'mine_button');
                 },
                 icon: Image.asset(
                   'images/icon/ic_user.png',
@@ -162,7 +162,7 @@ class _MinePageState extends State<MinePage>
         _mineCtr.delete(recordItem.id);
       },
     ));
-    FireBaseUtil.logEventButtonClick('MinePage', 'delete_video_button', popupName: 'delete_video_popup');
+    FireBaseUtil.logEventButtonClick('history_page', 'delete_video_button', popupName: 'delete_video_popup');
   }
 
   Widget _productionSucceed(RecordModel recordItem) {

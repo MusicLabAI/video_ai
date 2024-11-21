@@ -79,11 +79,11 @@ class MainApp extends StatelessWidget {
             seedColor: Colors.black, primary: UiColors.primary),
         useMaterial3: true,
       ),
-      routingCallback: (value) {
-        if (value != null) {
-          FireBaseUtil.logEventPageView(value.current);
-        }
-      },
+      // routingCallback: (value) {
+      //   if (value != null) {
+      //     FireBaseUtil.logEventPageView(value.current);
+      //   }
+      // },
       home: const MainPage(),
     );
   }

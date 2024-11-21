@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage>
     String buttonName = (_createCtr.imagePath.isNotEmpty == true)
         ? 'change_image_button'
         : 'add_image_button';
-    FireBaseUtil.logEventButtonClick('HomePage', buttonName);
+    FireBaseUtil.logEventButtonClick('create_page', buttonName);
     try {
       final pickedFile =
       await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage>
                       CommonUtil.hideKeyboard(context);
                       Get.to(() => const SettingsPage());
                       FireBaseUtil.logEventButtonClick(
-                          'HomePage', 'mine_button');
+                          'create_page', 'mine_button');
                     },
                     icon: Image.asset(
                       'images/icon/ic_user.png',
@@ -233,7 +233,7 @@ class _HomePageState extends State<HomePage>
   void clearImage() {
     _createCtr.imagePath.value = '';
     updateGenerateBtnStatus();
-    FireBaseUtil.logEventButtonClick('HomePage', 'delete_image_button');
+    FireBaseUtil.logEventButtonClick('create_page', 'delete_image_button');
   }
 
   Widget _topView() {
@@ -451,7 +451,7 @@ class _HomePageState extends State<HomePage>
                             });
                           }
                           FireBaseUtil.logEventButtonClick(
-                              'HomePage', 'insprire_button');
+                              'create_page', 'insprire_button');
                         }),
                     const SizedBox(
                       width: 10,
@@ -516,7 +516,7 @@ class _HomePageState extends State<HomePage>
                           _controller.text = "";
                         });
                         FireBaseUtil.logEventButtonClick(
-                            'HomePage', 'clean_button');
+                            'create_page', 'clean_button');
                       },
                       child: Container(
                         padding: const EdgeInsets.all(6),
@@ -593,7 +593,6 @@ class _HomePageState extends State<HomePage>
         if (_isEnable.value) {
           CommonUtil.hideKeyboard(context);
           generate();
-          FireBaseUtil.logEvent(EventName.requestCreation);
         } else {
           Fluttertoast.showToast(
               msg: _controller.text.isEmpty
@@ -656,13 +655,16 @@ class _HomePageState extends State<HomePage>
     if ((userInfo.point ?? 0) < 10) {
       if (userInfo.isVip ?? false) {
         Get.to(() => const PointPurchasePage());
-        FireBaseUtil.logEventButtonClick('HomePage', 'global_credits_button');
+        FireBaseUtil.logEventButtonClick('create_page', 'global_credits_button');
       } else {
         Get.to(() => const ProPurchasePage());
-        FireBaseUtil.logEventButtonClick('HomePage', 'global_pro_button');
+        FireBaseUtil.logEventButtonClick('create_page', 'global_pro_button');
       }
       return;
     }
+    String createType = (_createCtr.imagePath.value == null) ? 'TextToVideo' : 'ImageToVideo';
+    String effect = _createCtr.curEffects.value?.tag ?? '';
+    FireBaseUtil.logEvent(EventName.requestCreation, parameters: {'createType': createType, 'effect' : effect});
     bool result = await _createCtr.aiGenerate(_controller.text,
         _createCtr.imagePath.value, _createCtr.curEffects.value?.id);
     if (result) {

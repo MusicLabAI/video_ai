@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/shop_controller.dart';
@@ -32,6 +33,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
 
   @override
   Widget build(BuildContext context) {
+    FireBaseUtil.logEventPageView('pro_purchase_page');
     return Scaffold(
       backgroundColor: UiColors.c121212,
       body: Stack(
@@ -126,7 +128,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                     child: CustomButton(
                       width: double.infinity,
                       height: 46,
-                      onTap: () => {_shopCtr.subscript('ProPurchasePage')},
+                      onTap: () => {_shopCtr.subscript('pro_purchase_page')},
                       text: 'subscribe'.tr,
                       bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
                       textColor: UiColors.cDBFFFFFF,

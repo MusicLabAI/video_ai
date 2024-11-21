@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:video_ai/common/firebase_util.dart';
 
 import '../common/ui_colors.dart';
 import '../controllers/user_controller.dart';
@@ -48,6 +49,7 @@ class _EmailVerifyPageState extends State<EmailVerifyPage> {
 
   @override
   Widget build(BuildContext context) {
+    FireBaseUtil.logEventPageView('forget_password_verify_email_page');
     return Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(

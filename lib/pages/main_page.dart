@@ -75,7 +75,7 @@ class _MainPageState extends State<MainPage>
                         _mineCtr.retry();
                       }
                     });
-                    FireBaseUtil.logEventPageView(index == 0 ? 'HomePage' : 'MinePage');
+                    FireBaseUtil.logEventPageView(index == 0 ? 'create_page' : 'history_page');
                   },
                 )
           ],

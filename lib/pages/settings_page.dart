@@ -38,6 +38,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    FireBaseUtil.logEventPageView('mine_page');
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) => {
@@ -184,7 +185,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         : GestureDetector(
                             onTap: () {
                               Get.to(() => const ProPurchasePage());
-                              FireBaseUtil.logEventButtonClick('SettingsPage', 'mine_pro_button');
+                              FireBaseUtil.logEventButtonClick('settings_page', 'mine_pro_button');
                             },
                             child: Container(
                                 height: 32,
@@ -268,7 +269,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             Clipboard.setData(ClipboardData(
                                 text: "${_userCtr.userInfo.value.userId}"));
                             Fluttertoast.showToast(msg: 'copySucceed'.tr);
-                            FireBaseUtil.logEventButtonClick('SettingsPage', 'copy_id_button');
+                            FireBaseUtil.logEventButtonClick('settings_page', 'copy_id_button');
                           },
                           child: Padding(
                             padding:
@@ -321,7 +322,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       GestureDetector(
                         onTap: () {
                           Get.to(() => const PointPurchasePage());
-                          FireBaseUtil.logEventButtonClick('SettingsPage', 'mine_credits_button');
+                          FireBaseUtil.logEventButtonClick('settings_page', 'mine_credits_button');
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -364,21 +365,21 @@ class _SettingsPageState extends State<SettingsPage> {
               item: 'creditsUsageHistory'.tr,
               onTap: () {
                 Get.to(() => const PointRecordPage());
-                
+                FireBaseUtil.logEventPageView('credits_page');
               }),
         _SettingsItem(
             iconPath: 'images/icon/ic_join.png',
             item: 'joinUs'.tr,
             onTap: () {
               CommonUtil.openUrl(GlobalData.tgUrl);
-              FireBaseUtil.logEventButtonClick('SettingsPage', 'telegram_entry');
+              FireBaseUtil.logEventButtonClick('settings_page', 'telegram_entry');
             }),
         _SettingsItem(
             iconPath: 'images/icon/ic_contact.png',
             item: 'contactUs'.tr,
             onTap: () {
               CommonUtil.sendEmail();
-              FireBaseUtil.logEventButtonClick('SettingsPage', 'email_entry');
+              FireBaseUtil.logEventButtonClick('settings_page', 'email_entry');
             }),
         _SettingsItem(
             iconPath: 'images/icon/ic_settings.png',
@@ -387,6 +388,7 @@ class _SettingsPageState extends State<SettingsPage> {
               setState(() {
                 isSecond = true;
               });
+              FireBaseUtil.logEventPageView('settings_page');
             }),
       ],
     );
@@ -416,7 +418,7 @@ class _SettingsPageState extends State<SettingsPage> {
               CommonUtil.openUrl(GetPlatform.isAndroid
                   ? GlobalData.unsubscribeAndroidUrl
                   : GlobalData.unsubscribeIosUrl);
-              FireBaseUtil.logEventButtonClick('SettingsPage', 'unsubscribe_entry');
+              FireBaseUtil.logEventButtonClick('settings_page', 'unsubscribe_entry');
             }),
         if (_userCtr.isLogin.value)
           _SettingsItem(

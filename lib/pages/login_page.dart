@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/common/common_util.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/pages/reset_pwd_page.dart';
 import 'package:video_ai/pages/sign_up_page.dart';
 
@@ -58,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    FireBaseUtil.logEventPageView('email_login_page');
     return GestureDetector(
       onTap: () => CommonUtil.hideKeyboard(context),
       child: Scaffold(

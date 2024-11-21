@@ -60,6 +60,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    FireBaseUtil.logEventPageView('video_play_page');
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -104,6 +105,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                 if (Get.isDialogOpen ?? false) {
                   Get.back();
                 }
+                FireBaseUtil.logEventButtonClick('video_play_page', 'download_video_button');
                 Fluttertoast.showToast(msg: 'saveVideoFail'.tr);
               }
               FireBaseUtil.logEventButtonClick(
@@ -121,7 +123,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                 Share.share(videoUrl!);
               }
               FireBaseUtil.logEventButtonClick(
-                  'VideoDetailPage', 'share_video_button');
+                  'video_play_page', 'share_video_button');
               FireBaseUtil.logEvent(EventName.shareRequest);
             },
             icon: Image.asset(
@@ -234,7 +236,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                         onTap: () {
                           Get.to(() => FullScreenPlayer(videoUrl: videoUrl!));
                           FireBaseUtil.logEventButtonClick(
-                              'VideoDetailPage', 'full_screen_button');
+                              'video_play_page', 'full_screen_button');
                         },
                         child: Image.asset(
                           'images/icon/ic_enlarge.png',

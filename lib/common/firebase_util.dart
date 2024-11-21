@@ -79,14 +79,7 @@ class FireBaseUtil {
       );
     }
   }
-
-  // /// 调起支付页面
-  // static void subscribePageEvent(String fromPage) {
-  //   _analytics.logEvent(
-  //     name: EventName.subscribePage,
-  //     parameters: {'from_event': fromPage},
-  //   );
-  // }
+  
 }
 
 /// 事件名称
@@ -136,5 +129,5 @@ class EventName {
 
   /// 退出登录
   static const String logoutSuccessful = 'logout_successful';
-  
+
 }
