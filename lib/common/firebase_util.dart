@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:video_ai/models/shop_model.dart';
@@ -75,7 +74,7 @@ class FireBaseUtil {
     if (productId != null && productType != null) {
       _analytics.logEvent(
         name: EventName.payOrder,
-        parameters: {'productId': productId, 'result': result, 'productType': productType, 'pageName': pageName},
+        parameters: {'productId': productId, 'result': '$result', 'productType': productType, 'pageName': pageName},
       );
     }
   }
@@ -87,7 +86,7 @@ class FireBaseUtil {
     if (productId != null && productType != null) {
       _analytics.logEvent(
         name: EventName.consumptionOrder,
-        parameters: {'productId': productId, 'result': result, 'productType': productType, 'pageName': pageName},
+        parameters: {'productId': productId, 'result': '$result', 'productType': productType, 'pageName': pageName},
       );
     }
   }

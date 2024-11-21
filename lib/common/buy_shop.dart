@@ -87,6 +87,7 @@ class BuyShop {
             Get.dialog(const Center(child: CircularProgressIndicator()), barrierDismissible: false);
           }
           if (currentShopModel != null && purchaseDetails.status == PurchaseStatus.purchased) {
+            print('PurchaseStatus purchased success');
             FireBaseUtil.logEventPayOrder(currentShopModel!, true, currentPageName!);
           }
           final res = await Request.getOrderKey();
