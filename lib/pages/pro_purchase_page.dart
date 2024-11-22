@@ -20,15 +20,19 @@ class ProPurchasePage extends StatefulWidget {
 class _ProPurchasePageState extends State<ProPurchasePage> {
   final ShopController _shopCtr = ShopController();
   final UserController _userCtr = Get.find<UserController>();
+  bool submitted = false; //是否提交购买了
 
   @override
   void initState() {
     super.initState();
     _getShops();
-    ever(_userCtr.isLogin, (value) {
-      if (value) {
+    ever(_userCtr.userInfo, (userInfo) {
+      if (submitted) {
+        return;
+      }
+      if (userInfo.isVip == true) {
         Fluttertoast.showToast(msg: "noNeedsSubscribed".tr);
-        Get.back();
+        Get.until((route) => Get.currentRoute == '/');
       }
     });
   }
@@ -140,6 +144,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                           _userCtr.showLogin();
                           return;
                         }
+                        submitted = true;
                         _shopCtr.subscript();
                       },
                       text: 'subscribe'.tr,
