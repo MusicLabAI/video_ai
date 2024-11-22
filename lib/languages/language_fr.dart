@@ -121,6 +121,7 @@ class LanguageFr {
       "retryDeleteAccountTips": "Échec de la suppression du compte. Veuillez vous reconnecter et essayer de supprimer le compte.",
       'shopRefreshTips': "La connexion réseau est instable. Veuillez réessayer de récupérer les informations du produit.",
       "noNeedsSubscribed": "Vous avez déjà souscrit au service Pro, il n'est pas nécessaire de souscrire à nouveau.",
+      "generateCost": "Générer coûte 10 crédits.",
     };
   }
 }

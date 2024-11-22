@@ -121,6 +121,7 @@ class LanguageKo {
       "retryDeleteAccountTips": "계정 삭제 실패. 다시 로그인 후 삭제를 시도하세요.",
       'shopRefreshTips': "네트워크 연결이 불안정합니다. 제품 정보를 다시 시도해 주세요.",
       "noNeedsSubscribed": "이미 Pro 서비스를 구독하셨습니다. 다시 구독할 필요가 없습니다.",
+      "generateCost": "생성에는 10크레딧이 소요됩니다.",
     };
   }
 }

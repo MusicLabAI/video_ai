@@ -121,6 +121,7 @@ class LanguagePt {
       "retryDeleteAccountTips": "Falha ao excluir a conta. Faça login novamente e tente excluir a conta.",
       'shopRefreshTips': "A conexão de rede está instável. Por favor, tente recuperar as informações do produto novamente.",
       "noNeedsSubscribed": "Você já assinou o serviço Pro, não é necessário assinar novamente.",
+      "generateCost": "Gerar custa 10 créditos.",
     };
   }
 }

@@ -121,6 +121,7 @@ class LanguageIt {
       "retryDeleteAccountTips": "Eliminazione dell'account fallita. Accedi di nuovo e prova a eliminare l'account.",
       'shopRefreshTips': "La connessione di rete è instabile. Si prega di riprovare a recuperare le informazioni sul prodotto.",
       "noNeedsSubscribed": "Hai già sottoscritto il servizio Pro, non è necessario abbonarsi di nuovo.",
+      "generateCost": "Generare costa 10 crediti.",
     };
   }
 }

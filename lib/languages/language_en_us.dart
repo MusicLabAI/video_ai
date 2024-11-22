@@ -127,6 +127,7 @@ class LanguageEnUs {
       'retryDeleteAccountTips' : "Account deletion failed. Please log in again and try to delete the account.",
       'shopRefreshTips': "Network connection is unstable. Please try retrieving the product information again.",
       "noNeedsSubscribed": "You have already subscribed to the Pro service, no need to subscribe again.",
+      "generateCost": "Generating costs 10 credits.",
     };
   }
 }

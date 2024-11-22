@@ -121,6 +121,7 @@ class LanguageZhCn {
       "retryDeleteAccountTips": "账户删除失败。请重新登录并尝试删除账户。",
       'shopRefreshTips': "网络连接不稳定，请重新尝试获取商品信息。",
       "noNeedsSubscribed": "您已经订阅过Pro服务，无需再次订阅。",
+      "generateCost": "生成需要花费10个积分。",
     };
   }
 }

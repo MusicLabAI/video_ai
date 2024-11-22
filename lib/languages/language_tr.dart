@@ -122,6 +122,7 @@ class LanguageTr {
       "retryDeleteAccountTips": "Hesap silinemedi. Lütfen tekrar giriş yapın ve hesap silmeyi deneyin.",
       'shopRefreshTips': "Ağ bağlantısı kararsız. Lütfen ürün bilgilerini yeniden almaya çalışın.",
       "noNeedsSubscribed": "Pro hizmetine zaten abone oldunuz, yeniden abone olmanıza gerek yok.",
+      "generateCost": "Oluşturma 10 krediye mal olur.",
     };
   }
 }

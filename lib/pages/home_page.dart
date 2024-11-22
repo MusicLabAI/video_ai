@@ -339,7 +339,7 @@ class _HomePageState extends State<HomePage>
                       ],
                     ),
                   ),
-                  _getGenerateBtn(context),
+                  ..._getGenerateBtn(context),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
@@ -417,36 +417,46 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget _getGenerateBtn(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 24, bottom: 28, left: 20, right: 20),
-      child: CustomButton(
-        onTap: () {
-          if (_isEnable.value) {
-            CommonUtil.hideKeyboard(context);
-            generate();
-          } else {
-            Fluttertoast.showToast(msg: 'prompt_empty_tips'.tr);
-          }
-        },
-        text: 'generate'.tr,
-        textColor: _isEnable.value ? UiColors.cDBFFFFFF : UiColors.c61FFFFFF,
-        bgColors: _isEnable.value
-            ? [UiColors.c7631EC, UiColors.cA359EF]
-            : [UiColors.c272931, UiColors.c272931],
-        width: double.infinity,
-        height: 46,
-        textSize: 16,
-        rightIcon: Padding(
-          padding: const EdgeInsets.only(left: 4.0),
-          child: Image.asset(
-            'images/icon/ic_arrow_right.png',
-            width: 22,
-            color: _isEnable.value ? Colors.white : null,
+  List<Widget> _getGenerateBtn(BuildContext context) {
+    return [
+      Padding(
+        padding: const EdgeInsets.only(top: 24, bottom: 8, left: 20, right: 20),
+        child: CustomButton(
+          onTap: () {
+            if (_isEnable.value) {
+              CommonUtil.hideKeyboard(context);
+              generate();
+            } else {
+              Fluttertoast.showToast(msg: 'prompt_empty_tips'.tr);
+            }
+          },
+          text: 'generate'.tr,
+          textColor: _isEnable.value ? UiColors.cDBFFFFFF : UiColors.c61FFFFFF,
+          bgColors: _isEnable.value
+              ? [UiColors.c7631EC, UiColors.cA359EF]
+              : [UiColors.c272931, UiColors.c272931],
+          width: double.infinity,
+          height: 46,
+          textSize: 16,
+          rightIcon: Padding(
+            padding: const EdgeInsets.only(left: 4.0),
+            child: Image.asset(
+              'images/icon/ic_arrow_right.png',
+              width: 22,
+              color: _isEnable.value ? Colors.white : null,
+            ),
           ),
         ),
       ),
-    );
+      Padding(
+        padding: const EdgeInsets.only(bottom: 20.0, left: 20, right: 20),
+        child: Text(
+          'generateCost'.tr,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 12),
+        ),
+      ),
+    ];
   }
 
   Widget _listItem(String item, bool isLast, Function() onTap) {
