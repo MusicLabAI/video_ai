@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage>
     _controller.addListener(() {
       updateGenerateBtnStatus();
     });
-    _worker = ever(_createCtr.prompt, (value) { {
+    _worker = ever(_createCtr.prompt, (value) {
       setState(() {
         _controller.text = value;
         updateGenerateBtnStatus();
@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _topView(context),
-                          _getGenerateBtn(context),
+                          ..._getGenerateBtn(context),
                           _bottomView(),
                           const SizedBox(
                             height: 10,
@@ -601,8 +601,9 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-    List<Widget> _getGenerateBtn(BuildContext context) {
-      return [CustomButton(
+  List<Widget> _getGenerateBtn(BuildContext context) {
+    return [
+      CustomButton(
         margin: const EdgeInsets.only(top: 24),
         onTap: () {
           if (_isEnable.value) {
@@ -624,16 +625,18 @@ class _HomePageState extends State<HomePage>
         height: 46,
         textSize: 16,
       ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 20.0, left: 20, right: 20),
+      Padding(
+        padding: const EdgeInsets.only(top: 8.0, left: 20, right: 20),
+        child: Center(
           child: Text(
             'generateCost'.tr,
             textAlign: TextAlign.center,
             style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 12),
           ),
         ),
-      ];
-    }
+      ),
+    ];
+  }
 
   Widget _inspiresItem(String item, bool isLast, Function() onTap) {
     return Padding(
@@ -679,7 +682,8 @@ class _HomePageState extends State<HomePage>
     if ((userInfo.point ?? 0) < 10) {
       if (userInfo.isVip ?? false) {
         Get.to(() => const PointPurchasePage());
-        FireBaseUtil.logEventButtonClick('create_page', 'global_credits_button');
+        FireBaseUtil.logEventButtonClick(
+            'create_page', 'global_credits_button');
       } else {
         Get.to(() => const ProPurchasePage());
         FireBaseUtil.logEventButtonClick('create_page', 'global_pro_button');
