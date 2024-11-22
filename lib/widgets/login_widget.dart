@@ -111,6 +111,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           GestureDetector(
             onTap: () async {
               try {
+                Get.back();
                 Get.dialog(const LoadingDialog());
                 if (isAndroid) {
                   UserCredential userCredential = await signInWithGoogle();
@@ -131,7 +132,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                 if (Get.isDialogOpen ?? false) {
                   Get.back();
                 }
-                Get.back();
               } catch (e) {
                 if (Get.isDialogOpen ?? false) {
                   Get.back();

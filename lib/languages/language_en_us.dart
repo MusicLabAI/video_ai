@@ -24,7 +24,8 @@ class LanguageEnUs {
       'inspireMe': 'Inspire me',
       'generate': 'Generate',
       'giveMeSomeInspiration': 'Give me some inspiration',
-      'emptyRecordsTips': 'Click here to create your first AI video',
+      'noRecordsAndCreate': 'No records，Click here to create your first AI video.',
+      'pleaseLogIn': "Please log in to view your generated records.",
       'productionFailed': 'Production failed',
       'creditsHaveBeenRefunded': 'Credits have been refunded',
       'inProgress': 'In progress',
@@ -124,7 +125,8 @@ class LanguageEnUs {
       'payError': "Pay Error",
       'insufficientBalance': "Insufficient credits, please recharge and try again",
       'retryDeleteAccountTips' : "Account deletion failed. Please log in again and try to delete the account.",
-      'shopRefreshTips': "Network connection is unstable. Please try retrieving the product information again."
+      'shopRefreshTips': "Network connection is unstable. Please try retrieving the product information again.",
+      "noNeedsSubscribed": "You have already subscribed to the Pro service, no need to subscribe again.",
     };
   }
 }

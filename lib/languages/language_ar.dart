@@ -22,7 +22,8 @@ class LanguageAr {
       "inspireMe": "ألهِمني",
       "generate": "إنشاء",
       "giveMeSomeInspiration": "أعطني بعض الإلهام",
-      "emptyRecordsTips": "اضغط هنا لإنشاء أول فيديو بالذكاء الاصطناعي",
+      "noRecordsAndCreate": "لا توجد سجلات. انقر هنا لإنشاء أول فيديو باستخدام الذكاء الاصطناعي.",
+      "pleaseLogIn": "يرجى تسجيل الدخول لعرض السجلات التي تم إنشاؤها.",
       "productionFailed": "فشل الإنشاء",
       "creditsHaveBeenRefunded": "تم استرداد الأرصدة",
       "inProgress": "قيد التنفيذ",
@@ -118,7 +119,8 @@ class LanguageAr {
       "payError": "خطأ في الدفع",
       "insufficientBalance": "رصيد غير كافٍ، يرجى إعادة الشحن والمحاولة مرة أخرى",
       "retryDeleteAccountTips": "فشل حذف الحساب. يرجى تسجيل الدخول مرة أخرى ومحاولة الحذف.",
-      'shopRefreshTips': "الاتصال بالشبكة غير مستقر. يُرجى إعادة محاولة استرجاع معلومات المنتج."
+      'shopRefreshTips': "الاتصال بالشبكة غير مستقر. يُرجى إعادة محاولة استرجاع معلومات المنتج.",
+      "noNeedsSubscribed": "لقد اشتركت بالفعل في خدمة Pro، ليست هناك حاجة للاشتراك مرة أخرى.",
     };
   }
 }

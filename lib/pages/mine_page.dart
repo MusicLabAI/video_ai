@@ -78,6 +78,9 @@ class _MinePageState extends State<MinePage>
     return Center(
       child: GestureDetector(
         onTap: () {
+          if (!_userCtr.isLogin.value) {
+            _userCtr.showLogin();
+          }
           _mainCtr.tabController.index = 0;
         },
         child: Column(
@@ -89,16 +92,20 @@ class _MinePageState extends State<MinePage>
               height: 160,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 16),
-              child: Text(
-                'emptyRecordsTips'.tr,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 14,
-                    color: UiColors.c6A696F,
-                    fontWeight: FontWeightExt.semiBold),
-              ),
-            )
+                padding:
+                    const EdgeInsets.only(left: 20.0, right: 20.0, top: 16),
+                child: Obx(
+                  () => Text(
+                    _userCtr.isLogin.value
+                        ? 'noRecordsAndCreate'.tr
+                        : 'pleaseLogIn'.tr,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontSize: 14,
+                        color: UiColors.c6A696F,
+                        fontWeight: FontWeightExt.semiBold),
+                  ),
+                ))
           ],
         ),
       ),

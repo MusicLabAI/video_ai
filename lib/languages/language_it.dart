@@ -22,7 +22,8 @@ class LanguageIt {
       "inspireMe": "Ispirami",
       "generate": "Genera",
       "giveMeSomeInspiration": "Dammi un po' di ispirazione",
-      "emptyRecordsTips": "Clicca qui per creare il tuo primo video AI",
+      "noRecordsAndCreate": "Nessun record. Fai clic qui per creare il tuo primo video AI.",
+      "pleaseLogIn": "Accedi per visualizzare i tuoi record generati.",
       "productionFailed": "Produzione fallita",
       "creditsHaveBeenRefunded": "I crediti sono stati rimborsati",
       "inProgress": "In corso",
@@ -118,7 +119,8 @@ class LanguageIt {
       "payError": "Errore di pagamento",
       "insufficientBalance": "Crediti insufficienti, ricarica e riprova",
       "retryDeleteAccountTips": "Eliminazione dell'account fallita. Accedi di nuovo e prova a eliminare l'account.",
-      'shopRefreshTips': "La connessione di rete è instabile. Si prega di riprovare a recuperare le informazioni sul prodotto."
+      'shopRefreshTips': "La connessione di rete è instabile. Si prega di riprovare a recuperare le informazioni sul prodotto.",
+      "noNeedsSubscribed": "Hai già sottoscritto il servizio Pro, non è necessario abbonarsi di nuovo.",
     };
   }
 }

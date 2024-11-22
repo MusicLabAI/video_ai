@@ -48,10 +48,6 @@ class UserInfoWidget extends StatelessWidget {
             : GestureDetector(
                 onTap: () {
                   CommonUtil.hideKeyboard(context);
-                  if (!_userCtr.isLogin.value) {
-                    _userCtr.showLogin();
-                    return;
-                  }
                   Get.to(() => const ProPurchasePage());
                 },
                 child: Image.asset(

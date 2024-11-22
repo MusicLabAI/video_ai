@@ -22,7 +22,8 @@ class LanguageZhTw {
       "inspireMe": "激發我的靈感",
       "generate": "生成",
       "giveMeSomeInspiration": "給我一些靈感",
-      "emptyRecordsTips": "點擊這裡創建您的第一個AI視頻",
+      "noRecordsAndCreate": "沒有記錄。點擊這裡創建你的第一個AI視頻。",
+      "pleaseLogIn": "請先登入後再查看生成記錄。",
       "productionFailed": "生成失敗",
       "creditsHaveBeenRefunded": "積分已退回",
       "inProgress": "處理中",
@@ -118,7 +119,8 @@ class LanguageZhTw {
       "payError": "支付錯誤",
       "insufficientBalance": "餘額不足，請充值後重試",
       "retryDeleteAccountTips": "帳戶刪除失敗。請重新登入並嘗試刪除帳戶。",
-      'shopRefreshTips': "網絡連接不穩定，請重新嘗試獲取商品信息。"
+      'shopRefreshTips': "網絡連接不穩定，請重新嘗試獲取商品信息。",
+      "noNeedsSubscribed": "您已經訂閱過Pro服務，無需再次訂閱。",
     };
   }
 }

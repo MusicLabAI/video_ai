@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/shop_controller.dart';
+import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/shop_model.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
 import 'package:video_ai/widgets/bottom_item.dart';
@@ -17,11 +19,18 @@ class ProPurchasePage extends StatefulWidget {
 
 class _ProPurchasePageState extends State<ProPurchasePage> {
   final ShopController _shopCtr = ShopController();
+  final UserController _userCtr = Get.find<UserController>();
 
   @override
   void initState() {
     super.initState();
     _getShops();
+    ever(_userCtr.isLogin, (value) {
+      if (value) {
+        Fluttertoast.showToast(msg: "noNeedsSubscribed".tr);
+        Get.back();
+      }
+    });
   }
 
   void _getShops() {
@@ -126,7 +135,13 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                     child: CustomButton(
                       width: double.infinity,
                       height: 46,
-                      onTap: () => {_shopCtr.subscript()},
+                      onTap: () {
+                        if (!_userCtr.isLogin.value) {
+                          _userCtr.showLogin();
+                          return;
+                        }
+                        _shopCtr.subscript();
+                      },
                       text: 'subscribe'.tr,
                       bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
                       textColor: UiColors.cDBFFFFFF,

@@ -22,7 +22,8 @@ class LanguageDe {
       "inspireMe": "Inspiriere mich",
       "generate": "Erstellen",
       "giveMeSomeInspiration": "Gib mir etwas Inspiration",
-      "emptyRecordsTips": "Klicken Sie hier, um Ihr erstes KI-Video zu erstellen",
+      "noRecordsAndCreate": "Keine Aufzeichnungen. Klicken Sie hier, um Ihr erstes KI-Video zu erstellen.",
+      "pleaseLogIn": "Bitte melden Sie sich an, um Ihre generierten Aufzeichnungen zu sehen.",
       "productionFailed": "Produktion fehlgeschlagen",
       "creditsHaveBeenRefunded": "Gutschriften wurden erstattet",
       "inProgress": "In Bearbeitung",
@@ -118,7 +119,8 @@ class LanguageDe {
       "payError": "Zahlungsfehler",
       "insufficientBalance": "Unzureichende Gutschriften, bitte aufladen und erneut versuchen",
       "retryDeleteAccountTips": "Kontolöschung fehlgeschlagen. Bitte erneut einloggen und versuchen, das Konto zu löschen.",
-      'shopRefreshTips': "Die Netzwerkverbindung ist instabil. Bitte versuchen Sie erneut, die Produktinformationen abzurufen."
+      'shopRefreshTips': "Die Netzwerkverbindung ist instabil. Bitte versuchen Sie erneut, die Produktinformationen abzurufen.",
+      "noNeedsSubscribed": "Sie haben den Pro-Service bereits abonniert, eine erneute Anmeldung ist nicht erforderlich.",
     };
   }
 }

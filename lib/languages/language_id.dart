@@ -22,7 +22,8 @@ class LanguageId {
       "inspireMe": "Inspirasikan Saya",
       "generate": "Hasilkan",
       "giveMeSomeInspiration": "Berikan saya inspirasi",
-      "emptyRecordsTips": "Klik di sini untuk membuat video AI pertama Anda",
+      "noRecordsAndCreate": "Tidak ada catatan. Klik di sini untuk membuat video AI pertama Anda.",
+      "pleaseLogIn": "Silakan masuk untuk melihat catatan yang telah Anda buat.",
       "productionFailed": "Produksi gagal",
       "creditsHaveBeenRefunded": "Kredit telah dikembalikan",
       "inProgress": "Sedang dalam proses",
@@ -118,7 +119,8 @@ class LanguageId {
       "payError": "Kesalahan Pembayaran",
       "insufficientBalance": "Kredit tidak mencukupi, silakan isi ulang dan coba lagi",
       "retryDeleteAccountTips": "Penghapusan akun gagal. Silakan masuk kembali dan coba hapus akun.",
-      'shopRefreshTips': "Koneksi jaringan tidak stabil. Silakan coba mendapatkan informasi produk lagi."
+      'shopRefreshTips': "Koneksi jaringan tidak stabil. Silakan coba mendapatkan informasi produk lagi.",
+      "noNeedsSubscribed": "Anda sudah berlangganan layanan Pro, tidak perlu berlangganan lagi.",
     };
   }
 }

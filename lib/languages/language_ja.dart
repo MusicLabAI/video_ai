@@ -22,7 +22,8 @@ class LanguageJa {
       "inspireMe": "インスパイアして",
       "generate": "生成",
       "giveMeSomeInspiration": "インスピレーションをください",
-      "emptyRecordsTips": "最初のAIビデオを作成するにはここをクリック",
+      "noRecordsAndCreate": "記録がありません。ここをクリックして最初のAI動画を作成してください。",
+      "pleaseLogIn": "生成された記録を確認するにはログインしてください。",
       "productionFailed": "生成失敗",
       "creditsHaveBeenRefunded": "クレジットが返金されました",
       "inProgress": "進行中",
@@ -118,7 +119,8 @@ class LanguageJa {
       "payError": "支払いエラー",
       "insufficientBalance": "クレジットが不足しています。リチャージして再試行してください",
       "retryDeleteAccountTips": "アカウントの削除に失敗しました。再度ログインして削除を試してください。",
-      'shopRefreshTips': "ネットワーク接続が不安定です。商品情報の取得を再試行してください。"
+      'shopRefreshTips': "ネットワーク接続が不安定です。商品情報の取得を再試行してください。",
+      "noNeedsSubscribed": "Proサービスにはすでに登録済みです。再度登録する必要はありません。",
     };
   }
 }

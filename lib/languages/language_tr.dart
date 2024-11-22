@@ -23,7 +23,8 @@ class LanguageTr {
       "inspireMe": "Beni İlhamlandır",
       "generate": "Oluştur",
       "giveMeSomeInspiration": "Bana biraz ilham ver",
-      "emptyRecordsTips": "İlk yapay zeka videonuzu oluşturmak için buraya tıklayın",
+      "noRecordsAndCreate": "Kayıt bulunamadı. İlk yapay zeka videonuzu oluşturmak için buraya tıklayın.",
+      "pleaseLogIn": "Oluşturulan kayıtlarınızı görmek için lütfen giriş yapın.",
       "productionFailed": "Üretim Başarısız",
       "creditsHaveBeenRefunded": "Krediler iade edildi",
       "inProgress": "Devam Ediyor",
@@ -119,7 +120,8 @@ class LanguageTr {
       "payError": "Ödeme hatası",
       "insufficientBalance": "Yetersiz kredi, lütfen yükleyip tekrar deneyin",
       "retryDeleteAccountTips": "Hesap silinemedi. Lütfen tekrar giriş yapın ve hesap silmeyi deneyin.",
-      'shopRefreshTips': "Ağ bağlantısı kararsız. Lütfen ürün bilgilerini yeniden almaya çalışın."
+      'shopRefreshTips': "Ağ bağlantısı kararsız. Lütfen ürün bilgilerini yeniden almaya çalışın.",
+      "noNeedsSubscribed": "Pro hizmetine zaten abone oldunuz, yeniden abone olmanıza gerek yok.",
     };
   }
 }
