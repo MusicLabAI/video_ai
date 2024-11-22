@@ -20,14 +20,15 @@ class ProPurchasePage extends StatefulWidget {
 class _ProPurchasePageState extends State<ProPurchasePage> {
   final ShopController _shopCtr = ShopController();
   final UserController _userCtr = Get.find<UserController>();
-  bool submitted = false; //是否提交购买了
+  bool _isSubmitted = false; //是否提交购买了
+  Worker? _worker;
 
   @override
   void initState() {
     super.initState();
     _getShops();
-    ever(_userCtr.userInfo, (userInfo) {
-      if (submitted) {
+    _worker = ever(_userCtr.userInfo, (userInfo) {
+      if (!_isSubmitted) {
         return;
       }
       if (userInfo.isVip == true) {
@@ -35,6 +36,13 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
         Get.until((route) => Get.currentRoute == '/');
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _isSubmitted = false;
+    _worker?.dispose();
+    super.dispose();
   }
 
   void _getShops() {
@@ -144,7 +152,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                           _userCtr.showLogin();
                           return;
                         }
-                        submitted = true;
+                        _isSubmitted = true;
                         _shopCtr.subscript();
                       },
                       text: 'subscribe'.tr,

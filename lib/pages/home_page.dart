@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage>
   final createCtr = Get.put(CreateController());
   List<PromptModel> _items = [];
   List<PromptModel> _randomItems = [];
+  Worker? _worker;
 
   Future<void> _pickImage() async {
     final pickedFile =
@@ -56,7 +57,7 @@ class _HomePageState extends State<HomePage>
     _controller.addListener(() {
       _isEnable.value = _controller.text.isNotEmpty;
     });
-    ever(_mainCtr.prompt, (value) {
+    _worker = ever(_mainCtr.prompt, (value) {
       setState(() {
         _controller.text = value;
         _isEnable.value = _controller.text.isNotEmpty;
@@ -68,6 +69,7 @@ class _HomePageState extends State<HomePage>
   @override
   void dispose() {
     _controller.dispose();
+    _worker?.dispose();
     super.dispose();
   }
 
