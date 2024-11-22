@@ -50,10 +50,6 @@ class UserInfoWidget extends StatelessWidget {
             : GestureDetector(
                 onTap: () {
                   CommonUtil.hideKeyboard(context);
-                  if (!_userCtr.isLogin.value) {
-                    _userCtr.showLogin();
-                    return;
-                  }
                   Get.to(() => const ProPurchasePage());
                   FireBaseUtil.logEventButtonClick('create_page', 'global_pro_button');
                 },

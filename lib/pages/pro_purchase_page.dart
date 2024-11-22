@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/shop_controller.dart';
+import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/shop_model.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
 import 'package:video_ai/widgets/bottom_item.dart';
@@ -18,12 +20,32 @@ class ProPurchasePage extends StatefulWidget {
 
 class _ProPurchasePageState extends State<ProPurchasePage> {
   final ShopController _shopCtr = ShopController();
+  final UserController _userCtr = Get.find<UserController>();
+  bool _isSubmitted = false; //是否提交购买了
+  Worker? _worker;
 
   @override
   void initState() {
     super.initState();
     FireBaseUtil.logEventPageView('pro_purchase_page');
     _getShops();
+    ///处理登录后是会员的情况
+    _worker = ever(_userCtr.userInfo, (userInfo) {
+      if (_isSubmitted) {
+        return;
+      }
+      if (userInfo.isVip == true) {
+        Fluttertoast.showToast(msg: "noNeedsSubscribed".tr);
+        Get.until((route) => Get.currentRoute == '/');
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _isSubmitted = false;
+    _worker?.dispose();
+    super.dispose();
   }
 
   void _getShops() {
@@ -128,7 +150,14 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                     child: CustomButton(
                       width: double.infinity,
                       height: 46,
-                      onTap: () => {_shopCtr.subscript('pro_purchase_page')},
+                      onTap: () {
+                        if (!_userCtr.isLogin.value) {
+                          _userCtr.showLogin();
+                          return;
+                        }
+                        _isSubmitted = true;
+                        _shopCtr.subscript('pro_purchase_page');
+                      },
                       text: 'subscribe'.tr,
                       bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
                       textColor: UiColors.cDBFFFFFF,

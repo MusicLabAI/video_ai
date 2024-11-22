@@ -40,6 +40,7 @@ class _HomePageState extends State<HomePage>
   final CreateController _createCtr = Get.find<CreateController>();
   final RxBool _isEnable = false.obs;
   late TextEditingController _controller;
+  Worker? _worker;
 
   final ScrollController _scrollController = ScrollController();
 
@@ -93,7 +94,7 @@ class _HomePageState extends State<HomePage>
     _controller.addListener(() {
       updateGenerateBtnStatus();
     });
-    ever(_createCtr.prompt, (value) {
+    _worker = ever(_createCtr.prompt, (value) { {
       setState(() {
         _controller.text = value;
         updateGenerateBtnStatus();
@@ -111,6 +112,7 @@ class _HomePageState extends State<HomePage>
   @override
   void dispose() {
     _controller.dispose();
+    _worker?.dispose();
     super.dispose();
   }
 
@@ -599,30 +601,39 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget _getGenerateBtn(BuildContext context) {
-    return CustomButton(
-      margin: const EdgeInsets.only(top: 24),
-      onTap: () {
-        if (_isEnable.value) {
-          CommonUtil.hideKeyboard(context);
-          generate();
-        } else {
-          Fluttertoast.showToast(
-              msg: _createCtr.curTabIndex.value == 0
-                  ? 'imageEmptyTips'.tr
-                  : 'promptEmptyTips'.tr);
-        }
-      },
-      text: 'generate'.tr,
-      textColor: _isEnable.value ? UiColors.cDBFFFFFF : UiColors.c61FFFFFF,
-      bgColors: _isEnable.value
-          ? [UiColors.c7631EC, UiColors.cA359EF]
-          : [UiColors.c23242A, UiColors.c23242A],
-      width: double.infinity,
-      height: 46,
-      textSize: 16,
-    );
-  }
+    List<Widget> _getGenerateBtn(BuildContext context) {
+      return [CustomButton(
+        margin: const EdgeInsets.only(top: 24),
+        onTap: () {
+          if (_isEnable.value) {
+            CommonUtil.hideKeyboard(context);
+            generate();
+          } else {
+            Fluttertoast.showToast(
+                msg: _createCtr.curTabIndex.value == 0
+                    ? 'imageEmptyTips'.tr
+                    : 'promptEmptyTips'.tr);
+          }
+        },
+        text: 'generate'.tr,
+        textColor: _isEnable.value ? UiColors.cDBFFFFFF : UiColors.c61FFFFFF,
+        bgColors: _isEnable.value
+            ? [UiColors.c7631EC, UiColors.cA359EF]
+            : [UiColors.c23242A, UiColors.c23242A],
+        width: double.infinity,
+        height: 46,
+        textSize: 16,
+      ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20.0, left: 20, right: 20),
+          child: Text(
+            'generateCost'.tr,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 12),
+          ),
+        ),
+      ];
+    }
 
   Widget _inspiresItem(String item, bool isLast, Function() onTap) {
     return Padding(
