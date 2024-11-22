@@ -27,8 +27,9 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
   void initState() {
     super.initState();
     _getShops();
+    ///处理登录后是会员的情况
     _worker = ever(_userCtr.userInfo, (userInfo) {
-      if (!_isSubmitted) {
+      if (_isSubmitted) {
         return;
       }
       if (userInfo.isVip == true) {
