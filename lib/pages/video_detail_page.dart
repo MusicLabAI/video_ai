@@ -5,7 +5,6 @@ import 'package:gallery_saver_plus/gallery_saver.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:video_ai/common/file_utils.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/models/record_model.dart';
 import 'package:video_ai/pages/full_screen_player.dart';
@@ -14,7 +13,6 @@ import 'package:video_ai/widgets/dialogs.dart';
 import 'package:video_ai/widgets/loading_dialog.dart';
 import 'package:video_ai/common/firebase_util.dart';
 
-import '../common/file_util.dart';
 
 class VideoDetailPage extends StatefulWidget {
   const VideoDetailPage({super.key, required this.recordModel});

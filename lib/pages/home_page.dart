@@ -513,12 +513,7 @@ class _HomePageState extends State<HomePage>
                               await _createCtr.getEffectsTags();
                               Get.back();
                             }
-                            if (mounted) {
-                              setState(() {
-                                CommonUtil.hideKeyboard(context);
-                              });
-                            }
-                            Get.bottomSheet(const EffectDialog());
+                            await Get.bottomSheet(const EffectDialog());
                           }),
                     const Spacer(),
                     GestureDetector(

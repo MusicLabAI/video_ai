@@ -7,7 +7,6 @@ import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/shop_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/shop_model.dart';
-import 'package:video_ai/pages/point_purchase_page.dart';
 import 'package:video_ai/widgets/bottom_item.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 

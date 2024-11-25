@@ -496,8 +496,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
 class _SettingsItem extends StatelessWidget {
   const _SettingsItem(
-      {super.key,
-      required this.iconPath,
+      {required this.iconPath,
       required this.item,
       required this.onTap});
 

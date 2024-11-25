@@ -98,7 +98,7 @@ class EventName {
   
   /// 页面浏览
   static const String pageView = 'page_view';
-
+ 
   /// 按钮点击
   static const String buttonClick = 'button_click';
 
