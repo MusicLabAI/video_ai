@@ -63,7 +63,9 @@ class _HomePageState extends State<HomePage>
           Fluttertoast.showToast(msg: 'unsupportedImageFormat'.tr);
           return;
         }
-        _image = File(pickedFile.path);
+        setState(() {
+          _image = File(pickedFile.path);
+        });
       }
     } on PlatformException catch (e) {
       if (e.code == 'photo_access_denied') {
