@@ -14,6 +14,7 @@ import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/record_model.dart';
 import 'package:video_ai/pages/settings_page.dart';
 import 'package:video_ai/pages/video_detail_page.dart';
+import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/dialogs.dart';
 
 class MinePage extends StatefulWidget {
@@ -29,7 +30,6 @@ class _MinePageState extends State<MinePage>
   final CreateController _createCtr = Get.find<CreateController>();
   final MineController _mineCtr = Get.find<MineController>();
   final UserController _userCtr = Get.find<UserController>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,16 +63,18 @@ class _MinePageState extends State<MinePage>
         ),
         Expanded(
             child: Obx(
-          () => _mineCtr.dataList.isEmpty
-              ? _emptyRecordView
-              : EasyRefresh(
-                  onRefresh: () {
-                    _mineCtr.onRefresh();
-                  },
-                  onLoad: () {
-                    _mineCtr.onLoad();
-                  },
-                  child: _getGridView(_mineCtr.dataList, context)),
+          () => !_userCtr.isLogin.value
+              ? _unLoginView
+              : _mineCtr.dataList.isEmpty
+                  ? _emptyRecordView
+                  : EasyRefresh(
+                      onRefresh: () {
+                        _mineCtr.onRefresh();
+                      },
+                      onLoad: () {
+                        _mineCtr.onLoad();
+                      },
+                      child: _getGridView(_mineCtr.dataList, context)),
         ))
       ],
     );
@@ -82,9 +84,6 @@ class _MinePageState extends State<MinePage>
     return Center(
       child: GestureDetector(
         onTap: () {
-          if (!_userCtr.isLogin.value) {
-            _userCtr.showLogin();
-          }
           _mainCtr.tabController.index = 0;
         },
         child: Column(
@@ -96,20 +95,51 @@ class _MinePageState extends State<MinePage>
               height: 160,
             ),
             Padding(
-                padding:
-                    const EdgeInsets.only(left: 20.0, right: 20.0, top: 16),
-                child: Obx(
-                  () => Text(
-                    _userCtr.isLogin.value
-                        ? 'noRecordsAndCreate'.tr
-                        : 'pleaseLogIn'.tr,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 14,
-                        color: UiColors.c6A696F,
-                        fontWeight: FontWeightExt.semiBold),
-                  ),
-                ))
+              padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 16),
+              child: Text(
+                'noRecordsAndCreate'.tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 14,
+                    color: UiColors.c6A696F,
+                    fontWeight: FontWeightExt.semiBold),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget get _unLoginView {
+    return Center(
+      child: GestureDetector(
+        onTap: () {
+          _userCtr.showLogin();
+        },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 16),
+              child: Text(
+                'pleaseLogIn'.tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 14,
+                    color: UiColors.c6A696F,
+                    fontWeight: FontWeightExt.semiBold),
+              ),
+            ),
+            CustomButton(
+              text: 'logIn'.tr,
+              textColor: UiColors.cDBFFFFFF,
+              bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 36, vertical: 12),
+              textSize: 16,
+            )
           ],
         ),
       ),
