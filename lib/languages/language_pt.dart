@@ -8,7 +8,7 @@ class LanguagePt {
       "termsOfUse": "Termos de Uso",
       "privacyPolicy": "Política de Privacidade",
       "deleteAccount": "Excluir Conta",
-      "videoAi": "VideoAI",
+      "videoAi": "Video AI",
       "version": "Versão",
       "confirmDeletion": "Confirmar exclusão?",
       "cancel": "Cancelar",

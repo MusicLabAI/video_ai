@@ -8,7 +8,7 @@ class LanguageKo {
       "termsOfUse": "이용 약관",
       "privacyPolicy": "개인정보처리방침",
       "deleteAccount": "계정 삭제",
-      "videoAi": "VideoAI",
+      "videoAi": "Video AI",
       "version": "버전",
       "confirmDeletion": "삭제를 확인하시겠습니까?",
       "cancel": "취소",

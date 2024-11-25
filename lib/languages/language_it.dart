@@ -8,7 +8,7 @@ class LanguageIt {
       "termsOfUse": "Termini di utilizzo",
       "privacyPolicy": "Informativa sulla privacy",
       "deleteAccount": "Elimina account",
-      "videoAi": "VideoAI",
+      "videoAi": "Video AI",
       "version": "Versione",
       "confirmDeletion": "Confermi l'eliminazione?",
       "cancel": "Annulla",

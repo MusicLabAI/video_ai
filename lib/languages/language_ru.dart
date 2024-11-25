@@ -8,7 +8,7 @@ class LanguageRu {
       "termsOfUse": "Условия использования",
       "privacyPolicy": "Политика конфиденциальности",
       "deleteAccount": "Удалить аккаунт",
-      "videoAi": "VideoAI",
+      "videoAi": "Video AI",
       "version": "Версия",
       "confirmDeletion": "Подтвердить удаление?",
       "cancel": "Отмена",

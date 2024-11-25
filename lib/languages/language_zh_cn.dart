@@ -8,7 +8,7 @@ class LanguageZhCn {
       "termsOfUse": "使用条款",
       "privacyPolicy": "隐私政策",
       "deleteAccount": "删除账户",
-      "videoAi": "VideoAI",
+      "videoAi": "Video AI",
       "version": "版本",
       "confirmDeletion": "确认删除？",
       "cancel": "取消",

@@ -8,7 +8,7 @@ class LanguageFr {
       "termsOfUse": "Conditions d'utilisation",
       "privacyPolicy": "Politique de confidentialité",
       "deleteAccount": "Supprimer le compte",
-      "videoAi": "VidéoAI",
+      "videoAi": "Video AI",
       "version": "Version",
       "confirmDeletion": "Confirmer la suppression ?",
       "cancel": "Annuler",

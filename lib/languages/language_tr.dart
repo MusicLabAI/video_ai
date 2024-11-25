@@ -9,7 +9,7 @@ class LanguageTr {
       "termsOfUse": "Kullanım Koşulları",
       "privacyPolicy": "Gizlilik Politikası",
       "deleteAccount": "Hesabı Sil",
-      "videoAi": "VideoAI",
+      "videoAi": "Video AI",
       "version": "Sürüm",
       "confirmDeletion": "Silme işlemini onaylıyor musunuz?",
       "cancel": "İptal",

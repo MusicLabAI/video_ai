@@ -8,7 +8,7 @@ class LanguageEs {
       "termsOfUse": "Términos de uso",
       "privacyPolicy": "Política de privacidad",
       "deleteAccount": "Eliminar cuenta",
-      "videoAi": "VideoAI",
+      "videoAi": "Video AI",
       "version": "Versión",
       "confirmDeletion": "¿Confirmar eliminación?",
       "cancel": "Cancelar",

@@ -8,7 +8,7 @@ class LanguageZhTw {
       "termsOfUse": "使用條款",
       "privacyPolicy": "隱私政策",
       "deleteAccount": "刪除帳戶",
-      "videoAi": "VideoAI",
+      "videoAi": "Video AI",
       "version": "版本",
       "confirmDeletion": "確認刪除？",
       "cancel": "取消",

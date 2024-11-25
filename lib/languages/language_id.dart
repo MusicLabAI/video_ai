@@ -8,7 +8,7 @@ class LanguageId {
       "termsOfUse": "Syarat Penggunaan",
       "privacyPolicy": "Kebijakan Privasi",
       "deleteAccount": "Hapus Akun",
-      "videoAi": "VideoAI",
+      "videoAi": "Video AI",
       "version": "Versi",
       "confirmDeletion": "Konfirmasi penghapusan?",
       "cancel": "Batal",

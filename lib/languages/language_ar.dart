@@ -8,7 +8,7 @@ class LanguageAr {
       "termsOfUse": "شروط الاستخدام",
       "privacyPolicy": "سياسة الخصوصية",
       "deleteAccount": "حذف الحساب",
-      "videoAi": "VideoAI",
+      "videoAi": "Video AI",
       "version": "الإصدار",
       "confirmDeletion": "تأكيد الحذف؟",
       "cancel": "إلغاء",

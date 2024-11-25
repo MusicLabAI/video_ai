@@ -8,7 +8,7 @@ class LanguageJa {
       "termsOfUse": "利用規約",
       "privacyPolicy": "プライバシーポリシー",
       "deleteAccount": "アカウントを削除",
-      "videoAi": "VideoAI",
+      "videoAi": "Video AI",
       "version": "バージョン",
       "confirmDeletion": "削除を確認しますか？",
       "cancel": "キャンセル",
