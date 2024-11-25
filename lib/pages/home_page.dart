@@ -431,10 +431,8 @@ class _HomePageState extends State<HomePage>
             }
           },
           text: 'generate'.tr,
-          textColor: _isEnable.value ? UiColors.cDBFFFFFF : UiColors.c61FFFFFF,
-          bgColors: _isEnable.value
-              ? [UiColors.c7631EC, UiColors.cA359EF]
-              : [UiColors.c272931, UiColors.c272931],
+          textColor: UiColors.cDBFFFFFF,
+          bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
           width: double.infinity,
           height: 46,
           textSize: 16,
@@ -443,7 +441,7 @@ class _HomePageState extends State<HomePage>
             child: Image.asset(
               'images/icon/ic_arrow_right.png',
               width: 22,
-              color: _isEnable.value ? Colors.white : null,
+              color: Colors.white,
             ),
           ),
         ),
