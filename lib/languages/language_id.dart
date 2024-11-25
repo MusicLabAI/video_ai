@@ -122,6 +122,19 @@ class LanguageId {
       'shopRefreshTips': "Koneksi jaringan tidak stabil. Silakan coba mendapatkan informasi produk lagi.",
       "noNeedsSubscribed": "Anda sudah berlangganan layanan Pro, tidak perlu berlangganan lagi.",
       "generateCost": "Menghasilkan membutuhkan 10 kredit.",
+      "unsupportedImageFormat": "Format gambar ini belum didukung.",
+      "photoLibraryTitle": "Permintaan Izin",
+      "photoLibraryRequestText": "Izinkan akses ke perpustakaan foto untuk membuat video.",
+      "photoLibrarySaveText": "Izinkan menyimpan video ke perpustakaan foto.",
+      "settingsButton": "Pergi ke pengaturan",
+      "imageToVideo": "Gambar ke Video",
+      "textToVideo": "Teks ke Video",
+      "effect": "Efek",
+      "tryIt": "Coba",
+      "imageMagic": "Sihir Gambar",
+      "imageEmptyTips": "Silakan pilih gambar dan masukkan prompt atau pilih efek",
+      "saveVideoSuccess": "Berhasil disimpan ke album",
+      "saveVideoFail": "Gagal menyimpan video ke album",
     };
   }
 }

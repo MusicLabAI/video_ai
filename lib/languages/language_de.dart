@@ -122,6 +122,19 @@ class LanguageDe {
       'shopRefreshTips': "Die Netzwerkverbindung ist instabil. Bitte versuchen Sie erneut, die Produktinformationen abzurufen.",
       "noNeedsSubscribed": "Sie haben den Pro-Service bereits abonniert, eine erneute Anmeldung ist nicht erforderlich.",
       "generateCost": "Das Generieren kostet 10 Credits.",
+      "unsupportedImageFormat": "Dieses Bildformat wird noch nicht unterstützt.",
+      "photoLibraryTitle": "Berechtigungsanfrage",
+      "photoLibraryRequestText": "Erlauben Sie den Zugriff auf die Fotobibliothek, um Videos zu erstellen.",
+      "photoLibrarySaveText": "Erlauben Sie das Speichern von Videos in der Fotobibliothek.",
+      "settingsButton": "Zu den Einstellungen gehen",
+      "imageToVideo": "Bild zu Video",
+      "textToVideo": "Text zu Video",
+      "effect": "Effekt",
+      "tryIt": "Probier es aus",
+      "imageMagic": "Bildmagie",
+      "imageEmptyTips": "Bitte wählen Sie ein Bild aus und geben Sie eine Eingabeaufforderung ein oder wählen Sie einen Effekt",
+      "saveVideoSuccess": "Erfolgreich im Album gespeichert",
+      "saveVideoFail": "Video konnte nicht im Album gespeichert werden",
     };
   }
 }

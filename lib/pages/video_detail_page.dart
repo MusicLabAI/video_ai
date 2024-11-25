@@ -2,7 +2,6 @@ import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:video_ai/common/file_utils.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/models/record_model.dart';
 import 'package:video_ai/pages/full_screen_player.dart';
@@ -73,7 +72,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
               if (videoUrl?.isNotEmpty ?? false) {
                 Get.dialog(const LoadingDialog());
                 await FileUtil.saveFile(
-                    fileName: FileUtils.getFileNameFromUrl(videoUrl!),
+                    fileName: FileUtil.getFileNameFromUrl(videoUrl!),
                     url: videoUrl!);
 
                 if (Get.isDialogOpen ?? false) {

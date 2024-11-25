@@ -122,6 +122,19 @@ class LanguageKo {
       'shopRefreshTips': "네트워크 연결이 불안정합니다. 제품 정보를 다시 시도해 주세요.",
       "noNeedsSubscribed": "이미 Pro 서비스를 구독하셨습니다. 다시 구독할 필요가 없습니다.",
       "generateCost": "생성에는 10크레딧이 소요됩니다.",
+      "unsupportedImageFormat": "이 이미지 형식은 아직 지원되지 않습니다.",
+      "photoLibraryTitle": "권한 요청",
+      "photoLibraryRequestText": "동영상을 생성하려면 사진 라이브러리 접근을 허용해주세요.",
+      "photoLibrarySaveText": "사진 라이브러리에 동영상을 저장하도록 허용해주세요.",
+      "settingsButton": "설정으로 이동",
+      "imageToVideo": "이미지에서 동영상으로",
+      "textToVideo": "텍스트에서 동영상으로",
+      "effect": "효과",
+      "tryIt": "시도해보기",
+      "imageMagic": "이미지 마법",
+      "imageEmptyTips": "이미지를 선택하고 프롬프트를 입력하거나 효과를 선택하세요",
+      "saveVideoSuccess": "앨범에 성공적으로 저장되었습니다",
+      "saveVideoFail": "동영상을 앨범에 저장하지 못했습니다",
     };
   }
 }

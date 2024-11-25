@@ -122,6 +122,19 @@ class LanguagePt {
       'shopRefreshTips': "A conexão de rede está instável. Por favor, tente recuperar as informações do produto novamente.",
       "noNeedsSubscribed": "Você já assinou o serviço Pro, não é necessário assinar novamente.",
       "generateCost": "Gerar custa 10 créditos.",
+      "unsupportedImageFormat": "Este formato de imagem ainda não é suportado.",
+      "photoLibraryTitle": "Solicitação de permissão",
+      "photoLibraryRequestText": "Permita acesso à biblioteca de fotos para gerar vídeos.",
+      "photoLibrarySaveText": "Permita salvar vídeos na biblioteca de fotos.",
+      "settingsButton": "Ir para configurações",
+      "imageToVideo": "Imagem para Vídeo",
+      "textToVideo": "Texto para Vídeo",
+      "effect": "Efeito",
+      "tryIt": "Experimente",
+      "imageMagic": "Magia da Imagem",
+      "imageEmptyTips": "Por favor, selecione uma imagem e insira um prompt ou escolha um efeito",
+      "saveVideoSuccess": "Salvo no álbum com sucesso",
+      "saveVideoFail": "Falha ao salvar o vídeo no álbum",
     };
   }
 }

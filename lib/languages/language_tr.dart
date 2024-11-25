@@ -123,6 +123,19 @@ class LanguageTr {
       'shopRefreshTips': "Ağ bağlantısı kararsız. Lütfen ürün bilgilerini yeniden almaya çalışın.",
       "noNeedsSubscribed": "Pro hizmetine zaten abone oldunuz, yeniden abone olmanıza gerek yok.",
       "generateCost": "Oluşturma 10 krediye mal olur.",
+      "unsupportedImageFormat": "Bu görüntü formatı henüz desteklenmiyor.",
+      "photoLibraryTitle": "İzin Talebi",
+      "photoLibraryRequestText": "Video oluşturmak için fotoğraf kütüphanesine erişime izin verin.",
+      "photoLibrarySaveText": "Videoları fotoğraf kütüphanesine kaydetmeye izin verin.",
+      "settingsButton": "Ayarlar'a git",
+      "imageToVideo": "Görüntüden Videoya",
+      "textToVideo": "Metinden Videoya",
+      "effect": "Efekt",
+      "tryIt": "Dene",
+      "imageMagic": "Görüntü Büyüsü",
+      "imageEmptyTips": "Lütfen bir resim seçin ve bir istem girin veya bir efekt seçin",
+      "saveVideoSuccess": "Albüme başarıyla kaydedildi",
+      "saveVideoFail": "Video albüme kaydedilemedi",
     };
   }
 }

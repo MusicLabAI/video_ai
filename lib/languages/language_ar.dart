@@ -122,6 +122,19 @@ class LanguageAr {
       'shopRefreshTips': "الاتصال بالشبكة غير مستقر. يُرجى إعادة محاولة استرجاع معلومات المنتج.",
       "noNeedsSubscribed": "لقد اشتركت بالفعل في خدمة Pro، ليست هناك حاجة للاشتراك مرة أخرى.",
       "generateCost": "يتطلب التوليد 10 اعتمادات.",
+      "unsupportedImageFormat": "تنسيق الصورة هذا غير مدعوم بعد.",
+      "photoLibraryTitle": "طلب إذن",
+      "photoLibraryRequestText": "اسمح بالوصول إلى مكتبة الصور لإنشاء مقاطع الفيديو.",
+      "photoLibrarySaveText": "اسمح بحفظ مقاطع الفيديو في مكتبة الصور.",
+      "settingsButton": "انتقل إلى الإعدادات",
+      "imageToVideo": "الصورة إلى فيديو",
+      "textToVideo": "النص إلى فيديو",
+      "effect": "تأثير",
+      "tryIt": "جربه",
+      "imageMagic": "سحر الصورة",
+      "imageEmptyTips": "يرجى اختيار صورة وإدخال مطالبة أو اختيار تأثير",
+      "saveVideoSuccess": "تم الحفظ في الألبوم بنجاح",
+      "saveVideoFail": "فشل حفظ الفيديو في الألبوم",
     };
   }
 }

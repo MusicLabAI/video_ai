@@ -122,6 +122,19 @@ class LanguageZhCn {
       'shopRefreshTips': "网络连接不稳定，请重新尝试获取商品信息。",
       "noNeedsSubscribed": "您已经订阅过Pro服务，无需再次订阅。",
       "generateCost": "生成需要花费10个积分。",
+      "unsupportedImageFormat": "该图像格式尚不支持。",
+      "photoLibraryTitle": "权限请求",
+      "photoLibraryRequestText": "允许访问照片库以生成视频。",
+      "photoLibrarySaveText": "允许将视频保存到照片库。",
+      "settingsButton": "前往设置",
+      "imageToVideo": "图片转视频",
+      "textToVideo": "文字转视频",
+      "effect": "特效",
+      "tryIt": "试试",
+      "imageMagic": "图片魔术",
+      "imageEmptyTips": "请选择一张图片并输入提示词或者选择一个效果",
+      "saveVideoSuccess": "保存到相册成功",
+      "saveVideoFail": "视频保存到相册失败",
     };
   }
 }

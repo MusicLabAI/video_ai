@@ -128,6 +128,19 @@ class LanguageEnUs {
       'shopRefreshTips': "Network connection is unstable. Please try retrieving the product information again.",
       "noNeedsSubscribed": "You have already subscribed to the Pro service, no need to subscribe again.",
       "generateCost": "Generating costs 10 credits.",
+      "unsupportedImageFormat": "This image format is not supported yet.",
+      "photoLibraryTitle": "Permission request",
+      "photoLibraryRequestText": "Allow access to photo library  to generate videos.",
+      "photoLibrarySaveText": "Allow saving videos to the photo library.",
+      "settingsButton": "Go to settings",
+      "imageToVideo": "Image To Video",
+      "textToVideo": "Text To Video",
+      "effect": "Effect",
+      "tryIt": "Try It",
+      "imageMagic": "Image magic",
+      "imageEmptyTips": "Please select an image and enter a prompt or choose an effect",
+      "saveVideoSuccess": "Saved to album successfully",
+      "saveVideoFail": "Video failed to save to album",
     };
   }
 }

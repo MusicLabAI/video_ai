@@ -122,6 +122,19 @@ class LanguageJa {
       'shopRefreshTips': "ネットワーク接続が不安定です。商品情報の取得を再試行してください。",
       "noNeedsSubscribed": "Proサービスにはすでに登録済みです。再度登録する必要はありません。",
       "generateCost": "生成には10クレジットが必要です。",
+      "unsupportedImageFormat": "この画像形式はまだサポートされていません。",
+      "photoLibraryTitle": "許可リクエスト",
+      "photoLibraryRequestText": "動画を生成するためにフォトライブラリへのアクセスを許可してください。",
+      "photoLibrarySaveText": "フォトライブラリに動画を保存することを許可してください。",
+      "settingsButton": "設定に移動",
+      "imageToVideo": "画像から動画へ",
+      "textToVideo": "テキストから動画へ",
+      "effect": "エフェクト",
+      "tryIt": "試してみる",
+      "imageMagic": "画像マジック",
+      "imageEmptyTips": "画像を選択してプロンプトを入力するか、エフェクトを選択してください",
+      "saveVideoSuccess": "アルバムに正常に保存されました",
+      "saveVideoFail": "アルバムに動画を保存できませんでした",
     };
   }
 }

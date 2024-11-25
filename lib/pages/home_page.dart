@@ -2,10 +2,12 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_ai/api/request.dart';
+import 'package:path/path.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
@@ -19,6 +21,7 @@ import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/user_info_widget.dart';
 
 import '../controllers/main_controller.dart';
+import '../widgets/dialogs.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -40,14 +43,37 @@ class _HomePageState extends State<HomePage>
   List<PromptModel> _randomItems = [];
   Worker? _worker;
 
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      0, // 滚动到顶部的位置
+      duration: const Duration(milliseconds: 100), // 动画持续时间
+      curve: Curves.easeInOut, // 动画曲线
+    );
+  }
+
   Future<void> _pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
+    try {
+      final pickedFile =
+      await ImagePicker().pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
+        String ext = extension(pickedFile.path);
+        if (ext == ".gif") {
+          Fluttertoast.showToast(msg: 'unsupportedImageFormat'.tr);
+          return;
+        }
         _image = File(pickedFile.path);
       }
-    });
+    } on PlatformException catch (e) {
+      if (e.code == 'photo_access_denied') {
+        Get.dialog(getRequestPermissionDialog('photoLibraryRequestText'.tr));
+      } else {
+        Get.log('PlatformException: $e', isError: true);
+      }
+    } catch (e) {
+      Get.log('Error picking image: $e', isError: true);
+    }
   }
 
   @override
@@ -135,6 +161,7 @@ class _HomePageState extends State<HomePage>
           ),
           Expanded(
             child: SingleChildScrollView(
+              controller: _scrollController,
               child: Column(
                 children: [
                   Padding(
@@ -392,6 +419,7 @@ class _HomePageState extends State<HomePage>
                     return _listItem(prompt, item == _randomItems.last, () {
                       setState(() {
                         _controller.text = prompt;
+                        _scrollToTop();
                       });
                     });
                   }),
