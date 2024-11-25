@@ -122,7 +122,7 @@ class LanguageDe {
       'shopRefreshTips': "Die Netzwerkverbindung ist instabil. Bitte versuchen Sie erneut, die Produktinformationen abzurufen.",
       "noNeedsSubscribed": "Sie haben den Pro-Service bereits abonniert, eine erneute Anmeldung ist nicht erforderlich.",
       "generateCost": "Das Generieren kostet 10 Credits.",
-      'shopRefreshTips': "Die Netzwerkverbindung ist instabil. Bitte versuchen Sie erneut, die Produktinformationen abzurufen.",
+      "unsupportedImageFormat": "Dieses Bildformat wird noch nicht unterstützt.",
       "photoLibraryTitle": "Berechtigungsanfrage",
       "photoLibraryRequestText": "Erlauben Sie den Zugriff auf die Fotobibliothek, um Videos zu erstellen.",
       "photoLibrarySaveText": "Erlauben Sie das Speichern von Videos in der Fotobibliothek.",

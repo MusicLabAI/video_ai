@@ -122,7 +122,7 @@ class LanguageFr {
       'shopRefreshTips': "La connexion réseau est instable. Veuillez réessayer de récupérer les informations du produit.",
       "noNeedsSubscribed": "Vous avez déjà souscrit au service Pro, il n'est pas nécessaire de souscrire à nouveau.",
       "generateCost": "Générer coûte 10 crédits.",
-      'shopRefreshTips': "La connexion réseau est instable. Veuillez réessayer de récupérer les informations du produit.",
+      "unsupportedImageFormat": "Ce format d'image n'est pas encore pris en charge.",
       "photoLibraryTitle": "Demande d'autorisation",
       "photoLibraryRequestText": "Autoriser l'accès à la bibliothèque de photos pour générer des vidéos.",
       "photoLibrarySaveText": "Autoriser la sauvegarde des vidéos dans la bibliothèque de photos.",

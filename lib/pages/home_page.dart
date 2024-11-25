@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
@@ -61,6 +62,11 @@ class _HomePageState extends State<HomePage>
       final pickedFile =
           await ImagePicker().pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
+        String ext = extension(pickedFile.path);
+        if (ext == ".gif") {
+          Fluttertoast.showToast(msg: 'unsupportedImageFormat'.tr);
+          return;
+        }
         _createCtr.imagePath.value = pickedFile.path;
         updateGenerateBtnStatus();
       }
@@ -612,10 +618,8 @@ class _HomePageState extends State<HomePage>
           }
         },
         text: 'generate'.tr,
-        textColor: _isEnable.value ? UiColors.cDBFFFFFF : UiColors.c61FFFFFF,
-        bgColors: _isEnable.value
-            ? [UiColors.c7631EC, UiColors.cA359EF]
-            : [UiColors.c23242A, UiColors.c23242A],
+        textColor: UiColors.cDBFFFFFF,
+        bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
         width: double.infinity,
         height: 46,
         textSize: 16,

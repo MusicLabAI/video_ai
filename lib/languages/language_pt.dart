@@ -122,7 +122,7 @@ class LanguagePt {
       'shopRefreshTips': "A conexão de rede está instável. Por favor, tente recuperar as informações do produto novamente.",
       "noNeedsSubscribed": "Você já assinou o serviço Pro, não é necessário assinar novamente.",
       "generateCost": "Gerar custa 10 créditos.",
-      'shopRefreshTips': "A conexão de rede está instável. Por favor, tente recuperar as informações do produto novamente.",
+      "unsupportedImageFormat": "Este formato de imagem ainda não é suportado.",
       "photoLibraryTitle": "Solicitação de permissão",
       "photoLibraryRequestText": "Permita acesso à biblioteca de fotos para gerar vídeos.",
       "photoLibrarySaveText": "Permita salvar vídeos na biblioteca de fotos.",

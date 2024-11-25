@@ -123,7 +123,7 @@ class LanguageTr {
       'shopRefreshTips': "Ağ bağlantısı kararsız. Lütfen ürün bilgilerini yeniden almaya çalışın.",
       "noNeedsSubscribed": "Pro hizmetine zaten abone oldunuz, yeniden abone olmanıza gerek yok.",
       "generateCost": "Oluşturma 10 krediye mal olur.",
-      'shopRefreshTips': "Ağ bağlantısı kararsız. Lütfen ürün bilgilerini yeniden almaya çalışın.",
+      "unsupportedImageFormat": "Bu görüntü formatı henüz desteklenmiyor.",
       "photoLibraryTitle": "İzin Talebi",
       "photoLibraryRequestText": "Video oluşturmak için fotoğraf kütüphanesine erişime izin verin.",
       "photoLibrarySaveText": "Videoları fotoğraf kütüphanesine kaydetmeye izin verin.",

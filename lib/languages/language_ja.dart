@@ -122,7 +122,7 @@ class LanguageJa {
       'shopRefreshTips': "ネットワーク接続が不安定です。商品情報の取得を再試行してください。",
       "noNeedsSubscribed": "Proサービスにはすでに登録済みです。再度登録する必要はありません。",
       "generateCost": "生成には10クレジットが必要です。",
-      'shopRefreshTips': "ネットワーク接続が不安定です。商品情報の取得を再試行してください。",
+      "unsupportedImageFormat": "この画像形式はまだサポートされていません。",
       "photoLibraryTitle": "許可リクエスト",
       "photoLibraryRequestText": "動画を生成するためにフォトライブラリへのアクセスを許可してください。",
       "photoLibrarySaveText": "フォトライブラリに動画を保存することを許可してください。",

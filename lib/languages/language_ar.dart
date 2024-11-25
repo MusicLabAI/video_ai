@@ -122,7 +122,7 @@ class LanguageAr {
       'shopRefreshTips': "الاتصال بالشبكة غير مستقر. يُرجى إعادة محاولة استرجاع معلومات المنتج.",
       "noNeedsSubscribed": "لقد اشتركت بالفعل في خدمة Pro، ليست هناك حاجة للاشتراك مرة أخرى.",
       "generateCost": "يتطلب التوليد 10 اعتمادات.",
-      'shopRefreshTips': "الاتصال بالشبكة غير مستقر. يُرجى إعادة محاولة استرجاع معلومات المنتج.",
+      "unsupportedImageFormat": "تنسيق الصورة هذا غير مدعوم بعد.",
       "photoLibraryTitle": "طلب إذن",
       "photoLibraryRequestText": "اسمح بالوصول إلى مكتبة الصور لإنشاء مقاطع الفيديو.",
       "photoLibrarySaveText": "اسمح بحفظ مقاطع الفيديو في مكتبة الصور.",

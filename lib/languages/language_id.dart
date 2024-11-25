@@ -122,7 +122,7 @@ class LanguageId {
       'shopRefreshTips': "Koneksi jaringan tidak stabil. Silakan coba mendapatkan informasi produk lagi.",
       "noNeedsSubscribed": "Anda sudah berlangganan layanan Pro, tidak perlu berlangganan lagi.",
       "generateCost": "Menghasilkan membutuhkan 10 kredit.",
-      'shopRefreshTips': "Koneksi jaringan tidak stabil. Silakan coba mendapatkan informasi produk lagi.",
+      "unsupportedImageFormat": "Format gambar ini belum didukung.",
       "photoLibraryTitle": "Permintaan Izin",
       "photoLibraryRequestText": "Izinkan akses ke perpustakaan foto untuk membuat video.",
       "photoLibrarySaveText": "Izinkan menyimpan video ke perpustakaan foto.",
