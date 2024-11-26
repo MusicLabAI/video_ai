@@ -83,8 +83,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       width: double.infinity,
                       height: 46,
                       text: 'logOut'.tr,
-                      textColor: UiColors.c61FFFFFF,
-                      bgColor: UiColors.c282F3C,
+                      textColor: UiColors.cDBFFFFFF,
+                      bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
                       onTap: () {
                         showLogoutDialog();
                       },
