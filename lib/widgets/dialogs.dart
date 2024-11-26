@@ -110,30 +110,31 @@ class EditNameDialog extends StatelessWidget {
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24.0),
-              child: SizedBox(
-                height: 50,
-                child: TextField(
-                  maxLines: 1,
-                  controller: _controller,
-                  cursorColor: UiColors.cDBFFFFFF,
-                  maxLength: 15,
-                  style: TextStyle(
-                      color: UiColors.cDBFFFFFF,
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 24.0),
+              child: TextField(
+                maxLines: 1,
+                controller: _controller,
+                cursorColor: UiColors.cDBFFFFFF,
+                maxLength: 15,
+                style: TextStyle(
+                    color: UiColors.cDBFFFFFF,
+                    fontSize: 14,
+                    fontWeight: FontWeightExt.medium),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(left: 12),
+                  hintText: 'changeName'.tr,
+                  hintStyle: TextStyle(
+                      color: UiColors.c61FFFFFF,
                       fontSize: 14,
                       fontWeight: FontWeightExt.medium),
-                  decoration: InputDecoration(
-                      hintText: 'changeName'.tr,
-                      hintStyle: TextStyle(
-                          color: UiColors.c61FFFFFF,
-                          fontSize: 14,
-                          fontWeight: FontWeightExt.medium),
-                      fillColor: UiColors.c121212,
-                      border: noBorder,
-                      enabledBorder: noBorder,
-                      focusedBorder: noBorder,
-                      filled: true),
+                  counterStyle:
+                      const TextStyle(color: UiColors.c61FFFFFF, fontSize: 12),
+                  fillColor: UiColors.c121212,
+                  filled: true,
+                  border: noBorder,
+                  enabledBorder: noBorder,
+                  focusedBorder: noBorder,
                 ),
               ),
             ),
