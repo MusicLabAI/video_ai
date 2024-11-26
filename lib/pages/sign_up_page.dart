@@ -30,7 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   void initState() {
     super.initState();
-    FireBaseUtil.logEventPageView('email_signup_page');
+    FireBaseUtil.logEventPageView(PageName.emailSignupPage);
     _emailController.addListener(_updateButtonState);
     _pwdController.addListener(_updateButtonState);
   }

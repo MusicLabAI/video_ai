@@ -21,7 +21,7 @@ class UserInfoWidget extends StatelessWidget {
                 onTap: () {
                   CommonUtil.hideKeyboard(context);
                   Get.to(() => const PointPurchasePage());
-                  FireBaseUtil.logEventButtonClick('create_page', 'global_credits_button');
+                  FireBaseUtil.logEventButtonClick(PageName.createPage, 'global_credits_button');
                 },
                 child: Container(
                   height: 32,
@@ -51,7 +51,7 @@ class UserInfoWidget extends StatelessWidget {
                 onTap: () {
                   CommonUtil.hideKeyboard(context);
                   Get.to(() => const ProPurchasePage());
-                  FireBaseUtil.logEventButtonClick('create_page', 'global_pro_button');
+                  FireBaseUtil.logEventButtonClick(PageName.createPage, 'global_pro_button');
                 },
                 child: Image.asset(
                   'images/icon/img_pro.png',

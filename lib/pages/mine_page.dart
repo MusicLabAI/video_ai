@@ -33,48 +33,50 @@ class _MinePageState extends State<MinePage>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Text(
-                'profile'.tr,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeightExt.semiBold),
+    return SafeArea(
+      child: Column(
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Text(
+                  'profile'.tr,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeightExt.semiBold),
+                ),
               ),
-            ),
-            const Spacer(),
-            IconButton(
-                onPressed: () {
-                  Get.to(() => const SettingsPage());
-                  FireBaseUtil.logEventButtonClick('history_page', 'mine_button');
-                },
-                icon: Image.asset(
-                  'images/icon/ic_user.png',
-                  width: 24,
-                  height: 24,
-                ))
-          ],
-        ),
-        Expanded(
-            child: Obx(
-          () => _mineCtr.dataList.isEmpty
-              ? _emptyRecordView
-              : EasyRefresh(
-                  onRefresh: () {
-                    _mineCtr.onRefresh();
+              const Spacer(),
+              IconButton(
+                  onPressed: () {
+                    Get.to(() => const SettingsPage());
+                    FireBaseUtil.logEventButtonClick(PageName.historyPage, 'mine_button');
                   },
-                  onLoad: () {
-                    _mineCtr.onLoad();
-                  },
-                  child: _getGridView(_mineCtr.dataList, context)),
-        ))
-      ],
+                  icon: Image.asset(
+                    'images/icon/ic_user.png',
+                    width: 24,
+                    height: 24,
+                  ))
+            ],
+          ),
+          Expanded(
+              child: Obx(
+            () => _mineCtr.dataList.isEmpty
+                ? _emptyRecordView
+                : EasyRefresh(
+                    onRefresh: () {
+                      _mineCtr.onRefresh();
+                    },
+                    onLoad: () {
+                      _mineCtr.onLoad();
+                    },
+                    child: _getGridView(_mineCtr.dataList, context)),
+          ))
+        ],
+      )
     );
   }
 
@@ -85,7 +87,7 @@ class _MinePageState extends State<MinePage>
           if (!_userCtr.isLogin.value) {
             _userCtr.showLogin();
           }
-          _mainCtr.tabController.index = 0;
+          _mainCtr.tabController.index = 1;
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -169,7 +171,7 @@ class _MinePageState extends State<MinePage>
         _mineCtr.delete(recordItem.id);
       },
     ));
-    FireBaseUtil.logEventButtonClick('history_page', 'delete_video_button', popupName: 'delete_video_popup');
+    FireBaseUtil.logEventButtonClick(PageName.historyPage, 'delete_video_button', popupName: 'delete_video_popup');
   }
 
   Widget _productionSucceed(RecordModel recordItem) {
@@ -180,7 +182,7 @@ class _MinePageState extends State<MinePage>
             ));
         if (data is RecordModel) {
           _createCtr.reuseCurrent(data.prompt ?? '', data.inputImageUrl, data.effectId);
-          _mainCtr.tabController.index = 0;
+          _mainCtr.tabController.index = 1;
         }
       },
       child: Stack(children: [

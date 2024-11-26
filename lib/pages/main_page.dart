@@ -7,8 +7,10 @@ import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/mine_controller.dart';
+import 'package:video_ai/controllers/special_effects_controller.dart';
 import 'package:video_ai/pages/home_page.dart';
 import 'package:video_ai/pages/mine_page.dart';
+import 'package:video_ai/pages/special_effects_page.dart';
 import 'package:video_ai/widgets/custom_bottom_nav_bar.dart';
 
 import '../controllers/user_controller.dart';
@@ -26,13 +28,14 @@ class _MainPageState extends State<MainPage>
   final UserController _userCtr = Get.find();
   final MineController _mineCtr = Get.find();
   final CreateController _createCtr = Get.find();
+  final SpecialEffectsController _specialEffectsCtr = Get.find();
 
   @override
   void initState() {
     super.initState();
     _mainCtr.isCreationLayoutSwitch.value = GlobalData.isCreationLayoutSwitch;
     _mainCtr.getCommonConfig();
-    _mainCtr.tabController = TabController(length: 2, vsync: this);
+    _mainCtr.tabController = TabController(length: 3, vsync: this);
     _mainCtr.tabController.addListener(() {
       setState(() {});
     });
@@ -52,34 +55,37 @@ class _MainPageState extends State<MainPage>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: _mainCtr.tabController,
-                children: const [HomePage(), MinePage()],
-              ),
+      body: Column(
+        children: [
+          Expanded(
+            child: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _mainCtr.tabController,
+              children: const [SpecialEffectsPage(), HomePage(), MinePage()],
             ),
-            CustomBottomNavBar(
-                  currentIndex: _mainCtr.tabController.index,
-                  onTap: (index) {
-                    setState(() {
-                      _mainCtr.tabController.index = index;
-                      if (index == 0) {
-                        _createCtr.retry();
-                      }
-                      if (index == 1) {
-                        CommonUtil.hideKeyboard(context);
-                        _mineCtr.retry();
-                      }
-                    });
-                    FireBaseUtil.logEventPageView(index == 0 ? 'create_page' : 'history_page');
-                  },
-                )
-          ],
-        ),
+          ),
+          CustomBottomNavBar(
+            currentIndex: _mainCtr.tabController.index,
+            onTap: (index) {
+              setState(() {
+                _mainCtr.tabController.index = index;
+                if (index == 0) {
+                  CommonUtil.hideKeyboard(context);
+                  _specialEffectsCtr.retry();
+                  _createCtr.retry();
+                }
+                if (index == 1) {
+                  _createCtr.retry();
+                }
+                if (index == 2) {
+                  CommonUtil.hideKeyboard(context);
+                  _mineCtr.retry();
+                }
+              });
+              FireBaseUtil.logEventPageView(index == 0 ? PageName.specialEffectsPage : (index == 1 ? PageName.createPage : PageName.historyPage));
+            },
+          )
+        ],
       ),
     );
   }

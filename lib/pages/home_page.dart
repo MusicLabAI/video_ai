@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage>
     String buttonName = (_createCtr.imagePath.isNotEmpty == true)
         ? 'change_image_button'
         : 'add_image_button';
-    FireBaseUtil.logEventButtonClick('create_page', buttonName);
+    FireBaseUtil.logEventButtonClick(PageName.createPage, buttonName);
     try {
       final pickedFile =
           await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -124,7 +124,9 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    super.build(context);
+    return SafeArea(
+      child: GestureDetector(
         onTap: () => CommonUtil.hideKeyboard(context),
         child: Column(children: [
           Container(
@@ -148,7 +150,7 @@ class _HomePageState extends State<HomePage>
                       CommonUtil.hideKeyboard(context);
                       Get.to(() => const SettingsPage());
                       FireBaseUtil.logEventButtonClick(
-                          'create_page', 'mine_button');
+                          PageName.createPage, 'mine_button');
                     },
                     icon: Image.asset(
                       'images/icon/ic_user.png',
@@ -174,7 +176,8 @@ class _HomePageState extends State<HomePage>
                           )
                         ]),
                   )))
-        ]));
+        ]))
+      );
   }
 
   Widget _bottomView() {
@@ -249,7 +252,7 @@ class _HomePageState extends State<HomePage>
   void clearImage() {
     _createCtr.imagePath.value = '';
     updateGenerateBtnStatus();
-    FireBaseUtil.logEventButtonClick('create_page', 'delete_image_button');
+    FireBaseUtil.logEventButtonClick(PageName.createPage, 'delete_image_button');
   }
 
   Widget _topView(BuildContext context) {
@@ -467,7 +470,7 @@ class _HomePageState extends State<HomePage>
                             });
                           }
                           FireBaseUtil.logEventButtonClick(
-                              'create_page', 'insprire_button');
+                              PageName.createPage, 'insprire_button');
                         }),
                     const SizedBox(
                       width: 10,
@@ -532,7 +535,7 @@ class _HomePageState extends State<HomePage>
                           _controller.text = "";
                         });
                         FireBaseUtil.logEventButtonClick(
-                            'create_page', 'clean_button');
+                            PageName.createPage, 'clean_button');
                       },
                       child: Container(
                         padding: const EdgeInsets.all(6),
@@ -682,10 +685,10 @@ class _HomePageState extends State<HomePage>
       if (userInfo.isVip ?? false) {
         Get.to(() => const PointPurchasePage());
         FireBaseUtil.logEventButtonClick(
-            'create_page', 'global_credits_button');
+            PageName.createPage, 'global_credits_button');
       } else {
         Get.to(() => const ProPurchasePage());
-        FireBaseUtil.logEventButtonClick('create_page', 'global_pro_button');
+        FireBaseUtil.logEventButtonClick(PageName.createPage, 'global_pro_button');
       }
       return;
     }
@@ -702,7 +705,7 @@ class _HomePageState extends State<HomePage>
             : null);
     if (result) {
       _userCtr.getUserInfo();
-      _mainCtr.tabController.index = 1;
+      _mainCtr.tabController.index = 2;
       _mineCtr.onRefresh();
     }
   }

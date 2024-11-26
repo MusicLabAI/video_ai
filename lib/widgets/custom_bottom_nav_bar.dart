@@ -30,6 +30,12 @@ class CustomBottomNavBar extends StatelessWidget {
               items: [
                 BottomNavigationBarItem(
                     label: '',
+                    icon: Image.asset('images/icon/ic_special_effects.png',
+                        width: 32, height: 32),
+                    activeIcon: Image.asset('images/icon/ic_special_effects_selected.png',
+                        width: 32, height: 32)),
+                BottomNavigationBarItem(
+                    label: '',
                     icon: Image.asset('images/icon/ic_home.png',
                         width: 32, height: 32),
                     activeIcon: Image.asset('images/icon/ic_home_selected.png',

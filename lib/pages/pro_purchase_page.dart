@@ -26,7 +26,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
   @override
   void initState() {
     super.initState();
-    FireBaseUtil.logEventPageView('pro_purchase_page');
+    FireBaseUtil.logEventPageView(PageName.proPurchasePage);
     _getShops();
     ///处理登录后是会员的情况
     _worker = ever(_userCtr.userInfo, (userInfo) {

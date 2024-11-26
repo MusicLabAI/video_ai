@@ -32,7 +32,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
   @override
   void initState() {
     super.initState();
-    FireBaseUtil.logEventPageView('video_play_page');
+    FireBaseUtil.logEventPageView(PageName.videoPlayPage);
     videoUrl = widget.recordModel.outputVideoUrl;
     _controller =
         CachedVideoPlayerPlusController.networkUrl(Uri.parse(videoUrl ?? ''))
@@ -78,7 +78,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                 return;
               }
               FireBaseUtil.logEventButtonClick(
-                  'video_play_page', 'download_video_button');
+                  PageName.videoPlayPage, 'download_video_button');
               try {
                 if (GetPlatform.isIOS) {
                   final addOnlyStatus = await Permission.photosAddOnly
@@ -123,7 +123,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                 Share.share(videoUrl!);
               }
               FireBaseUtil.logEventButtonClick(
-                  'video_play_page', 'share_video_button');
+                  PageName.videoPlayPage, 'share_video_button');
               FireBaseUtil.logEvent(EventName.shareRequest);
             },
             icon: Image.asset(
@@ -236,7 +236,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                         onTap: () {
                           Get.to(() => FullScreenPlayer(videoUrl: videoUrl!));
                           FireBaseUtil.logEventButtonClick(
-                              'video_play_page', 'full_screen_button');
+                              PageName.videoPlayPage, 'full_screen_button');
                         },
                         child: Image.asset(
                           'images/icon/ic_enlarge.png',

@@ -185,7 +185,7 @@ class DioUtil {
       throw response;
     } on DioException catch (e) {
       _exceptionHandling(e.message, e.response);
-      rethrow;
+    rethrow;
     }
   }
 }
