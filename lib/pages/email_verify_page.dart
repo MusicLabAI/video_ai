@@ -28,7 +28,7 @@ class _EmailVerifyPageState extends State<EmailVerifyPage> {
   @override
   void initState() {
     super.initState();
-    FireBaseUtil.logEventPageView('forget_password_verify_email_page');
+    FireBaseUtil.logEventPageView(PageName.forgetPasswordVerifyEmailPage);
     _startTimer();
   }
 

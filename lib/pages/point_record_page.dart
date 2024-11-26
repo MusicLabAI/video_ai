@@ -30,7 +30,7 @@ class _PointRecordPageState extends State<PointRecordPage> {
   void initState() {
     super.initState();
     _onRefresh();
-    FireBaseUtil.logEventPageView('credits_page');
+    FireBaseUtil.logEventPageView(PageName.creditsPage);
   }
 
   Future<void> _onRefresh() async {

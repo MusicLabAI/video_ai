@@ -23,7 +23,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
   @override
   void initState() {
     super.initState();
-    FireBaseUtil.logEventPageView('credits_purchase_page');
+    FireBaseUtil.logEventPageView(PageName.creditsPurchasePage);
     _getShops();
   }
 
@@ -114,7 +114,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
                       child: CustomButton(
                         width: double.infinity,
                         height: 46,
-                        onTap: () => {_shopCtr.purchase('credits_purchase_page')},
+                        onTap: () => {_shopCtr.purchase(PageName.creditsPurchasePage)},
                         text: 'purchase'.tr,
                         bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
                         textColor: UiColors.cDBFFFFFF,

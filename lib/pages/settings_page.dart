@@ -31,7 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    FireBaseUtil.logEventPageView('mine_page');
+    FireBaseUtil.logEventPageView(PageName.minePage);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _userCtr.getUserInfo();
     });
@@ -185,7 +185,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         : GestureDetector(
                             onTap: () {
                               Get.to(() => const ProPurchasePage());
-                              FireBaseUtil.logEventButtonClick('settings_page', 'mine_pro_button');
+                              FireBaseUtil.logEventButtonClick(PageName.settingsPage, 'mine_pro_button');
                             },
                             child: Container(
                                 height: 32,
@@ -269,7 +269,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             Clipboard.setData(ClipboardData(
                                 text: "${_userCtr.userInfo.value.userId}"));
                             Fluttertoast.showToast(msg: 'copySucceed'.tr);
-                            FireBaseUtil.logEventButtonClick('settings_page', 'copy_id_button');
+                            FireBaseUtil.logEventButtonClick(PageName.settingsPage, 'copy_id_button');
                           },
                           child: Padding(
                             padding:
@@ -322,7 +322,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       GestureDetector(
                         onTap: () {
                           Get.to(() => const PointPurchasePage());
-                          FireBaseUtil.logEventButtonClick('settings_page', 'mine_credits_button');
+                          FireBaseUtil.logEventButtonClick(PageName.settingsPage, 'mine_credits_button');
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -371,14 +371,14 @@ class _SettingsPageState extends State<SettingsPage> {
             item: 'joinUs'.tr,
             onTap: () {
               CommonUtil.openUrl(GlobalData.tgUrl);
-              FireBaseUtil.logEventButtonClick('settings_page', 'telegram_entry');
+              FireBaseUtil.logEventButtonClick(PageName.settingsPage, 'telegram_entry');
             }),
         _SettingsItem(
             iconPath: 'images/icon/ic_contact.png',
             item: 'contactUs'.tr,
             onTap: () {
               CommonUtil.sendEmail();
-              FireBaseUtil.logEventButtonClick('settings_page', 'email_entry');
+              FireBaseUtil.logEventButtonClick(PageName.settingsPage, 'email_entry');
             }),
         _SettingsItem(
             iconPath: 'images/icon/ic_settings.png',
@@ -387,7 +387,7 @@ class _SettingsPageState extends State<SettingsPage> {
               setState(() {
                 isSecond = true;
               });
-              FireBaseUtil.logEventPageView('settings_page');
+              FireBaseUtil.logEventPageView(PageName.settingsPage);
             }),
       ],
     );
@@ -417,7 +417,7 @@ class _SettingsPageState extends State<SettingsPage> {
               CommonUtil.openUrl(GetPlatform.isAndroid
                   ? GlobalData.unsubscribeAndroidUrl
                   : GlobalData.unsubscribeIosUrl);
-              FireBaseUtil.logEventButtonClick('settings_page', 'unsubscribe_entry');
+              FireBaseUtil.logEventButtonClick(PageName.settingsPage, 'unsubscribe_entry');
             }),
         if (_userCtr.isLogin.value)
           _SettingsItem(

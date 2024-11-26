@@ -144,3 +144,44 @@ class EventName {
   /// 退出登录
   static const String logoutSuccessful = 'logout_successful';
 }
+
+class PageName  {
+  /// 创作页
+  static const String createPage = 'create_page';
+
+  /// 个人页
+  static const String minePage = 'mine_page';
+
+  /// 忘记密码 
+  static const String forgetPasswordVerifyEmailPage = 'forget_password_verify_email_page';
+
+  /// 邮箱登录页
+  static const String emailLoginPage = 'email_login_page';
+
+  /// 特效首页
+  static const String specialEffectsPage = 'special_effects_page';
+
+  /// 历史页面
+  static const String historyPage = 'history_page';
+
+  /// 点数购买页面
+  static const String creditsPurchasePage = 'credits_purchase_page';
+
+  /// 积分历史页面
+  static const String creditsPage = 'credits_page';
+
+  /// 会员购买页面
+  static const String proPurchasePage = 'pro_purchase_page';
+
+  /// 忘记密码页面
+  static const String forgetPasswordPage = 'forget_password_page';
+
+  /// 设置页面
+  static const String settingsPage = 'settings_page';
+
+  /// 邮箱注册页面
+  static const String emailSignupPage = 'email_signup_page';
+
+  /// 视频详情页面
+  static const String videoPlayPage = 'video_play_page';
+}

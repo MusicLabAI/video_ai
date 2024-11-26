@@ -28,7 +28,7 @@ class _ResetPwdPageState extends State<ResetPwdPage> {
   @override
   void initState() {
     super.initState();
-    FireBaseUtil.logEventPageView('forget_password_page');
+    FireBaseUtil.logEventPageView(PageName.forgetPasswordPage);
     _emailController.addListener(_updateButtonState);
   }
 
