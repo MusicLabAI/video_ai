@@ -38,6 +38,7 @@ class _MainPageState extends State<MainPage>
     });
     if (DioUtil.token.isBlank != true) {
       _userCtr.getUserInfo();
+      _createCtr.retry();
       _mineCtr.onRefresh();
     }
   }
