@@ -44,7 +44,7 @@ class CommonUtil {
     try {
       final Uri emailLaunchUri = Uri(
         scheme: 'mailto',
-        path: 'support@interactica.ai', // 目标邮件地址
+        path: 'support@superinteractica.ai', // 目标邮件地址
       );
       // 检查是否能够启动邮件客户端
       if (await canLaunchUrl(emailLaunchUri)) {
