@@ -460,10 +460,10 @@ packages:
     dependency: "direct main"
     description:
       name: gallery_saver_plus
-      sha256: "6ee232d1fb6b622944c9ce22b7886c24b68c8d3f3f420117c4fc5af4fd7d5c5a"
+      sha256: "79a3615a56fd5db42db77d6fe8315a0087d3e8f1ec01e6426810d4ed4c02dcbc"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.0"
+    version: "3.2.1"
   get:
     dependency: "direct main"
     description:
