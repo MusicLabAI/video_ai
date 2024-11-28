@@ -1,10 +1,17 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../widgets/dialogs.dart';
 
 class CommonUtil {
   static Function() debounce(Function fn, [int t = 500]) {
@@ -71,5 +78,31 @@ class CommonUtil {
     }
     final format = DateFormat('dd/MM/yyyy');
     return format.format(DateTime.fromMillisecondsSinceEpoch(time));
+  }
+
+  static Future<String?> pickUpImage() async {
+    try {
+      final pickedFile =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedFile == null) {
+        return null;
+      }
+        String ext = extension(pickedFile.path);
+        if (ext == ".gif") {
+          Fluttertoast.showToast(msg: 'unsupportedImageFormat'.tr);
+          return null;
+        }
+        return pickedFile.path;
+    } on PlatformException catch (e) {
+      if (e.code == 'photo_access_denied') {
+        Get.dialog(getRequestPermissionDialog('photoLibraryRequestText'.tr));
+      } else {
+        Get.log('PlatformException: $e', isError: true);
+      }
+      return null;
+    } catch (e) {
+      Get.log('Error picking image: $e', isError: true);
+      return null;
+    }
   }
 }

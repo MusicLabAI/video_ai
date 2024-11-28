@@ -341,13 +341,13 @@ class _EffectDialogState extends State<EffectDialog> {
                         return EffectsWidget(
                           model: _createCtr.effectsList[index],
                           containerRadius: 12,
-                          fromHome: false,
-                          videoRadius: 6,
+                          isShowTry: false,
+                          innerRadius: 6,
                           padding: 6,
                           textSize: 10,
                           unSelectedColor: UiColors.c1B1B1F,
                           selectedColor: UiColors.cBC8EF5,
-                          onTap: (model) {
+                          onTry: (model) {
                             _createCtr.selectEffects(model);
                             Get.back();
                           },

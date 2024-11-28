@@ -21,6 +21,8 @@ class UiColors {
 
   static const Color c171C26 = Color(0xFF171C26);
 
+  static const Color black_20 = Color(0x33000000);
+
   static const Color c131313 = Color(0xFF131313);
 
   static const Color c2F3A4D = Color(0xFF2F3A4D);
@@ -48,6 +50,8 @@ class UiColors {
   static const Color c2B2E38 = Color(0xFF2B2E38);
 
   static const Color cDBFFFFFF = Color(0xDBFFFFFF);
+
+  static const Color cDB000000 = Color(0xDB000000);
 
   static const Color cDEDEDE = Color(0xFFDEDEDE);
 
@@ -114,6 +118,8 @@ class UiColors {
   static const Color c282F3C = Color(0xFF282F3C);
 
   static const Color cF9F9F9 = Color(0xFFF9F9F9);
+
+  static const Color c7F7F7F = Color(0xFF7F7F7F);
 
   static Color hexToColor(String s) {
     if (s.length != 7 || int.tryParse(s.substring(1, 7), radix: 16) == null) {

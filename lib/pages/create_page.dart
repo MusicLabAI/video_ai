@@ -3,12 +3,8 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
@@ -17,23 +13,24 @@ import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
 import 'package:video_ai/pages/pro_purchase_page.dart';
+import 'package:video_ai/pages/prompt_detail_page.dart';
 import 'package:video_ai/pages/settings_page.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/dialogs.dart';
-import 'package:video_ai/widgets/loading_dialog.dart';
+import 'package:video_ai/widgets/loading_widget.dart';
+import 'package:video_ai/widgets/prompt_list_view.dart';
 import 'package:video_ai/widgets/user_info_widget.dart';
 
 import '../controllers/main_controller.dart';
-import '../widgets/effects_widget.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class CreatePage extends StatefulWidget {
+  const CreatePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<CreatePage> createState() => _CreatePageState();
 }
 
-class _HomePageState extends State<HomePage>
+class _CreatePageState extends State<CreatePage>
     with AutomaticKeepAliveClientMixin {
   final MainController _mainCtr = Get.find<MainController>();
   final UserController _userCtr = Get.find<UserController>();
@@ -41,7 +38,9 @@ class _HomePageState extends State<HomePage>
   final CreateController _createCtr = Get.find<CreateController>();
   final RxBool _isEnable = false.obs;
   late TextEditingController _controller;
-  Worker? _worker;
+  Worker? _promptWorker;
+  Worker? _effectsWorker;
+  Worker? _tabWorker;
 
   final ScrollController _scrollController = ScrollController();
 
@@ -58,26 +57,10 @@ class _HomePageState extends State<HomePage>
         ? 'change_image_button'
         : 'add_image_button';
     FireBaseUtil.logEventButtonClick(PageName.createPage, buttonName);
-    try {
-      final pickedFile =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        String ext = extension(pickedFile.path);
-        if (ext == ".gif") {
-          Fluttertoast.showToast(msg: 'unsupportedImageFormat'.tr);
-          return;
-        }
-        _createCtr.imagePath.value = pickedFile.path;
-        updateGenerateBtnStatus();
-      }
-    } on PlatformException catch (e) {
-      if (e.code == 'photo_access_denied') {
-        Get.dialog(getRequestPermissionDialog('photoLibraryRequestText'.tr));
-      } else {
-        Get.log('PlatformException: $e', isError: true);
-      }
-    } catch (e) {
-      Get.log('Error picking image: $e', isError: true);
+    String? path = await CommonUtil.pickUpImage();
+    if (path != null) {
+      _createCtr.imagePath.value = path;
+      updateGenerateBtnStatus();
     }
   }
 
@@ -100,17 +83,17 @@ class _HomePageState extends State<HomePage>
     _controller.addListener(() {
       updateGenerateBtnStatus();
     });
-    _worker = ever(_createCtr.prompt, (value) {
+    _promptWorker = ever(_createCtr.prompt, (value) {
       setState(() {
         _controller.text = value;
         updateGenerateBtnStatus();
       });
     });
-    ever(_createCtr.curEffects, (value) {
+    _effectsWorker = ever(_createCtr.curEffects, (value) {
       _scrollToTop();
       updateGenerateBtnStatus();
     });
-    ever(_createCtr.curTabIndex, (value) {
+    _tabWorker = ever(_createCtr.curTabIndex, (value) {
       updateGenerateBtnStatus();
     });
   }
@@ -118,7 +101,9 @@ class _HomePageState extends State<HomePage>
   @override
   void dispose() {
     _controller.dispose();
-    _worker?.dispose();
+    _promptWorker?.dispose();
+    _effectsWorker?.dispose();
+    _tabWorker?.dispose();
     super.dispose();
   }
 
@@ -126,133 +111,75 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     super.build(context);
     return SafeArea(
-      child: GestureDetector(
-        onTap: () => CommonUtil.hideKeyboard(context),
-        child: Column(children: [
-          Container(
-            color: Colors.transparent,
-            padding: const EdgeInsets.only(left: 16),
-            height: 56,
-            width: double.infinity,
-            child: Row(
-              children: [
-                const Text(
-                  'Video AI',
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: UiColors.cDBFFFFFF,
-                      fontWeight: FontWeightExt.semiBold),
-                ),
-                const Spacer(),
-                UserInfoWidget(),
-                IconButton(
-                    onPressed: () {
-                      CommonUtil.hideKeyboard(context);
-                      Get.to(() => const SettingsPage());
-                      FireBaseUtil.logEventButtonClick(
-                          PageName.createPage, 'mine_button');
-                    },
-                    icon: Image.asset(
-                      'images/icon/ic_user.png',
-                      width: 24,
-                      height: 24,
-                    )),
-              ],
-            ),
-          ),
-          Expanded(
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: SingleChildScrollView(
-                    controller: _scrollController,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _topView(context),
-                          ..._getGenerateBtn(context),
-                          _bottomView(),
-                          const SizedBox(
-                            height: 10,
-                          )
-                        ]),
-                  )))
-        ]))
-      );
-  }
-
-  Widget _bottomView() {
-    return Obx(
-      () {
-        if (_mainCtr.isCreationLayoutSwitch.value) {
-          // 提示词布局
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _inspireLabel(),
-              ..._createCtr.randomItems.value.map(
-                (item) {
-                  final prompt = item.prompt ?? "";
-                  return _inspiresItem(
-                    prompt,
-                    false,
-                    () {
-                      setState(() {
-                        _controller.text = prompt;
-                      });
-                    },
-                  );
-                },
-              ), // 确保 map 的结果转换为列表
-            ],
-          );
-        } else {
-          // 特效图布局
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomButton(
-                margin: const EdgeInsets.symmetric(vertical: 16),
-                text: 'imageMagic'.tr,
-                textColor: UiColors.cBC8EF5,
-                textSize: 14,
-                leftIcon: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Image.asset(
-                    'images/icon/ic_effects_selected.png',
-                    width: 20,
-                  ),
+        child: GestureDetector(
+            onTap: () => CommonUtil.hideKeyboard(context),
+            child: Column(children: [
+              Container(
+                color: Colors.transparent,
+                padding: const EdgeInsets.only(left: 16),
+                height: 56,
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    const Text(
+                      'Video AI',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: UiColors.cDBFFFFFF,
+                          fontWeight: FontWeightExt.semiBold),
+                    ),
+                    const Spacer(),
+                    UserInfoWidget(),
+                    IconButton(
+                        onPressed: () {
+                          CommonUtil.hideKeyboard(context);
+                          Get.to(() => const SettingsPage());
+                          FireBaseUtil.logEventButtonClick(
+                              PageName.createPage, 'mine_button');
+                        },
+                        icon: Image.asset(
+                          'images/icon/ic_user.png',
+                          width: 24,
+                          height: 24,
+                        )),
+                  ],
                 ),
               ),
-              GridView.builder(
-                itemCount: _createCtr.effectsList.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 154 / 212,
-                  mainAxisSpacing: 16.0,
-                  crossAxisSpacing: 10.0,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return EffectsWidget(
-                    model: _createCtr.effectsList[index],
-                    onTap: (model) {
-                      _createCtr.selectEffects(model);
-                    },
-                  );
-                },
-              ),
-            ],
-          );
-        }
-      },
-    );
+              Expanded(
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: SingleChildScrollView(
+                        controller: _scrollController,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _topView(context),
+                              ..._getGenerateBtn(context),
+                              PromptListView(
+                                dataList: _createCtr.effectsList.value,
+                                paddingTop: 16,
+                                onItemClick: (model) {
+                                  Get.to(() =>
+                                      PromptDetailPage(dataList: _createCtr.effectsList.value));
+                                },
+                                onClick: (model) {
+                                  _createCtr.prompt.value = model.tag ?? "";
+                                  _createCtr.curTabIndex.value = 1;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              )
+                            ]),
+                      )))
+            ])));
   }
 
   void clearImage() {
     _createCtr.imagePath.value = '';
     updateGenerateBtnStatus();
-    FireBaseUtil.logEventButtonClick(PageName.createPage, 'delete_image_button');
+    FireBaseUtil.logEventButtonClick(
+        PageName.createPage, 'delete_image_button');
   }
 
   Widget _topView(BuildContext context) {
@@ -518,7 +445,7 @@ class _HomePageState extends State<HomePage>
                               : UiColors.cDBFFFFFF,
                           onTap: () async {
                             if (_createCtr.effectsList.isEmpty) {
-                              Get.dialog(const LoadingDialog());
+                              Get.dialog(const LoadingWidget());
                               await _createCtr.getEffectsTags();
                               Get.back();
                             }
@@ -688,7 +615,8 @@ class _HomePageState extends State<HomePage>
             PageName.createPage, 'global_credits_button');
       } else {
         Get.to(() => const ProPurchasePage());
-        FireBaseUtil.logEventButtonClick(PageName.createPage, 'global_pro_button');
+        FireBaseUtil.logEventButtonClick(
+            PageName.createPage, 'global_pro_button');
       }
       return;
     }

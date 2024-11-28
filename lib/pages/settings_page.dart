@@ -13,7 +13,7 @@ import 'package:video_ai/pages/point_record_page.dart';
 import 'package:video_ai/pages/pro_purchase_page.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/dialogs.dart';
-import 'package:video_ai/widgets/loading_dialog.dart';
+import 'package:video_ai/widgets/loading_widget.dart';
 
 import '../common/common_util.dart';
 
@@ -469,7 +469,7 @@ class _SettingsPageState extends State<SettingsPage> {
       subText: 'deleteAccountTips'.tr,
       onConfirm: () async {
         Get.back();
-        Get.dialog(const LoadingDialog());
+        Get.dialog(const LoadingWidget());
         if (GetPlatform.isAndroid) {
           try {
             final user = FirebaseAuth.instance.currentUser;

@@ -141,6 +141,11 @@ class LanguageEnUs {
       "imageEmptyTips": "Please select an image and enter a prompt or choose an effect",
       "saveVideoSuccess": "Saved to album successfully",
       "saveVideoFail": "Video failed to save to album",
+      "uploadImageTips": "Click to upload the image you want for AI video creation",
+      "createTheSameEffect": "Create the same effect",
+      "tryThisPrompt": "Try This Prompt",
+      "suggestedForYou": "Suggested for You",
+      "tryPrompt": "Try Prompt",
     };
   }
 }

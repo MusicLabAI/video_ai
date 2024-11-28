@@ -9,7 +9,7 @@ import '../api/dio.dart';
 import '../api/request.dart';
 import '../common/rsa.dart';
 import '../models/user_model.dart';
-import '../widgets/loading_dialog.dart';
+import '../widgets/loading_widget.dart';
 import 'mine_controller.dart';
 
 class UserController extends GetxController {
@@ -80,7 +80,7 @@ class UserController extends GetxController {
         }
         final uid = firebaseAuth.currentUser?.uid;
         if (uid != null) {
-          Get.dialog(const LoadingDialog(), barrierDismissible: false);
+          Get.dialog(const LoadingWidget(), barrierDismissible: false);
           await login(uid, firebaseAuth.currentUser?.email, loginGoogle);
           Get.until((route) => Get.currentRoute == '/');
         }
@@ -102,7 +102,7 @@ class UserController extends GetxController {
 
   Future<void> emailCreateUser(String email, String password) async {
     try {
-      Get.dialog(const LoadingDialog(), barrierDismissible: false);
+      Get.dialog(const LoadingWidget(), barrierDismissible: false);
       await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -130,7 +130,7 @@ class UserController extends GetxController {
 
   Future<void> emailLogIn(String email, String password) async {
     try {
-      Get.dialog(const LoadingDialog(), barrierDismissible: false);
+      Get.dialog(const LoadingWidget(), barrierDismissible: false);
       final currentCredential = await firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -218,7 +218,7 @@ class UserController extends GetxController {
 
   Future<void> userEdit(String nickname) async {
     try {
-      Get.dialog(const LoadingDialog(), barrierDismissible: false);
+      Get.dialog(const LoadingWidget(), barrierDismissible: false);
       await Request.userEdit(nickname);
       final u = userInfo.value.toMap();
       u['name'] = nickname;

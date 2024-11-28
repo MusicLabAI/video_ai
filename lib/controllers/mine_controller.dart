@@ -6,7 +6,7 @@ import 'package:video_ai/controllers/user_controller.dart';
 
 import '../api/request.dart';
 import '../models/record_model.dart';
-import '../widgets/loading_dialog.dart';
+import '../widgets/loading_widget.dart';
 
 class MineController extends GetxController {
   final RxList<RecordModel> dataList = <RecordModel>[].obs;
@@ -107,7 +107,7 @@ class MineController extends GetxController {
   }
 
   Future<void> delete(int id) async {
-    Get.dialog(const LoadingDialog());
+    Get.dialog(const LoadingWidget());
     final result = await Request.deleteRecord(id);
     if (result != null && result['code'] == 0) {
       onRefresh();

@@ -8,7 +8,7 @@ import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/controllers/special_effects_controller.dart';
-import 'package:video_ai/pages/home_page.dart';
+import 'package:video_ai/pages/create_page.dart';
 import 'package:video_ai/pages/mine_page.dart';
 import 'package:video_ai/pages/special_effects_page.dart';
 import 'package:video_ai/widgets/custom_bottom_nav_bar.dart';
@@ -62,7 +62,7 @@ class _MainPageState extends State<MainPage>
             child: TabBarView(
               physics: const NeverScrollableScrollPhysics(),
               controller: _mainCtr.tabController,
-              children: const [SpecialEffectsPage(), HomePage(), MinePage()],
+              children: const [SpecialEffectsPage(), CreatePage(), MinePage()],
             ),
           ),
           CustomBottomNavBar(

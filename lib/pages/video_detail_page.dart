@@ -10,7 +10,7 @@ import 'package:video_ai/models/record_model.dart';
 import 'package:video_ai/pages/full_screen_player.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/dialogs.dart';
-import 'package:video_ai/widgets/loading_dialog.dart';
+import 'package:video_ai/widgets/loading_widget.dart';
 import 'package:video_ai/common/firebase_util.dart';
 
 
@@ -93,7 +93,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                     }
                   }
                 }
-                Get.dialog(const LoadingDialog());
+                Get.dialog(const LoadingWidget());
                 final result = await GallerySaver.saveVideo(videoUrl!);
                 if (result ?? false) {
                   FireBaseUtil.logEvent(EventName.saveCreation, parameters: {'workId': '$widget.recordModel.id', 'video_url': widget.recordModel.outputVideoUrl ?? ''});

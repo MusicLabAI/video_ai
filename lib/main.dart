@@ -77,6 +77,7 @@ class MainApp extends StatelessWidget {
             backgroundColor: Colors.transparent, elevation: 0),
         colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.black, primary: UiColors.primary),
+        progressIndicatorTheme: const ProgressIndicatorThemeData(color: UiColors.c7F7F7F),
         useMaterial3: true,
       ),
       // routingCallback: (value) {

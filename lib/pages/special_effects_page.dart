@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
+import 'package:video_ai/models/effects_model.dart';
+import 'package:video_ai/pages/effects_detail_page.dart';
 import 'package:video_ai/pages/settings_page.dart';
 import 'package:video_ai/widgets/carousel_widget.dart';
-import 'package:video_ai/widgets/effects_widget.dart';
+import 'package:video_ai/widgets/prompt_list_view.dart';
 import 'package:video_ai/widgets/user_info_widget.dart';
 
 class SpecialEffectsPage extends StatefulWidget {
@@ -55,7 +57,7 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
           ),
           SafeArea(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 color: Colors.transparent,
@@ -99,7 +101,8 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
                       color: Colors.white),
                 ),
               ),
-              Expanded(child: Padding(
+              Expanded(
+                  child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: _bottomView(),
               )),
@@ -127,12 +130,14 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
           crossAxisSpacing: 12.0,
         ),
         itemBuilder: (BuildContext context, int index) {
-          return EffectsWidget(
-            model: _createCtr.effectsList[index],
-            onTap: (model) {
-              _createCtr.selectEffects(model);
-            },
-          );
+          final dataList = _createCtr.effectsList;
+          EffectsModel model = dataList[index];
+          return buildEffectsPromptItem(model.videoUrl,
+              name: model.tag, operate: "tryIt".tr, onItemClick: () {
+            dataList.remove(model);
+            dataList.insert(0, model);
+            Get.to(() => EffectsDetailPage(dataList: dataList,));
+          });
         },
       );
     });

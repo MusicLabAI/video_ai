@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:image/image.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../widgets/loading_dialog.dart';
+import '../widgets/loading_widget.dart';
 
 class FileUtil {
   static Future<void> downlo2ad(String url,
@@ -17,7 +17,7 @@ class FileUtil {
       return;
     }
 
-    Get.dialog(const LoadingDialog(), barrierDismissible: false);
+    Get.dialog(const LoadingWidget(), barrierDismissible: false);
     var appDocDir = '';
     if (GetPlatform.isIOS) {
       appDocDir = (await getApplicationDocumentsDirectory()).path;
@@ -119,7 +119,7 @@ class FileUtil {
 
   static Future<File?> downloadOnly(String? url) async {
     if (url == null) return null;
-    Get.dialog(const LoadingDialog(), barrierDismissible: false);
+    Get.dialog(const LoadingWidget(), barrierDismissible: false);
     final savePath =
         '${(await getApplicationCacheDirectory()).path}/${url.split('/').last}';
     final File file = File(savePath);

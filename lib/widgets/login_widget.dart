@@ -9,7 +9,7 @@ import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/pages/login_page.dart';
 import 'package:video_ai/pages/sign_up_page.dart';
-import 'package:video_ai/widgets/loading_dialog.dart';
+import 'package:video_ai/widgets/loading_widget.dart';
 
 import '../common/global_data.dart';
 import '../controllers/user_controller.dart';
@@ -112,7 +112,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             onTap: () async {
               try {
                 Get.back();
-                Get.dialog(const LoadingDialog());
+                Get.dialog(const LoadingWidget());
                 if (isAndroid) {
                   UserCredential userCredential = await signInWithGoogle();
                   final uid = userCredential.user?.uid;

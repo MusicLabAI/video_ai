@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:video_ai/api/request.dart';
 import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/models/effects_model.dart';
-import 'package:video_ai/widgets/loading_dialog.dart';
+import 'package:video_ai/widgets/loading_widget.dart';
 
 import '../common/aws_utils.dart';
 import '../models/prompt_model.dart';
@@ -58,9 +58,9 @@ class CreateController extends GetxController {
       }
   }
 
-  void selectEffects(EffectsModel effects) {
+  void selectEffects(EffectsModel effects, {int index = 0}) {
     curEffects.value = effects;
-    curTabIndex.value = 0;
+    curTabIndex.value = index;
   }
 
   /// 复用
@@ -104,7 +104,7 @@ class CreateController extends GetxController {
   Future<bool> aiGenerate(String prompt, String? imagePath, int? effectId) async {
     Get.log("prompt: $prompt -- imagePath: $imagePath  effectId: $effectId");
     try {
-      Get.dialog(const LoadingDialog());
+      Get.dialog(const LoadingWidget());
       String? imageUrl;
       if (imagePath?.isNotEmpty == true) {
         if (RegExp(r'^https?://').hasMatch(imagePath!)) {
