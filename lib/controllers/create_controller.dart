@@ -22,13 +22,6 @@ class CreateController extends GetxController {
   RxList<PromptModel> randomItems = RxList();
   Rxn<String> imagePath = Rxn(null);
 
-  @override
-  onInit() {
-    super.onInit();
-    getRecommendPrompt();
-    getEffectsTags();
-  }
-
   void retry() {
     if (items.isEmpty) {
       getRecommendPrompt();

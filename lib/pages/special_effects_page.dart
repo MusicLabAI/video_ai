@@ -49,14 +49,37 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
-          CarouselWidget(
-            data: carouselData,
-            height: 443.0,
-            autoPlayInterval: const Duration(seconds: 5),
-            showIndicator: true,
+          SingleChildScrollView(
+            child: Stack(
+              children: [
+                CarouselWidget(
+                  data: carouselData,
+                  height: 443.0,
+                  autoPlayInterval: const Duration(seconds: 5),
+                  showIndicator: true,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, top: 360),
+                      child: Text(
+                        'imageToVideo'.tr,
+                        style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                    _bottomView(),
+                  ],
+                )
+              ],
+            ),
           ),
           SafeArea(
               child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
@@ -91,21 +114,6 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, top: 280, bottom: 20),
-                child: Text(
-                  'imageToVideo'.tr,
-                  style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              ),
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: _bottomView(),
-              )),
             ],
           )),
           // 顶部导航和用户信息部分
@@ -120,23 +128,26 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
   Widget _bottomView() {
     return Obx(() {
       return GridView.builder(
+        padding: const EdgeInsets.only(top: 16, left: 20, right: 20),
         itemCount: _createCtr.effectsList.length,
-        // shrinkWrap: false,
-        // physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 154 / 212,
+          childAspectRatio: 154 / 190,
           mainAxisSpacing: 16.0,
           crossAxisSpacing: 12.0,
         ),
         itemBuilder: (BuildContext context, int index) {
           final dataList = _createCtr.effectsList;
           EffectsModel model = dataList[index];
-          return buildEffectsPromptItem(model.videoUrl,
+          return buildEffectsPromptItem(model.imageUrl,
               name: model.tag, operate: "tryIt".tr, onItemClick: () {
             dataList.remove(model);
             dataList.insert(0, model);
-            Get.to(() => EffectsDetailPage(dataList: dataList,));
+            Get.to(() => EffectsDetailPage(
+                  dataList: dataList,
+                ));
           });
         },
       );

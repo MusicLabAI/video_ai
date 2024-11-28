@@ -1,3 +1,4 @@
+import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -22,12 +23,14 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
   final UserController _userCtr = Get.find<UserController>();
   bool _isSubmitted = false; //是否提交购买了
   Worker? _worker;
+  late CachedVideoPlayerPlusController _controller;
 
   @override
   void initState() {
     super.initState();
     FireBaseUtil.logEventPageView(PageName.proPurchasePage);
     _getShops();
+
     ///处理登录后是会员的情况
     _worker = ever(_userCtr.userInfo, (userInfo) {
       if (_isSubmitted) {
@@ -38,11 +41,20 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
         Get.until((route) => Get.currentRoute == '/');
       }
     });
+    _controller = CachedVideoPlayerPlusController.asset("videos/pro.mp4")
+      ..initialize().then((_) {
+        setState(() {
+          _controller.setVolume(0);
+          _controller.setLooping(true);
+          _controller.play();
+        });
+      });
   }
 
   @override
   void dispose() {
     _isSubmitted = false;
+    _controller.dispose();
     _worker?.dispose();
     super.dispose();
   }
@@ -56,12 +68,21 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: UiColors.c121212,
       body: Stack(
         children: [
-          Image.asset(
-            'images/icon/img_pro_purchase_bg.png',
-            fit: BoxFit.fitWidth,
+          if (_controller.value.isInitialized)
+            AspectRatio(
+              aspectRatio: _controller.value.aspectRatio,
+              child: CachedVideoPlayerPlus(_controller),
+            ),
+          Container(
+            margin: const EdgeInsets.only(top: 160),
+            height: 288,
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Colors.transparent, Colors.black],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter)),
           ),
           SafeArea(
               child: Obx(
@@ -69,14 +90,14 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
               children: [
                 Padding(
                   padding:
-                      const EdgeInsets.only(left: 14.0, top: 16, bottom: 16),
+                      const EdgeInsets.only(left: 14.0, top: 12, bottom: 12),
                   child: GestureDetector(
                     onTap: () => Get.back(),
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Image.asset(
-                        'images/icon/ic_close.png',
-                        width: 24,
+                        'images/icon/ic_close_with_bg.png',
+                        width: 32,
                       ),
                     ),
                   ),
@@ -86,11 +107,10 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: SingleChildScrollView(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.asset(
-                              'images/icon/img_pro_service_top.png',
-                              width: 260,
-                              height: 140,
+                            const SizedBox(
+                              height: 152,
                             ),
                             Text(
                               'proService'.tr,
@@ -100,32 +120,21 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                                   fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              'proServiceDesc'.tr,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 12,
-                                  color: UiColors.c99FFFFFF,
-                                  fontWeight: FontWeightExt.semiBold),
-                            ),
-                            const SizedBox(
-                              height: 16,
+                              height: 12,
                             ),
                             _IconLabelWidget(label: 'ultraHdResolution'.tr),
                             const SizedBox(
-                              height: 10,
+                              height: 8,
                             ),
                             _IconLabelWidget(
                                 label: 'highPriorityGenerations'.tr),
                             const SizedBox(
-                              height: 10,
+                              height: 8,
                             ),
                             _IconLabelWidget(
                                 label: 'commercialUsePermitted'.tr),
                             const SizedBox(
-                              height: 24,
+                              height: 16,
                             ),
                             if (_shopCtr.isInRequest.value)
                               const Padding(
@@ -284,9 +293,6 @@ class _IconLabelWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const SizedBox(
-          width: 75,
-        ),
         Image.asset(
           'images/icon/ic_checked.png',
           width: 16,

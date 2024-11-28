@@ -29,13 +29,11 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
   void initState() {
     super.initState();
     widget.curEffectsModel = widget.dataList[0];
-    // _controller = CachedVideoPlayerPlusController.networkUrl(Uri.parse(
-    //     "https://s.superinteractica.ai/lla/video/8915384a-1667-476e-bb44-8391d3236392.mp4"))
     _initController();
   }
 
   _initController() {
-      _controller = CachedVideoPlayerPlusController.asset("images/video/bb.mp4")
+      _controller = CachedVideoPlayerPlusController.networkUrl(Uri.parse(widget.curEffectsModel.videoUrl ?? ""))
       ..initialize().then((_) {
         setState(() {
           _controller.setLooping(true);

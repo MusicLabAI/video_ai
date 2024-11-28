@@ -7,7 +7,6 @@ import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/mine_controller.dart';
-import 'package:video_ai/controllers/special_effects_controller.dart';
 import 'package:video_ai/pages/create_page.dart';
 import 'package:video_ai/pages/mine_page.dart';
 import 'package:video_ai/pages/special_effects_page.dart';
@@ -28,7 +27,6 @@ class _MainPageState extends State<MainPage>
   final UserController _userCtr = Get.find();
   final MineController _mineCtr = Get.find();
   final CreateController _createCtr = Get.find();
-  final SpecialEffectsController _specialEffectsCtr = Get.find();
 
   @override
   void initState() {
@@ -39,9 +37,9 @@ class _MainPageState extends State<MainPage>
     _mainCtr.tabController.addListener(() {
       setState(() {});
     });
+    _createCtr.retry();
     if (DioUtil.token.isBlank != true) {
       _userCtr.getUserInfo();
-      _createCtr.retry();
       _mineCtr.onRefresh();
     }
   }
@@ -72,7 +70,6 @@ class _MainPageState extends State<MainPage>
                 _mainCtr.tabController.index = index;
                 if (index == 0) {
                   CommonUtil.hideKeyboard(context);
-                  _specialEffectsCtr.retry();
                   _createCtr.retry();
                 }
                 if (index == 1) {

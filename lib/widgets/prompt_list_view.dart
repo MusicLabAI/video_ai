@@ -49,7 +49,8 @@ class _PromptListViewState extends State<PromptListView> {
           ),
           itemBuilder: (BuildContext context, int index) {
             EffectsModel model = widget.dataList[index];
-            return buildEffectsPromptItem(model.videoUrl, operate: 'tryPrompt'.tr, onTap: () {
+            return buildEffectsPromptItem(model.imageUrl,
+                operate: 'tryPrompt'.tr, onTap: () {
               widget.onClick?.call(model);
             }, onItemClick: () {
               widget.onItemClick?.call(model);
@@ -62,7 +63,10 @@ class _PromptListViewState extends State<PromptListView> {
 }
 
 Widget buildEffectsPromptItem(String? imageUrl,
-    {String? name, String? operate, VoidCallback? onTap, VoidCallback? onItemClick}) {
+    {String? name,
+    String? operate,
+    VoidCallback? onTap,
+    VoidCallback? onItemClick}) {
   return GestureDetector(
     onTap: onItemClick,
     child: Stack(
@@ -85,25 +89,26 @@ Widget buildEffectsPromptItem(String? imageUrl,
               borderRadius: BorderRadius.circular(12)),
         ),
         if (operate?.isNotEmpty ?? false)
-        Positioned(
-            top: 8,
-            right: 8,
-            child: GestureDetector(
-              onTap: onTap,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: UiColors.cDB000000,
-                    borderRadius: BorderRadius.circular(6)),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                child: Text(
-                  operate ?? "",
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12),
+          Positioned(
+              top: 8,
+              right: 8,
+              child: GestureDetector(
+                onTap: onTap,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: UiColors.cDB000000,
+                      borderRadius: BorderRadius.circular(6)),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  child: Text(
+                    operate ?? "",
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12),
+                  ),
                 ),
-              ),
-            )),
+              )),
         Positioned(
             left: 12,
             bottom: 12,
