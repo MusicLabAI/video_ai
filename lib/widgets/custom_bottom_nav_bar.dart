@@ -9,46 +9,56 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const specialEffects = AssetImage('images/icon/ic_special_effects.png');
+    const specialEffectsSelected = AssetImage('images/icon/ic_special_effects_selected.png');
+    const home = AssetImage('images/icon/ic_home.png');
+    const homeSelected = AssetImage('images/icon/ic_home_selected.png');
+    const mine = AssetImage('images/icon/ic_mine.png');
+    const mineSelected = AssetImage('images/icon/ic_mine_selected.png');
+    precacheImage(specialEffects, context);
+    precacheImage(specialEffectsSelected, context);
+    precacheImage(home, context);
+    precacheImage(homeSelected, context);
+    precacheImage(mine, context);
+    precacheImage(mineSelected, context);
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       child: Container(
-          color: UiColors.c23242A,
-          child: Theme(
-            data: ThemeData(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-            ),
-            child: BottomNavigationBar(
-              enableFeedback: false,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              currentIndex: currentIndex,
-              type: BottomNavigationBarType.fixed,
-              onTap: onTap,
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              items: [
-                BottomNavigationBarItem(
-                    label: '',
-                    icon: Image.asset('images/icon/ic_special_effects.png',
-                        width: 32, height: 32),
-                    activeIcon: Image.asset('images/icon/ic_special_effects_selected.png',
-                        width: 32, height: 32)),
-                BottomNavigationBarItem(
-                    label: '',
-                    icon: Image.asset('images/icon/ic_home.png',
-                        width: 32, height: 32),
-                    activeIcon: Image.asset('images/icon/ic_home_selected.png',
-                        width: 32, height: 32)),
-                BottomNavigationBarItem(
-                    label: '',
-                    icon: Image.asset('images/icon/ic_mine.png',
-                        width: 32, height: 32),
-                    activeIcon: Image.asset('images/icon/ic_mine_selected.png',
-                        width: 32, height: 32))
-              ],
-            ),
-          )),
+        color: UiColors.c23242A,
+        child: Theme(
+          data: ThemeData(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+          ),
+          child: BottomNavigationBar(
+            enableFeedback: false,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            currentIndex: currentIndex,
+            type: BottomNavigationBarType.fixed,
+            onTap: onTap,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            items: const [
+              BottomNavigationBarItem(
+                label: '',
+                icon: Image(image: specialEffects, width: 32, height: 32),
+                activeIcon: Image(image: specialEffectsSelected, width: 32, height: 32),
+              ),
+              BottomNavigationBarItem(
+                label: '',
+                icon: Image(image: home, width: 32, height: 32),
+                activeIcon: Image(image: homeSelected, width: 32, height: 32),
+              ),
+              BottomNavigationBarItem(
+                label: '',
+                icon: Image(image: mine, width: 32, height: 32),
+                activeIcon: Image(image: mineSelected, width: 32, height: 32),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
