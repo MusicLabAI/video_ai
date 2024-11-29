@@ -15,6 +15,7 @@ class EffectsModel {
   String? imageUrl;
   String? videoUrl;
   String? videoFirstFrame;
+  int? status;
 
   EffectsModel({
     this.id,
@@ -23,6 +24,7 @@ class EffectsModel {
     this.imageUrl,
     this.videoUrl,
     this.videoFirstFrame,
+    this.status,
   });
 
   factory EffectsModel.fromJson(Map<String, dynamic> json) => EffectsModel(
@@ -32,6 +34,7 @@ class EffectsModel {
     imageUrl: json["imageUrl"],
     videoUrl: json["videoUrl"],
     videoFirstFrame: json["videoFirstFrame"],
+    status: json["status"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -41,5 +44,6 @@ class EffectsModel {
     "imageUrl": imageUrl,
     "videoUrl": videoUrl,
     "videoFirstFrame": videoFirstFrame,
+    "status": status,
   };
 }

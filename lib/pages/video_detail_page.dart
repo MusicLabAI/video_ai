@@ -5,14 +5,15 @@ import 'package:gallery_saver_plus/gallery_saver.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/models/record_model.dart';
 import 'package:video_ai/pages/full_screen_player.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/dialogs.dart';
 import 'package:video_ai/widgets/loading_widget.dart';
-import 'package:video_ai/common/firebase_util.dart';
 
+import 'effects_detail_page.dart';
 
 class VideoDetailPage extends StatefulWidget {
   const VideoDetailPage({super.key, required this.recordModel});
@@ -60,212 +61,298 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: Image.asset(
-            'images/icon/ic_close.png',
-            width: 24,
-            height: 24,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              if (videoUrl?.isEmpty ?? true) {
-                return;
-              }
-              FireBaseUtil.logEventButtonClick(
-                  PageName.videoPlayPage, 'download_video_button');
-              try {
-                if (GetPlatform.isIOS) {
-                  final addOnlyStatus = await Permission.photosAddOnly
-                      .request();
-                  if (!addOnlyStatus.isGranted) {
-                    final photoStatus = await Permission.photos.request();
-                    if (!photoStatus.isGranted) {
-                      Get.dialog(
-                          getRequestPermissionDialog(
-                              'photoLibrarySaveText'.tr));
-                      return;
-                    }
-                  }
-                }
-                Get.dialog(const LoadingWidget());
-                final result = await GallerySaver.saveVideo(videoUrl!);
-                if (result ?? false) {
-                  FireBaseUtil.logEvent(EventName.saveCreation, parameters: {'workId': '$widget.recordModel.id', 'video_url': widget.recordModel.outputVideoUrl ?? ''});
-                }
-                Get.back();
-                Fluttertoast.showToast(
-                    msg: result ?? false
-                        ? 'saveVideoSuccess'.tr
-                        : 'saveVideoFail'.tr);
-              } catch (e) {
-                Get.log(e.toString(), isError: true);
-                if (Get.isDialogOpen ?? false) {
-                  Get.back();
-                }
-                Fluttertoast.showToast(msg: 'saveVideoFail'.tr);
-              }
-            },
-            icon: Image.asset(
-              'images/icon/ic_download.png',
-              width: 24,
-              height: 24,
+      body: Stack(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: 443,
+            child: Stack(
+              children: [
+                if (_controller.value.isInitialized)
+                  Center(
+                    child: AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: CachedVideoPlayerPlus(_controller),
+                    ),
+                  ),
+                if (!_controller.value.isInitialized)
+                  const LoadingWidget(),
+              ],
             ),
           ),
-          IconButton(
-            onPressed: () {
-              if (videoUrl?.isNotEmpty ?? false) {
-                Share.share(videoUrl!);
-              }
-              FireBaseUtil.logEventButtonClick(
-                  PageName.videoPlayPage, 'share_video_button');
-              FireBaseUtil.logEvent(EventName.shareRequest);
-            },
-            icon: Image.asset(
-              'images/icon/ic_share.png',
-              width: 24,
-              height: 24,
+          Container(
+            margin: const EdgeInsets.only(top: 240),
+            height: 203,
+            decoration: BoxDecoration(gradient: commonGradient),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 276.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _controller.value.isPlaying
+                              ? _controller.pause()
+                              : _controller.play();
+                        });
+                      },
+                      child: Image.asset(
+                        _controller.value.isPlaying
+                            ? 'images/icon/ic_pause.png'
+                            : 'images/icon/ic_play.png',
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    Expanded(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            thumbColor: Colors.white,
+                            trackHeight: 4,
+                            inactiveTrackColor: UiColors.c33FFFFFF,
+                            thumbShape: const RoundSliderThumbShape(
+                                enabledThumbRadius: 5),
+                            // 修改滑块的半径
+                            overlayShape: const RoundSliderOverlayShape(
+                                overlayRadius: 16), // 修改滑块点击时的圆圈大小
+                          ),
+                          child: Slider(
+                            value: _sliderValue,
+                            min: 0.0,
+                            max:
+                                _controller.value.duration.inSeconds.toDouble(),
+                            onChanged: (value) {
+                              setState(() {
+                                _sliderValue = value;
+                                _isSeeking = true;
+                              });
+                            },
+                            onChangeEnd: (value) {
+                              setState(() {
+                                _isSeeking = false;
+                                _controller
+                                    .seekTo(Duration(seconds: value.toInt()));
+                              });
+                            },
+                          ),
+                        ),
+                        Text(
+                          "${_formatDuration(_controller.value.position)} / ${_formatDuration(_controller.value.duration)}",
+                          style: TextStyle(
+                              fontSize: 10,
+                              color: UiColors.cB3B3B3,
+                              fontWeight: FontWeightExt.medium),
+                        ),
+                      ],
+                    )),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Image.asset(
+                        'images/icon/ic_enlarge.png',
+                        width: 60,
+                        height: 60,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      widget.recordModel.effect ?? 'prompt'.tr,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    GestureDetector(
+                        onTap: () {},
+                        child: Image.asset(
+                          'images/icon/ic_copy_with_bg.png',
+                          width: 30,
+                        ))
+                  ],
+                ),
+                if (widget.recordModel.prompt?.isNotEmpty ?? true)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Text(
+                      widget.recordModel.prompt!,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: UiColors.cDBFFFFFF, fontSize: 12),
+                    ),
+                  ),
+                CustomButton(
+                  margin: const EdgeInsets.symmetric(vertical: 24),
+                  onTap: () {
+                    Get.back(result: widget.recordModel);
+                  },
+                  text: "generateAgain".tr,
+                  textColor: Colors.white,
+                  textSize: 14,
+                  bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
+                  width: double.infinity,
+                  height: 46,
+                ),
+                Text(
+                  'saveAndShare'.tr,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeightExt.semiBold),
+                ),
+                const SizedBox(height: 24,),
+                Row(
+                  children: [
+                    Expanded(
+                        child: CustomButton(
+                      onTap: () {
+                        download();
+                      },
+                      bgColor: UiColors.c2C2A2B,
+                      text: 'save'.tr,
+                      textColor: UiColors.cB3B3B3,
+                      textSize: 12,
+                      height: 44,
+                      leftIcon: Padding(
+                        padding: const EdgeInsets.only(right: 12.0),
+                        child: Image.asset(
+                          'images/icon/ic_download.png',
+                          width: 20,
+                        ),
+                      ),
+                    )),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                        child: CustomButton(
+                      onTap: () {
+                        if (videoUrl?.isNotEmpty ?? false) {
+                          Share.share(videoUrl!);
+                        }
+                        FireBaseUtil.logEventButtonClick(
+                            PageName.videoPlayPage, 'share_video_button');
+                        FireBaseUtil.logEvent(EventName.shareRequest);
+                      },
+                      text: 'share'.tr,
+                      bgColor: UiColors.c2C2A2B,
+                      textColor: UiColors.cB3B3B3,
+                      textSize: 12,
+                      height: 44,
+                      leftIcon: Padding(
+                        padding: const EdgeInsets.only(right: 12.0),
+                        child: Image.asset(
+                          'images/icon/ic_share.png',
+                          width: 20,
+                        ),
+                      ),
+                    )),
+                  ],
+                )
+              ],
+            ),
+          ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Image.asset(
+                        'images/icon/ic_back_with_bg.png',
+                        width: 32,
+                      )),
+                  const Spacer(),
+                  GestureDetector(
+                      onTap: () {},
+                      child: Image.asset(
+                        'images/icon/ic_delete_with_bg.png',
+                        width: 32,
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 16),
+                    child: GestureDetector(
+                        onTap: () {
+                          FireBaseUtil.logEventButtonClick(
+                              PageName.videoPlayPage, 'full_screen_button');
+                          Get.to(() => FullScreenPlayer(videoUrl: videoUrl!));
+                        },
+                        child: Image.asset(
+                          'images/icon/ic_enlarge.png',
+                          width: 32,
+                        )),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Center(
-                child: _controller.value.isInitialized
-                    ? AspectRatio(
-                        aspectRatio: _controller.value.aspectRatio,
-                        child: CachedVideoPlayerPlus(_controller),
-                      )
-                    : const CircularProgressIndicator(),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(
-                  left: 20, right: 20, top: 28, bottom: 24),
-              decoration: const BoxDecoration(
-                  color: UiColors.c171C26,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    widget.recordModel.prompt ?? "",
-                    style: TextStyle(
-                        fontSize: 10,
-                        color: UiColors.cB3B3B3,
-                        fontWeight: FontWeightExt.medium),
-                  ),
-                  const SizedBox(
-                    height: 26,
-                  ),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            _controller.value.isPlaying
-                                ? _controller.pause()
-                                : _controller.play();
-                          });
-                        },
-                        borderRadius: BorderRadius.circular(256),
-                        child: Image.asset(
-                          _controller.value.isPlaying
-                              ? 'images/icon/ic_pause.png'
-                              : 'images/icon/ic_play.png',
-                          width: 32,
-                          height: 32,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(
-                          child: SliderTheme(
-                        data: SliderTheme.of(context).copyWith(
-                          thumbColor: Colors.white,
-                          trackHeight: 4,
-                          inactiveTrackColor: UiColors.c33FFFFFF,
-                          thumbShape: const RoundSliderThumbShape(
-                              enabledThumbRadius: 5),
-                          // 修改滑块的半径
-                          overlayShape: const RoundSliderOverlayShape(
-                              overlayRadius: 16), // 修改滑块点击时的圆圈大小
-                        ),
-                        child: Slider(
-                          value: _sliderValue,
-                          min: 0.0,
-                          max: _controller.value.duration.inSeconds.toDouble(),
-                          onChanged: (value) {
-                            setState(() {
-                              _sliderValue = value;
-                              _isSeeking = true;
-                            });
-                          },
-                          onChangeEnd: (value) {
-                            setState(() {
-                              _isSeeking = false;
-                              _controller
-                                  .seekTo(Duration(seconds: value.toInt()));
-                            });
-                          },
-                        ),
-                      )),
-                      Text(
-                        _formatDuration(_controller.value.duration) ?? "",
-                        style: TextStyle(
-                            fontSize: 10,
-                            color: UiColors.cB3B3B3,
-                            fontWeight: FontWeightExt.medium),
-                      ),
-                      const SizedBox(
-                        width: 24,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(() => FullScreenPlayer(videoUrl: videoUrl!));
-                          FireBaseUtil.logEventButtonClick(
-                              PageName.videoPlayPage, 'full_screen_button');
-                        },
-                        child: Image.asset(
-                          'images/icon/ic_enlarge.png',
-                          width: 24,
-                          height: 24,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  CustomButton(
-                    width: double.infinity,
-                    height: 46,
-                    text: 'tryVideo'.tr,
-                    textColor: Colors.white,
-                    bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
-                    onTap: () {
-                      Get.back(result: widget.recordModel);
-                    },
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
     );
+  }
+
+  Future<void> download() async {
+    if (videoUrl?.isEmpty ?? true) {
+      return;
+    }
+    FireBaseUtil.logEventButtonClick(
+        PageName.videoPlayPage, 'download_video_button');
+    try {
+      if (GetPlatform.isIOS) {
+        final addOnlyStatus = await Permission.photosAddOnly.request();
+        if (!addOnlyStatus.isGranted) {
+          final photoStatus = await Permission.photos.request();
+          if (!photoStatus.isGranted) {
+            Get.dialog(getRequestPermissionDialog('photoLibrarySaveText'.tr));
+            return;
+          }
+        }
+      }
+      Get.dialog(const LoadingWidget());
+      final result = await GallerySaver.saveVideo(videoUrl!);
+      if (result ?? false) {
+        FireBaseUtil.logEvent(EventName.saveCreation, parameters: {
+          'workId': '$widget.recordModel.id',
+          'video_url': widget.recordModel.outputVideoUrl ?? ''
+        });
+      }
+      Get.back();
+      Fluttertoast.showToast(
+          msg: result ?? false ? 'saveVideoSuccess'.tr : 'saveVideoFail'.tr);
+    } catch (e) {
+      Get.log(e.toString(), isError: true);
+      if (Get.isDialogOpen ?? false) {
+        Get.back();
+      }
+      Fluttertoast.showToast(msg: 'saveVideoFail'.tr);
+    }
   }
 
   // 格式化时间显示

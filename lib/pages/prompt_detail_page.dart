@@ -36,7 +36,7 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
 
   _initController() {
     _controller = CachedVideoPlayerPlusController.networkUrl(Uri.parse(
-        "https://s.superinteractica.ai/lla/video/8915384a-1667-476e-bb44-8391d3236392.mp4"))
+        widget.curEffectsModel.videoUrl ?? ""))
       ..initialize().then((_) {
         setState(() {
           _controller.setLooping(true);
@@ -113,7 +113,7 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                               Row(
                                 children: [
                                   Text(
-                                    widget.curEffectsModel.tag ?? "",
+                                    "prompt".tr,
                                     style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 18,
@@ -153,7 +153,7 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 12.0),
                                 child: Text(
-                                  "fadsjfjasdjkf \nfasjdkfjkfsdaaaaaaaaaaaaaaafasdfasdfasfasfew3rtwerwefesafasfasdfasdfasdfasfasdfas;sda;kl\ndfasjjfkasdk\ndfsafasdfadfadfasdfasdfasdfasdfasfasdfasf",
+                                  widget.curEffectsModel.tag ?? "",
                                   maxLines: _isExpand ? 50 : 3,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(

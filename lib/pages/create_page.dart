@@ -141,11 +141,11 @@ class _CreatePageState extends State<CreatePage>
                               _topView(context),
                               ..._getGenerateBtn(context),
                               PromptListView(
-                                dataList: _createCtr.effectsList.value,
+                                dataList: _createCtr.promptItems.value,
                                 paddingTop: 16,
                                 onItemClick: (model) {
                                   Get.to(() => PromptDetailPage(
-                                      dataList: _createCtr.effectsList.value));
+                                      dataList: _createCtr.promptItems.value));
                                 },
                                 onClick: (model) {
                                   _createCtr.prompt.value = model.tag ?? "";
@@ -361,15 +361,15 @@ class _CreatePageState extends State<CreatePage>
                         textSize: 10,
                         textColor: UiColors.cDBFFFFFF,
                         onTap: () async {
-                          if (_createCtr.items.isEmpty) {
+                          if (_createCtr.promptItems.isEmpty) {
                             await _createCtr.getRecommendPrompt();
                           }
-                          final items = _createCtr.items.value;
+                          final items = _createCtr.promptItems.value;
                           if (items.isNotEmpty) {
                             setState(() {
                               _controller.text =
                                   items[Random().nextInt(items.length)]
-                                          .prompt ??
+                                          .tag ??
                                       "";
                             });
                           }

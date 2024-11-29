@@ -16,7 +16,7 @@ class CreateController extends GetxController {
   RxInt curTabIndex = 0.obs;
   RxList<EffectsModel> effectsList = RxList();
 
-  RxList<PromptModel> items = RxList();
+  RxList<EffectsModel> promptItems = RxList();
   Rxn<String> imagePath = Rxn(null);
 
   @override
@@ -27,7 +27,7 @@ class CreateController extends GetxController {
   }
 
   void retry() {
-    if (items.isEmpty) {
+    if (promptItems.isEmpty) {
       getRecommendPrompt();
     }
     if (effectsList.isEmpty) {
@@ -37,8 +37,8 @@ class CreateController extends GetxController {
 
   Future<void> getRecommendPrompt() async {
     final data = await Request.getRecommendPrompt();
-    items.value =
-        (data as List).map((record) => PromptModel.fromJson(record)).toList();
+    promptItems.value =
+        (data as List).map((record) => EffectsModel.fromJson(record)).toList();
   }
 
   void selectEffects(EffectsModel effects, {int index = 0}) {

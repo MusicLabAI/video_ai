@@ -146,6 +146,10 @@ class LanguageEnUs {
       "tryThisPrompt": "Try This Prompt",
       "suggestedForYou": "Suggested for You",
       "tryPrompt": "Try Prompt",
+      "generateAgain": "Generate Again",
+      "saveAndShare": "Save And Share",
+      "save": "Save",
+      "share": "Share",
     };
   }
 }
