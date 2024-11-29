@@ -34,13 +34,10 @@ class _CreatePageState extends State<CreatePage>
     with AutomaticKeepAliveClientMixin {
   final MainController _mainCtr = Get.find<MainController>();
   final UserController _userCtr = Get.find<UserController>();
-  final MineController _mineCtr = Get.find<MineController>();
   final CreateController _createCtr = Get.find<CreateController>();
-  final RxBool _isEnable = false.obs;
   late TextEditingController _controller;
   Worker? _promptWorker;
   Worker? _effectsWorker;
-  Worker? _tabWorker;
 
   final ScrollController _scrollController = ScrollController();
 
@@ -60,41 +57,30 @@ class _CreatePageState extends State<CreatePage>
     String? path = await CommonUtil.pickUpImage();
     if (path != null) {
       _createCtr.imagePath.value = path;
-      updateGenerateBtnStatus();
     }
   }
 
-  void updateGenerateBtnStatus() {
-    setState(() {
-      if (_createCtr.curTabIndex.value == 0) {
-        _isEnable.value = (_controller.text.isNotEmpty ||
-                _createCtr.curEffects.value != null) &&
-            _createCtr.imagePath.isNotEmpty == true;
-      } else {
-        _isEnable.value = _controller.text.isNotEmpty;
-      }
-    });
+  bool _isEnable() {
+    if (_createCtr.curTabIndex.value == 0) {
+      return (_controller.text.isNotEmpty ||
+              _createCtr.curEffects.value != null) &&
+          _createCtr.imagePath.isNotEmpty == true;
+    } else {
+      return _controller.text.isNotEmpty;
+    }
   }
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: _createCtr.prompt.value);
-    _controller.addListener(() {
-      updateGenerateBtnStatus();
-    });
     _promptWorker = ever(_createCtr.prompt, (value) {
       setState(() {
         _controller.text = value;
-        updateGenerateBtnStatus();
       });
     });
     _effectsWorker = ever(_createCtr.curEffects, (value) {
       _scrollToTop();
-      updateGenerateBtnStatus();
-    });
-    _tabWorker = ever(_createCtr.curTabIndex, (value) {
-      updateGenerateBtnStatus();
     });
   }
 
@@ -103,7 +89,6 @@ class _CreatePageState extends State<CreatePage>
     _controller.dispose();
     _promptWorker?.dispose();
     _effectsWorker?.dispose();
-    _tabWorker?.dispose();
     super.dispose();
   }
 
@@ -159,8 +144,8 @@ class _CreatePageState extends State<CreatePage>
                                 dataList: _createCtr.effectsList.value,
                                 paddingTop: 16,
                                 onItemClick: (model) {
-                                  Get.to(() =>
-                                      PromptDetailPage(dataList: _createCtr.effectsList.value));
+                                  Get.to(() => PromptDetailPage(
+                                      dataList: _createCtr.effectsList.value));
                                 },
                                 onClick: (model) {
                                   _createCtr.prompt.value = model.tag ?? "";
@@ -177,7 +162,6 @@ class _CreatePageState extends State<CreatePage>
 
   void clearImage() {
     _createCtr.imagePath.value = '';
-    updateGenerateBtnStatus();
     FireBaseUtil.logEventButtonClick(
         PageName.createPage, 'delete_image_button');
   }
@@ -193,7 +177,6 @@ class _CreatePageState extends State<CreatePage>
                 height: 44,
                 onTap: () {
                   _createCtr.curTabIndex.value = 0;
-                  updateGenerateBtnStatus();
                 },
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(12)),
@@ -219,7 +202,6 @@ class _CreatePageState extends State<CreatePage>
                   child: CustomButton(
                 onTap: () {
                   _createCtr.curTabIndex.value = 1;
-                  updateGenerateBtnStatus();
                 },
                 height: 44,
                 borderRadius:
@@ -335,11 +317,6 @@ class _CreatePageState extends State<CreatePage>
                   ),
                 TextField(
                   controller: _controller,
-                  onChanged: (str) {
-                    setState(() {
-                      updateGenerateBtnStatus();
-                    });
-                  },
                   cursorColor: UiColors.c61FFFFFF,
                   maxLines: 6,
                   maxLength: 500,
@@ -485,59 +462,12 @@ class _CreatePageState extends State<CreatePage>
     );
   }
 
-  Widget _inspireLabel() {
-    return Container(
-      margin: const EdgeInsets.only(top: 16),
-      child: Row(
-        children: [
-          Image.asset(
-            'images/icon/ic_suggestion.png',
-            width: 24,
-            height: 24,
-          ),
-          const SizedBox(
-            width: 8,
-          ),
-          Text(
-            'giveMeSomeInspiration'.tr,
-            style: const TextStyle(
-                fontSize: 14,
-                color: UiColors.cBC8EF5,
-                fontWeight: FontWeightExt.semiBold),
-          ),
-          const Spacer(),
-          InkWell(
-            onTap: () {
-              if (_createCtr.items.isEmpty) {
-                _createCtr.getRecommendPrompt();
-              } else {
-                _createCtr.randomRecommend();
-              }
-            },
-            borderRadius: BorderRadius.circular(10),
-            child: Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: UiColors.c272931),
-              child: Image.asset(
-                'images/icon/ic_refresh.png',
-                width: 24,
-                height: 24,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   List<Widget> _getGenerateBtn(BuildContext context) {
     return [
       CustomButton(
         margin: const EdgeInsets.only(top: 24),
         onTap: () {
-          if (_isEnable.value) {
+          if (_isEnable()) {
             CommonUtil.hideKeyboard(context);
             generate();
           } else {
@@ -565,41 +495,6 @@ class _CreatePageState extends State<CreatePage>
         ),
       ),
     ];
-  }
-
-  Widget _inspiresItem(String item, bool isLast, Function() onTap) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          decoration: BoxDecoration(
-              color: UiColors.c1B1B1F, borderRadius: BorderRadius.circular(10)),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  item,
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: UiColors.c61FFFFFF,
-                      fontWeight: FontWeightExt.medium),
-                ),
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              Image.asset(
-                'images/icon/ic_apply.png',
-                width: 24,
-                height: 24,
-              )
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   void generate() async {
@@ -634,7 +529,7 @@ class _CreatePageState extends State<CreatePage>
     if (result) {
       _userCtr.getUserInfo();
       _mainCtr.tabController.index = 2;
-      _mineCtr.onRefresh();
+      Get.find<MineController>().onRefresh();
     }
   }
 

@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/api/request.dart';
-import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/models/effects_model.dart';
 import 'package:video_ai/widgets/loading_widget.dart';
 
@@ -19,14 +17,20 @@ class CreateController extends GetxController {
   RxList<EffectsModel> effectsList = RxList();
 
   RxList<PromptModel> items = RxList();
-  RxList<PromptModel> randomItems = RxList();
   Rxn<String> imagePath = Rxn(null);
+
+  @override
+  onInit() {
+    super.onInit();
+    getRecommendPrompt();
+    getEffectsTags();
+  }
 
   void retry() {
     if (items.isEmpty) {
       getRecommendPrompt();
     }
-    if (!GlobalData.isCreationLayoutSwitch && effectsList.isEmpty) {
+    if (effectsList.isEmpty) {
       getEffectsTags();
     }
   }
@@ -35,20 +39,6 @@ class CreateController extends GetxController {
     final data = await Request.getRecommendPrompt();
     items.value =
         (data as List).map((record) => PromptModel.fromJson(record)).toList();
-    randomRecommend();
-  }
-
-  void randomRecommend() {
-      if (items.isNotEmpty) {
-        if (items.length > 5) {
-          items.shuffle(Random());
-          randomItems.value = items.value.sublist(0, 5);
-        } else {
-          randomItems.value = items.value;
-        }
-      } else {
-        randomItems.value = [];
-      }
   }
 
   void selectEffects(EffectsModel effects, {int index = 0}) {
