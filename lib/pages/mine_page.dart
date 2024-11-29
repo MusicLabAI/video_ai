@@ -86,7 +86,7 @@ class _MinePageState extends State<MinePage>
     return Center(
       child: GestureDetector(
         onTap: () {
-          _mainCtr.tabController.index = 0;
+          _mainCtr.tabController.index = 1;
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,

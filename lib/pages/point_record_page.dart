@@ -195,7 +195,7 @@ class _PointRecordPageState extends State<PointRecordPage> {
         CustomButton(
           onTap: () {
             Get.until((route) => Get.currentRoute == '/');
-            Get.find<MainController>().tabController.index = 0;
+            Get.find<MainController>().tabController.index = 1;
           },
           text: 'generate'.tr,
           textColor: Colors.white,
