@@ -58,6 +58,45 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
                   autoPlayInterval: const Duration(seconds: 5),
                   showIndicator: true,
                 ),
+                SafeArea(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          color: Colors.transparent,
+                          padding: const EdgeInsets.only(left: 16),
+                          height: 56,
+                          width: double.infinity,
+                          child: Row(
+                            children: [
+                              const Text(
+                                'Video AI',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: UiColors.cDBFFFFFF,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const Spacer(),
+                              UserInfoWidget(),
+                              IconButton(
+                                onPressed: () {
+                                  Get.to(() => const SettingsPage());
+                                  FireBaseUtil.logEventButtonClick(
+                                      PageName.specialEffectsPage, 'mine_button');
+                                },
+                                icon: Image.asset(
+                                  'images/icon/ic_user.png',
+                                  width: 24,
+                                  height: 24,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -77,45 +116,6 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
               ],
             ),
           ),
-          SafeArea(
-              child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                color: Colors.transparent,
-                padding: const EdgeInsets.only(left: 16),
-                height: 56,
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    const Text(
-                      'Video AI',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: UiColors.cDBFFFFFF,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Spacer(),
-                    UserInfoWidget(),
-                    IconButton(
-                      onPressed: () {
-                        Get.to(() => const SettingsPage());
-                        FireBaseUtil.logEventButtonClick(
-                            PageName.specialEffectsPage, 'mine_button');
-                      },
-                      icon: Image.asset(
-                        'images/icon/ic_user.png',
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          )),
           // 顶部导航和用户信息部分
         ],
       ),

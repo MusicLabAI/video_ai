@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,6 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
+import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/models/record_model.dart';
 import 'package:video_ai/pages/full_screen_player.dart';
 import 'package:video_ai/widgets/custom_button.dart';
@@ -75,8 +77,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                       child: CachedVideoPlayerPlus(_controller),
                     ),
                   ),
-                if (!_controller.value.isInitialized)
-                  const LoadingWidget(),
+                if (!_controller.value.isInitialized) const LoadingWidget(),
               ],
             ),
           ),
@@ -109,9 +110,6 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                         height: 40,
                         fit: BoxFit.fitWidth,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 12,
                     ),
                     Expanded(
                         child: Column(
@@ -148,26 +146,67 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                             },
                           ),
                         ),
-                        Text(
-                          "${_formatDuration(_controller.value.position)} / ${_formatDuration(_controller.value.duration)}",
-                          style: TextStyle(
-                              fontSize: 10,
-                              color: UiColors.cB3B3B3,
-                              fontWeight: FontWeightExt.medium),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0),
+                          child: Text(
+                            "${_formatDuration(_controller.value.position)} / ${_formatDuration(_controller.value.duration)}",
+                            style: TextStyle(
+                                fontSize: 10,
+                                color: UiColors.cB3B3B3,
+                                fontWeight: FontWeightExt.medium),
+                          ),
                         ),
                       ],
                     )),
                     const SizedBox(
-                      width: 16,
+                      width: 4,
                     ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Image.asset(
-                        'images/icon/ic_enlarge.png',
-                        width: 60,
-                        height: 60,
-                      ),
-                    ),
+                    if (widget.recordModel.inputImageUrl?.isNotEmpty ?? false)
+                      Container(
+                        width: 68,
+                        height: 68,
+                        decoration: BoxDecoration(
+                            color: UiColors.c99000000,
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              child: Padding(
+                                  padding: const EdgeInsets.all(4),
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            widget.recordModel.inputImageUrl!,
+                                        fit: BoxFit.fitWidth,
+                                      ))),
+                            ),
+                            Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      //放大图片
+                                      Get.dialog(
+                                        GestureDetector(
+                                            onTap: () {
+                                              Get.back();
+                                            },
+                                            child: CachedNetworkImage(
+                                                imageUrl: widget.recordModel
+                                                    .inputImageUrl!)),
+                                      );
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Image.asset(
+                                        "images/icon/ic_image_enlarge.png",
+                                        width: 18,
+                                      ),
+                                    ))),
+                          ],
+                        ),
+                      )
                   ],
                 ),
                 const SizedBox(
@@ -221,7 +260,9 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                       fontSize: 14,
                       fontWeight: FontWeightExt.semiBold),
                 ),
-                const SizedBox(height: 24,),
+                const SizedBox(
+                  height: 24,
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -291,7 +332,13 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                       )),
                   const Spacer(),
                   GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.dialog(deleteConfirmDialog(() async {
+                          await Get.find<MineController>()
+                              .delete(widget.recordModel.id);
+                          Get.back();
+                        }));
+                      },
                       child: Image.asset(
                         'images/icon/ic_delete_with_bg.png',
                         width: 32,

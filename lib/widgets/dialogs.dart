@@ -388,3 +388,23 @@ Widget getRequestPermissionDialog(String desc) {
     },
   );
 }
+
+Widget deleteConfirmDialog(VoidCallback onDelete) {
+  return CustomDialog(
+    title: 'confirmDeletion'.tr,
+    icon: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Image.asset(
+        'images/icon/ic_delete_big.png',
+        width: 70,
+        height: 70,
+      ),
+    ),
+    confirmText: 'delete'.tr,
+    cancelText: 'cancel'.tr,
+    onConfirm: () async {
+      Get.back();
+      onDelete.call();
+    },
+  );
+}

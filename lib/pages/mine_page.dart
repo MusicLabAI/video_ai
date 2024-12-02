@@ -184,23 +184,9 @@ class _MinePageState extends State<MinePage>
 
   //删除
   Future<void> _deleteItem(RecordModel recordItem) async {
-    Get.dialog(CustomDialog(
-      title: 'confirmDeletion'.tr,
-      icon: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Image.asset(
-          'images/icon/ic_delete_big.png',
-          width: 70,
-          height: 70,
-        ),
-      ),
-      confirmText: 'delete'.tr,
-      cancelText: 'cancel'.tr,
-      onConfirm: () async {
-        Get.back();
-        _mineCtr.delete(recordItem.id);
-      },
-    ));
+    Get.dialog(deleteConfirmDialog((){
+      _mineCtr.delete(recordItem.id);
+    }));
     FireBaseUtil.logEventButtonClick(PageName.historyPage, 'delete_video_button', popupName: 'delete_video_popup');
   }
 
