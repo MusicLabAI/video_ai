@@ -408,3 +408,116 @@ Widget deleteConfirmDialog(VoidCallback onDelete) {
     },
   );
 }
+
+Widget uploadImageDialog(VoidCallback cameraClick, VoidCallback albumClick) {
+  return Container(
+    padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24, top: 16),
+    decoration: const BoxDecoration(
+        color: UiColors.c23242A,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'uploadImage'.tr,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
+            ),
+            GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: Image.asset(
+                  "assets/images/ic_close.png",
+                  width: 24,
+                ))
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: Text(
+            'uploadImageDesc'.tr,
+            style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 14),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 24.0, bottom: 32),
+          child: Row(
+            children: [
+              Expanded(
+                  child: AspectRatio(
+                      aspectRatio: 90 / 108,
+                      child: Image.asset("assets/images/img_example_1.png"))),
+              const SizedBox(
+                width: 24,
+              ),
+              Expanded(
+                  child: AspectRatio(
+                      aspectRatio: 90 / 108,
+                      child: Image.asset("assets/images/img_example_2.png"))),
+              const SizedBox(
+                width: 24,
+              ),
+              Expanded(
+                  child: AspectRatio(
+                      aspectRatio: 90 / 108,
+                      child: Image.asset("assets/images/img_example_3.png"))),
+            ],
+          ),
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: CustomButton(
+                onTap: () {
+                  Get.back();
+                  cameraClick.call();
+                },
+                width: double.infinity,
+                height: 44,
+                text: 'camera'.tr,
+                bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
+                textColor: Colors.white,
+                textSize: 14,
+                leftIcon: Padding(
+                    padding: const EdgeInsets.only(right: 12),
+                    child: Image.asset(
+                      'assets/images/ic_camera.png',
+                      width: 20,
+                    )),
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: CustomButton(
+                onTap: () {
+                  Get.back();
+                  albumClick.call();
+                },
+                bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
+                width: double.infinity,
+                height: 44,
+                text: 'fromAlbum'.tr,
+                textColor: Colors.white,
+                textSize: 14,
+                leftIcon: Padding(
+                    padding: const EdgeInsets.only(right: 12),
+                    child: Image.asset(
+                      'assets/images/ic_album.png',
+                      width: 20,
+                    )),
+              ),
+            ),
+          ],
+        )
+      ],
+    ),
+  );
+}

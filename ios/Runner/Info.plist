@@ -35,6 +35,8 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow access to photos to generate videos.</string>
 	<key>NSUserNotificationUsageDescription</key>
+	<key>NSCameraUsageDescription</key>
+    <string>Allows access to the camera to generate video.</string>
 	<string>We need notification permissions to send important message alerts.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>

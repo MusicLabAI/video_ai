@@ -80,10 +80,10 @@ class CommonUtil {
     return format.format(DateTime.fromMillisecondsSinceEpoch(time));
   }
 
-  static Future<String?> pickUpImage() async {
+  static Future<String?> pickUpImage(ImageSource source) async {
     try {
       final pickedFile =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
+          await ImagePicker().pickImage(source: source);
       if (pickedFile == null) {
         return null;
       }
@@ -96,6 +96,8 @@ class CommonUtil {
     } on PlatformException catch (e) {
       if (e.code == 'photo_access_denied') {
         Get.dialog(getRequestPermissionDialog('photoLibraryRequestText'.tr));
+      }else if (e.code == 'camera_access_denied') {
+        Get.dialog(getRequestPermissionDialog('cameraRequestText'.tr));
       } else {
         Get.log('PlatformException: $e', isError: true);
       }

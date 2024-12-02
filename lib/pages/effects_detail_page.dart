@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/models/effects_model.dart';
+import 'package:video_ai/widgets/dialogs.dart';
 import 'package:video_ai/widgets/effects_widget.dart';
 import 'package:video_ai/widgets/loading_widget.dart';
 
@@ -33,7 +35,8 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
   }
 
   _initController() {
-      _controller = CachedVideoPlayerPlusController.networkUrl(Uri.parse(widget.curEffectsModel.videoUrl ?? ""))
+    _controller = CachedVideoPlayerPlusController.networkUrl(
+        Uri.parse(widget.curEffectsModel.videoUrl ?? ""))
       ..initialize().then((_) {
         setState(() {
           _controller.setLooping(true);
@@ -66,6 +69,15 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<void> _selectImage(ImageSource source) async {
+    String? path = await CommonUtil.pickUpImage(source);
+    if (path != null) {
+      setState(() {
+        _pickImagePath = path;
+      });
+    }
   }
 
   @override
@@ -161,13 +173,12 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
                             ),
                             // Spacer(),
                             GestureDetector(
-                              onTap: () async {
-                                String? path = await CommonUtil.pickUpImage();
-                                if (path != null) {
-                                  setState(() {
-                                    _pickImagePath = path;
-                                  });
-                                }
+                              onTap: () {
+                                Get.bottomSheet(uploadImageDialog(() {
+                                  _selectImage(ImageSource.camera);
+                                }, () {
+                                  _selectImage(ImageSource.gallery);
+                                }));
                               },
                               child: Container(
                                   width: double.infinity,

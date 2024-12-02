@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
@@ -49,12 +50,12 @@ class _CreatePageState extends State<CreatePage>
     );
   }
 
-  Future<void> _pickImage() async {
+  Future<void> _pickImage(ImageSource source) async {
     String buttonName = (_createCtr.imagePath.isNotEmpty == true)
         ? 'change_image_button'
         : 'add_image_button';
     FireBaseUtil.logEventButtonClick(PageName.createPage, buttonName);
-    String? path = await CommonUtil.pickUpImage();
+    String? path = await CommonUtil.pickUpImage(source);
     if (path != null) {
       _createCtr.imagePath.value = path;
     }
@@ -296,7 +297,11 @@ class _CreatePageState extends State<CreatePage>
                             top: 0,
                             bottom: 0,
                             child: CustomButton(
-                              onTap: _pickImage,
+                              onTap:() =>  Get.bottomSheet(uploadImageDialog(() {
+                                _pickImage(ImageSource.camera);
+                              }, (){
+                                _pickImage(ImageSource.gallery);
+                              })),
                               text: _createCtr.imagePath.isNotEmpty == true
                                   ? 'replaceImage'.tr
                                   : 'addImage'.tr,

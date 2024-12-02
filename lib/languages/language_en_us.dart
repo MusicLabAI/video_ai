@@ -153,6 +153,11 @@ class LanguageEnUs {
       "productionQueuing": "Task Load Too High, In Queue",
       "proAccelerating": "Pro Users are Accelerating",
       "upgradeAccelerated": "Upgrade Accelerated Generation",
+      "uploadImage": "Upload Image",
+      "uploadImageDesc": "Please upload images with a clear subject, such as animals, fruits, or objects. This will help the AI process and generate better results.",
+      "camera": "Camera",
+      "fromAlbum": "From Album",
+      "cameraRequestText": "Allows access to the camera to generate video.",
     };
   }
 }
