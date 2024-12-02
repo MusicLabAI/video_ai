@@ -27,12 +27,13 @@ class UserInfoWidget extends StatelessWidget {
                   height: 32,
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   decoration: BoxDecoration(
+                      color: UiColors.c99000000,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: UiColors.c30333F)),
+                      border: Border.all(color: UiColors.c33FFFFFF)),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Image.asset('images/icon/ic_diamonds.png'),
+                      Image.asset('assets/images/ic_diamonds.png'),
                       const SizedBox(
                         width: 8,
                       ),
@@ -54,7 +55,7 @@ class UserInfoWidget extends StatelessWidget {
                   FireBaseUtil.logEventButtonClick(PageName.createPage, 'global_pro_button');
                 },
                 child: Image.asset(
-                  'images/icon/img_pro.png',
+                  'assets/images/img_pro.png',
                   width: 76,
                   height: 32,
                 )));

@@ -41,7 +41,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
         Get.until((route) => Get.currentRoute == '/');
       }
     });
-    _controller = CachedVideoPlayerPlusController.asset("videos/pro.mp4")
+    _controller = CachedVideoPlayerPlusController.asset("assets/videos/pro.mp4")
       ..initialize().then((_) {
         setState(() {
           _controller.setVolume(0);
@@ -96,7 +96,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Image.asset(
-                        'images/icon/ic_close_with_bg.png',
+                        'assets/images/ic_close_with_bg.png',
                         width: 32,
                       ),
                     ),
@@ -172,7 +172,7 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                       rightIcon: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Image.asset(
-                          'images/icon/ic_arrow_right.png',
+                          'assets/images/ic_arrow_right.png',
                           width: 22,
                           height: 22,
                           color: Colors.white,
@@ -294,7 +294,7 @@ class _IconLabelWidget extends StatelessWidget {
     return Row(
       children: [
         Image.asset(
-          'images/icon/ic_checked.png',
+          'assets/images/ic_checked.png',
           width: 16,
         ),
         const SizedBox(
@@ -327,7 +327,7 @@ class RefreshWidget extends StatelessWidget {
         child: Column(
           children: [
             Image.asset(
-              'images/icon/ic_refresh_shop.png',
+              'assets/images/ic_refresh_shop.png',
               width: 60,
             ),
             Padding(

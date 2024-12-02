@@ -47,7 +47,7 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Image.asset('images/icon/ic_back.png'),
+            icon: Image.asset('assets/images/ic_back.png'),
             onPressed: back,
           ),
         ),
@@ -239,7 +239,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10.0),
                               child: Image.asset(
-                                'images/icon/ic_edit.png',
+                                'assets/images/ic_edit.png',
                                 width: 16,
                               ),
                             ),
@@ -251,7 +251,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     Row(
                       children: [
                         Image.asset(
-                          'images/icon/ic_id.png',
+                          'assets/images/ic_id.png',
                           width: 16,
                         ),
                         const SizedBox(
@@ -275,7 +275,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Image.asset(
-                              'images/icon/ic_copy.png',
+                              'assets/images/ic_copy.png',
                               width: 16,
                             ),
                           ),
@@ -305,7 +305,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     const Spacer(),
                     Image.asset(
-                      'images/icon/ic_diamonds.png',
+                      'assets/images/ic_diamonds.png',
                       width: 21,
                     ),
                     Padding(
@@ -327,7 +327,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Image.asset(
-                            'images/icon/ic_add.png',
+                            'assets/images/ic_add.png',
                             width: 16,
                           ),
                         ),
@@ -346,8 +346,8 @@ class _SettingsPageState extends State<SettingsPage> {
           top: 0,
           child: Image.asset(
             (_userCtr.userInfo.value.isVip ?? false)
-                ? 'images/icon/img_settings_top.png'
-                : 'images/icon/img_settings_top_disable.png',
+                ? 'assets/images/img_settings_top.png'
+                : 'assets/images/img_settings_top_disable.png',
             width: 90,
             height: 72,
           ),
@@ -361,27 +361,27 @@ class _SettingsPageState extends State<SettingsPage> {
       children: [
         if (_userCtr.isLogin.value)
           _SettingsItem(
-              iconPath: 'images/icon/ic_history.png',
+              iconPath: 'assets/images/ic_history.png',
               item: 'creditsUsageHistory'.tr,
               onTap: () {
                 Get.to(() => const PointRecordPage());
               }),
         _SettingsItem(
-            iconPath: 'images/icon/ic_join.png',
+            iconPath: 'assets/images/ic_join.png',
             item: 'joinUs'.tr,
             onTap: () {
               CommonUtil.openUrl(GlobalData.tgUrl);
               FireBaseUtil.logEventButtonClick(PageName.settingsPage, 'telegram_entry');
             }),
         _SettingsItem(
-            iconPath: 'images/icon/ic_contact.png',
+            iconPath: 'assets/images/ic_contact.png',
             item: 'contactUs'.tr,
             onTap: () {
               CommonUtil.sendEmail();
               FireBaseUtil.logEventButtonClick(PageName.settingsPage, 'email_entry');
             }),
         _SettingsItem(
-            iconPath: 'images/icon/ic_settings.png',
+            iconPath: 'assets/images/ic_settings.png',
             item: 'settings'.tr,
             onTap: () {
               setState(() {
@@ -397,7 +397,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Column(
       children: [
         _SettingsItem(
-            iconPath: 'images/icon/ic_group.png',
+            iconPath: 'assets/images/ic_group.png',
             item: GetPlatform.isAndroid ? 'termsOfUse'.tr : 'eula'.tr,
             onTap: () {
               CommonUtil.openUrl(GetPlatform.isAndroid
@@ -405,13 +405,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   : GlobalData.eulaUrl);
             }),
         _SettingsItem(
-            iconPath: 'images/icon/ic_privacy.png',
+            iconPath: 'assets/images/ic_privacy.png',
             item: 'privacyPolicy'.tr,
             onTap: () {
               CommonUtil.openUrl(GlobalData.privacyNoticeUrl);
             }),
         _SettingsItem(
-            iconPath: 'images/icon/ic_unsubscribe.png',
+            iconPath: 'assets/images/ic_unsubscribe.png',
             item: 'unsubscribe'.tr,
             onTap: () {
               CommonUtil.openUrl(GetPlatform.isAndroid
@@ -421,7 +421,7 @@ class _SettingsPageState extends State<SettingsPage> {
             }),
         if (_userCtr.isLogin.value)
           _SettingsItem(
-              iconPath: 'images/icon/ic_delete_account.png',
+              iconPath: 'assets/images/ic_delete_account.png',
               item: 'deleteAccount'.tr,
               onTap: () {
                 showDeleteAccountDialog();
@@ -437,7 +437,7 @@ class _SettingsPageState extends State<SettingsPage> {
         icon: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: Image.asset(
-            'images/icon/img_log_out.png',
+            'assets/images/img_log_out.png',
             width: 70,
           ),
         ),
@@ -458,7 +458,7 @@ class _SettingsPageState extends State<SettingsPage> {
       icon: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Image.asset(
-          'images/icon/ic_warn.png',
+          'assets/images/ic_warn.png',
           width: 70,
           height: 70,
         ),
@@ -534,7 +534,7 @@ class _SettingsItem extends StatelessWidget {
               ),
               const Spacer(),
               Image.asset(
-                'images/icon/ic_right.png',
+                'assets/images/ic_right.png',
                 width: 24,
                 height: 24,
               ),

@@ -104,8 +104,8 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                       },
                       child: Image.asset(
                         _controller.value.isPlaying
-                            ? 'images/icon/ic_pause.png'
-                            : 'images/icon/ic_play.png',
+                            ? 'assets/images/ic_pause.png'
+                            : 'assets/images/ic_play.png',
                         width: 40,
                         height: 40,
                         fit: BoxFit.fitWidth,
@@ -200,7 +200,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Image.asset(
-                                        "images/icon/ic_image_enlarge.png",
+                                        "assets/images/ic_image_enlarge.png",
                                         width: 18,
                                       ),
                                     ))),
@@ -225,7 +225,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                     GestureDetector(
                         onTap: () {},
                         child: Image.asset(
-                          'images/icon/ic_copy_with_bg.png',
+                          'assets/images/ic_copy_with_bg.png',
                           width: 30,
                         ))
                   ],
@@ -278,7 +278,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                       leftIcon: Padding(
                         padding: const EdgeInsets.only(right: 12.0),
                         child: Image.asset(
-                          'images/icon/ic_download.png',
+                          'assets/images/ic_download.png',
                           width: 20,
                         ),
                       ),
@@ -304,7 +304,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                       leftIcon: Padding(
                         padding: const EdgeInsets.only(right: 12.0),
                         child: Image.asset(
-                          'images/icon/ic_share.png',
+                          'assets/images/ic_share.png',
                           width: 20,
                         ),
                       ),
@@ -327,7 +327,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                         Get.back();
                       },
                       child: Image.asset(
-                        'images/icon/ic_back_with_bg.png',
+                        'assets/images/ic_back_with_bg.png',
                         width: 32,
                       )),
                   const Spacer(),
@@ -340,7 +340,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                         }));
                       },
                       child: Image.asset(
-                        'images/icon/ic_delete_with_bg.png',
+                        'assets/images/ic_delete_with_bg.png',
                         width: 32,
                       )),
                   Padding(
@@ -352,7 +352,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                           Get.to(() => FullScreenPlayer(videoUrl: videoUrl!));
                         },
                         child: Image.asset(
-                          'images/icon/ic_enlarge.png',
+                          'assets/images/ic_enlarge.png',
                           width: 32,
                         )),
                   ),

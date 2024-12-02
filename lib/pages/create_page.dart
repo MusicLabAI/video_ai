@@ -123,7 +123,7 @@ class _CreatePageState extends State<CreatePage>
                               PageName.createPage, 'mine_button');
                         },
                         icon: Image.asset(
-                          'images/icon/ic_user.png',
+                          'assets/images/ic_user.png',
                           width: 24,
                           height: 24,
                         )),
@@ -192,8 +192,8 @@ class _CreatePageState extends State<CreatePage>
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Image.asset(
                     _createCtr.curTabIndex.value == 0
-                        ? 'images/icon/ic_image_selected.png'
-                        : 'images/icon/ic_image_unselected.png',
+                        ? 'assets/images/ic_image_selected.png'
+                        : 'assets/images/ic_image_unselected.png',
                     width: 32,
                   ),
                 ),
@@ -218,8 +218,8 @@ class _CreatePageState extends State<CreatePage>
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Image.asset(
                     _createCtr.curTabIndex.value != 0
-                        ? 'images/icon/ic_video_selected.png'
-                        : 'images/icon/ic_video_unselected.png',
+                        ? 'assets/images/ic_video_selected.png'
+                        : 'assets/images/ic_video_unselected.png',
                     width: 32,
                   ),
                 ),
@@ -271,7 +271,7 @@ class _CreatePageState extends State<CreatePage>
                                           fit: BoxFit.cover,
                                         )
                                   : Image.asset(
-                                      'images/icon/img_upload_default.png',
+                                      'assets/images/img_upload_default.png',
                                       width: 36,
                                     ),
                             ),
@@ -286,7 +286,7 @@ class _CreatePageState extends State<CreatePage>
                                 clearImage();
                               },
                               child: Image.asset(
-                                'images/icon/ic_remove.png',
+                                'assets/images/ic_remove.png',
                                 width: 16,
                               ),
                             ),
@@ -306,8 +306,8 @@ class _CreatePageState extends State<CreatePage>
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Image.asset(
                                   _createCtr.imagePath.isNotEmpty == true
-                                      ? 'images/icon/ic_reset.png'
-                                      : "images/icon/ic_add_rect.png",
+                                      ? 'assets/images/ic_reset.png'
+                                      : "assets/images/ic_add_rect.png",
                                   width: 20,
                                 ),
                               ),
@@ -352,7 +352,7 @@ class _CreatePageState extends State<CreatePage>
                         leftIcon: Padding(
                           padding: const EdgeInsets.only(right: 4.0),
                           child: Image.asset(
-                            'images/icon/ic_shuffle.png',
+                            'assets/images/ic_shuffle.png',
                             width: 14,
                             height: 14,
                           ),
@@ -393,8 +393,8 @@ class _CreatePageState extends State<CreatePage>
                             padding: const EdgeInsets.only(right: 4.0),
                             child: Image.asset(
                               _createCtr.curEffects.value != null
-                                  ? 'images/icon/ic_effects_selected.png'
-                                  : 'images/icon/ic_effects_unselected.png',
+                                  ? 'assets/images/ic_effects_selected.png'
+                                  : 'assets/images/ic_effects_unselected.png',
                               width: 14,
                               height: 14,
                             ),
@@ -407,7 +407,7 @@ class _CreatePageState extends State<CreatePage>
                                   child: Padding(
                                     padding: const EdgeInsets.all(4.0),
                                     child: Image.asset(
-                                      'images/icon/ic_close_little.png',
+                                      'assets/images/ic_close_little.png',
                                       width: 14,
                                     ),
                                   ),
@@ -447,7 +447,7 @@ class _CreatePageState extends State<CreatePage>
                             color: UiColors.c666949A1,
                             borderRadius: BorderRadius.circular(8)),
                         child: Image.asset(
-                          'images/icon/ic_clear.png',
+                          'assets/images/ic_clear.png',
                           width: 14,
                         ),
                       ),

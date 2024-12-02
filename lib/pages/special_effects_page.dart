@@ -87,7 +87,7 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
                                       PageName.specialEffectsPage, 'mine_button');
                                 },
                                 icon: Image.asset(
-                                  'images/icon/ic_user.png',
+                                  'assets/images/ic_user.png',
                                   width: 24,
                                   height: 24,
                                 ),

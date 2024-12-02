@@ -130,8 +130,8 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                                           horizontal: 8.0, vertical: 5),
                                       child: Image.asset(
                                         _isExpand
-                                            ? "images/icon/ic_up.png"
-                                            : "images/icon/ic_down.png",
+                                            ? "assets/images/ic_up.png"
+                                            : "assets/images/ic_down.png",
                                         width: 20,
                                       ),
                                     ),
@@ -139,7 +139,7 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                                   const Spacer(),
                                   GestureDetector(
                                     child: Image.asset(
-                                      "images/icon/ic_copy_with_bg.png",
+                                      "assets/images/ic_copy_with_bg.png",
                                       width: 30,
                                     ),
                                     onTap: () {
@@ -199,7 +199,7 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 12, bottom: 12),
               child: Image.asset(
-                'images/icon/ic_close_with_bg.png',
+                'assets/images/ic_close_with_bg.png',
                 width: 32,
               ),
             ),

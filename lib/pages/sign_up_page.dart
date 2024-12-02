@@ -71,7 +71,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 14.0, top: 16),
                   child: Image.asset(
-                    'images/icon/ic_close.png',
+                    'assets/images/ic_close.png',
                     width: 24,
                   ),
                 ),

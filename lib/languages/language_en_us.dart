@@ -150,6 +150,9 @@ class LanguageEnUs {
       "saveAndShare": "Save And Share",
       "save": "Save",
       "share": "Share",
+      "productionQueuing": "Task Load Too High, In Queue",
+      "proAccelerating": "Pro Users are Accelerating",
+      "upgradeAccelerated": "Upgrade Accelerated Generation",
     };
   }
 }

@@ -40,7 +40,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
       body: Stack(
         children: [
           Image.asset(
-            'images/icon/img_pro_purchase_bg.png',
+            'assets/images/img_pro_purchase_bg.png',
             fit: BoxFit.fitWidth,
           ),
           SafeArea(
@@ -55,7 +55,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
                       child: GestureDetector(
                         onTap: () => Get.back(),
                         child: Image.asset(
-                          'images/icon/ic_close.png',
+                          'assets/images/ic_close.png',
                           width: 24,
                         ),
                       ),
@@ -68,7 +68,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
                     child: Column(
                       children: [
                         Image.asset(
-                          'images/icon/img_point_buy_top.png',
+                          'assets/images/img_point_buy_top.png',
                           width: 260,
                           height: 140,
                         ),
@@ -121,7 +121,7 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
                         rightIcon: Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Image.asset(
-                            'images/icon/ic_arrow_right.png',
+                            'assets/images/ic_arrow_right.png',
                             width: 22,
                             height: 22,
                             color: Colors.white,

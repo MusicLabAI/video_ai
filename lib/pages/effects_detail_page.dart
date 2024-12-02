@@ -183,7 +183,7 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Image.asset(
-                                              'images/icon/img_pick_up.png',
+                                              'assets/images/img_pick_up.png',
                                               width: 46,
                                             ),
                                             Padding(
@@ -228,7 +228,7 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
                                                     _pickImagePath = null;
                                                   }),
                                                   child: Image.asset(
-                                                    "images/icon/ic_close_with_bg.png",
+                                                    "assets/images/ic_close_with_bg.png",
                                                     width: 24,
                                                   ),
                                                 )),
@@ -262,7 +262,7 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0, top: 12, bottom: 12),
               child: Image.asset(
-                'images/icon/ic_close_with_bg.png',
+                'assets/images/ic_close_with_bg.png',
                 width: 32,
               ),
             ),

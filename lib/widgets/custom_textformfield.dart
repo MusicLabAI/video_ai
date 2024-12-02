@@ -53,8 +53,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         suffixIcon: widget.isPwd
             ? IconButton(
                 icon: Image.asset(_obscureText
-                    ? "images/icon/ic_pwd_visible.png"
-                    : "images/icon/ic_pwd_invisible.png", width: 16,),
+                    ? "assets/images/ic_pwd_visible.png"
+                    : "assets/images/ic_pwd_invisible.png", width: 16,),
                 onPressed:
                     _togglePasswordVisibility, // Toggle visibility on press
               )

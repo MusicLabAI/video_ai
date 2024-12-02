@@ -5,6 +5,7 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
@@ -12,6 +13,7 @@ import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/record_model.dart';
+import 'package:video_ai/pages/pro_purchase_page.dart';
 import 'package:video_ai/pages/settings_page.dart';
 import 'package:video_ai/pages/video_detail_page.dart';
 import 'package:video_ai/widgets/custom_button.dart';
@@ -34,52 +36,52 @@ class _MinePageState extends State<MinePage>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
+        child: Column(
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: Text(
-                    'profile'.tr,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeightExt.semiBold),
-                  ),
-                ),
-                const Spacer(),
-                IconButton(
-                    onPressed: () {
-                      Get.to(() => const SettingsPage());
-                      FireBaseUtil.logEventButtonClick('history_page', 'mine_button');
-                    },
-                    icon: Image.asset(
-                      'images/icon/ic_user.png',
-                      width: 24,
-                      height: 24,
-                    ))
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Text(
+                'profile'.tr,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeightExt.semiBold),
+              ),
             ),
-            Expanded(
-                child: Obx(
-              () => !_userCtr.isLogin.value
-                  ? _unLoginView
-                  : _mineCtr.dataList.isEmpty
-                      ? _emptyRecordView
-                      : EasyRefresh(
-                          onRefresh: () {
-                            _mineCtr.onRefresh();
-                          },
-                          onLoad: () {
-                            _mineCtr.onLoad();
-                          },
-                          child: _getGridView(_mineCtr.dataList, context)),
-            ))
+            const Spacer(),
+            IconButton(
+                onPressed: () {
+                  Get.to(() => const SettingsPage());
+                  FireBaseUtil.logEventButtonClick(
+                      'history_page', 'mine_button');
+                },
+                icon: Image.asset(
+                  'assets/images/ic_user.png',
+                  width: 24,
+                  height: 24,
+                ))
           ],
-        )
-    );
+        ),
+        Expanded(
+            child: Obx(
+          () => !_userCtr.isLogin.value
+              ? _unLoginView
+              : _mineCtr.dataList.isEmpty
+                  ? _emptyRecordView
+                  : EasyRefresh(
+                      onRefresh: () {
+                        _mineCtr.onRefresh();
+                      },
+                      onLoad: () {
+                        _mineCtr.onLoad();
+                      },
+                      child: _getGridView(_mineCtr.dataList, context)),
+        ))
+      ],
+    ));
   }
 
   Widget get _emptyRecordView {
@@ -92,7 +94,7 @@ class _MinePageState extends State<MinePage>
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
-              'images/icon/img_empty_video.png',
+              'assets/images/img_empty_video.png',
               width: 160,
               height: 160,
             ),
@@ -171,6 +173,8 @@ class _MinePageState extends State<MinePage>
 
   Widget _getItemView(RecordModel recordItem) {
     switch (recordItem.status) {
+      case 0:
+        return _productionQueuing();
       case 2:
         return _productionSucceed(
           recordItem,
@@ -184,10 +188,12 @@ class _MinePageState extends State<MinePage>
 
   //删除
   Future<void> _deleteItem(RecordModel recordItem) async {
-    Get.dialog(deleteConfirmDialog((){
+    Get.dialog(deleteConfirmDialog(() {
       _mineCtr.delete(recordItem.id);
     }));
-    FireBaseUtil.logEventButtonClick(PageName.historyPage, 'delete_video_button', popupName: 'delete_video_popup');
+    FireBaseUtil.logEventButtonClick(
+        PageName.historyPage, 'delete_video_button',
+        popupName: 'delete_video_popup');
   }
 
   Widget _productionSucceed(RecordModel recordItem) {
@@ -197,7 +203,8 @@ class _MinePageState extends State<MinePage>
               recordModel: recordItem,
             ));
         if (data is RecordModel) {
-          _createCtr.reuseCurrent(data.prompt ?? '', data.inputImageUrl, data.effectId);
+          _createCtr.reuseCurrent(
+              data.prompt ?? '', data.inputImageUrl, data.effectId);
           _mainCtr.tabController.index = 1;
         }
       },
@@ -232,7 +239,7 @@ class _MinePageState extends State<MinePage>
             right: 0,
             top: 40,
             child: Image.asset(
-              'images/icon/ic_production_failed.png',
+              'assets/images/ic_production_failed.png',
               width: 60,
               height: 60,
             ),
@@ -275,6 +282,63 @@ class _MinePageState extends State<MinePage>
     );
   }
 
+  Widget _productionQueuing() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Lottie.asset(
+          'assets/lottie/production_queuing.json',
+          width: 60,
+          height: 60,
+        ),
+        Text(
+          'productionQueuing'.tr,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 10, color: UiColors.c61FFFFFF),
+        ),
+        const SizedBox(height: 8),
+        Obx(
+          () => _userCtr.userInfo.value.isVip ?? false
+              ? Text('proAccelerating'.tr,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 10, color: UiColors.cBC8EF5))
+              : Column(children: [
+                  Text('upgradeAccelerated'.tr,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 10, color: UiColors.cDBFFFFFF)),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => const ProPurchasePage());
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 2.0),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          gradient: const LinearGradient(
+                              colors: [UiColors.c7631EC, UiColors.cA359EF],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight)),
+                      child: Text(
+                        'upgrade'.tr,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 10),
+                      ),
+                    ),
+                  )
+                ]),
+        ),
+        const SizedBox(
+          height: 16,
+        )
+      ],
+    );
+  }
+
   Widget _delete({required Function() onTap, Color? bgColor}) {
     return Positioned(
         right: 10,
@@ -288,7 +352,7 @@ class _MinePageState extends State<MinePage>
                 color: bgColor ?? UiColors.c99000000,
                 borderRadius: BorderRadius.circular(10)),
             child: Image.asset(
-              'images/icon/ic_delete_white.png',
+              'assets/images/ic_delete_white.png',
               width: 16,
               height: 16,
             ),
@@ -336,7 +400,7 @@ class _ProductionProgressViewState extends State<_ProductionProgressView>
           RotationTransition(
             turns: _controller,
             child: Image.asset(
-              'images/icon/ic_in_production.png',
+              'assets/images/ic_in_production.png',
               width: 60,
               height: 60,
             ),

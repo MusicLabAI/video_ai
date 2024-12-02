@@ -88,7 +88,7 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
                 left: 0,
                 child: IconButton(
                   icon: Image.asset(
-                    'images/icon/ic_back.png',
+                    'assets/images/ic_back.png',
                     width: 32,
                     height: 32,
                   ),

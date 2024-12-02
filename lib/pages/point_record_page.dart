@@ -69,7 +69,7 @@ class _PointRecordPageState extends State<PointRecordPage> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Image.asset('images/icon/ic_back.png'),
+            icon: Image.asset('assets/images/ic_back.png'),
             onPressed: () {
               Get.back();
             },
@@ -87,7 +87,7 @@ class _PointRecordPageState extends State<PointRecordPage> {
               leftIcon: Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: Image.asset(
-                  'images/icon/ic_diamonds.png',
+                  'assets/images/ic_diamonds.png',
                   width: 21,
                 ),
               ),
@@ -169,7 +169,7 @@ class _PointRecordPageState extends State<PointRecordPage> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Image.asset(
-          'images/icon/img_no_records.png',
+          'assets/images/img_no_records.png',
           width: 100,
         ),
         Padding(

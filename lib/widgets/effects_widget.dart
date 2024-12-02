@@ -87,7 +87,7 @@ class _EffectsWidgetState extends State<EffectsWidget>
                         leftIcon: Padding(
                             padding: const EdgeInsets.only(right: 4.0),
                             child: Image.asset(
-                              'images/icon/ic_effects_unselected.png',
+                              'assets/images/ic_effects_unselected.png',
                               width: 16,
                             )),
                       ),

@@ -130,7 +130,7 @@ Widget placeholderView() {
         color: UiColors.c23242A, borderRadius: BorderRadius.circular(12)),
     child: Center(
         child: Image.asset(
-      'images/icon/img_placeholder.png',
+      'assets/images/img_placeholder.png',
       width: 60,
     )),
   );

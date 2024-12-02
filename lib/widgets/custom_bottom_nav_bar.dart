@@ -9,12 +9,12 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const specialEffects = AssetImage('images/icon/ic_special_effects.png');
-    const specialEffectsSelected = AssetImage('images/icon/ic_special_effects_selected.png');
-    const home = AssetImage('images/icon/ic_home.png');
-    const homeSelected = AssetImage('images/icon/ic_home_selected.png');
-    const mine = AssetImage('images/icon/ic_mine.png');
-    const mineSelected = AssetImage('images/icon/ic_mine_selected.png');
+    const specialEffects = AssetImage('assets/images/ic_special_effects.png');
+    const specialEffectsSelected = AssetImage('assets/images/ic_special_effects_selected.png');
+    const home = AssetImage('assets/images/ic_home.png');
+    const homeSelected = AssetImage('assets/images/ic_home_selected.png');
+    const mine = AssetImage('assets/images/ic_mine.png');
+    const mineSelected = AssetImage('assets/images/ic_mine_selected.png');
     precacheImage(specialEffects, context);
     precacheImage(specialEffectsSelected, context);
     precacheImage(home, context);

@@ -249,7 +249,7 @@ class BottomPopOptions extends StatelessWidget {
               GestureDetector(
                 onTap: () => Get.back(),
                 child: const ImageIcon(
-                  AssetImage('images/icon/close.png'),
+                  AssetImage('assets/images/close.png'),
                   size: 24,
                   color: UiColors.black,
                 ),
@@ -316,7 +316,7 @@ class _EffectDialogState extends State<EffectDialog> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Image.asset(
-                          'images/icon/ic_close.png',
+                          'assets/images/ic_close.png',
                           width: 24,
                         ),
                       ),
@@ -395,7 +395,7 @@ Widget deleteConfirmDialog(VoidCallback onDelete) {
     icon: Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Image.asset(
-        'images/icon/ic_delete_big.png',
+        'assets/images/ic_delete_big.png',
         width: 70,
         height: 70,
       ),

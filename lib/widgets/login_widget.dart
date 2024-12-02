@@ -98,7 +98,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   child: GestureDetector(
                     onTap: () => Get.back(),
                     child: const ImageIcon(
-                      AssetImage('images/icon/ic_close.png'),
+                      AssetImage('assets/images/ic_close.png'),
                       color: Colors.white,
                       size: 24,
                     ),
@@ -152,8 +152,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                   children: [
                     Image.asset(
                         isAndroid
-                            ? 'images/icon/ic_google.png'
-                            : 'images/icon/ic_apple.png',
+                            ? 'assets/images/ic_google.png'
+                            : 'assets/images/ic_apple.png',
                         width: 18),
                     const SizedBox(width: 8),
                     Text(
@@ -190,7 +190,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Image.asset('images/icon/ic_email.png', width: 18),
+                      Image.asset('assets/images/ic_email.png', width: 18),
                       const SizedBox(width: 8),
                       Text(
                           isSignUp ? 'signUpWithEmail'.tr : 'logInWithEmail'.tr,
