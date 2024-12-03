@@ -10,7 +10,6 @@ import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
-import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
 import 'package:video_ai/pages/pro_purchase_page.dart';
@@ -297,9 +296,10 @@ class _CreatePageState extends State<CreatePage>
                             top: 0,
                             bottom: 0,
                             child: CustomButton(
-                              onTap:() =>  Get.bottomSheet(uploadImageDialog(() {
+                              onTap: () =>
+                                  Get.bottomSheet(uploadImageDialog(() {
                                 _pickImage(ImageSource.camera);
-                              }, (){
+                              }, () {
                                 _pickImage(ImageSource.gallery);
                               })),
                               text: _createCtr.imagePath.isNotEmpty == true
@@ -348,42 +348,40 @@ class _CreatePageState extends State<CreatePage>
                 ),
                 Row(
                   children: [
-                    CustomButton(
-                        height: 26,
-                        borderRadius: BorderRadius.circular(8),
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 8),
-                        bgColor: UiColors.c666949A1,
-                        leftIcon: Padding(
-                          padding: const EdgeInsets.only(right: 4.0),
-                          child: Image.asset(
-                            'assets/images/ic_shuffle.png',
-                            width: 14,
-                            height: 14,
+                    if (_createCtr.curTabIndex.value != 0)
+                      CustomButton(
+                          height: 26,
+                          margin: const EdgeInsets.only(right: 10),
+                          borderRadius: BorderRadius.circular(8),
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 8),
+                          bgColor: UiColors.c666949A1,
+                          leftIcon: Padding(
+                            padding: const EdgeInsets.only(right: 4.0),
+                            child: Image.asset(
+                              'assets/images/ic_shuffle.png',
+                              width: 14,
+                              height: 14,
+                            ),
                           ),
-                        ),
-                        text: 'inspireMe'.tr,
-                        textSize: 10,
-                        textColor: UiColors.cDBFFFFFF,
-                        onTap: () async {
-                          if (_createCtr.promptItems.isEmpty) {
-                            await _createCtr.getRecommendPrompt();
-                          }
-                          final items = _createCtr.promptItems.value;
-                          if (items.isNotEmpty) {
-                            setState(() {
-                              _controller.text =
-                                  items[Random().nextInt(items.length)]
-                                          .tag ??
-                                      "";
-                            });
-                          }
-                          FireBaseUtil.logEventButtonClick(
-                              PageName.createPage, 'insprire_button');
-                        }),
-                    const SizedBox(
-                      width: 10,
-                    ),
+                          text: 'inspireMe'.tr,
+                          textSize: 10,
+                          textColor: UiColors.cDBFFFFFF,
+                          onTap: () async {
+                            if (_createCtr.promptItems.isEmpty) {
+                              await _createCtr.getRecommendPrompt();
+                            }
+                            final items = _createCtr.promptItems.value;
+                            if (items.isNotEmpty) {
+                              setState(() {
+                                _controller.text =
+                                    items[Random().nextInt(items.length)].tag ??
+                                        "";
+                              });
+                            }
+                            FireBaseUtil.logEventButtonClick(
+                                PageName.createPage, 'insprire_button');
+                          }),
                     if (_createCtr.curTabIndex.value == 0 &&
                         !_mainCtr.isCreationLayoutSwitch.value)
                       CustomButton(
@@ -525,17 +523,12 @@ class _CreatePageState extends State<CreatePage>
     String effect = _createCtr.curEffects.value?.tag ?? '';
     FireBaseUtil.logEvent(EventName.requestCreation,
         parameters: {'createType': createType, 'effect': effect});
-    bool result = await _createCtr.aiGenerate(
+    await _createCtr.aiGenerate(
         _controller.text,
         _createCtr.curTabIndex.value == 0 ? _createCtr.imagePath.value : "",
         _createCtr.curTabIndex.value == 0
             ? _createCtr.curEffects.value?.id
             : null);
-    if (result) {
-      _userCtr.getUserInfo();
-      _mainCtr.tabController.index = 2;
-      Get.find<MineController>().onRefresh();
-    }
   }
 
   @override

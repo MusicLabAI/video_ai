@@ -47,78 +47,69 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Stack(
+      body: SingleChildScrollView(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SingleChildScrollView(
-            child: Stack(
+          Stack(children: [
+            CarouselWidget(
+              data: carouselData,
+              autoPlayInterval: const Duration(seconds: 5),
+              showIndicator: true,
+            ),
+            SafeArea(
+                child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CarouselWidget(
-                  data: carouselData,
-                  height: 443.0,
-                  autoPlayInterval: const Duration(seconds: 5),
-                  showIndicator: true,
-                ),
-                SafeArea(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          color: Colors.transparent,
-                          padding: const EdgeInsets.only(left: 16),
-                          height: 56,
-                          width: double.infinity,
-                          child: Row(
-                            children: [
-                              const Text(
-                                'Video AI',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: UiColors.cDBFFFFFF,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Spacer(),
-                              UserInfoWidget(),
-                              IconButton(
-                                onPressed: () {
-                                  Get.to(() => const SettingsPage());
-                                  FireBaseUtil.logEventButtonClick(
-                                      PageName.specialEffectsPage, 'mine_button');
-                                },
-                                icon: Image.asset(
-                                  'assets/images/ic_user.png',
-                                  width: 24,
-                                  height: 24,
-                                ),
-                              ),
-                            ],
-                          ),
+                Container(
+                  color: Colors.transparent,
+                  padding: const EdgeInsets.only(left: 16),
+                  height: 56,
+                  width: double.infinity,
+                  child: Row(
+                    children: [
+                      const Text(
+                        'Video AI',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: UiColors.cDBFFFFFF,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ],
-                    )),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, top: 360),
-                      child: Text(
-                        'imageToVideo'.tr,
-                        style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
                       ),
-                    ),
-                    _bottomView(),
-                  ],
-                )
+                      const Spacer(),
+                      UserInfoWidget(),
+                      IconButton(
+                        onPressed: () {
+                          Get.to(() => const SettingsPage());
+                          FireBaseUtil.logEventButtonClick(
+                              PageName.specialEffectsPage, 'mine_button');
+                        },
+                        icon: Image.asset(
+                          'assets/images/ic_user.png',
+                          width: 24,
+                          height: 24,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
+            )),
+          ]),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Text(
+              'imageToVideo'.tr,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
           ),
-          // 顶部导航和用户信息部分
+          _bottomView(),
         ],
-      ),
+      )),
     );
   }
 
@@ -142,7 +133,9 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
           final dataList = _createCtr.effectsList;
           EffectsModel model = dataList[index];
           return buildEffectsPromptItem(model.imageUrl,
-              name: model.tag, operate: "tryIt".tr, onItemClick: () {
+              isRepaired: model.isRepaired,
+              name: model.tag,
+              operate: "tryIt".tr, onItemClick: () {
             dataList.remove(model);
             dataList.insert(0, model);
             Get.to(() => EffectsDetailPage(

@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
+import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/models/effects_model.dart';
 import 'package:video_ai/widgets/dialogs.dart';
 import 'package:video_ai/widgets/effects_widget.dart';
@@ -257,10 +259,26 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
             CustomButton(
               margin: const EdgeInsets.only(
                   top: 20, left: 20, right: 20, bottom: 18),
-              onTap: () {},
+              onTap: () async {
+                if (widget.curEffectsModel.isRepaired) {
+                  Fluttertoast.showToast(msg: 'repairedTips'.tr);
+                  return;
+                }
+                if (_pickImagePath?.isEmpty ?? true) {
+                  Fluttertoast.showToast(msg: 'uploadImageEmptyTips'.tr);
+                  return;
+                }
+                bool result = await Get.find<CreateController>()
+                    .aiGenerate("", _pickImagePath!, widget.curEffectsModel.id);
+                if (result) {
+                  Get.back();
+                }
+              },
               text: 'createTheSameEffect'.tr,
               textColor: UiColors.cDBFFFFFF,
-              bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
+              bgColors: widget.curEffectsModel.isRepaired
+                  ? const [UiColors.c4DA754FC, UiColors.c4DA754FC]
+                  : const [UiColors.c7631EC, UiColors.cA359EF],
               width: double.infinity,
               height: 46,
               textSize: 16,

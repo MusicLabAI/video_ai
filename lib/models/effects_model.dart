@@ -15,7 +15,7 @@ class EffectsModel {
   String? imageUrl;
   String? videoUrl;
   String? videoFirstFrame;
-  int? status;
+  int? status; // 0 未启用  1 启用  2 维护中
 
   EffectsModel({
     this.id,
@@ -26,6 +26,10 @@ class EffectsModel {
     this.videoFirstFrame,
     this.status,
   });
+
+  get isRepaired {
+   return status == 2;
+  }
 
   factory EffectsModel.fromJson(Map<String, dynamic> json) => EffectsModel(
     id: json["id"],

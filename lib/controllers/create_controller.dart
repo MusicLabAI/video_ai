@@ -4,11 +4,14 @@ import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/api/request.dart';
+import 'package:video_ai/controllers/main_controller.dart';
+import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/effects_model.dart';
 import 'package:video_ai/widgets/loading_widget.dart';
 
 import '../common/aws_utils.dart';
 import '../models/prompt_model.dart';
+import 'mine_controller.dart';
 
 class CreateController extends GetxController {
   RxString prompt = "".obs;
@@ -102,6 +105,11 @@ class CreateController extends GetxController {
         }
       }
       final res = await Request.aiGenerate(prompt, imageUrl, effectId);
+      if (res != null) {
+        Get.find<UserController>().getUserInfo();
+        Get.find<MainController>().tabController.index = 2;
+        Get.find<MineController>().onRefresh();
+      }
       return res != null;
     } catch (e) {
       Get.log(e.toString(), isError: true);

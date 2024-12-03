@@ -158,6 +158,10 @@ class LanguageEnUs {
       "camera": "Camera",
       "fromAlbum": "From Album",
       "cameraRequestText": "Allows access to the camera to generate video.",
+      "underMaintenance": "Under Maintenance",
+      "repairedTips": "This effect is under maintenance, and we are working to fix it as soon as possible.",
+      "uploadImageEmptyTips": "Please upload a image first",
+      "tryNow": "Try Now",
     };
   }
 }

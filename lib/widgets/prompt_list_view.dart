@@ -50,6 +50,7 @@ class _PromptListViewState extends State<PromptListView> {
           itemBuilder: (BuildContext context, int index) {
             EffectsModel model = widget.dataList[index];
             return buildEffectsPromptItem(model.imageUrl,
+                isRepaired: model.isRepaired,
                 operate: 'tryPrompt'.tr, onTap: () {
               widget.onClick?.call(model);
             }, onItemClick: () {
@@ -65,6 +66,7 @@ class _PromptListViewState extends State<PromptListView> {
 Widget buildEffectsPromptItem(String? imageUrl,
     {String? name,
     String? operate,
+    bool? isRepaired,
     VoidCallback? onTap,
     VoidCallback? onItemClick}) {
   return GestureDetector(
@@ -119,6 +121,35 @@ Widget buildEffectsPromptItem(String? imageUrl,
                   fontSize: 14,
                   fontWeight: FontWeight.bold),
             )),
+        if (isRepaired ?? false)
+          Positioned.fill(child: repairedView())
+      ],
+    ),
+  );
+}
+
+Widget repairedView({bool isLittle = false}) {
+  return Container(
+    decoration: BoxDecoration(
+        color: UiColors.c66000000,
+        borderRadius: BorderRadius.circular(isLittle ? 6: 12)),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          "assets/images/img_repaired.png",
+          width: isLittle ? 32 : 48,
+        ),
+        const SizedBox(
+          height: 4,
+        ),
+        Text(
+          'underMaintenance'.tr,
+          style: TextStyle(
+              color: UiColors.cDBFFFFFF,
+              fontSize: isLittle ? 8: 10,
+              fontWeight: FontWeightExt.semiBold),
+        )
       ],
     ),
   );
