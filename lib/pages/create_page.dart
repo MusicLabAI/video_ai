@@ -296,11 +296,9 @@ class _CreatePageState extends State<CreatePage>
                             top: 0,
                             bottom: 0,
                             child: CustomButton(
-                              onTap: () =>
-                                  Get.bottomSheet(uploadImageDialog(() {
-                                _pickImage(ImageSource.camera);
-                              }, () {
-                                _pickImage(ImageSource.gallery);
+                              onTap: () => Get.bottomSheet(
+                                  ImageSourceDialog(onSourceChecked: (source) {
+                                _pickImage(source);
                               })),
                               text: _createCtr.imagePath.isNotEmpty == true
                                   ? 'replaceImage'.tr

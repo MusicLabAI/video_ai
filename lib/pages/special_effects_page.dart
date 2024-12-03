@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
+import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/models/effects_model.dart';
 import 'package:video_ai/pages/effects_detail_page.dart';
 import 'package:video_ai/pages/settings_page.dart';
@@ -20,30 +21,12 @@ class SpecialEffectsPage extends StatefulWidget {
 class _SpecialEffectsPageState extends State<SpecialEffectsPage>
     with AutomaticKeepAliveClientMixin {
   final CreateController _createCtr = Get.find<CreateController>();
+  final MainController _mainCtr = Get.find<MainController>();
   final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
-    final List<Map<String, String>> carouselData = [
-      {
-        "image": "https://placebear.com/400/300",
-        "title": "Title 1: Beautiful Landscape",
-        "text":
-            "Slide 1: Beautiful LandscapeSlide 1: Beautiful Landscape Slide 1: Beautiful Landscape Slide 1: Beautiful Landscape Slide 1: Beautiful Landscape"
-      },
-      {
-        "image": "https://picsum.photos/800/600",
-        "title": "Title 2: Amazing Scenery",
-        "text": "Slide 1:"
-      },
-      {
-        "image": "https://placebear.com/400/300",
-        "title": "Title 3: Nature at Its Best",
-        "text": "Slide 1: Beautiful Landscape"
-      },
-    ];
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -52,11 +35,13 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(children: [
-            CarouselWidget(
-              data: carouselData,
-              autoPlayInterval: const Duration(seconds: 5),
-              showIndicator: true,
-            ),
+            Obx(() => _mainCtr.jumpConfigs.value?.isEmpty ?? true
+                ? const SizedBox()
+                : CarouselWidget(
+                    data: _mainCtr.jumpConfigs.value!,
+                    autoPlayInterval: const Duration(seconds: 5),
+                    showIndicator: true,
+                  )),
             SafeArea(
                 child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -119,7 +104,8 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
   Widget _bottomView() {
     return Obx(() {
       return GridView.builder(
-        padding: const EdgeInsets.only(top: 16, left: 20, right: 20),
+        padding:
+            const EdgeInsets.only(top: 16, left: 20, right: 20, bottom: 16),
         itemCount: _createCtr.effectsList.length,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),

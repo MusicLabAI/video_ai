@@ -162,6 +162,13 @@ class LanguageEnUs {
       "repairedTips": "This effect is under maintenance, and we are working to fix it as soon as possible.",
       "uploadImageEmptyTips": "Please upload a image first",
       "tryNow": "Try Now",
+      "buyNow": "%s Buy Now!",
+      "noThanks": "No,Thanks",
+      "unitPrice": "Only %s /Video",
+      "superValueAnnuallyPlan": "Super Value Annually Plan",
+      "superValueCreditsRefill": "Super Value Credits Refill",
+      "limitedOfferGoodDesc": "Get %s Credits immediately Can Create %s AI videos %s",
+      "limitedOffer": "Limited Offer",
     };
   }
 }

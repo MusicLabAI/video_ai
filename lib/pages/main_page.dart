@@ -7,11 +7,15 @@ import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/mine_controller.dart';
+import 'package:video_ai/controllers/shop_controller.dart';
 import 'package:video_ai/pages/create_page.dart';
 import 'package:video_ai/pages/mine_page.dart';
 import 'package:video_ai/pages/special_effects_page.dart';
 import 'package:video_ai/widgets/custom_bottom_nav_bar.dart';
+import 'package:video_ai/widgets/dialogs.dart';
+import 'package:video_ai/widgets/limited_offer_desc_widget.dart';
 
+import '../common/popup_counter.dart';
 import '../controllers/user_controller.dart';
 
 class MainPage extends StatefulWidget {
@@ -42,6 +46,33 @@ class _MainPageState extends State<MainPage>
       _userCtr.getUserInfo();
       _mineCtr.onRefresh();
     }
+    once(_userCtr.userInfo, (userInfo) async {
+      if (userInfo.isVip ?? false) {}
+
+      final value = _mainCtr.configModel.value?.limitedOfferPopup ?? "2";
+      int number = 0;
+      try {
+        number = int.parse(value);
+      } catch (_) {}
+      final popupCount = await PopupCounter.getPopupCount();
+      Get.log("popupCount : $popupCount --> number : $number");
+      if (popupCount < number) {
+        bool isYearPlan = !(userInfo.isVip ?? false);
+        final list = await ShopController().getShopList(
+            isYearPlan
+                ? ShopController.productLimitedOfferProType
+                : ShopController.productLimitedOfferPointType,
+            showToast: false);
+        if (list?.isNotEmpty ?? false) {
+          PopupCounter.incrementPopupCount();
+          FireBaseUtil.logEventPopupView('limited_offer_popup');
+          Get.dialog(LimitedOfferDialog(
+            isYearPlan: isYearPlan,
+            shopModel: list![0],
+          ));
+        }
+      }
+    });
   }
 
   @override
@@ -80,7 +111,9 @@ class _MainPageState extends State<MainPage>
                   _mineCtr.retry();
                 }
               });
-              FireBaseUtil.logEventPageView(index == 0 ? PageName.specialEffectsPage : (index == 1 ? PageName.createPage : PageName.historyPage));
+              FireBaseUtil.logEventPageView(index == 0
+                  ? PageName.specialEffectsPage
+                  : (index == 1 ? PageName.createPage : PageName.historyPage));
             },
           )
         ],

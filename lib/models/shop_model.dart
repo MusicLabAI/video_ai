@@ -19,7 +19,6 @@ class ShopModel with EquatableMixin {
   final int? status;
   ProductDetails? productDetails;
   final bool isInfinitePoint;
-  final int? availableSongNumber;
   final bool isForever;
   final int? weekNumber;
   final int? videoNumber;
@@ -39,7 +38,6 @@ class ShopModel with EquatableMixin {
     this.status,
     this.productDetails,
     this.isInfinitePoint = false,
-    this.availableSongNumber,
     this.isForever = false,
     this.weekNumber,
     this.videoNumber,
@@ -59,7 +57,6 @@ class ShopModel with EquatableMixin {
         selected: json["selected"],
         status: json["status"],
         isInfinitePoint: json["isInfinitePoint"] ?? false,
-        availableSongNumber: json["availableSongNumber"] ?? 0,
         isForever: json["isForever"] ?? false,
         weekNumber: json["weekNumber"],
         videoNumber: json["videoNumber"],
@@ -140,8 +137,8 @@ class ShopModel with EquatableMixin {
     return shopDescribe ?? "";
   }
 
-  String getWeekPrice(String priceText, int dividedNum) {
-    if (dividedNum <= 1) {
+  String getUnitPrice(String priceText, int baseNum,{ bool isMultiply = false}) {
+    if (baseNum <= 1) {
       return priceText;
     }
     Pattern pattern = RegExp(r'\d');
@@ -166,7 +163,9 @@ class ShopModel with EquatableMixin {
       return '';
     }
 
-    String result = (parsedValue / dividedNum).toStringAsFixed(2);
+    String result = isMultiply
+        ? (parsedValue * baseNum).toStringAsFixed(2)
+        : (parsedValue / baseNum).toStringAsFixed(2);
     return index == 0 ? "$result$unit" : "$unit$result";
   }
 }

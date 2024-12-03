@@ -27,7 +27,9 @@ class Request {
   static Future<ConfigModel> getCommonConfig() async {
     final res = await DioUtil.httpPost(_commonConfigList, data: {
       "configList": [
+        {"configName": "limited_offer_popup", "configType": 0},
         {"configName": "creation_layout_switch", "configType": 0},
+        {"configName": "jump_config", "configType": 0},
       ]
     });
     try {

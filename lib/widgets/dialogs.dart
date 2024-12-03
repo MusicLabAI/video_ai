@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
+import 'package:video_ai/models/shop_model.dart';
+import 'package:video_ai/pages/limited_offer_purchase_page.dart';
 import 'package:video_ai/widgets/effects_widget.dart';
 
 import 'custom_button.dart';
+import 'limited_offer_desc_widget.dart';
 
 class CustomDialog extends StatelessWidget {
   const CustomDialog({
@@ -187,10 +191,14 @@ Expanded _buildConfirmBtn(String text, VoidCallback? onTap) {
 
 class DialogContainer extends StatelessWidget {
   const DialogContainer(
-      {super.key, required this.child, this.bgColor = UiColors.c262434});
+      {super.key,
+      required this.child,
+      this.bgColor = UiColors.c262434,
+      this.contentPadding});
 
   final Widget child;
   final Color bgColor;
+  final EdgeInsetsGeometry? contentPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +206,8 @@ class DialogContainer extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          padding: contentPadding ??
+              const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           margin: const EdgeInsets.symmetric(horizontal: 24),
           width: Get.width - 48,
           decoration: ShapeDecoration(
@@ -409,115 +418,237 @@ Widget deleteConfirmDialog(VoidCallback onDelete) {
   );
 }
 
-Widget uploadImageDialog(VoidCallback cameraClick, VoidCallback albumClick) {
-  return Container(
-    padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24, top: 16),
-    decoration: const BoxDecoration(
-        color: UiColors.c23242A,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'uploadImage'.tr,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
-            ),
-            GestureDetector(
-                onTap: () {
-                  Get.back();
-                },
-                child: Image.asset(
-                  "assets/images/ic_close.png",
-                  width: 24,
-                ))
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: Text(
-            'uploadImageDesc'.tr,
-            style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 14),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 24.0, bottom: 32),
-          child: Row(
+class ImageSourceDialog extends StatelessWidget {
+  const ImageSourceDialog({super.key, required this.onSourceChecked});
+
+  final Function(ImageSource) onSourceChecked;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24, top: 16),
+      decoration: const BoxDecoration(
+          color: UiColors.c23242A,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                  child: AspectRatio(
-                      aspectRatio: 90 / 108,
-                      child: Image.asset("assets/images/img_example_1.png"))),
-              const SizedBox(
-                width: 24,
+              Text(
+                'uploadImage'.tr,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
               ),
-              Expanded(
-                  child: AspectRatio(
-                      aspectRatio: 90 / 108,
-                      child: Image.asset("assets/images/img_example_2.png"))),
-              const SizedBox(
-                width: 24,
-              ),
-              Expanded(
-                  child: AspectRatio(
-                      aspectRatio: 90 / 108,
-                      child: Image.asset("assets/images/img_example_3.png"))),
+              GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Image.asset(
+                    "assets/images/ic_close.png",
+                    width: 24,
+                  ))
             ],
           ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: Text(
+              'uploadImageDesc'.tr,
+              style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 14),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 24.0, bottom: 32),
+            child: Row(
+              children: [
+                Expanded(
+                    child: AspectRatio(
+                        aspectRatio: 90 / 108,
+                        child: Image.asset("assets/images/img_example_1.png"))),
+                const SizedBox(
+                  width: 24,
+                ),
+                Expanded(
+                    child: AspectRatio(
+                        aspectRatio: 90 / 108,
+                        child: Image.asset("assets/images/img_example_2.png"))),
+                const SizedBox(
+                  width: 24,
+                ),
+                Expanded(
+                    child: AspectRatio(
+                        aspectRatio: 90 / 108,
+                        child: Image.asset("assets/images/img_example_3.png"))),
+              ],
+            ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: CustomButton(
+                  onTap: () {
+                    Get.back();
+                    onSourceChecked.call(ImageSource.camera);
+                  },
+                  width: double.infinity,
+                  height: 44,
+                  text: 'camera'.tr,
+                  bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
+                  textColor: Colors.white,
+                  textSize: 14,
+                  leftIcon: Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: Image.asset(
+                        'assets/images/ic_camera.png',
+                        width: 20,
+                      )),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: CustomButton(
+                  onTap: () {
+                    Get.back();
+                    onSourceChecked.call(ImageSource.gallery);
+                  },
+                  bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
+                  width: double.infinity,
+                  height: 44,
+                  text: 'fromAlbum'.tr,
+                  textColor: Colors.white,
+                  textSize: 14,
+                  leftIcon: Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: Image.asset(
+                        'assets/images/ic_album.png',
+                        width: 20,
+                      )),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class LimitedOfferDialog extends StatelessWidget {
+  const LimitedOfferDialog(
+      {super.key, required this.isYearPlan, required this.shopModel});
+
+  final bool isYearPlan;
+  final ShopModel shopModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return DialogContainer(
+      bgColor: Colors.transparent,
+      contentPadding: EdgeInsets.zero,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            isYearPlan
+                ? "assets/images/img_limited_offer_pro.png"
+                : "assets/images/img_limited_offer_point.png",
+            fit: BoxFit.fitWidth,
+          ),
+          Container(
+            decoration: const BoxDecoration(
+                color: UiColors.c23242A,
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(12))),
+            padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  isYearPlan
+                      ? 'superValueAnnuallyPlan'.tr
+                      : 'superValueCreditsRefill'.tr,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: LimitedOfferDescWidget(shopModel: shopModel),
+                ),
+                if (isYearPlan) ...[
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  _getLabWithIcon('ultraHdResolution'.tr),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  _getLabWithIcon('highPriorityGenerations'.tr),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  _getLabWithIcon('commercialUsePermitted'.tr),
+                ],
+                CustomButton(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(top: 30, bottom: 8),
+                  onTap: () {
+                    Get.back();
+                    Get.to(() => LimitedOfferPurchasePage(
+                        isYearPlan: isYearPlan, shopModel: shopModel));
+                  },
+                  text:
+                      'buyNow'.trArgs([shopModel.productDetails?.price ?? ""]),
+                  textColor: Colors.white,
+                  textSize: 14,
+                  height: 44,
+                  bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text('noThanks'.tr,
+                        style: const TextStyle(
+                          color: UiColors.c61FFFFFF,
+                          fontSize: 14,
+                          decoration: TextDecoration.underline,
+                          decorationColor: UiColors.c61FFFFFF,
+                        )),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _getLabWithIcon(String label) {
+    return Row(
+      children: [
+        Image.asset(
+          'assets/images/ic_checked.png',
+          width: 12,
         ),
-        Row(
-          children: [
-            Expanded(
-              child: CustomButton(
-                onTap: () {
-                  Get.back();
-                  cameraClick.call();
-                },
-                width: double.infinity,
-                height: 44,
-                text: 'camera'.tr,
-                bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
-                textColor: Colors.white,
-                textSize: 14,
-                leftIcon: Padding(
-                    padding: const EdgeInsets.only(right: 12),
-                    child: Image.asset(
-                      'assets/images/ic_camera.png',
-                      width: 20,
-                    )),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: CustomButton(
-                onTap: () {
-                  Get.back();
-                  albumClick.call();
-                },
-                bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
-                width: double.infinity,
-                height: 44,
-                text: 'fromAlbum'.tr,
-                textColor: Colors.white,
-                textSize: 14,
-                leftIcon: Padding(
-                    padding: const EdgeInsets.only(right: 12),
-                    child: Image.asset(
-                      'assets/images/ic_album.png',
-                      width: 20,
-                    )),
-              ),
-            ),
-          ],
+        const SizedBox(
+          width: 10,
+        ),
+        Text(
+          label,
+          style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 12),
         )
       ],
-    ),
-  );
+    );
+  }
 }

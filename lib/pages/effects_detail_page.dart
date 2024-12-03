@@ -73,15 +73,6 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
     super.dispose();
   }
 
-  Future<void> _selectImage(ImageSource source) async {
-    String? path = await CommonUtil.pickUpImage(source);
-    if (path != null) {
-      setState(() {
-        _pickImagePath = path;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,10 +167,14 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
                             // Spacer(),
                             GestureDetector(
                               onTap: () {
-                                Get.bottomSheet(uploadImageDialog(() {
-                                  _selectImage(ImageSource.camera);
-                                }, () {
-                                  _selectImage(ImageSource.gallery);
+                                Get.bottomSheet(ImageSourceDialog(
+                                    onSourceChecked: (source) async {
+                                      String? path = await CommonUtil.pickUpImage(source);
+                                      if (path != null) {
+                                        setState(() {
+                                          _pickImagePath = path;
+                                        });
+                                      }
                                 }));
                               },
                               child: Container(

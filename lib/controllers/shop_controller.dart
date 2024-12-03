@@ -14,6 +14,8 @@ class ShopController extends GetxController {
   static int productProType = 2; //会员商品
   static int iosProductPointType = 3; //积分商品
   static int iosProductProType = 4; //会员商品
+  static int productLimitedOfferProType = 53; //限时折扣会员商品
+  static int productLimitedOfferPointType = 54; //限时折扣积分商品
 
   /// 是否正在请求数据
   RxBool isInRequest = true.obs;
@@ -26,7 +28,7 @@ class ShopController extends GetxController {
     GlobalData.buyShop.submit(currentShop.value, true, pageName);
   }
 
-  Future<void> getShopList(int type) async {
+  Future<List<ShopModel>?> getShopList(int type, {bool showToast = true}) async {
     try {
       isInRequest.value = true;
       final res = await Request.getShopList(type);
@@ -45,16 +47,18 @@ class ShopController extends GetxController {
       }
       resList.removeWhere((e) => e.productDetails == null);
       shopList.value = resList;
-      if (shopList.isEmpty) {
+      if (shopList.isEmpty && showToast) {
         Fluttertoast.showToast(msg: 'productNotFound'.tr);
-        return;
+        return null;
       }
 
       currentShop.value =
           resList.firstWhereOrNull((e) => (e.selected ?? false)) ??
               resList.first;
+      return resList;
     } catch (e) {
       Get.log(e.toString(), isError: true);
+      return null;
     } finally {
       isInRequest.value = false;
     }
