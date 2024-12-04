@@ -188,6 +188,7 @@ class CarouselPage extends StatelessWidget {
           }
         } else if (data.targetType == 5) {
           Get.find<MainController>().tabController.index = 1;
+          Get.find<CreateController>().scrollToTop.value = true;
         } else if (data.targetType == 6) {
           Get.to(() => const ProPurchasePage());
         } else if (data.targetType == 7) {

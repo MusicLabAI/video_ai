@@ -21,6 +21,7 @@ class CreateController extends GetxController {
 
   RxList<ExampleModel> promptItems = RxList();
   Rxn<String> imagePath = Rxn(null);
+  RxBool scrollToTop = false.obs;
 
   @override
   onInit() {
@@ -50,6 +51,7 @@ class CreateController extends GetxController {
     } else {
       curEffects.value = effects;
     }
+    scrollToTop.value = true;
     curTabIndex.value = index;
   }
 
@@ -73,6 +75,7 @@ class CreateController extends GetxController {
     if (hasEffects || inputImageUrl?.isNotEmpty == true) {
       curTabIndex.value = 1;
     }
+    scrollToTop.value = true;
     prompt.value = newPrompt;
   }
 

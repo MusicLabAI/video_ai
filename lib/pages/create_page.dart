@@ -37,7 +37,7 @@ class _CreatePageState extends State<CreatePage>
   final CreateController _createCtr = Get.find<CreateController>();
   late TextEditingController _controller;
   Worker? _promptWorker;
-  Worker? _effectsWorker;
+  Worker? _scrollWorker;
 
   final ScrollController _scrollController = ScrollController();
 
@@ -76,13 +76,15 @@ class _CreatePageState extends State<CreatePage>
     _controller = TextEditingController(text: _createCtr.prompt.value);
     _promptWorker = ever(_createCtr.prompt, (value) {
       setState(() {
-        print("value: $value");
         _controller.text = value;
         _scrollToTop();
       });
     });
-    _effectsWorker = ever(_createCtr.curEffects, (value) {
-      _scrollToTop();
+    _scrollWorker = ever(_createCtr.scrollToTop, (value) {
+      if (value) {
+        _scrollToTop();
+        _createCtr.scrollToTop.value = false;
+      }
     });
   }
 
@@ -90,7 +92,7 @@ class _CreatePageState extends State<CreatePage>
   void dispose() {
     _controller.dispose();
     _promptWorker?.dispose();
-    _effectsWorker?.dispose();
+    _scrollWorker?.dispose();
     super.dispose();
   }
 
