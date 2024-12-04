@@ -16,8 +16,6 @@ import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/dialogs.dart';
 import 'package:video_ai/widgets/loading_widget.dart';
 
-import 'effects_detail_page.dart';
-
 class VideoDetailPage extends StatefulWidget {
   const VideoDetailPage({super.key, required this.recordModel});
 
@@ -64,269 +62,11 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          SizedBox(
-            width: double.infinity,
-            height: 443,
-            child: Stack(
-              children: [
-                if (_controller.value.isInitialized)
-                  Center(
-                    child: AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: CachedVideoPlayerPlus(_controller),
-                    ),
-                  ),
-                if (!_controller.value.isInitialized) const LoadingWidget(),
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 240),
-            height: 203,
-            decoration: BoxDecoration(gradient: commonGradient),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 276.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _controller.value.isPlaying
-                              ? _controller.pause()
-                              : _controller.play();
-                        });
-                      },
-                      child: Image.asset(
-                        _controller.value.isPlaying
-                            ? 'assets/images/ic_pause.png'
-                            : 'assets/images/ic_play.png',
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                    Expanded(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SliderTheme(
-                          data: SliderTheme.of(context).copyWith(
-                            thumbColor: Colors.white,
-                            trackHeight: 4,
-                            inactiveTrackColor: UiColors.c33FFFFFF,
-                            thumbShape: const RoundSliderThumbShape(
-                                enabledThumbRadius: 5),
-                            // 修改滑块的半径
-                            overlayShape: const RoundSliderOverlayShape(
-                                overlayRadius: 16), // 修改滑块点击时的圆圈大小
-                          ),
-                          child: Slider(
-                            value: _sliderValue,
-                            min: 0.0,
-                            max:
-                                _controller.value.duration.inSeconds.toDouble(),
-                            onChanged: (value) {
-                              setState(() {
-                                _sliderValue = value;
-                                _isSeeking = true;
-                              });
-                            },
-                            onChangeEnd: (value) {
-                              setState(() {
-                                _isSeeking = false;
-                                _controller
-                                    .seekTo(Duration(seconds: value.toInt()));
-                              });
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12.0),
-                          child: Text(
-                            "${_formatDuration(_controller.value.position)} / ${_formatDuration(_controller.value.duration)}",
-                            style: TextStyle(
-                                fontSize: 10,
-                                color: UiColors.cB3B3B3,
-                                fontWeight: FontWeightExt.medium),
-                          ),
-                        ),
-                      ],
-                    )),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    if (widget.recordModel.inputImageUrl?.isNotEmpty ?? false)
-                      Container(
-                        width: 68,
-                        height: 68,
-                        decoration: BoxDecoration(
-                            color: UiColors.c99000000,
-                            borderRadius: BorderRadius.circular(12)),
-                        child: Stack(
-                          children: [
-                            Positioned.fill(
-                              child: Padding(
-                                  padding: const EdgeInsets.all(4),
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                            widget.recordModel.inputImageUrl!,
-                                        fit: BoxFit.fill,
-                                      ))),
-                            ),
-                            Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: GestureDetector(
-                                    onTap: () {
-                                      FireBaseUtil.logEventButtonClick(PageName.videoPlayPage, "resultDetails_OriginalImage_button");
-                                      //放大图片
-                                      Get.dialog(
-                                        GestureDetector(
-                                            onTap: () {
-                                              Get.back();
-                                            },
-                                            child: CachedNetworkImage(
-                                                imageUrl: widget.recordModel
-                                                    .inputImageUrl!)),
-                                      );
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Image.asset(
-                                        "assets/images/ic_image_enlarge.png",
-                                        width: 18,
-                                      ),
-                                    ))),
-                          ],
-                        ),
-                      )
-                  ],
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      widget.recordModel.effect ?? 'prompt'.tr,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    if (widget.recordModel.effectId == null &&
-                        (widget.recordModel.prompt?.isNotEmpty ?? false))
-                      GestureDetector(
-                          onTap: () {
-                            FireBaseUtil.logEventButtonClick(PageName.videoPlayPage, "resultDetails_copy_button");
-                            Clipboard.setData(ClipboardData(
-                                text: "${widget.recordModel.prompt}"));
-                            Fluttertoast.showToast(msg: 'copySucceed'.tr);
-                          },
-                          child: Image.asset(
-                            'assets/images/ic_copy_with_bg.png',
-                            width: 30,
-                          ))
-                  ],
-                ),
-                if (widget.recordModel.prompt?.isNotEmpty ?? false)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: Text(
-                      widget.recordModel.prompt!,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          color: UiColors.cDBFFFFFF, fontSize: 12),
-                    ),
-                  ),
-                CustomButton(
-                  margin: const EdgeInsets.symmetric(vertical: 24),
-                  onTap: () {
-                    FireBaseUtil.logEventButtonClick(PageName.videoPlayPage, "resultDetails_generateAgain_button");
-                    Get.back(result: widget.recordModel);
-                  },
-                  text: "generateAgain".tr,
-                  textColor: Colors.white,
-                  textSize: 14,
-                  bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
-                  width: double.infinity,
-                  height: 46,
-                ),
-                Text(
-                  'saveAndShare'.tr,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeightExt.semiBold),
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: CustomButton(
-                      onTap: () {
-                        download();
-                      },
-                      bgColor: UiColors.c2C2A2B,
-                      text: 'save'.tr,
-                      textColor: UiColors.cB3B3B3,
-                      textSize: 12,
-                      height: 44,
-                      leftIcon: Padding(
-                        padding: const EdgeInsets.only(right: 12.0),
-                        child: Image.asset(
-                          'assets/images/ic_download.png',
-                          width: 20,
-                        ),
-                      ),
-                    )),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: CustomButton(
-                      onTap: () {
-                        if (videoUrl?.isNotEmpty ?? false) {
-                          Share.share(videoUrl!);
-                        }
-                        FireBaseUtil.logEventButtonClick(
-                            PageName.videoPlayPage, 'share_video_button');
-                        FireBaseUtil.logEvent(EventName.shareRequest);
-                      },
-                      text: 'share'.tr,
-                      bgColor: UiColors.c2C2A2B,
-                      textColor: UiColors.cB3B3B3,
-                      textSize: 12,
-                      height: 44,
-                      leftIcon: Padding(
-                        padding: const EdgeInsets.only(right: 12.0),
-                        child: Image.asset(
-                          'assets/images/ic_share.png',
-                          width: 20,
-                        ),
-                      ),
-                    )),
-                  ],
-                )
-              ],
-            ),
-          ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 12),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
               child: Row(
                 children: [
                   const SizedBox(
@@ -369,8 +109,279 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                 ],
               ),
             ),
-          ),
-        ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Stack(
+                          children: [
+                            if (_controller.value.isInitialized)
+                              Center(
+                                child: AspectRatio(
+                                  aspectRatio: _controller.value.aspectRatio,
+                                  child: CachedVideoPlayerPlus(_controller),
+                                ),
+                              ),
+                            if (!_controller.value.isInitialized)
+                              const LoadingWidget(),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: widget.recordModel.inputImageUrl?.isNotEmpty ??
+                                false
+                            ? 14.0
+                            : 24.0,
+                      ),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _controller.value.isPlaying
+                                    ? _controller.pause()
+                                    : _controller.play();
+                              });
+                            },
+                            child: Image.asset(
+                              _controller.value.isPlaying
+                                  ? 'assets/images/ic_pause.png'
+                                  : 'assets/images/ic_play.png',
+                              width: 40,
+                              height: 40,
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                          Expanded(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SliderTheme(
+                                data: SliderTheme.of(context).copyWith(
+                                  thumbColor: Colors.white,
+                                  trackHeight: 4,
+                                  inactiveTrackColor: UiColors.c33FFFFFF,
+                                  thumbShape: const RoundSliderThumbShape(
+                                      enabledThumbRadius: 5),
+                                  // 修改滑块的半径
+                                  overlayShape: const RoundSliderOverlayShape(
+                                      overlayRadius: 16), // 修改滑块点击时的圆圈大小
+                                ),
+                                child: Slider(
+                                  value: _sliderValue,
+                                  min: 0.0,
+                                  max: _controller.value.duration.inSeconds
+                                      .toDouble(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _sliderValue = value;
+                                      _isSeeking = true;
+                                    });
+                                  },
+                                  onChangeEnd: (value) {
+                                    setState(() {
+                                      _isSeeking = false;
+                                      _controller.seekTo(
+                                          Duration(seconds: value.toInt()));
+                                    });
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 12.0),
+                                child: Text(
+                                  "${_formatDuration(_controller.value.position)} / ${_formatDuration(_controller.value.duration)}",
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      color: UiColors.cB3B3B3,
+                                      fontWeight: FontWeightExt.medium),
+                                ),
+                              ),
+                            ],
+                          )),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          if (widget.recordModel.inputImageUrl?.isNotEmpty ??
+                              false)
+                            Container(
+                              width: 68,
+                              height: 68,
+                              decoration: BoxDecoration(
+                                  color: UiColors.c99000000,
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: Padding(
+                                        padding: const EdgeInsets.all(4),
+                                        child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            child: CachedNetworkImage(
+                                              imageUrl: widget
+                                                  .recordModel.inputImageUrl!,
+                                              fit: BoxFit.fill,
+                                            ))),
+                                  ),
+                                  Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            FireBaseUtil.logEventButtonClick(
+                                                PageName.videoPlayPage,
+                                                "resultDetails_OriginalImage_button");
+                                            //放大图片
+                                            Get.dialog(
+                                              GestureDetector(
+                                                  onTap: () {
+                                                    Get.back();
+                                                  },
+                                                  child: CachedNetworkImage(
+                                                      imageUrl: widget
+                                                          .recordModel
+                                                          .inputImageUrl!)),
+                                            );
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Image.asset(
+                                              "assets/images/ic_image_enlarge.png",
+                                              width: 18,
+                                            ),
+                                          ))),
+                                ],
+                              ),
+                            )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            widget.recordModel.effect ?? 'prompt'.tr,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          if (widget.recordModel.effectId == null &&
+                              (widget.recordModel.prompt?.isNotEmpty ?? false))
+                            GestureDetector(
+                                onTap: () {
+                                  FireBaseUtil.logEventButtonClick(
+                                      PageName.videoPlayPage,
+                                      "resultDetails_copy_button");
+                                  Clipboard.setData(ClipboardData(
+                                      text: "${widget.recordModel.prompt}"));
+                                  Fluttertoast.showToast(msg: 'copySucceed'.tr);
+                                },
+                                child: Image.asset(
+                                  'assets/images/ic_copy_with_bg.png',
+                                  width: 30,
+                                ))
+                        ],
+                      ),
+                      if (widget.recordModel.prompt?.isNotEmpty ?? false)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: Text(
+                            widget.recordModel.prompt!,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: UiColors.cDBFFFFFF, fontSize: 12),
+                          ),
+                        ),
+                      CustomButton(
+                        margin: const EdgeInsets.symmetric(vertical: 24),
+                        onTap: () {
+                          FireBaseUtil.logEventButtonClick(
+                              PageName.videoPlayPage,
+                              "resultDetails_generateAgain_button");
+                          Get.back(result: widget.recordModel);
+                        },
+                        text: "generateAgain".tr,
+                        textColor: Colors.white,
+                        textSize: 14,
+                        bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
+                        width: double.infinity,
+                        height: 46,
+                      ),
+                      Text(
+                        'saveAndShare'.tr,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeightExt.semiBold),
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: CustomButton(
+                            onTap: () {
+                              download();
+                            },
+                            bgColor: UiColors.c2C2A2B,
+                            text: 'save'.tr,
+                            textColor: UiColors.cB3B3B3,
+                            textSize: 12,
+                            height: 44,
+                            leftIcon: Padding(
+                              padding: const EdgeInsets.only(right: 12.0),
+                              child: Image.asset(
+                                'assets/images/ic_download.png',
+                                width: 20,
+                              ),
+                            ),
+                          )),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                              child: CustomButton(
+                            onTap: () {
+                              if (videoUrl?.isNotEmpty ?? false) {
+                                Share.share(videoUrl!);
+                              }
+                              FireBaseUtil.logEventButtonClick(
+                                  PageName.videoPlayPage, 'share_video_button');
+                              FireBaseUtil.logEvent(EventName.shareRequest);
+                            },
+                            text: 'share'.tr,
+                            bgColor: UiColors.c2C2A2B,
+                            textColor: UiColors.cB3B3B3,
+                            textSize: 12,
+                            height: 44,
+                            leftIcon: Padding(
+                              padding: const EdgeInsets.only(right: 12.0),
+                              child: Image.asset(
+                                'assets/images/ic_share.png',
+                                width: 20,
+                              ),
+                            ),
+                          )),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
