@@ -11,18 +11,24 @@ import 'package:video_ai/widgets/carousel_widget.dart';
 import 'package:video_ai/widgets/prompt_list_view.dart';
 import 'package:video_ai/widgets/user_info_widget.dart';
 
-class SpecialEffectsPage extends StatefulWidget {
-  const SpecialEffectsPage({super.key});
+class AIStudioPage extends StatefulWidget {
+  const AIStudioPage({super.key});
 
   @override
-  State<SpecialEffectsPage> createState() => _SpecialEffectsPageState();
+  State<AIStudioPage> createState() => _AIStudioPageState();
 }
 
-class _SpecialEffectsPageState extends State<SpecialEffectsPage>
+class _AIStudioPageState extends State<AIStudioPage>
     with AutomaticKeepAliveClientMixin {
   final CreateController _createCtr = Get.find<CreateController>();
   final MainController _mainCtr = Get.find<MainController>();
   final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    FireBaseUtil.logEventPageView(PageName.aiStudioPage);
+  }
 
   @override
   Widget build(BuildContext context) {

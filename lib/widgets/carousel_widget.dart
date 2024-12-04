@@ -5,6 +5,7 @@ import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/common/common_util.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/models/effects_model.dart';
@@ -154,6 +155,7 @@ class CarouselPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        FireBaseUtil.logEvent("banner_click", parameters: {"bannerTitle" : data.title?? "",});
         if (data.targetType == 3 || data.targetType == 4) {
           if (data.effectId == null) {
             return;

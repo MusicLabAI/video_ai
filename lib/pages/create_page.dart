@@ -152,6 +152,7 @@ class _CreatePageState extends State<CreatePage>
                                       ));
                                 },
                                 onClick: (model) {
+                                  FireBaseUtil.logEventButtonClick(PageName.createPage, "createPage_example_try_button");
                                   _createCtr.prompt.value = model.tag ?? "";
                                   _createCtr.curTabIndex.value = 1;
                                 },
@@ -297,10 +298,14 @@ class _CreatePageState extends State<CreatePage>
                             top: 0,
                             bottom: 0,
                             child: CustomButton(
-                              onTap: () => Get.bottomSheet(
-                                  ImageSourceDialog(onSourceChecked: (source) {
-                                _pickImage(source);
-                              })),
+                              onTap: () {
+                                FireBaseUtil.logEventPopupView(
+                                    "image_example_popup");
+                                Get.bottomSheet(ImageSourceDialog(
+                                    onSourceChecked: (source) {
+                                  _pickImage(source);
+                                }));
+                              },
                               text: _createCtr.imagePath.isNotEmpty == true
                                   ? 'replaceImage'.tr
                                   : 'addImage'.tr,
@@ -470,6 +475,7 @@ class _CreatePageState extends State<CreatePage>
       CustomButton(
         margin: const EdgeInsets.only(top: 24),
         onTap: () {
+          FireBaseUtil.logEventButtonClick(PageName.createPage, "createPage_generate_button");
           if (_isEnable()) {
             CommonUtil.hideKeyboard(context);
             generate();
@@ -522,7 +528,7 @@ class _CreatePageState extends State<CreatePage>
         (_createCtr.curTabIndex.value != 0) ? 'TextToVideo' : 'ImageToVideo';
     String effect = _createCtr.curEffects.value?.tag ?? '';
     FireBaseUtil.logEvent(EventName.requestCreation,
-        parameters: {'createType': createType, 'effect': effect});
+        parameters: {'createType': createType, 'effect': effect, 'pageName': PageName.createPage});
     await _createCtr.aiGenerate(
         _controller.text,
         _createCtr.curTabIndex.value == 0 ? _createCtr.imagePath.value : "",

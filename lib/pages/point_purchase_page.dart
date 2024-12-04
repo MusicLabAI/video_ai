@@ -114,7 +114,12 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
                       child: CustomButton(
                         width: double.infinity,
                         height: 46,
-                        onTap: () => {_shopCtr.purchase(PageName.creditsPurchasePage)},
+                        onTap: () {
+                          FireBaseUtil.logEventButtonClick(
+                              PageName.creditsPurchasePage,
+                              "creditsPage_purchase_button");
+                          _shopCtr.purchase(PageName.creditsPurchasePage);
+                        },
                         text: 'purchase'.tr,
                         bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],
                         textColor: UiColors.cDBFFFFFF,

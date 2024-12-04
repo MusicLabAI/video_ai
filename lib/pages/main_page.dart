@@ -10,7 +10,7 @@ import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/controllers/shop_controller.dart';
 import 'package:video_ai/pages/create_page.dart';
 import 'package:video_ai/pages/mine_page.dart';
-import 'package:video_ai/pages/special_effects_page.dart';
+import 'package:video_ai/pages/ai_studio_page.dart';
 import 'package:video_ai/widgets/custom_bottom_nav_bar.dart';
 import 'package:video_ai/widgets/dialogs.dart';
 import 'package:video_ai/widgets/limited_offer_desc_widget.dart';
@@ -63,7 +63,8 @@ class _MainPageState extends State<MainPage>
             showToast: false);
         if (list?.isNotEmpty ?? false) {
           PopupCounter.incrementPopupCount();
-          FireBaseUtil.logEventPopupView('limited_offer_popup');
+          FireBaseUtil.logEventPopupView(
+              isYearPlan ? 'pro_popup' : 'credits_popup');
           Get.dialog(LimitedOfferDialog(
             isYearPlan: isYearPlan,
             shopModel: list![0],
@@ -89,7 +90,7 @@ class _MainPageState extends State<MainPage>
             child: TabBarView(
               physics: const NeverScrollableScrollPhysics(),
               controller: _mainCtr.tabController,
-              children: const [SpecialEffectsPage(), CreatePage(), MinePage()],
+              children: const [AIStudioPage(), CreatePage(), MinePage()],
             ),
           ),
           CustomBottomNavBar(

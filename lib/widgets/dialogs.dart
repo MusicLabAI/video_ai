@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/models/shop_model.dart';
@@ -490,6 +491,8 @@ class ImageSourceDialog extends StatelessWidget {
               Expanded(
                 child: CustomButton(
                   onTap: () {
+                    FireBaseUtil.logEventButtonClick(
+                        "", "uploadImage_popup_camera");
                     Get.back();
                     onSourceChecked.call(ImageSource.camera);
                   },
@@ -513,6 +516,8 @@ class ImageSourceDialog extends StatelessWidget {
               Expanded(
                 child: CustomButton(
                   onTap: () {
+                    FireBaseUtil.logEventButtonClick(
+                        "", "uploadImage_popup_album");
                     Get.back();
                     onSourceChecked.call(ImageSource.gallery);
                   },
@@ -600,6 +605,13 @@ class LimitedOfferDialog extends StatelessWidget {
                   width: double.infinity,
                   margin: const EdgeInsets.only(top: 30, bottom: 8),
                   onTap: () {
+                    FireBaseUtil.logEventButtonClick(
+                        isYearPlan
+                            ? PageName.proPopupPage
+                            : PageName.creditsPopupPage,
+                        isYearPlan
+                            ? "pro_popup_join_button"
+                            : "credits_popup_buy_button");
                     Get.back();
                     Get.to(() => LimitedOfferPurchasePage(
                         isYearPlan: isYearPlan, shopModel: shopModel));
@@ -613,6 +625,13 @@ class LimitedOfferDialog extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
+                    FireBaseUtil.logEventButtonClick(
+                        isYearPlan
+                            ? PageName.proPopupPage
+                            : PageName.creditsPopupPage,
+                        isYearPlan
+                            ? "pro_popup_no_button"
+                            : "credits_popup_no_button");
                     Get.back();
                   },
                   child: Padding(

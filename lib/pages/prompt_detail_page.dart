@@ -10,6 +10,7 @@ import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/models/effects_model.dart';
 import 'package:video_ai/widgets/prompt_list_view.dart';
 
+import '../common/firebase_util.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/loading_widget.dart';
 import 'effects_detail_page.dart';
@@ -34,6 +35,7 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
   @override
   void initState() {
     super.initState();
+    FireBaseUtil.logEventPageView(PageName.exampleDetailsPage);
     refreshRandomList();
     _initController();
   }
@@ -179,6 +181,7 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                               CustomButton(
                                 margin: const EdgeInsets.only(top: 24),
                                 onTap: () {
+                                  FireBaseUtil.logEventButtonClick(PageName.exampleDetailsPage, 'examplePage_generate_button');
                                   _createCtr.selectEffects(
                                       widget.curEffectsModel,
                                       index: 1);

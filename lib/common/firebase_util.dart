@@ -184,4 +184,19 @@ class PageName  {
 
   /// 视频详情页面
   static const String videoPlayPage = 'video_play_page';
+
+  /// AiStudio页面
+  static const String aiStudioPage = 'aiStudio_page';
+
+  /// 特效详情页
+  static const String effectDetailsPage = 'effect_details_page';
+
+  /// 文生视频案例详情页
+  static const String exampleDetailsPage = 'example_details_page';
+
+  /// 弹窗会员详情页
+  static const String proPopupPage = 'pro_popup_page';
+
+  /// 弹窗点数详情页
+  static const String creditsPopupPage = 'credits_popup_page';
 }

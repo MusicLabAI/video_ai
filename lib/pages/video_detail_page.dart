@@ -187,6 +187,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                                 right: 0,
                                 child: GestureDetector(
                                     onTap: () {
+                                      FireBaseUtil.logEventButtonClick(PageName.videoPlayPage, "resultDetails_OriginalImage_button");
                                       //放大图片
                                       Get.dialog(
                                         GestureDetector(
@@ -227,6 +228,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                         (widget.recordModel.prompt?.isNotEmpty ?? false))
                       GestureDetector(
                           onTap: () {
+                            FireBaseUtil.logEventButtonClick(PageName.videoPlayPage, "resultDetails_copy_button");
                             Clipboard.setData(ClipboardData(
                                 text: "${widget.recordModel.prompt}"));
                             Fluttertoast.showToast(msg: 'copySucceed'.tr);
@@ -251,6 +253,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                 CustomButton(
                   margin: const EdgeInsets.symmetric(vertical: 24),
                   onTap: () {
+                    FireBaseUtil.logEventButtonClick(PageName.videoPlayPage, "resultDetails_generateAgain_button");
                     Get.back(result: widget.recordModel);
                   },
                   text: "generateAgain".tr,

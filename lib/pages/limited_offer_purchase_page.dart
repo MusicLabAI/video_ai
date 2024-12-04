@@ -25,7 +25,8 @@ class _LimitedOfferPurchasePageState extends State<LimitedOfferPurchasePage> {
   @override
   void initState() {
     super.initState();
-    FireBaseUtil.logEventPageView(PageName.proPurchasePage);
+    FireBaseUtil.logEventPageView(
+        widget.isYearPlan ? PageName.proPopupPage : PageName.creditsPopupPage);
   }
 
   @override
@@ -98,8 +99,15 @@ class _LimitedOfferPurchasePageState extends State<LimitedOfferPurchasePage> {
                     width: double.infinity,
                     height: 46,
                     onTap: () {
-                      GlobalData.buyShop.submit(widget.shopModel,
-                          widget.isYearPlan, 'limited_offer_purchase_page');
+                      String pageName = widget.isYearPlan
+                          ? PageName.proPopupPage
+                          : PageName.creditsPopupPage;
+                      String buttonName = widget.isYearPlan
+                          ? "popup_proPage_purchase_button"
+                          : "popup_creditsPage_purchase_button";
+                      FireBaseUtil.logEventButtonClick(pageName, buttonName);
+                      GlobalData.buyShop.submit(
+                          widget.shopModel, widget.isYearPlan, pageName);
                     },
                     text: widget.isYearPlan ? 'subscribe'.tr : 'purchase'.tr,
                     bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],

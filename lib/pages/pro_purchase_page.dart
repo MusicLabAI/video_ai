@@ -170,12 +170,13 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
                       width: double.infinity,
                       height: 46,
                       onTap: () {
+                        FireBaseUtil.logEventButtonClick(PageName.proPurchasePage, "proPage_purchase_button");
                         if (!_userCtr.isLogin.value) {
                           _userCtr.showLogin();
                           return;
                         }
                         _isSubmitted = true;
-                        _shopCtr.subscript('pro_purchase_page');
+                        _shopCtr.subscript(PageName.proPurchasePage);
                       },
                       text: 'subscribe'.tr,
                       bgColors: const [UiColors.c7631EC, UiColors.cBC8EF5],

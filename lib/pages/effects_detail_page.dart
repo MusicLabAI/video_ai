@@ -36,6 +36,7 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
   @override
   void initState() {
     super.initState();
+    FireBaseUtil.logEventPageView(PageName.effectDetailsPage);
     widget.curEffectsModel = widget.dataList[0];
     _initController();
   }
@@ -174,6 +175,9 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
                             // Spacer(),
                             GestureDetector(
                               onTap: () {
+                                FireBaseUtil.logEventButtonClick(PageName.effectDetailsPage, "effectPage_image_button");
+                                FireBaseUtil.logEventPopupView(
+                                    "image_example_popup");
                                 Get.bottomSheet(ImageSourceDialog(
                                     onSourceChecked: (source) async {
                                   String? path =
@@ -264,6 +268,7 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
               child: CustomButton(
                 margin: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 18),
                 onTap: () async {
+                  FireBaseUtil.logEventButtonClick(PageName.effectDetailsPage, "effectPage_generate_button");
                   if (widget.curEffectsModel.isRepaired) {
                     Fluttertoast.showToast(msg: 'repairedTips'.tr);
                     return;
@@ -293,7 +298,7 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
                   String createType = 'ImageToVideo';
                   String effect = widget.curEffectsModel.tag ?? '';
                   FireBaseUtil.logEvent(EventName.requestCreation,
-                      parameters: {'createType': createType, 'effect': effect});
+                      parameters: {'createType': createType, 'effect': effect, 'pageName': PageName.effectDetailsPage});
                   bool result = await Get.find<CreateController>()
                       .aiGenerate("", _pickImagePath!, widget.curEffectsModel.id);
                   if (result) {
