@@ -416,7 +416,7 @@ class _CreatePageState extends State<CreatePage>
                                 )
                               : null,
                           text: _createCtr.curEffects.value != null
-                              ? _createCtr.curEffects.value!.tag ?? ""
+                              ? "dfkjsajfjasdjkfjdasjkfaskdfjkasjkdfjkasjkfjkasjkdfjklasd"
                               : 'effect'.tr,
                           textSize: 10,
                           textColor: _createCtr.curEffects.value != null

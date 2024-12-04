@@ -21,6 +21,7 @@ class UserController extends GetxController {
   static const int loginApple = 5;
 
   void showLogin() {
+    isLogin.value = false;
     Get.bottomSheet(const LoginWidget());
     FireBaseUtil.logEventPopupView('login_popup');
   }

@@ -60,13 +60,18 @@ class CustomButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (leftIcon != null) leftIcon!,
-            Text(
-              text,
-              style: TextStyle(
-                color: textColor,
-                fontSize: textSize ?? 16,
-                fontWeight: FontWeightExt.semiBold,
-                decoration: TextDecoration.none,
+            Container(
+              constraints: const BoxConstraints(maxWidth: 200),
+              child: Text(
+                text,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: textSize ?? 16,
+                  fontWeight: FontWeightExt.semiBold,
+                  decoration: TextDecoration.none,
+                ),
               ),
             ),
             if (rightIcon != null) rightIcon!,

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gallery_saver_plus/gallery_saver.dart';
 import 'package:get/get.dart';
@@ -170,7 +171,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                             borderRadius: BorderRadius.circular(12)),
                         child: Stack(
                           children: [
-                            Positioned(
+                            Positioned.fill(
                               child: Padding(
                                   padding: const EdgeInsets.all(4),
                                   child: ClipRRect(
@@ -178,7 +179,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                                       child: CachedNetworkImage(
                                         imageUrl:
                                             widget.recordModel.inputImageUrl!,
-                                        fit: BoxFit.fitWidth,
+                                        fit: BoxFit.fill,
                                       ))),
                             ),
                             Positioned(
@@ -222,15 +223,21 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                           fontSize: 18,
                           fontWeight: FontWeight.bold),
                     ),
-                    GestureDetector(
-                        onTap: () {},
-                        child: Image.asset(
-                          'assets/images/ic_copy_with_bg.png',
-                          width: 30,
-                        ))
+                    if (widget.recordModel.effectId == null &&
+                        (widget.recordModel.prompt?.isNotEmpty ?? false))
+                      GestureDetector(
+                          onTap: () {
+                            Clipboard.setData(ClipboardData(
+                                text: "${widget.recordModel.prompt}"));
+                            Fluttertoast.showToast(msg: 'copySucceed'.tr);
+                          },
+                          child: Image.asset(
+                            'assets/images/ic_copy_with_bg.png',
+                            width: 30,
+                          ))
                   ],
                 ),
-                if (widget.recordModel.prompt?.isNotEmpty ?? true)
+                if (widget.recordModel.prompt?.isNotEmpty ?? false)
                   Padding(
                     padding: const EdgeInsets.only(top: 16.0),
                     child: Text(

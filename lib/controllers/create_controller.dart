@@ -45,7 +45,11 @@ class CreateController extends GetxController {
   }
 
   void selectEffects(EffectsModel effects, {int index = 0}) {
-    curEffects.value = effects;
+    if (index == 0) {
+      curEffects.value = effects;
+    } else {
+      prompt.value = effects.tag ?? "";
+    }
     curTabIndex.value = index;
   }
 

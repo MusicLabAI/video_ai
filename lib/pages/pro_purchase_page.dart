@@ -70,19 +70,30 @@ class _ProPurchasePageState extends State<ProPurchasePage> {
     return Scaffold(
       body: Stack(
         children: [
-          if (_controller.value.isInitialized)
-            AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: CachedVideoPlayerPlus(_controller),
+          AspectRatio(
+            aspectRatio: 360 / 448,
+            child: Stack(
+              children: [
+                if (_controller.value.isInitialized)
+                  AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: CachedVideoPlayerPlus(_controller),
+                  ),
+                Positioned(
+                  top: 160,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [Colors.transparent, Colors.black],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter)),
+                  ),
+                ),
+              ],
             ),
-          Container(
-            margin: const EdgeInsets.only(top: 160),
-            height: 288,
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Colors.transparent, Colors.black],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter)),
           ),
           SafeArea(
               child: Obx(

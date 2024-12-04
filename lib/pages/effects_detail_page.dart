@@ -8,11 +8,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
+import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/effects_model.dart';
+import 'package:video_ai/pages/point_purchase_page.dart';
+import 'package:video_ai/pages/pro_purchase_page.dart';
 import 'package:video_ai/widgets/dialogs.dart';
 import 'package:video_ai/widgets/effects_widget.dart';
 import 'package:video_ai/widgets/loading_widget.dart';
 
+import '../common/firebase_util.dart';
 import '../widgets/custom_button.dart';
 
 class EffectsDetailPage extends StatefulWidget {
@@ -96,14 +100,17 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
                                           CachedVideoPlayerPlus(_controller)),
                                 if (!_controller.value.isInitialized ||
                                     _controller.value.isBuffering)
-                                  const Positioned.fill(child: LoadingWidget())
+                                  const Positioned.fill(child: LoadingWidget()),
+                                Positioned(
+                                    top: 180,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            gradient: commonGradient))),
                               ],
                             )),
-                        Container(
-                          margin: const EdgeInsets.only(top: 180),
-                          height: 180,
-                          decoration: BoxDecoration(gradient: commonGradient),
-                        ),
                         Positioned(
                             child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,7 +130,7 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
                               padding: const EdgeInsets.only(
                                   left: 20.0, right: 20.0, top: 12.0),
                               child: Text(
-                                widget.curEffectsModel.value ?? "",
+                                widget.curEffectsModel.description ?? "",
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
@@ -169,12 +176,13 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
                               onTap: () {
                                 Get.bottomSheet(ImageSourceDialog(
                                     onSourceChecked: (source) async {
-                                      String? path = await CommonUtil.pickUpImage(source);
-                                      if (path != null) {
-                                        setState(() {
-                                          _pickImagePath = path;
-                                        });
-                                      }
+                                  String? path =
+                                      await CommonUtil.pickUpImage(source);
+                                  if (path != null) {
+                                    setState(() {
+                                      _pickImagePath = path;
+                                    });
+                                  }
                                 }));
                               },
                               child: Container(
@@ -251,32 +259,56 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
                 ),
               ),
             ),
-            CustomButton(
-              margin: const EdgeInsets.only(
-                  top: 20, left: 20, right: 20, bottom: 18),
-              onTap: () async {
-                if (widget.curEffectsModel.isRepaired) {
-                  Fluttertoast.showToast(msg: 'repairedTips'.tr);
-                  return;
-                }
-                if (_pickImagePath?.isEmpty ?? true) {
-                  Fluttertoast.showToast(msg: 'uploadImageEmptyTips'.tr);
-                  return;
-                }
-                bool result = await Get.find<CreateController>()
-                    .aiGenerate("", _pickImagePath!, widget.curEffectsModel.id);
-                if (result) {
-                  Get.back();
-                }
-              },
-              text: 'createTheSameEffect'.tr,
-              textColor: UiColors.cDBFFFFFF,
-              bgColors: widget.curEffectsModel.isRepaired
-                  ? const [UiColors.c4DA754FC, UiColors.c4DA754FC]
-                  : const [UiColors.c7631EC, UiColors.cA359EF],
-              width: double.infinity,
-              height: 46,
-              textSize: 16,
+            SafeArea(
+              top: false,
+              child: CustomButton(
+                margin: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 18),
+                onTap: () async {
+                  if (widget.curEffectsModel.isRepaired) {
+                    Fluttertoast.showToast(msg: 'repairedTips'.tr);
+                    return;
+                  }
+                  if (_pickImagePath?.isEmpty ?? true) {
+                    Fluttertoast.showToast(msg: 'uploadImageEmptyTips'.tr);
+                    return;
+                  }
+                  UserController userCtr = Get.find<UserController>();
+                  if (!userCtr.isLogin.value) {
+                    userCtr.showLogin();
+                    return;
+                  }
+                  final userInfo = userCtr.userInfo.value;
+                  if ((userInfo.point ?? 0) < 10) {
+                    if (userInfo.isVip ?? false) {
+                      Get.to(() => const PointPurchasePage());
+                      FireBaseUtil.logEventButtonClick(
+                          PageName.createPage, 'global_credits_button');
+                    } else {
+                      Get.to(() => const ProPurchasePage());
+                      FireBaseUtil.logEventButtonClick(
+                          PageName.createPage, 'global_pro_button');
+                    }
+                    return;
+                  }
+                  String createType = 'ImageToVideo';
+                  String effect = widget.curEffectsModel.tag ?? '';
+                  FireBaseUtil.logEvent(EventName.requestCreation,
+                      parameters: {'createType': createType, 'effect': effect});
+                  bool result = await Get.find<CreateController>()
+                      .aiGenerate("", _pickImagePath!, widget.curEffectsModel.id);
+                  if (result) {
+                    Get.back();
+                  }
+                },
+                text: 'createTheSameEffect'.tr,
+                textColor: UiColors.cDBFFFFFF,
+                bgColors: widget.curEffectsModel.isRepaired
+                    ? const [UiColors.c4DA754FC, UiColors.c4DA754FC]
+                    : const [UiColors.c7631EC, UiColors.cA359EF],
+                width: double.infinity,
+                height: 46,
+                textSize: 16,
+              ),
             )
           ],
         ),

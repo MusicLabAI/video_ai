@@ -356,7 +356,7 @@ class _EffectDialogState extends State<EffectDialog> {
                           textSize: 10,
                           unSelectedColor: UiColors.c1B1B1F,
                           selectedColor: UiColors.cBC8EF5,
-                          onTry: (model) {
+                          onItemClick: (model) {
                             _createCtr.selectEffects(model);
                             Get.back();
                           },

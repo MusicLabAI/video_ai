@@ -12,6 +12,7 @@ class EffectsModel {
   int? id;
   String? tag;
   String? value;
+  String? description;
   String? thumbnailUrl;
   String? imageUrl;
   String? videoUrl;
@@ -22,6 +23,7 @@ class EffectsModel {
     this.id,
     this.tag,
     this.value,
+    this.description,
     this.thumbnailUrl,
     this.imageUrl,
     this.videoUrl,
@@ -37,6 +39,7 @@ class EffectsModel {
     id: json["id"],
     tag: json["tag"],
     value: json["value"],
+    description: json["description"],
     thumbnailUrl: json["thumbnailUrl"],
     imageUrl: json["imageUrl"],
     videoUrl: json["videoUrl"],
@@ -48,6 +51,7 @@ class EffectsModel {
     "id": id,
     "tag": tag,
     "value": value,
+    "description": description,
     "thumbnailUrl": thumbnailUrl,
     "imageUrl": imageUrl,
     "videoUrl": videoUrl,

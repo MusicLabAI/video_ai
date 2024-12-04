@@ -47,6 +47,8 @@ post_install do |installer|
         'PERMISSION_PHOTOS_ADD_ONLY=1',
         ## 如果需要访问完整相册权限（可选）
         'PERMISSION_PHOTOS=1',
+        ## 如果需要访问相机权限
+        'PERMISSION_CAMERA=1',
       ]
     end
   end

@@ -15,7 +15,8 @@ import '../widgets/loading_widget.dart';
 import 'effects_detail_page.dart';
 
 class PromptDetailPage extends StatefulWidget {
-  PromptDetailPage({super.key, required this.dataList, required this.curEffectsModel});
+  PromptDetailPage(
+      {super.key, required this.dataList, required this.curEffectsModel});
 
   late EffectsModel curEffectsModel;
   final List<EffectsModel> dataList;
@@ -102,14 +103,17 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                                 child: CachedVideoPlayerPlus(_controller)),
                           if (!_controller.value.isInitialized ||
                               _controller.value.isBuffering)
-                            const Positioned.fill(child: LoadingWidget())
+                            const Positioned.fill(child: LoadingWidget()),
+                          Positioned(
+                              top: 180,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              child: Container(
+                                  decoration:
+                                      BoxDecoration(gradient: commonGradient))),
                         ],
                       )),
-                  Container(
-                    margin: const EdgeInsets.only(top: 180),
-                    height: 180,
-                    decoration: BoxDecoration(gradient: commonGradient),
-                  ),
                   Positioned(
                       child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -190,15 +194,18 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                                 height: 46,
                                 textSize: 16,
                               ),
-                              PromptListView(
-                                dataList: randomList,
-                                onItemClick: (model) {
-                                  _switchVideo(model);
-                                },
-                                onClick: (model) {
-                                  _createCtr.selectEffects(model, index: 1);
-                                  Get.back();
-                                },
+                              SafeArea(
+                                top: false,
+                                child: PromptListView(
+                                  dataList: randomList,
+                                  onItemClick: (model) {
+                                    _switchVideo(model);
+                                  },
+                                  onClick: (model) {
+                                    _createCtr.selectEffects(model, index: 1);
+                                    Get.back();
+                                  },
+                                ),
                               ),
                               const SizedBox(
                                 height: 10,
