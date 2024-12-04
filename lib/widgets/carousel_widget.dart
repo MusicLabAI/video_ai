@@ -196,12 +196,18 @@ class CarouselPage extends StatelessWidget {
         if (data.coverType == 1 || data.coverType == 2)
           Positioned.fill(
             child: CachedNetworkImage(
-                imageUrl: data.coverUrl ?? '', fit: BoxFit.cover),
+                placeholder: (_, __) => Center(
+                        child: Image.asset(
+                      'assets/images/img_placeholder.png',
+                      width: 60,
+                    )),
+                imageUrl: data.coverUrl ?? '',
+                fit: BoxFit.cover),
           ),
         if (data.coverType == 3)
           Positioned.fill(
             child: VideoWidget(
-              videoUrl: "https://s.superinteractica.ai/lla/tag/Crumble+it.mp4",
+              videoUrl: data.coverUrl ?? '',
               pageIndex: pageIndex,
             ),
           ),

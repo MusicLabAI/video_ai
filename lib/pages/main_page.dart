@@ -47,8 +47,6 @@ class _MainPageState extends State<MainPage>
       _mineCtr.onRefresh();
     }
     once(_userCtr.userInfo, (userInfo) async {
-      if (userInfo.isVip ?? false) {}
-
       final value = _mainCtr.configModel.value?.limitedOfferPopup ?? "2";
       int number = 0;
       try {
