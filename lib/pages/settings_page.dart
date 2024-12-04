@@ -469,7 +469,7 @@ class _SettingsPageState extends State<SettingsPage> {
       subText: 'deleteAccountTips'.tr,
       onConfirm: () async {
         Get.back();
-        Get.dialog(const LoadingWidget());
+        Get.dialog(const LoadingWidget(), barrierDismissible: false);
         if (GetPlatform.isAndroid) {
           try {
             final user = FirebaseAuth.instance.currentUser;

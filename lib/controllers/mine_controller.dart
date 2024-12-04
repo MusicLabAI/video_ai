@@ -107,7 +107,7 @@ class MineController extends GetxController {
   }
 
   Future<void> delete(int id) async {
-    Get.dialog(const LoadingWidget());
+    Get.dialog(const LoadingWidget(), barrierDismissible: false);
     final result = await Request.deleteRecord(id);
     if (result != null && result['code'] == 0) {
       onRefresh();

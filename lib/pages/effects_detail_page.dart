@@ -218,7 +218,7 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
                                                 child: Image(
                                                   image: FileImage(
                                                       File(_pickImagePath!)),
-                                                  fit: BoxFit.fitWidth,
+                                                  fit: BoxFit.fitHeight,
                                                 ),
                                               ),
                                             ),

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
+import 'package:video_ai/models/effects_model.dart';
 import 'package:video_ai/models/jump_config_model.dart';
 import 'package:video_ai/pages/effects_detail_page.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
@@ -157,29 +158,28 @@ class CarouselPage extends StatelessWidget {
           if (data.effectId == null) {
             return;
           }
+          List<EffectsModel> list;
           if (data.targetType == 3) {
-            final list = _createCtr.promptItems.value;
-            if (list.isEmpty) {
-              return;
-            }
-            final item =
-                list.firstWhereOrNull((item) => item.id == data.effectId);
-            if (item != null) {
-              list.remove(item);
-              list.insert(0, item);
-            }
-            Get.to(() => PromptDetailPage(dataList: list));
+            list = List<EffectsModel>.from(_createCtr.promptItems.value);
           } else {
-            final list = _createCtr.effectsList.value;
-            if (list.isEmpty) {
-              return;
-            }
-            final item =
-                list.firstWhereOrNull((item) => item.id == data.effectId);
-            if (item != null) {
-              list.remove(item);
-              list.insert(0, item);
-            }
+            list = List<EffectsModel>.from(_createCtr.effectsList.value);
+          }
+          if (list.isEmpty) {
+            return;
+          }
+          // 找到要移动的 item
+          final item = list.firstWhereOrNull((item) => item.id == data.effectId);
+
+          // 如果 item 不为 null，则将其移到列表顶部
+          if (item == null) {
+            return;
+          }
+          // 根据 targetType 跳转到不同的页面
+          if (data.targetType == 3) {
+            Get.to(() => PromptDetailPage(dataList: list, curEffectsModel: item,));
+          } else {
+            list.remove(item);
+            list.insert(0, item);
             Get.to(() => EffectsDetailPage(dataList: list));
           }
         } else if (data.targetType == 5) {

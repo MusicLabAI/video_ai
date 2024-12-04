@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +15,7 @@ import '../widgets/loading_widget.dart';
 import 'effects_detail_page.dart';
 
 class PromptDetailPage extends StatefulWidget {
-  PromptDetailPage({super.key, required this.dataList});
+  PromptDetailPage({super.key, required this.dataList, required this.curEffectsModel});
 
   late EffectsModel curEffectsModel;
   final List<EffectsModel> dataList;
@@ -26,17 +28,18 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
   late CachedVideoPlayerPlusController _controller;
   bool _isExpand = false;
   final CreateController _createCtr = Get.find<CreateController>();
+  late List<EffectsModel> randomList;
 
   @override
   void initState() {
     super.initState();
-    widget.curEffectsModel = widget.dataList[0];
+    refreshRandomList();
     _initController();
   }
 
   _initController() {
-    _controller = CachedVideoPlayerPlusController.networkUrl(Uri.parse(
-        widget.curEffectsModel.videoUrl ?? ""))
+    _controller = CachedVideoPlayerPlusController.networkUrl(
+        Uri.parse(widget.curEffectsModel.videoUrl ?? ""))
       ..initialize().then((_) {
         setState(() {
           _controller.setLooping(true);
@@ -58,13 +61,21 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
 
     // 更新视频 URL
     widget.curEffectsModel = effectsModel;
+    refreshRandomList();
 
     // 重新初始化控制器
     _initController();
-
-    setState(() {}); // 更新界面
+    setState(() {});
   }
 
+  void refreshRandomList() {
+    randomList = List.from(widget.dataList); // 确保是一个副本，避免直接修改原列表
+    randomList.remove(widget.curEffectsModel); // 移除当前的 effectsModel
+    // 随机打乱 list
+    randomList.shuffle(Random());
+    // 获取前四条数据
+    randomList = randomList.length > 4 ? randomList.sublist(0, 4) : randomList;
+  }
 
   @override
   void dispose() {
@@ -88,8 +99,7 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                         children: [
                           if (_controller.value.isInitialized)
                             Positioned.fill(
-                                child:
-                                CachedVideoPlayerPlus(_controller)),
+                                child: CachedVideoPlayerPlus(_controller)),
                           if (!_controller.value.isInitialized ||
                               _controller.value.isBuffering)
                             const Positioned.fill(child: LoadingWidget())
@@ -144,8 +154,10 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                                     ),
                                     onTap: () {
                                       Clipboard.setData(ClipboardData(
-                                          text: "${widget.curEffectsModel.tag}"));
-                                      Fluttertoast.showToast(msg: 'copySucceed'.tr);
+                                          text:
+                                              "${widget.curEffectsModel.tag}"));
+                                      Fluttertoast.showToast(
+                                          msg: 'copySucceed'.tr);
                                     },
                                   )
                                 ],
@@ -161,10 +173,11 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                                 ),
                               ),
                               CustomButton(
-                                margin:
-                                    const EdgeInsets.only(top: 24),
+                                margin: const EdgeInsets.only(top: 24),
                                 onTap: () {
-                                  _createCtr.selectEffects(widget.curEffectsModel, index: 1);
+                                  _createCtr.selectEffects(
+                                      widget.curEffectsModel,
+                                      index: 1);
                                   Get.back();
                                 },
                                 text: 'tryThisPrompt'.tr,
@@ -177,12 +190,16 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                                 height: 46,
                                 textSize: 16,
                               ),
-                              PromptListView(dataList: widget.dataList, onItemClick: (model) {
-                                _switchVideo(model);
-                              }, onClick: (model) {
-                                _createCtr.selectEffects(model, index: 1);
-                                Get.back();
-                              },),
+                              PromptListView(
+                                dataList: randomList,
+                                onItemClick: (model) {
+                                  _switchVideo(model);
+                                },
+                                onClick: (model) {
+                                  _createCtr.selectEffects(model, index: 1);
+                                  Get.back();
+                                },
+                              ),
                               const SizedBox(
                                 height: 10,
                               )
@@ -209,5 +226,3 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
     );
   }
 }
-
-

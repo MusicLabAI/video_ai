@@ -90,7 +90,7 @@ class CreateController extends GetxController {
   Future<bool> aiGenerate(String prompt, String? imagePath, int? effectId) async {
     Get.log("prompt: $prompt -- imagePath: $imagePath  effectId: $effectId");
     try {
-      Get.dialog(const LoadingWidget());
+      Get.dialog(const LoadingWidget(), barrierDismissible: false);
       String? imageUrl;
       if (imagePath?.isNotEmpty == true) {
         if (RegExp(r'^https?://').hasMatch(imagePath!)) {

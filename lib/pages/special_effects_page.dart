@@ -116,7 +116,8 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
           crossAxisSpacing: 12.0,
         ),
         itemBuilder: (BuildContext context, int index) {
-          final dataList = _createCtr.effectsList;
+          final dataList =
+              List<EffectsModel>.from(_createCtr.effectsList.value);
           EffectsModel model = dataList[index];
           return buildEffectsPromptItem(model.imageUrl,
               isRepaired: model.isRepaired,

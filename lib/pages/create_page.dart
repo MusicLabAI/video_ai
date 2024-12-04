@@ -145,7 +145,7 @@ class _CreatePageState extends State<CreatePage>
                                 paddingTop: 16,
                                 onItemClick: (model) {
                                   Get.to(() => PromptDetailPage(
-                                      dataList: _createCtr.promptItems.value));
+                                      dataList: _createCtr.promptItems.value, curEffectsModel: model,));
                                 },
                                 onClick: (model) {
                                   _createCtr.prompt.value = model.tag ?? "";
@@ -423,7 +423,7 @@ class _CreatePageState extends State<CreatePage>
                               : UiColors.cDBFFFFFF,
                           onTap: () async {
                             if (_createCtr.effectsList.isEmpty) {
-                              Get.dialog(const LoadingWidget());
+                              Get.dialog(const LoadingWidget(), barrierDismissible: false);
                               await _createCtr.getEffectsTags();
                               Get.back();
                             }
