@@ -33,5 +33,7 @@ class GlobalData {
   static BuyShop buyShop = BuyShop();
 
   static String KEY_CREATION_LAYOUT_SWITCH = "key_creation_layout_switch";
+  static String KEY_JUMP_CONFIG = "key_jump_config";
   static bool isCreationLayoutSwitch = false;
+  static String? jumpConfig;
 }

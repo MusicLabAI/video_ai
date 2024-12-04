@@ -50,6 +50,7 @@ Future<void> initMain() async {
   final prefs = await SharedPreferences.getInstance();
   final String? token = prefs.getString('token');
   GlobalData.isCreationLayoutSwitch = prefs.getBool(GlobalData.KEY_CREATION_LAYOUT_SWITCH) ?? false;
+  GlobalData.jumpConfig = prefs.getString(GlobalData.KEY_JUMP_CONFIG);
 
   if (token != null) {
     DioUtil.token = token;

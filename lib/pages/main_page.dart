@@ -36,6 +36,7 @@ class _MainPageState extends State<MainPage>
   void initState() {
     super.initState();
     _mainCtr.isCreationLayoutSwitch.value = GlobalData.isCreationLayoutSwitch;
+    _mainCtr.parseJumpConfig(GlobalData.jumpConfig);
     _mainCtr.getCommonConfig();
     _mainCtr.tabController = TabController(length: 3, vsync: this);
     _mainCtr.tabController.addListener(() {

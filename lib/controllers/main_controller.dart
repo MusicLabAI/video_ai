@@ -18,17 +18,22 @@ class MainController extends GetxController {
   Future<void> getCommonConfig() async {
     final config = await Request.getCommonConfig();
     configModel.value = config;
-    parseJumpConfig(config);
+    parseJumpConfig(config.jumpConfig);
     final value = config.creationLayoutSwitch == "1";
     isCreationLayoutSwitch.value = value;
     GlobalData.isCreationLayoutSwitch = value;
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool(GlobalData.KEY_CREATION_LAYOUT_SWITCH, value);
+    prefs.setString(GlobalData.KEY_JUMP_CONFIG, config.jumpConfig);
   }
 
-  void parseJumpConfig(ConfigModel config) {
+  void parseJumpConfig(String? jumpConfig) {
     try {
-      List<dynamic> decodedList = json.decode(config.jumpConfig);
+      if (jumpConfig?.isEmpty ?? true) {
+        jumpConfigs.value = null;
+        return;
+      }
+      List<dynamic> decodedList = json.decode(jumpConfig!);
       List<JumpConfigModel> jumpConfigList = decodedList.map((item) {
         return JumpConfigModel.fromJson(item);
       }).toList();
