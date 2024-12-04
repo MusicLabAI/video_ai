@@ -77,6 +77,7 @@ class _CreatePageState extends State<CreatePage>
     _promptWorker = ever(_createCtr.prompt, (value) {
       setState(() {
         _controller.text = value;
+        _scrollToTop();
       });
     });
     _effectsWorker = ever(_createCtr.curEffects, (value) {

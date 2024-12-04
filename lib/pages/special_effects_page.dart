@@ -119,10 +119,8 @@ class _SpecialEffectsPageState extends State<SpecialEffectsPage>
           final dataList =
               List<EffectsModel>.from(_createCtr.effectsList.value);
           EffectsModel model = dataList[index];
-          return buildEffectsPromptItem(model.imageUrl,
-              isRepaired: model.isRepaired,
-              name: model.tag,
-              operate: "tryIt".tr, onItemClick: () {
+          return buildEffectsPromptItem(model, operate: "tryIt".tr,
+              onItemClick: () {
             dataList.remove(model);
             dataList.insert(0, model);
             Get.to(() => EffectsDetailPage(

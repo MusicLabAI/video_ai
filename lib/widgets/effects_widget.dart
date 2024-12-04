@@ -38,8 +38,7 @@ class EffectsWidget extends StatefulWidget {
   State<EffectsWidget> createState() => _EffectsWidgetState();
 }
 
-class _EffectsWidgetState extends State<EffectsWidget>
-    with WidgetsBindingObserver {
+class _EffectsWidgetState extends State<EffectsWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -65,6 +64,9 @@ class _EffectsWidgetState extends State<EffectsWidget>
                     child: ClipRRect(
                   borderRadius: BorderRadius.circular(widget.innerRadius ?? 8),
                   child: CachedNetworkImage(
+                    placeholder: (_, __) => CachedNetworkImage(
+                        imageUrl: widget.model.thumbnailUrl ?? ""),
+                    errorWidget: (_, __, ___) => errorView(),
                     imageUrl: widget.model.imageUrl ?? "",
                     fit: BoxFit.cover,
                   ),

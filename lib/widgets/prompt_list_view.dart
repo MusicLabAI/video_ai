@@ -49,9 +49,8 @@ class _PromptListViewState extends State<PromptListView> {
           ),
           itemBuilder: (BuildContext context, int index) {
             EffectsModel model = widget.dataList[index];
-            return buildEffectsPromptItem(model.imageUrl,
-                isRepaired: model.isRepaired,
-                operate: 'tryPrompt'.tr, onTap: () {
+            return buildEffectsPromptItem(model, operate: 'tryPrompt'.tr,
+                onTap: () {
               widget.onClick?.call(model);
             }, onItemClick: () {
               widget.onItemClick?.call(model);
@@ -63,12 +62,8 @@ class _PromptListViewState extends State<PromptListView> {
   }
 }
 
-Widget buildEffectsPromptItem(String? imageUrl,
-    {String? name,
-    String? operate,
-    bool? isRepaired,
-    VoidCallback? onTap,
-    VoidCallback? onItemClick}) {
+Widget buildEffectsPromptItem(EffectsModel model,
+    {String? operate, VoidCallback? onTap, VoidCallback? onItemClick}) {
   return GestureDetector(
     onTap: onItemClick,
     child: Stack(
@@ -76,10 +71,16 @@ Widget buildEffectsPromptItem(String? imageUrl,
         Positioned.fill(
             child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
-          child: CachedNetworkImage(
-            placeholder: (context, url) => placeholderView(),
-            imageUrl: imageUrl ?? "",
-            fit: BoxFit.cover,
+          child: Container(
+            color: UiColors.c23242A,
+            child: CachedNetworkImage(
+              placeholder: (context, url) => CachedNetworkImage(
+                imageUrl: model.thumbnailUrl ?? '',
+              ),
+              errorWidget: (_, __, ___) => errorView(),
+              imageUrl: model.imageUrl ?? "",
+              fit: BoxFit.cover,
+            ),
           ),
         )),
         Container(
@@ -115,14 +116,13 @@ Widget buildEffectsPromptItem(String? imageUrl,
             left: 12,
             bottom: 12,
             child: Text(
-              name ?? "",
+              model.tag ?? "",
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
                   fontWeight: FontWeight.bold),
             )),
-        if (isRepaired ?? false)
-          Positioned.fill(child: repairedView())
+        if (model.isRepaired ?? false) Positioned.fill(child: repairedView())
       ],
     ),
   );
@@ -132,7 +132,7 @@ Widget repairedView({bool isLittle = false}) {
   return Container(
     decoration: BoxDecoration(
         color: UiColors.c66000000,
-        borderRadius: BorderRadius.circular(isLittle ? 6: 12)),
+        borderRadius: BorderRadius.circular(isLittle ? 6 : 12)),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -147,7 +147,7 @@ Widget repairedView({bool isLittle = false}) {
           'underMaintenance'.tr,
           style: TextStyle(
               color: UiColors.cDBFFFFFF,
-              fontSize: isLittle ? 8: 10,
+              fontSize: isLittle ? 8 : 10,
               fontWeight: FontWeightExt.semiBold),
         )
       ],
@@ -155,7 +155,7 @@ Widget repairedView({bool isLittle = false}) {
   );
 }
 
-Widget placeholderView() {
+Widget errorView() {
   return Container(
     decoration: BoxDecoration(
         color: UiColors.c23242A, borderRadius: BorderRadius.circular(12)),
