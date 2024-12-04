@@ -37,7 +37,7 @@ class _PromptListViewState extends State<PromptListView> {
           ),
         ),
         GridView.builder(
-          padding: const EdgeInsets.only(top: 16),
+          padding: const EdgeInsets.only(top: 20, bottom: 20),
           itemCount: widget.dataList.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),

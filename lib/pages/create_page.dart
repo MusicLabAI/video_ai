@@ -97,6 +97,7 @@ class _CreatePageState extends State<CreatePage>
   Widget build(BuildContext context) {
     super.build(context);
     return SafeArea(
+        bottom: false,
         child: GestureDetector(
             onTap: () => CommonUtil.hideKeyboard(context),
             child: Column(children: [
@@ -146,16 +147,15 @@ class _CreatePageState extends State<CreatePage>
                                 paddingTop: 16,
                                 onItemClick: (model) {
                                   Get.to(() => PromptDetailPage(
-                                      dataList: _createCtr.promptItems.value, curEffectsModel: model,));
+                                        dataList: _createCtr.promptItems.value,
+                                        curEffectsModel: model,
+                                      ));
                                 },
                                 onClick: (model) {
                                   _createCtr.prompt.value = model.tag ?? "";
                                   _createCtr.curTabIndex.value = 1;
                                 },
                               ),
-                              const SizedBox(
-                                height: 10,
-                              )
                             ]),
                       )))
             ])));
@@ -424,7 +424,8 @@ class _CreatePageState extends State<CreatePage>
                               : UiColors.cDBFFFFFF,
                           onTap: () async {
                             if (_createCtr.effectsList.isEmpty) {
-                              Get.dialog(const LoadingWidget(), barrierDismissible: false);
+                              Get.dialog(const LoadingWidget(),
+                                  barrierDismissible: false);
                               await _createCtr.getEffectsTags();
                               Get.back();
                             }

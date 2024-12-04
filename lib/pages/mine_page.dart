@@ -36,52 +36,54 @@ class _MinePageState extends State<MinePage>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+        bottom: false,
         child: Column(
-      children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Text(
-                'profile'.tr,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeightExt.semiBold),
-              ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Text(
+                    'profile'.tr,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeightExt.semiBold),
+                  ),
+                ),
+                const Spacer(),
+                IconButton(
+                    onPressed: () {
+                      Get.to(() => const SettingsPage());
+                      FireBaseUtil.logEventButtonClick(
+                          'history_page', 'mine_button');
+                    },
+                    icon: Image.asset(
+                      'assets/images/ic_user.png',
+                      width: 24,
+                      height: 24,
+                    ))
+              ],
             ),
-            const Spacer(),
-            IconButton(
-                onPressed: () {
-                  Get.to(() => const SettingsPage());
-                  FireBaseUtil.logEventButtonClick(
-                      'history_page', 'mine_button');
-                },
-                icon: Image.asset(
-                  'assets/images/ic_user.png',
-                  width: 24,
-                  height: 24,
-                ))
+            Expanded(
+                child: Obx(
+              () => !_userCtr.isLogin.value
+                  ? _unLoginView
+                  : _mineCtr.dataList.isEmpty
+                      ? _emptyRecordView
+                      : EasyRefresh(
+                          onRefresh: () {
+                            _mineCtr.onRefresh();
+                          },
+                          onLoad: () {
+                            _mineCtr.onLoad();
+                          },
+                          child: _getGridView(_mineCtr.dataList, context)),
+            ))
           ],
-        ),
-        Expanded(
-            child: Obx(
-          () => !_userCtr.isLogin.value
-              ? _unLoginView
-              : _mineCtr.dataList.isEmpty
-                  ? _emptyRecordView
-                  : EasyRefresh(
-                      onRefresh: () {
-                        _mineCtr.onRefresh();
-                      },
-                      onLoad: () {
-                        _mineCtr.onLoad();
-                      },
-                      child: _getGridView(_mineCtr.dataList, context)),
-        ))
-      ],
-    ));
+        ));
   }
 
   Widget get _emptyRecordView {
