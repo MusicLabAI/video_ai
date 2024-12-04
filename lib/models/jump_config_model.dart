@@ -30,7 +30,7 @@ class JumpConfigModel {
       title: json['title'] as String?,
       description: json['description'] as String?,
       enTry: json['enTry'] as bool?,
-      exampleId: json['effectId'] as int?,
+      exampleId: json['exampleId'] as int?,
     );
   }
 
@@ -44,7 +44,7 @@ class JumpConfigModel {
       'title': title,
       'description': description,
       'enTry': enTry,
-      'effectId': exampleId,
+      'exampleId': exampleId,
     };
   }
 
