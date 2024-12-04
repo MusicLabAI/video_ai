@@ -61,7 +61,7 @@ class _CreatePageState extends State<CreatePage>
   }
 
   bool _isEnable() {
-    if (_createCtr.curTabIndex.value == 0) {
+    if (_createCtr.curTabIndex.value != 0) {
       return (_controller.text.isNotEmpty ||
               _createCtr.curEffects.value != null) &&
           _createCtr.imagePath.isNotEmpty == true;
@@ -153,10 +153,13 @@ class _CreatePageState extends State<CreatePage>
                                       ));
                                 },
                                 onClick: (model) {
-                                  FireBaseUtil.logEventButtonClick(PageName.createPage, "createPage_example_try_button");
+                                  FireBaseUtil.logEventButtonClick(
+                                      PageName.createPage,
+                                      "createPage_example_try_button");
                                   print("model.tag: ${model.description}");
-                                  _createCtr.prompt.value = model.description ?? "";
-                                  _createCtr.curTabIndex.value = 1;
+                                  _createCtr.prompt.value =
+                                      model.description ?? "";
+                                  _createCtr.curTabIndex.value = 0;
                                 },
                               ),
                             ]),
@@ -187,7 +190,7 @@ class _CreatePageState extends State<CreatePage>
                 bgColor: _createCtr.curTabIndex.value == 0
                     ? UiColors.c4A3663
                     : UiColors.c1B1B1F,
-                text: 'imageToVideo'.tr,
+                text: 'textToVideo'.tr,
                 textColor: _createCtr.curTabIndex.value == 0
                     ? UiColors.cE18FF8
                     : UiColors.c61FFFFFF,
@@ -196,8 +199,8 @@ class _CreatePageState extends State<CreatePage>
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Image.asset(
                     _createCtr.curTabIndex.value == 0
-                        ? 'assets/images/ic_image_selected.png'
-                        : 'assets/images/ic_image_unselected.png',
+                        ? 'assets/images/ic_video_selected.png'
+                        : 'assets/images/ic_video_unselected.png',
                     width: 32,
                   ),
                 ),
@@ -213,7 +216,7 @@ class _CreatePageState extends State<CreatePage>
                 bgColor: _createCtr.curTabIndex.value != 0
                     ? UiColors.c4A3663
                     : UiColors.c1B1B1F,
-                text: 'textToVideo'.tr,
+                text: 'imageToVideo'.tr,
                 textColor: _createCtr.curTabIndex.value != 0
                     ? UiColors.cE18FF8
                     : UiColors.c61FFFFFF,
@@ -222,8 +225,8 @@ class _CreatePageState extends State<CreatePage>
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Image.asset(
                     _createCtr.curTabIndex.value != 0
-                        ? 'assets/images/ic_video_selected.png'
-                        : 'assets/images/ic_video_unselected.png',
+                        ? 'assets/images/ic_image_selected.png'
+                        : 'assets/images/ic_image_unselected.png',
                     width: 32,
                   ),
                 ),
@@ -239,7 +242,7 @@ class _CreatePageState extends State<CreatePage>
                 border: Border.all(color: UiColors.c4A3663, width: 2)),
             child: Column(
               children: [
-                if (_createCtr.curTabIndex.value == 0)
+                if (_createCtr.curTabIndex.value == 1)
                   Container(
                     height: 52,
                     margin: const EdgeInsets.only(bottom: 10),
@@ -354,7 +357,7 @@ class _CreatePageState extends State<CreatePage>
                 ),
                 Row(
                   children: [
-                    if (_createCtr.curTabIndex.value != 0)
+                    if (_createCtr.curTabIndex.value == 0)
                       CustomButton(
                           height: 26,
                           margin: const EdgeInsets.only(right: 10),
@@ -381,14 +384,15 @@ class _CreatePageState extends State<CreatePage>
                             if (items.isNotEmpty) {
                               setState(() {
                                 _createCtr.prompt.value =
-                                    items[Random().nextInt(items.length)].description ??
+                                    items[Random().nextInt(items.length)]
+                                            .description ??
                                         "";
                               });
                             }
                             FireBaseUtil.logEventButtonClick(
                                 PageName.createPage, 'insprire_button');
                           }),
-                    if (_createCtr.curTabIndex.value == 0 &&
+                    if (_createCtr.curTabIndex.value != 0 &&
                         !_mainCtr.isCreationLayoutSwitch.value)
                       CustomButton(
                           height: 26,
@@ -477,13 +481,14 @@ class _CreatePageState extends State<CreatePage>
       CustomButton(
         margin: const EdgeInsets.only(top: 24),
         onTap: () {
-          FireBaseUtil.logEventButtonClick(PageName.createPage, "createPage_generate_button");
+          FireBaseUtil.logEventButtonClick(
+              PageName.createPage, "createPage_generate_button");
           if (_isEnable()) {
             CommonUtil.hideKeyboard(context);
             generate();
           } else {
             Fluttertoast.showToast(
-                msg: _createCtr.curTabIndex.value == 0
+                msg: _createCtr.curTabIndex.value != 0
                     ? 'imageEmptyTips'.tr
                     : 'promptEmptyTips'.tr);
           }
@@ -527,14 +532,17 @@ class _CreatePageState extends State<CreatePage>
       return;
     }
     String createType =
-        (_createCtr.curTabIndex.value != 0) ? 'TextToVideo' : 'ImageToVideo';
+        (_createCtr.curTabIndex.value == 0) ? 'TextToVideo' : 'ImageToVideo';
     String effect = _createCtr.curEffects.value?.tag ?? '';
-    FireBaseUtil.logEvent(EventName.requestCreation,
-        parameters: {'createType': createType, 'effect': effect, 'pageName': PageName.createPage});
+    FireBaseUtil.logEvent(EventName.requestCreation, parameters: {
+      'createType': createType,
+      'effect': effect,
+      'pageName': PageName.createPage
+    });
     await _createCtr.aiGenerate(
         _controller.text,
-        _createCtr.curTabIndex.value == 0 ? _createCtr.imagePath.value : "",
-        _createCtr.curTabIndex.value == 0
+        _createCtr.curTabIndex.value != 0 ? _createCtr.imagePath.value : "",
+        _createCtr.curTabIndex.value != 0
             ? _createCtr.curEffects.value?.id
             : null);
   }

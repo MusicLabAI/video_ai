@@ -71,7 +71,7 @@ class CreateController extends GetxController {
       }
     }
     if (hasEffects || inputImageUrl?.isNotEmpty == true) {
-      curTabIndex.value = 0;
+      curTabIndex.value = 1;
     }
     prompt.value = newPrompt;
   }

@@ -155,7 +155,7 @@ class CarouselPage extends StatelessWidget {
           "bannerTitle": data.title ?? "",
         });
         if (data.targetType == 3 || data.targetType == 4) {
-          if (data.effectId == null) {
+          if (data.exampleId == null) {
             return;
           }
           List<ExampleModel> list;
@@ -169,13 +169,12 @@ class CarouselPage extends StatelessWidget {
           }
           // 找到要移动的 item
           final item =
-              list.firstWhereOrNull((item) => item.id == data.effectId);
+              list.firstWhereOrNull((item) => item.id == data.exampleId);
 
           // 如果 item 不为 null，则将其移到列表顶部
           if (item == null) {
             return;
           }
-          VideoWidgetState.notifyPause(pageIndex);
           // 根据 targetType 跳转到不同的页面
           if (data.targetType == 3) {
             Get.to(() => PromptDetailPage(
@@ -187,7 +186,6 @@ class CarouselPage extends StatelessWidget {
             list.insert(0, item);
             Get.to(() => EffectsDetailPage(dataList: list));
           }
-          VideoWidgetState.notifyPlay(pageIndex);
         } else if (data.targetType == 5) {
           Get.find<MainController>().tabController.index == 1;
         } else if (data.targetType == 6) {

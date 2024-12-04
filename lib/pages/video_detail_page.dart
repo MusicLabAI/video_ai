@@ -116,20 +116,28 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Stack(
-                          children: [
-                            if (_controller.value.isInitialized)
-                              Center(
-                                child: AspectRatio(
-                                  aspectRatio: _controller.value.aspectRatio,
-                                  child: CachedVideoPlayerPlus(_controller),
+                      Container(
+                        constraints: const BoxConstraints(
+                            minHeight: 120, maxHeight: 480),
+                        child: IntrinsicHeight(
+                          child: Stack(
+                            children: [
+                              if (_controller.value.isInitialized)
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Align(
+                                    alignment: Alignment.topCenter,
+                                    child: AspectRatio(
+                                      aspectRatio:
+                                          _controller.value.aspectRatio,
+                                      child: CachedVideoPlayerPlus(_controller),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            if (!_controller.value.isInitialized)
-                              const SizedBox(height: 100, child: LoadingWidget()),
-                          ],
+                              if (!_controller.value.isInitialized)
+                                const LoadingWidget(),
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(

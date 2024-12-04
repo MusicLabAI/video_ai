@@ -6,7 +6,7 @@ class JumpConfigModel {
   final String? title; // 标题
   final String? description; // 描述
   final bool? enTry; // 是否启用尝试（可选字段）
-  final int? effectId; // 效果 ID（可选字段）
+  final int? exampleId; // 示例ID（可选字段）
 
   // 构造函数
   JumpConfigModel({
@@ -17,7 +17,7 @@ class JumpConfigModel {
     this.title,
     this.description,
     this.enTry,
-    this.effectId,
+    this.exampleId,
   });
 
   // 将 JSON 转换为 JumpConfigModel 对象
@@ -30,7 +30,7 @@ class JumpConfigModel {
       title: json['title'] as String?,
       description: json['description'] as String?,
       enTry: json['enTry'] as bool?,
-      effectId: json['effectId'] as int?,
+      exampleId: json['effectId'] as int?,
     );
   }
 
@@ -44,7 +44,7 @@ class JumpConfigModel {
       'title': title,
       'description': description,
       'enTry': enTry,
-      'effectId': effectId,
+      'effectId': exampleId,
     };
   }
 
@@ -67,14 +67,14 @@ class JumpConfigModel {
       title: title ?? this.title,
       description: description ?? this.description,
       enTry: enTry ?? this.enTry,
-      effectId: effectId ?? this.effectId,
+      exampleId: effectId ?? this.exampleId,
     );
   }
 
   // 重写 toString 方法，方便调试
   @override
   String toString() {
-    return 'JumpConfigModel(coverType: $coverType, targetType: $targetType, coverUrl: $coverUrl, target: $target, title: $title, description: $description, enTry: $enTry, effectId: $effectId)';
+    return 'JumpConfigModel(coverType: $coverType, targetType: $targetType, coverUrl: $coverUrl, target: $target, title: $title, description: $description, enTry: $enTry, effectId: $exampleId)';
   }
 }
 

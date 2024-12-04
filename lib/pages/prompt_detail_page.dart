@@ -179,9 +179,7 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                                 margin: const EdgeInsets.only(top: 24),
                                 onTap: () {
                                   FireBaseUtil.logEventButtonClick(PageName.exampleDetailsPage, 'examplePage_generate_button');
-                                  _createCtr.selectEffects(
-                                      widget.curEffectsModel,
-                                      index: 1);
+                                  _createCtr.selectEffects(widget.curEffectsModel);
                                   Get.back();
                                 },
                                 text: 'tryThisPrompt'.tr,
@@ -202,7 +200,7 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                                     _switchVideo(model);
                                   },
                                   onClick: (model) {
-                                    _createCtr.selectEffects(model, index: 1);
+                                    _createCtr.selectEffects(model);
                                     Get.back();
                                   },
                                 ),
