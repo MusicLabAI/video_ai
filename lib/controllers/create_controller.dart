@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:video_ai/api/request.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
-import 'package:video_ai/models/effects_model.dart';
+import 'package:video_ai/models/example_model.dart';
 import 'package:video_ai/widgets/loading_widget.dart';
 
 import '../common/aws_utils.dart';
@@ -15,11 +15,11 @@ import 'mine_controller.dart';
 
 class CreateController extends GetxController {
   RxString prompt = "".obs;
-  Rxn<EffectsModel> curEffects = Rxn(null);
+  Rxn<ExampleModel> curEffects = Rxn(null);
   RxInt curTabIndex = 0.obs;
-  RxList<EffectsModel> effectsList = RxList();
+  RxList<ExampleModel> effectsList = RxList();
 
-  RxList<EffectsModel> promptItems = RxList();
+  RxList<ExampleModel> promptItems = RxList();
   Rxn<String> imagePath = Rxn(null);
 
   @override
@@ -41,10 +41,10 @@ class CreateController extends GetxController {
   Future<void> getRecommendPrompt() async {
     final data = await Request.getRecommendPrompt();
     promptItems.value =
-        (data as List).map((record) => EffectsModel.fromJson(record)).toList();
+        (data as List).map((record) => ExampleModel.fromJson(record)).toList();
   }
 
-  void selectEffects(EffectsModel effects, {int index = 0}) {
+  void selectEffects(ExampleModel effects, {int index = 0}) {
     if (index == 0) {
       curEffects.value = effects;
     } else {
@@ -79,7 +79,7 @@ class CreateController extends GetxController {
   Future<void> getEffectsTags() async {
     try {
       final res = await Request.getEffectsTags();
-      final resList = res.map((e) => EffectsModel.fromJson(e)).toList();
+      final resList = res.map((e) => ExampleModel.fromJson(e)).toList();
       effectsList.value = resList;
     } catch (e) {
       if (Get.isDialogOpen ?? false) {

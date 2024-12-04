@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:video_ai/models/effects_model.dart';
+import 'package:video_ai/models/example_model.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/prompt_list_view.dart';
 
@@ -22,9 +22,9 @@ class EffectsWidget extends StatefulWidget {
       this.unSelectedColor,
       this.isSelected = false});
 
-  final EffectsModel model;
-  final Function(EffectsModel model)? onTry;
-  final Function(EffectsModel model)? onItemClick;
+  final ExampleModel model;
+  final Function(ExampleModel model)? onTry;
+  final Function(ExampleModel model)? onItemClick;
   final double? padding;
   final double? containerRadius;
   final double? innerRadius;

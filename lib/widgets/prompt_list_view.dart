@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:video_ai/models/effects_model.dart';
+import 'package:video_ai/models/example_model.dart';
 
 import '../common/ui_colors.dart';
 
@@ -13,10 +13,10 @@ class PromptListView extends StatefulWidget {
       this.onClick,
       this.onItemClick});
 
-  final List<EffectsModel> dataList;
+  final List<ExampleModel> dataList;
   final double? paddingTop;
-  final Function(EffectsModel)? onClick;
-  final Function(EffectsModel)? onItemClick;
+  final Function(ExampleModel)? onClick;
+  final Function(ExampleModel)? onItemClick;
 
   @override
   State<PromptListView> createState() => _PromptListViewState();
@@ -48,7 +48,7 @@ class _PromptListViewState extends State<PromptListView> {
             crossAxisSpacing: 12.0,
           ),
           itemBuilder: (BuildContext context, int index) {
-            EffectsModel model = widget.dataList[index];
+            ExampleModel model = widget.dataList[index];
             return buildEffectsPromptItem(model, operate: 'tryPrompt'.tr,
                 onTap: () {
               widget.onClick?.call(model);
@@ -62,7 +62,7 @@ class _PromptListViewState extends State<PromptListView> {
   }
 }
 
-Widget buildEffectsPromptItem(EffectsModel model,
+Widget buildEffectsPromptItem(ExampleModel model,
     {String? operate, VoidCallback? onTap, VoidCallback? onItemClick}) {
   return GestureDetector(
     onTap: onItemClick,
@@ -115,8 +115,12 @@ Widget buildEffectsPromptItem(EffectsModel model,
         Positioned(
             left: 12,
             bottom: 12,
+            right: 12,
             child: Text(
-              model.tag ?? "",
+              (model.isEffects ? model.tag : model.description) ?? "",
+              maxLines: 1,
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,

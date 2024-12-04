@@ -4,7 +4,7 @@ import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
-import 'package:video_ai/models/effects_model.dart';
+import 'package:video_ai/models/example_model.dart';
 import 'package:video_ai/pages/effects_detail_page.dart';
 import 'package:video_ai/pages/settings_page.dart';
 import 'package:video_ai/widgets/carousel_widget.dart';
@@ -125,8 +125,8 @@ class _AIStudioPageState extends State<AIStudioPage>
         ),
         itemBuilder: (BuildContext context, int index) {
           final dataList =
-              List<EffectsModel>.from(_createCtr.effectsList.value);
-          EffectsModel model = dataList[index];
+              List<ExampleModel>.from(_createCtr.effectsList.value);
+          ExampleModel model = dataList[index];
           return buildEffectsPromptItem(model, operate: "tryIt".tr,
               onItemClick: () {
             dataList.remove(model);

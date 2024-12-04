@@ -4,12 +4,13 @@
 
 import 'dart:convert';
 
-EffectsModel effectsModelFromJson(String str) => EffectsModel.fromJson(json.decode(str));
+ExampleModel effectsModelFromJson(String str) => ExampleModel.fromJson(json.decode(str));
 
-String effectsModelToJson(EffectsModel data) => json.encode(data.toJson());
+String effectsModelToJson(ExampleModel data) => json.encode(data.toJson());
 
-class EffectsModel {
+class ExampleModel {
   int? id;
+  int? type;
   String? tag;
   String? value;
   String? description;
@@ -19,8 +20,9 @@ class EffectsModel {
   String? videoFirstFrame;
   int? status; // 0 未启用  1 启用  2 维护中
 
-  EffectsModel({
+  ExampleModel({
     this.id,
+    this.type,
     this.tag,
     this.value,
     this.description,
@@ -35,8 +37,13 @@ class EffectsModel {
    return status == 2;
   }
 
-  factory EffectsModel.fromJson(Map<String, dynamic> json) => EffectsModel(
+  get isEffects {
+    return type == 1;
+  }
+
+  factory ExampleModel.fromJson(Map<String, dynamic> json) => ExampleModel(
     id: json["id"],
+    type: json["type"],
     tag: json["tag"],
     value: json["value"],
     description: json["description"],
@@ -49,6 +56,7 @@ class EffectsModel {
 
   Map<String, dynamic> toJson() => {
     "id": id,
+    "type": type,
     "tag": tag,
     "value": value,
     "description": description,

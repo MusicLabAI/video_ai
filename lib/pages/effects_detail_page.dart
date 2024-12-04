@@ -9,7 +9,7 @@ import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
-import 'package:video_ai/models/effects_model.dart';
+import 'package:video_ai/models/example_model.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
 import 'package:video_ai/pages/pro_purchase_page.dart';
 import 'package:video_ai/widgets/dialogs.dart';
@@ -22,8 +22,8 @@ import '../widgets/custom_button.dart';
 class EffectsDetailPage extends StatefulWidget {
   EffectsDetailPage({super.key, required this.dataList});
 
-  late EffectsModel curEffectsModel;
-  final List<EffectsModel> dataList;
+  late ExampleModel curEffectsModel;
+  final List<ExampleModel> dataList;
 
   @override
   State<EffectsDetailPage> createState() => _EffectsDetailPageState();
@@ -56,7 +56,7 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
   }
 
   // 动态切换视频 URL
-  Future<void> _switchEffects(EffectsModel effectsModel) async {
+  Future<void> _switchEffects(ExampleModel effectsModel) async {
     // 停止当前视频
     await _controller.pause();
 

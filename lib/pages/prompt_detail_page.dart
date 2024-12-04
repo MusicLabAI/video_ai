@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
-import 'package:video_ai/models/effects_model.dart';
+import 'package:video_ai/models/example_model.dart';
 import 'package:video_ai/widgets/prompt_list_view.dart';
 
 import '../common/firebase_util.dart';
@@ -19,8 +19,8 @@ class PromptDetailPage extends StatefulWidget {
   PromptDetailPage(
       {super.key, required this.dataList, required this.curEffectsModel});
 
-  late EffectsModel curEffectsModel;
-  final List<EffectsModel> dataList;
+  late ExampleModel curEffectsModel;
+  final List<ExampleModel> dataList;
 
   @override
   State<PromptDetailPage> createState() => _EffectsDetailPageState();
@@ -30,7 +30,7 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
   late CachedVideoPlayerPlusController _controller;
   bool _isExpand = false;
   final CreateController _createCtr = Get.find<CreateController>();
-  late List<EffectsModel> randomList;
+  late List<ExampleModel> randomList;
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
   }
 
   // 动态切换视频 URL
-  Future<void> _switchVideo(EffectsModel effectsModel) async {
+  Future<void> _switchVideo(ExampleModel effectsModel) async {
     // 停止当前视频
     await _controller.pause();
 

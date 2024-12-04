@@ -8,7 +8,7 @@ import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
-import 'package:video_ai/models/effects_model.dart';
+import 'package:video_ai/models/example_model.dart';
 import 'package:video_ai/models/jump_config_model.dart';
 import 'package:video_ai/pages/effects_detail_page.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
@@ -158,11 +158,11 @@ class CarouselPage extends StatelessWidget {
           if (data.effectId == null) {
             return;
           }
-          List<EffectsModel> list;
+          List<ExampleModel> list;
           if (data.targetType == 3) {
-            list = List<EffectsModel>.from(_createCtr.promptItems.value);
+            list = List<ExampleModel>.from(_createCtr.promptItems.value);
           } else {
-            list = List<EffectsModel>.from(_createCtr.effectsList.value);
+            list = List<ExampleModel>.from(_createCtr.effectsList.value);
           }
           if (list.isEmpty) {
             return;
