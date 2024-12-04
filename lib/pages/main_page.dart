@@ -1,4 +1,3 @@
-import 'package:cached_video_player_plus/cached_video_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/api/dio.dart';
@@ -9,12 +8,11 @@ import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/mine_controller.dart';
 import 'package:video_ai/controllers/shop_controller.dart';
+import 'package:video_ai/pages/ai_studio_page.dart';
 import 'package:video_ai/pages/create_page.dart';
 import 'package:video_ai/pages/mine_page.dart';
-import 'package:video_ai/pages/ai_studio_page.dart';
 import 'package:video_ai/widgets/custom_bottom_nav_bar.dart';
 import 'package:video_ai/widgets/dialogs.dart';
-import 'package:video_ai/widgets/limited_offer_desc_widget.dart';
 
 import '../common/popup_counter.dart';
 import '../controllers/user_controller.dart';

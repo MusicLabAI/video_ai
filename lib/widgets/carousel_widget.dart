@@ -16,6 +16,7 @@ import 'package:video_ai/pages/pro_purchase_page.dart';
 import 'package:video_ai/pages/prompt_detail_page.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/loading_widget.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class CarouselWidget extends StatefulWidget {
   final List<JumpConfigModel> data; // 轮播图数据
@@ -353,7 +354,20 @@ class VideoWidgetState extends State<VideoWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned.fill(child: CachedVideoPlayerPlus(_controller)),
+        if (_controller.value.isInitialized)
+        Positioned.fill(child: VisibilityDetector(onVisibilityChanged:(visibilityInfo){
+          var visiblePercentage = visibilityInfo.visibleFraction * 100;
+          if (visiblePercentage >= 50) {
+            if (!_controller.value.isPlaying) {
+              _controller.play();
+            }
+          } else {
+            if (_controller.value.isPlaying) {
+              _controller.pause();
+            }
+          }
+        },key: (Key("${widget.videoUrl} --- ${widget.pageIndex}")),
+        child: CachedVideoPlayerPlus(_controller))),
         if (!_controller.value.isInitialized)
           const Positioned.fill(child: LoadingWidget())
       ],
