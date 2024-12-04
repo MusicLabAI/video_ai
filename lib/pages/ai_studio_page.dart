@@ -43,11 +43,13 @@ class _AIStudioPageState extends State<AIStudioPage>
           Stack(children: [
             Obx(() => _mainCtr.jumpConfigs.value?.isEmpty ?? true
                 ? const SizedBox()
-                : CarouselWidget(
-                    data: _mainCtr.jumpConfigs.value!,
-                    autoPlayInterval: const Duration(seconds: 5),
-                    showIndicator: true,
-                  )),
+                : AspectRatio(aspectRatio: 480/494,
+                  child: CarouselWidget(
+                      data: _mainCtr.jumpConfigs.value!,
+                      autoPlayInterval: const Duration(seconds: 5),
+                      showIndicator: true,
+                    ),
+                )),
             SafeArea(
                 child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -74,7 +76,7 @@ class _AIStudioPageState extends State<AIStudioPage>
                         onPressed: () {
                           Get.to(() => const SettingsPage());
                           FireBaseUtil.logEventButtonClick(
-                              PageName.specialEffectsPage, 'mine_button');
+                              PageName.aiStudioPage, 'mine_button');
                         },
                         icon: Image.asset(
                           'assets/images/ic_user.png',

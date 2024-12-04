@@ -167,7 +167,10 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Future<void> _submit() async {
     CommonUtil.hideKeyboard(context);
-    await _userCtr.emailCreateUser(_emailController.text, _pwdController.text);
-    Get.to(() => EmailVerifyPage(email: _emailController.text, isSignUp: true));
+    bool result = await _userCtr.emailCreateUser(_emailController.text, _pwdController.text);
+    if (result) {
+      Get.to(() =>
+          EmailVerifyPage(email: _emailController.text, isSignUp: true));
+    }
   }
 }

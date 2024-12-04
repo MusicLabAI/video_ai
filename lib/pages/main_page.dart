@@ -31,6 +31,7 @@ class _MainPageState extends State<MainPage>
   final UserController _userCtr = Get.find();
   final MineController _mineCtr = Get.find();
   final CreateController _createCtr = Get.find();
+  Worker? _onceWorker;
 
   @override
   void initState() {
@@ -45,38 +46,39 @@ class _MainPageState extends State<MainPage>
     if (DioUtil.token.isBlank != true) {
       _userCtr.getUserInfo();
       _mineCtr.onRefresh();
-    }
-    once(_userCtr.userInfo, (userInfo) async {
-      final value = _mainCtr.configModel.value?.limitedOfferPopup ?? "2";
-      int number = 0;
-      try {
-        number = int.parse(value);
-      } catch (_) {}
-      final popupCount = await PopupCounter.getPopupCount();
-      Get.log("popupCount : $popupCount --> number : $number");
-      if (popupCount < number) {
-        bool isYearPlan = !(userInfo.isVip ?? false);
-        final list = await ShopController().getShopList(
-            isYearPlan
-                ? ShopController.productLimitedOfferProType
-                : ShopController.productLimitedOfferPointType,
-            showToast: false);
-        if (list?.isNotEmpty ?? false) {
-          PopupCounter.incrementPopupCount();
-          FireBaseUtil.logEventPopupView(
-              isYearPlan ? 'pro_popup' : 'credits_popup');
-          Get.dialog(LimitedOfferDialog(
-            isYearPlan: isYearPlan,
-            shopModel: list![0],
-          ));
+      _onceWorker = once(_userCtr.userInfo, (userInfo) async {
+        final value = _mainCtr.configModel.value?.limitedOfferPopup ?? "2";
+        int number = 0;
+        try {
+          number = int.parse(value);
+        } catch (_) {}
+        final popupCount = await PopupCounter.getPopupCount();
+        Get.log("popupCount : $popupCount --> number : $number");
+        if (popupCount < number) {
+          bool isYearPlan = !(userInfo.isVip ?? false);
+          final list = await ShopController().getShopList(
+              isYearPlan
+                  ? ShopController.productLimitedOfferProType
+                  : ShopController.productLimitedOfferPointType,
+              showToast: false);
+          if (list?.isNotEmpty ?? false) {
+            PopupCounter.incrementPopupCount();
+            FireBaseUtil.logEventPopupView(
+                isYearPlan ? 'pro_popup' : 'credits_popup');
+            Get.dialog(LimitedOfferDialog(
+              isYearPlan: isYearPlan,
+              shopModel: list![0],
+            ));
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   @override
   void dispose() {
     _mainCtr.tabController.dispose();
+    _onceWorker?.dispose();
     super.dispose();
   }
 
@@ -111,7 +113,7 @@ class _MainPageState extends State<MainPage>
                 }
               });
               FireBaseUtil.logEventPageView(index == 0
-                  ? PageName.specialEffectsPage
+                  ? PageName.aiStudioPage
                   : (index == 1 ? PageName.createPage : PageName.historyPage));
             },
           )

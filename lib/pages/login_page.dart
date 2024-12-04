@@ -139,15 +139,17 @@ class _LoginPageState extends State<LoginPage> {
                             bgColors: _isButtonEnabled
                                 ? const [UiColors.c7631EC, UiColors.cBC8EF5]
                                 : const [UiColors.c30333F, UiColors.c30333F],
-                            onTap: () {
+                            onTap: () async {
                               if (!_isButtonEnabled) {
                                 return;
                               }
                               if (_formKey.currentState?.validate() ?? false) {
                                 CommonUtil.hideKeyboard(context);
-                                _userCtr.emailLogIn(
+                                bool result = await _userCtr.emailLogIn(
                                     _emailController.text, _pwdController.text);
-                                Get.until((route) => Get.currentRoute == '/');
+                                if (result) {
+                                  Get.until((route) => Get.currentRoute == '/');
+                                }
                               }
                             },
                           ),

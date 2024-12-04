@@ -48,7 +48,7 @@ class CreateController extends GetxController {
     if (index == 0) {
       curEffects.value = effects;
     } else {
-      prompt.value = effects.tag ?? "";
+      prompt.value = effects.description ?? "";
     }
     curTabIndex.value = index;
   }

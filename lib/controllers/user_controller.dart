@@ -101,7 +101,7 @@ class UserController extends GetxController {
     await firebaseAuth.currentUser?.sendEmailVerification();
   }
 
-  Future<void> emailCreateUser(String email, String password) async {
+  Future<bool> emailCreateUser(String email, String password) async {
     try {
       Get.dialog(const LoadingWidget(), barrierDismissible: false);
       await firebaseAuth.createUserWithEmailAndPassword(
@@ -109,6 +109,7 @@ class UserController extends GetxController {
         password: password,
       );
       emailSend();
+      return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         Fluttertoast.showToast(msg: 'passwordWeak'.tr);
@@ -118,10 +119,10 @@ class UserController extends GetxController {
         Fluttertoast.showToast(msg: e.message ?? 'create error');
       }
       Get.log(e.toString(), isError: true);
-      rethrow;
+      return false;
     } catch (e) {
       Get.log(e.toString(), isError: true);
-      rethrow;
+      return false;
     } finally {
       if (Get.isDialogOpen ?? false) {
         Get.back();
@@ -129,7 +130,7 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> emailLogIn(String email, String password) async {
+  Future<bool> emailLogIn(String email, String password) async {
     try {
       Get.dialog(const LoadingWidget(), barrierDismissible: false);
       final currentCredential = await firebaseAuth.signInWithEmailAndPassword(
@@ -142,6 +143,7 @@ class UserController extends GetxController {
         Get.back(closeOverlays: true);
         Get.back();
       }
+      return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         Fluttertoast.showToast(msg: 'emailNoFound'.tr);
@@ -152,8 +154,10 @@ class UserController extends GetxController {
       }
       Get.log(e.toString(), isError: true);
       FireBaseUtil.logEvent(EventName.loginSuccessful);
+      return false;
     } catch (e) {
       Get.log(e.toString(), isError: true);
+      return false;
     } finally {
       if (Get.isDialogOpen ?? false) {
         Get.back();
@@ -199,6 +203,7 @@ class UserController extends GetxController {
     }
     final res = await Request.userinfo();
     userInfo.value = UserInfoModel.fromJson(res);
+
     if (userInfo.value.token?.isNotEmpty ?? false) {
       SharedPreferences.getInstance().then((prefs) {
         prefs.setString('token', userInfo.value.token!);

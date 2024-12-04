@@ -158,9 +158,6 @@ class PageName  {
   /// 邮箱登录页
   static const String emailLoginPage = 'email_login_page';
 
-  /// 特效首页
-  static const String specialEffectsPage = 'special_effects_page';
-
   /// 历史页面
   static const String historyPage = 'history_page';
 

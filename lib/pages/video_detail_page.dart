@@ -128,7 +128,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                                 ),
                               ),
                             if (!_controller.value.isInitialized)
-                              const LoadingWidget(),
+                              const SizedBox(height: 100, child: LoadingWidget()),
                           ],
                         ),
                       ),

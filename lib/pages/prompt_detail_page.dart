@@ -106,16 +106,13 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                           if (!_controller.value.isInitialized ||
                               _controller.value.isBuffering)
                             const Positioned.fill(child: LoadingWidget()),
-                          Positioned(
-                              top: 180,
-                              left: 0,
-                              right: 0,
-                              bottom: 0,
-                              child: Container(
-                                  decoration:
-                                      BoxDecoration(gradient: commonGradient))),
                         ],
                       )),
+                  AspectRatio(aspectRatio: 408 / 400, child: Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(top: 180),
+                      decoration: BoxDecoration(
+                          gradient: commonGradient))),
                   Positioned(
                       child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -161,7 +158,7 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                                     onTap: () {
                                       Clipboard.setData(ClipboardData(
                                           text:
-                                              "${widget.curEffectsModel.tag}"));
+                                              "${widget.curEffectsModel.description}"));
                                       Fluttertoast.showToast(
                                           msg: 'copySucceed'.tr);
                                     },
@@ -171,7 +168,7 @@ class _EffectsDetailPageState extends State<PromptDetailPage> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 12.0),
                                 child: Text(
-                                  widget.curEffectsModel.tag ?? "",
+                                  widget.curEffectsModel.description ?? "",
                                   maxLines: _isExpand ? 50 : 3,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(

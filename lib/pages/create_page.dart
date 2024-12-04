@@ -76,6 +76,7 @@ class _CreatePageState extends State<CreatePage>
     _controller = TextEditingController(text: _createCtr.prompt.value);
     _promptWorker = ever(_createCtr.prompt, (value) {
       setState(() {
+        print("value: $value");
         _controller.text = value;
         _scrollToTop();
       });
@@ -153,7 +154,8 @@ class _CreatePageState extends State<CreatePage>
                                 },
                                 onClick: (model) {
                                   FireBaseUtil.logEventButtonClick(PageName.createPage, "createPage_example_try_button");
-                                  _createCtr.prompt.value = model.tag ?? "";
+                                  print("model.tag: ${model.description}");
+                                  _createCtr.prompt.value = model.description ?? "";
                                   _createCtr.curTabIndex.value = 1;
                                 },
                               ),
@@ -378,8 +380,8 @@ class _CreatePageState extends State<CreatePage>
                             final items = _createCtr.promptItems.value;
                             if (items.isNotEmpty) {
                               setState(() {
-                                _controller.text =
-                                    items[Random().nextInt(items.length)].tag ??
+                                _createCtr.prompt.value =
+                                    items[Random().nextInt(items.length)].description ??
                                         "";
                               });
                             }
@@ -421,7 +423,7 @@ class _CreatePageState extends State<CreatePage>
                                 )
                               : null,
                           text: _createCtr.curEffects.value != null
-                              ? _createCtr.curEffects.value!.tag ?? ""
+                              ? _createCtr.curEffects.value!.description ?? ""
                               : 'effect'.tr,
                           textSize: 10,
                           textColor: _createCtr.curEffects.value != null
@@ -444,7 +446,7 @@ class _CreatePageState extends State<CreatePage>
                           return;
                         }
                         setState(() {
-                          _controller.text = "";
+                          _createCtr.prompt.value = "";
                         });
                         FireBaseUtil.logEventButtonClick(
                             PageName.createPage, 'clean_button');

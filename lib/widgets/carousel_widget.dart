@@ -19,14 +19,12 @@ import 'package:video_ai/widgets/loading_widget.dart';
 
 class CarouselWidget extends StatefulWidget {
   final List<JumpConfigModel> data; // 轮播图数据
-  final double height; // 轮播图高度
   final Duration autoPlayInterval; // 自动播放间隔
   final bool showIndicator; // 是否显示指示器
 
   const CarouselWidget({
     super.key,
     required this.data,
-    this.height = 360.0,
     this.autoPlayInterval = const Duration(seconds: 3),
     this.showIndicator = true,
   });
@@ -96,24 +94,22 @@ class _CarouselWidgetState extends State<CarouselWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        GestureDetector(
+        Positioned.fill(
+            child: GestureDetector(
           onPanDown: (_) => _stopAutoPlay(),
           onPanEnd: (_) => _startAutoPlay(),
-          child: SizedBox(
-            height: widget.height,
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: widget.data.length,
-              onPageChanged: _handlePageChanged,
-              itemBuilder: (context, index) {
-                return CarouselPage(
-                  data: widget.data[index],
-                  pageIndex: index,
-                );
-              },
-            ),
+          child: PageView.builder(
+            controller: _pageController,
+            itemCount: widget.data.length,
+            onPageChanged: _handlePageChanged,
+            itemBuilder: (context, index) {
+              return CarouselPage(
+                data: widget.data[index],
+                pageIndex: index,
+              );
+            },
           ),
-        ),
+        )),
         if (widget.showIndicator)
           Positioned(
             bottom: 24,
@@ -155,7 +151,9 @@ class CarouselPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FireBaseUtil.logEvent("banner_click", parameters: {"bannerTitle" : data.title?? "",});
+        FireBaseUtil.logEvent("banner_click", parameters: {
+          "bannerTitle": data.title ?? "",
+        });
         if (data.targetType == 3 || data.targetType == 4) {
           if (data.effectId == null) {
             return;
@@ -170,20 +168,26 @@ class CarouselPage extends StatelessWidget {
             return;
           }
           // 找到要移动的 item
-          final item = list.firstWhereOrNull((item) => item.id == data.effectId);
+          final item =
+              list.firstWhereOrNull((item) => item.id == data.effectId);
 
           // 如果 item 不为 null，则将其移到列表顶部
           if (item == null) {
             return;
           }
+          VideoWidgetState.notifyPause(pageIndex);
           // 根据 targetType 跳转到不同的页面
           if (data.targetType == 3) {
-            Get.to(() => PromptDetailPage(dataList: list, curEffectsModel: item,));
+            Get.to(() => PromptDetailPage(
+                  dataList: list,
+                  curEffectsModel: item,
+                ));
           } else {
             list.remove(item);
             list.insert(0, item);
             Get.to(() => EffectsDetailPage(dataList: list));
           }
+          VideoWidgetState.notifyPlay(pageIndex);
         } else if (data.targetType == 5) {
           Get.find<MainController>().tabController.index == 1;
         } else if (data.targetType == 6) {
@@ -216,14 +220,15 @@ class CarouselPage extends StatelessWidget {
         // 渐变覆盖层
         Positioned.fill(
           child: Container(
-            decoration: BoxDecoration(
+            margin: const EdgeInsets.only(top: 200),
+            decoration: const BoxDecoration(
               // 使用 LinearGradient 创建垂直渐变
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.transparent, // 顶部透明
-                  Colors.black.withOpacity(1), // 底部渐变至黑色，透明度为50%
+                  Colors.black, // 底部渐变至黑色
                 ],
               ),
             ),
@@ -311,6 +316,7 @@ class VideoWidgetState extends State<VideoWidget> {
         setState(() {
           _controller.setLooping(true);
           _controller.setVolume(0);
+          _controller.play();
         });
       });
     _instances[widget.pageIndex] = this;

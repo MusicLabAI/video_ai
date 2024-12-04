@@ -102,16 +102,13 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
                                 if (!_controller.value.isInitialized ||
                                     _controller.value.isBuffering)
                                   const Positioned.fill(child: LoadingWidget()),
-                                Positioned(
-                                    top: 180,
-                                    left: 0,
-                                    right: 0,
-                                    bottom: 0,
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            gradient: commonGradient))),
                               ],
                             )),
+                        AspectRatio(aspectRatio: 408 / 400, child: Container(
+                          width: double.infinity,
+                            margin: const EdgeInsets.only(top: 180),
+                            decoration: BoxDecoration(
+                                gradient: commonGradient))),
                         Positioned(
                             child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
