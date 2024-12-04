@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:video_ai/languages/language_pl.dart';
 import 'package:video_ai/languages/language_ru.dart';
 
 import 'language_ar.dart';
@@ -46,6 +47,8 @@ class Languages extends Translations {
       'ru': LanguageRu.language,
       // 土耳其
       'tr': LanguageTr.language,
+      // 波兰
+      'pl': LanguagePl.language,
     };
   }
 }
