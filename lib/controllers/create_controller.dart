@@ -68,15 +68,15 @@ class CreateController extends GetxController {
         return effectsModel.id == newEffectId;
       });
       curEffects.value = result;
-      if (result != null) {
-        hasEffects = true;
-      }
+      hasEffects = result != null;
     }
     if (hasEffects || inputImageUrl?.isNotEmpty == true) {
       curTabIndex.value = 1;
+    } else {
+      curTabIndex.value = 0;
     }
-    scrollToTop.value = true;
     prompt.value = newPrompt;
+    scrollToTop.value = true;
   }
 
   Future<void> getEffectsTags() async {

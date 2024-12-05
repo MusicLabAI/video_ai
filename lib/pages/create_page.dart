@@ -77,7 +77,6 @@ class _CreatePageState extends State<CreatePage>
     _promptWorker = ever(_createCtr.prompt, (value) {
       setState(() {
         _controller.text = value;
-        _scrollToTop();
       });
     });
     _scrollWorker = ever(_createCtr.scrollToTop, (value) {
@@ -158,10 +157,10 @@ class _CreatePageState extends State<CreatePage>
                                   FireBaseUtil.logEventButtonClick(
                                       PageName.createPage,
                                       "createPage_example_try_button");
-                                  print("model.tag: ${model.description}");
                                   _createCtr.prompt.value =
                                       model.description ?? "";
                                   _createCtr.curTabIndex.value = 0;
+                                  _createCtr.scrollToTop.value = true;
                                 },
                               ),
                             ]),
@@ -384,12 +383,10 @@ class _CreatePageState extends State<CreatePage>
                             }
                             final items = _createCtr.promptItems.value;
                             if (items.isNotEmpty) {
-                              setState(() {
-                                _createCtr.prompt.value =
-                                    items[Random().nextInt(items.length)]
-                                            .description ??
-                                        "";
-                              });
+                              _createCtr.prompt.value =
+                                  items[Random().nextInt(items.length)]
+                                          .description ??
+                                      "";
                             }
                             FireBaseUtil.logEventButtonClick(
                                 PageName.createPage, 'insprire_button');
@@ -451,9 +448,7 @@ class _CreatePageState extends State<CreatePage>
                           Fluttertoast.showToast(msg: 'noPromptEntered'.tr);
                           return;
                         }
-                        setState(() {
-                          _createCtr.prompt.value = "";
-                        });
+                        _createCtr.prompt.value = "";
                         FireBaseUtil.logEventButtonClick(
                             PageName.createPage, 'clean_button');
                       },

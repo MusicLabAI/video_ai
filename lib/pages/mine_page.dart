@@ -207,7 +207,7 @@ class _MinePageState extends State<MinePage>
         if (data is RecordModel) {
           _createCtr.reuseCurrent(
               data.prompt ?? '', data.inputImageUrl, data.effectId);
-          _mainCtr.tabController.index = data.effectId == null ? 1 : 0;
+          _mainCtr.tabController.index = 1;
         }
       },
       child: Stack(children: [
