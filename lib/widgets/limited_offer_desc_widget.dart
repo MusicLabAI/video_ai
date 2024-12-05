@@ -23,7 +23,7 @@ class LimitedOfferDescWidget extends StatelessWidget {
         textAlign: TextAlign.center,
         TextSpan(
             children: _buildStyledText(desc,
-                [RegExp(r"\b" + RegExp.escape(creditsText) + r"\b"), RegExp(r"\b" + RegExp.escape(priceText) + r"\b")])));
+                [RegExp(RegExp.escape(creditsText)), RegExp(RegExp.escape(priceText))])));
   }
 
   // 动态生成文本和对应的样式
@@ -41,7 +41,6 @@ class LimitedOfferDescWidget extends StatelessWidget {
           final match = regex.matchAsPrefix(text, currentIndex);
 
           if (match != null) {
-            print("匹配");
             // 如果匹配到文本，添加变色部分
             textSpans.add(TextSpan(
               text: match.group(0),
