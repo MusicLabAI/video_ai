@@ -332,7 +332,8 @@ class RefreshWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      width: double.infinity,
       padding: EdgeInsets.only(top: topPadding ?? 100),
       child: GestureDetector(
         onTap: onRefresh,

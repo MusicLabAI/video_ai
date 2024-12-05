@@ -144,25 +144,28 @@ class _CreatePageState extends State<CreatePage>
                             children: [
                               _topView(context),
                               ..._getGenerateBtn(context),
-                              PromptListView(
-                                dataList: _createCtr.promptItems.value,
-                                paddingTop: 16,
-                                onItemClick: (model) {
-                                  Get.to(() => PromptDetailPage(
-                                        dataList: _createCtr.promptItems.value,
-                                        curEffectsModel: model,
-                                      ));
-                                },
-                                onClick: (model) {
-                                  FireBaseUtil.logEventButtonClick(
-                                      PageName.createPage,
-                                      "createPage_example_try_button");
-                                  _createCtr.prompt.value =
-                                      model.description ?? "";
-                                  _createCtr.curTabIndex.value = 0;
-                                  _createCtr.scrollToTop.value = true;
-                                },
-                              ),
+                              Obx(
+                                () => PromptListView(
+                                  dataList: _createCtr.promptItems.value,
+                                  paddingTop: 16,
+                                  onItemClick: (model) {
+                                    Get.to(() => PromptDetailPage(
+                                          dataList:
+                                              _createCtr.promptItems.value,
+                                          curEffectsModel: model,
+                                        ));
+                                  },
+                                  onClick: (model) {
+                                    FireBaseUtil.logEventButtonClick(
+                                        PageName.createPage,
+                                        "createPage_example_try_button");
+                                    _createCtr.prompt.value =
+                                        model.description ?? "";
+                                    _createCtr.curTabIndex.value = 0;
+                                    _createCtr.scrollToTop.value = true;
+                                  },
+                                ),
+                              )
                             ]),
                       )))
             ])));

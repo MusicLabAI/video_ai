@@ -23,13 +23,6 @@ class CreateController extends GetxController {
   Rxn<String> imagePath = Rxn(null);
   RxBool scrollToTop = false.obs;
 
-  @override
-  onInit() {
-    super.onInit();
-    getRecommendPrompt();
-    getEffectsTags();
-  }
-
   void retry() {
     if (promptItems.isEmpty) {
       getRecommendPrompt();
