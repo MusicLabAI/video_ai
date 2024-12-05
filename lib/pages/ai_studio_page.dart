@@ -46,7 +46,6 @@ class _AIStudioPageState extends State<AIStudioPage>
                 : AspectRatio(aspectRatio: 480/494,
                   child: CarouselWidget(
                       data: _mainCtr.jumpConfigs.value!,
-                      autoPlayInterval: const Duration(seconds: 5),
                       showIndicator: true,
                     ),
                 )),

@@ -26,7 +26,7 @@ class CarouselWidget extends StatefulWidget {
   const CarouselWidget({
     super.key,
     required this.data,
-    this.autoPlayInterval = const Duration(seconds: 3),
+    this.autoPlayInterval = Duration.zero,
     this.showIndicator = true,
   });
 
