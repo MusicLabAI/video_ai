@@ -296,7 +296,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            widget.recordModel.effect ?? 'prompt'.tr,
+                            widget.recordModel.effectText ?? 'prompt'.tr,
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,

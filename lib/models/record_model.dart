@@ -16,7 +16,7 @@ class RecordModel {
   int? failureCode; // 1511时 点击toast failureReason
   String? failureReason;
   String? prompt;
-  String? effect;
+  String? effectText;
   int? effectId;
 
   RecordModel({
@@ -37,7 +37,7 @@ class RecordModel {
     this.failureCode,
     this.failureReason,
     this.prompt,
-    this.effect,
+    this.effectText,
     this.effectId,
   });
 
@@ -71,7 +71,7 @@ class RecordModel {
         failureCode: json["failureCode"],
         failureReason: json["failureReason"],
         prompt: json["prompt"],
-        effect: json["effect"],
+        effectText: json["effectText"],
         effectId: json["effectId"],
       );
 
@@ -95,7 +95,7 @@ class RecordModel {
         "failureCode": failureCode,
         "failureReason": failureReason,
         "prompt": prompt,
-        "effect": effect,
+        "effectText": effectText,
         "effectId": effectId,
       };
 }
