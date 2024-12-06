@@ -165,7 +165,7 @@ class LanguagePt {
       "limitedOffer": "Oferta Limitada",
       "report": "Denunciar",
       "reportTitle": "Por que denunciar este vídeo?",
-      "feedbackSucceed": "Feedback bem-sucedido",
+      "feedbackSucceed": "Obrigado pelo seu relatório, recebemos.",
     };
   }
 }

@@ -165,7 +165,7 @@ class LanguageJa {
       "limitedOffer": "期間限定オファー",
       "report": "報告",
       "reportTitle": "なぜこの動画を報告しますか？",
-      "feedbackSucceed": "フィードバックが成功しました",
+      "feedbackSucceed": "ご報告ありがとうございます。受け付けました。",
     };
   }
 }

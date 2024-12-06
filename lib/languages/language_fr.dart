@@ -165,7 +165,7 @@ class LanguageFr {
       "limitedOffer": "Offre limitée",
       "report": "Signaler",
       "reportTitle": "Pourquoi signaler cette vidéo ?",
-      "feedbackSucceed": "Retour d'information réussi",
+      "feedbackSucceed": "Merci pour votre signalement, nous l'avons bien reçu.",
     };
   }
 }

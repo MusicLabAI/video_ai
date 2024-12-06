@@ -165,7 +165,7 @@ class LanguageEs {
       "limitedOffer": "Oferta limitada",
       'report': 'Reportar',
       'reportTitle': '¿Por qué reportar este video?',
-      'feedbackSucceed': 'Retroalimentación exitosa',
+      "feedbackSucceed": "Gracias por su informe, lo hemos recibido.",
     };
   }
 }

@@ -171,7 +171,7 @@ class LanguageEnUs {
       "limitedOffer": "Limited Offer",
       "report": "Report",
       "reportTitle": "Why report this video?",
-      "feedbackSucceed": "Feedback Succeed",
+      "feedbackSucceed": "Thank you for your report, we have received it.",
     };
   }
 }

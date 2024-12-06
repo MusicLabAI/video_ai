@@ -165,7 +165,7 @@ class LanguageDe {
       "limitedOffer": "Begrenztes Angebot",
       'report': 'Melden',
       'reportTitle': 'Warum diesen Video melden?',
-      'feedbackSucceed': 'Feedback erfolgreich',
+      "feedbackSucceed": "Vielen Dank für deinen Bericht, wir haben ihn erhalten.",
     };
   }
 }

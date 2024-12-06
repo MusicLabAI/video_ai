@@ -687,8 +687,8 @@ class _ReportDialogState extends State<ReportDialog> {
     'Sexual or nudity',
     'Political issue',
     'Violence or insults',
-    'Violence or insults',
-    'Violence or insults'
+    'Copyright issue',
+    'Other issue'
   ];
 
   int _currentIndex = 0;

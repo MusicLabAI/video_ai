@@ -165,7 +165,7 @@ class LanguageKo {
       "limitedOffer": "한정 특별 제공",
       "report": "신고",
       "reportTitle": "왜 이 영상을 신고하나요?",
-      "feedbackSucceed": "피드백 성공",
+      "feedbackSucceed": "신고해 주셔서 감사합니다. 접수되었습니다.",
     };
   }
 }

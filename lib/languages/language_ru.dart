@@ -165,7 +165,7 @@ class LanguageRu {
       "limitedOffer": "Ограниченное предложение",
       'report': 'Сообщить',
       'reportTitle': 'Почему сообщить об этом видео?',
-      'feedbackSucceed': 'Обратная связь успешна',
+      "feedbackSucceed": "Спасибо за ваш отчет, мы его получили.",
     };
   }
 }

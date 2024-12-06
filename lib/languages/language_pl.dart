@@ -165,7 +165,7 @@ class LanguagePl {
       'limitedOffer': 'Ograniczona oferta',
       "report": "Zgłoś",
       "reportTitle": "Dlaczego zgłosić ten film?",
-      "feedbackSucceed": "Feedback udany",
+      "feedbackSucceed": "Dziękujemy za zgłoszenie, otrzymaliśmy je.",
     };
   }
 }

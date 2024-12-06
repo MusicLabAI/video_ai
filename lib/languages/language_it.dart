@@ -165,7 +165,7 @@ class LanguageIt {
       "limitedOffer": "Offerta Limitata",
       "report": "Segnala",
       "reportTitle": "Perché segnalare questo video?",
-      "feedbackSucceed": "Feedback riuscito",
+      "feedbackSucceed": "Grazie per la tua segnalazione, l'abbiamo ricevuta.",
     };
   }
 }

@@ -165,7 +165,7 @@ class LanguageZhTw {
       "limitedOffer": "限時優惠",
       "report": "舉報",
       "reportTitle": "為什麼舉報這個影片？",
-      "feedbackSucceed": "回饋成功",
+      "feedbackSucceed": "感謝您的舉報，我們已經收到。",
     };
   }
 }

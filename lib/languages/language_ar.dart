@@ -165,7 +165,7 @@ class LanguageAr {
       "limitedOffer": "عرض محدود",
       "report": "تقرير",
       "reportTitle": "لماذا تقوم بالإبلاغ عن هذا الفيديو؟",
-      "feedbackSucceed": "تم إرسال التعليقات بنجاح",
+      "feedbackSucceed": "شكرًا لتقريرك، لقد تم استلامه.",
     };
   }
 }

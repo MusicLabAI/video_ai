@@ -166,7 +166,7 @@ class LanguageTr {
       "limitedOffer": "Sınırlı Teklif",
       "report": "Şikayet Et",
       "reportTitle": "Bu videoyu neden şikayet ediyorsunuz?",
-      "feedbackSucceed": "Geri bildirim başarılı",
+      "feedbackSucceed": "Raporunuz için teşekkür ederiz, aldık.",
     };
   }
 }

@@ -165,7 +165,7 @@ class LanguageZhCn {
       "limitedOffer": "限时优惠",
       "report": "举报",
       "reportTitle": "为什么举报这个视频？",
-      "feedbackSucceed": "反馈成功",
+      "feedbackSucceed": "感谢您的举报，我们已经收到。",
     };
   }
 }
