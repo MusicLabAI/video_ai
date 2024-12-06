@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyD1OzyNJ9MAoOtMbcb-24PE1dWfSW1Vc1w</string>
+	<string>AIzaSyDzB8dylk7ktXmFnlnqaoHGBTuL6fb6zVc</string>
 	<key>GCM_SENDER_ID</key>
-	<string>185095464958</string>
+	<string>995022746616</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.videoai.test</string>
+	<string>luma.sora.pika.runway.video.ai</string>
 	<key>PROJECT_ID</key>
-	<string>videoai-ios-6b8f5</string>
+	<string>videoai-ios</string>
 	<key>STORAGE_BUCKET</key>
-	<string>videoai-ios-6b8f5.firebasestorage.app</string>
+	<string>videoai-ios.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:185095464958:ios:5a729b90b344a327d7c2af</string>
+	<string>1:995022746616:ios:30331dbbd9f3e2cb8d9c0d</string>
 </dict>
 </plist>
