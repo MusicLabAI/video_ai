@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:video_ai/api/request.dart';
 import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
@@ -669,5 +671,123 @@ class LimitedOfferDialog extends StatelessWidget {
         )
       ],
     );
+  }
+}
+
+class ReportDialog extends StatefulWidget {
+  const ReportDialog({super.key});
+
+  @override
+  State<ReportDialog> createState() => _ReportDialogState();
+}
+
+class _ReportDialogState extends State<ReportDialog> {
+  final List<String> _list = [
+    'Hateful or abusive',
+    'Sexual or nudity',
+    'Political issue',
+    'Violence or insults',
+    'Violence or insults',
+    'Violence or insults'
+  ];
+
+  int _currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: const EdgeInsets.all(24),
+        decoration: const BoxDecoration(
+            color: UiColors.c23242A,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          SizedBox(
+            width: double.infinity,
+            height: 24,
+            child: Stack(
+              children: [
+                Center(
+                  child: Text(
+                    'reportTitle'.tr,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Image.asset(
+                        "assets/images/ic_close.png",
+                        width: 24,
+                      )),
+                )
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 32,
+          ),
+          GridView.builder(
+              itemCount: _list.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  childAspectRatio: 15 / 4),
+              itemBuilder: (context, index) {
+                final item = _list[index];
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: UiColors.c1B1B1F,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                            color: index == _currentIndex
+                                ? UiColors.cBC8EF5
+                                : Colors.transparent,
+                            width: 1.5)),
+                    child: Center(
+                      child: Text(
+                        item,
+                        style: TextStyle(
+                            color: index == _currentIndex
+                                ? UiColors.cBC8EF5
+                                : UiColors.c99FFFFFF,
+                            fontWeight: FontWeightExt.semiBold,
+                            fontSize: 12),
+                      ),
+                    ),
+                  ),
+                );
+              }),
+          CustomButton(
+            onTap: () async {
+              Get.back();
+              await Request.feedback(_currentIndex + 1);
+              Fluttertoast.showToast(msg: 'feedbackSucceed'.tr);
+            },
+            margin: const EdgeInsets.only(bottom: 8, top: 24),
+            text: 'submit'.tr,
+            textColor: UiColors.cDBFFFFFF,
+            bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
+            width: double.infinity,
+            height: 46,
+            textSize: 16,
+          )
+        ]));
   }
 }

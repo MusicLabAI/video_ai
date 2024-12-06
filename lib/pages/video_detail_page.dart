@@ -81,6 +81,26 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
                         width: 32,
                       )),
                   const Spacer(),
+                  CustomButton(
+                    onTap: (){
+                      Get.bottomSheet(const ReportDialog());
+                    },
+                    bgColor: UiColors.c2C2A2B,
+                    borderRadius: BorderRadius.circular(256),
+                    textColor: UiColors.cB3B3B3,
+                    textSize: 12,
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    text: 'report'.tr,
+                    leftIcon: Padding(
+                      padding: const EdgeInsets.only(right: 6.0),
+                      child: Image.asset(
+                        'assets/images/ic_warn_gray.png',
+                        width: 14,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12,),
                   GestureDetector(
                       onTap: () {
                         Get.dialog(deleteConfirmDialog(() async {

@@ -163,6 +163,9 @@ class LanguageDe {
       "superValueCreditsRefill": "Super-Wert-Credits Nachfüllen",
       "limitedOfferGoodDesc": "Erhalten Sie sofort %s Credits, die %s KI-Videos erstellen können %s",
       "limitedOffer": "Begrenztes Angebot",
+      'report': 'Melden',
+      'reportTitle': 'Warum diesen Video melden?',
+      'feedbackSucceed': 'Feedback erfolgreich',
     };
   }
 }

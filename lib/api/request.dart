@@ -23,6 +23,7 @@ class Request {
   static const String _userEdit = '/videoAi/user/edit';
   static const String _getEffectTags = '/videoAi/configure/getEffectTags';
   static const String _commonConfigList = '/videoAi/configure/getCommonConfigList';
+  static const String _feedback = '/videoAi/feedback';
 
   static Future<ConfigModel> getCommonConfig() async {
     final res = await DioUtil.httpPost(_commonConfigList, data: {
@@ -87,6 +88,10 @@ class Request {
 
   static Future<void> userDelete() async {
     return await DioUtil.httpPost(_userDelete, data: {});
+  }
+
+  static Future<void> feedback(int issueType) async {
+    return await DioUtil.httpPost(_feedback, data: {'type': 3, 'issueType': issueType});
   }
 
   static Future<dynamic> getRecords(int pageNum) async {

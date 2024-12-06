@@ -6,7 +6,7 @@ class CustomButton extends StatelessWidget {
     super.key,
     this.onTap,
     required this.text,
-    required this.textColor,
+    this.textColor,
     this.textSize,
     this.bgColor,
     this.bgColors,
@@ -23,7 +23,7 @@ class CustomButton extends StatelessWidget {
   final List<Color>? bgColors;
   final Color? bgColor;
   final String text;
-  final Color textColor;
+  final Color? textColor;
   final double? textSize;
   final Widget? leftIcon;
   final Widget? rightIcon;
@@ -67,7 +67,7 @@ class CustomButton extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  color: textColor,
+                  color: textColor ?? Colors.white,
                   fontSize: textSize ?? 16,
                   fontWeight: FontWeightExt.semiBold,
                   decoration: TextDecoration.none,

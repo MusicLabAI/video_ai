@@ -163,6 +163,9 @@ class LanguageAr {
       "superValueCreditsRefill": "إعادة تعبئة الائتمانات ذات القيمة الكبيرة",
       "limitedOfferGoodDesc": "احصل على %s رصيد على الفور يمكنه إنشاء %s فيديو AI %s",
       "limitedOffer": "عرض محدود",
+      "report": "تقرير",
+      "reportTitle": "لماذا تقوم بالإبلاغ عن هذا الفيديو؟",
+      "feedbackSucceed": "تم إرسال التعليقات بنجاح",
     };
   }
 }

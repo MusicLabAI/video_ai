@@ -163,6 +163,9 @@ class LanguageRu {
       "superValueCreditsRefill": "Супер-выгодное пополнение кредитов",
       "limitedOfferGoodDesc": "Получите %s кредитов сразу, можно создать %s видео с ИИ %s",
       "limitedOffer": "Ограниченное предложение",
+      'report': 'Сообщить',
+      'reportTitle': 'Почему сообщить об этом видео?',
+      'feedbackSucceed': 'Обратная связь успешна',
     };
   }
 }

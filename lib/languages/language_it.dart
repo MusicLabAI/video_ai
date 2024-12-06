@@ -163,6 +163,9 @@ class LanguageIt {
       "superValueCreditsRefill": "Ricarica Crediti Super Vantaggiosa",
       "limitedOfferGoodDesc": "Ottieni subito %s crediti e crea %s video AI %s",
       "limitedOffer": "Offerta Limitata",
+      "report": "Segnala",
+      "reportTitle": "Perché segnalare questo video?",
+      "feedbackSucceed": "Feedback riuscito",
     };
   }
 }

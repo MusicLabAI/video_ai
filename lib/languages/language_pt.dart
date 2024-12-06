@@ -163,6 +163,9 @@ class LanguagePt {
       "superValueCreditsRefill": "Recarga de Créditos Super Econômica",
       "limitedOfferGoodDesc": "Receba imediatamente %s créditos e crie %s vídeos AI %s",
       "limitedOffer": "Oferta Limitada",
+      "report": "Denunciar",
+      "reportTitle": "Por que denunciar este vídeo?",
+      "feedbackSucceed": "Feedback bem-sucedido",
     };
   }
 }

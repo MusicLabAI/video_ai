@@ -169,6 +169,9 @@ class LanguageEnUs {
       "superValueCreditsRefill": "Super Value Credits Refill",
       "limitedOfferGoodDesc": "Get %s Credits immediately Can Create %s AI videos %s",
       "limitedOffer": "Limited Offer",
+      "report": "Report",
+      "reportTitle": "Why report this video?",
+      "feedbackSucceed": "Feedback Succeed",
     };
   }
 }

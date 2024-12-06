@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/api/request.dart';
+import 'package:video_ai/common/file_util.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/example_model.dart';
@@ -96,7 +97,8 @@ class CreateController extends GetxController {
         if (RegExp(r'^https?://').hasMatch(imagePath!)) {
           imageUrl = imagePath;
         } else {
-          imageUrl = await AwsUtils.uploadByFile(File(imagePath));
+          File compressFile = await FileUtil.compressImage(imagePath);
+          imageUrl = await AwsUtils.uploadByFile(compressFile);
           if (imageUrl.isEmpty) {
             Fluttertoast.showToast(msg: 'imageUploadFailed'.tr);
             Get.log('图片上传失败');

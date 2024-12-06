@@ -163,6 +163,9 @@ class LanguageZhTw {
       "superValueCreditsRefill": "超值積分補充",
       "limitedOfferGoodDesc": "立即獲得 %s 積分 可創建 %s 個AI影片 %s",
       "limitedOffer": "限時優惠",
+      "report": "舉報",
+      "reportTitle": "為什麼舉報這個影片？",
+      "feedbackSucceed": "回饋成功",
     };
   }
 }

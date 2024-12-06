@@ -163,6 +163,9 @@ class LanguageJa {
       "superValueCreditsRefill": "お得なクレジット補充",
       "limitedOfferGoodDesc": "今すぐ %s クレジットを獲得。%s AI動画を作成可能 %s",
       "limitedOffer": "期間限定オファー",
+      "report": "報告",
+      "reportTitle": "なぜこの動画を報告しますか？",
+      "feedbackSucceed": "フィードバックが成功しました",
     };
   }
 }

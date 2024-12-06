@@ -163,6 +163,9 @@ class LanguageId {
       "superValueCreditsRefill": "Pengisian Ulang Kredit Super Hemat",
       "limitedOfferGoodDesc": "Dapatkan %s kredit segera dan buat %s video AI %s",
       "limitedOffer": "Penawaran Terbatas",
+      "report": "Laporkan",
+      "reportTitle": "Mengapa melaporkan video ini?",
+      "feedbackSucceed": "Umpan balik berhasil",
     };
   }
 }

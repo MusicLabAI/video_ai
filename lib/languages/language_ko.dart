@@ -163,6 +163,9 @@ class LanguageKo {
       "superValueCreditsRefill": "슈퍼 가치 크레딧 리필",
       "limitedOfferGoodDesc": "즉시 %s 크레딧을 받고 %s AI 비디오 생성 가능 %s",
       "limitedOffer": "한정 특별 제공",
+      "report": "신고",
+      "reportTitle": "왜 이 영상을 신고하나요?",
+      "feedbackSucceed": "피드백 성공",
     };
   }
 }

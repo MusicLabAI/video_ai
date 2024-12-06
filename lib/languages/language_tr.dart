@@ -164,6 +164,9 @@ class LanguageTr {
       "superValueCreditsRefill": "Süper Değerli Kredi Doldurma",
       "limitedOfferGoodDesc": "Hemen %s kredi alın ve %s AI videosu oluşturun %s",
       "limitedOffer": "Sınırlı Teklif",
+      "report": "Şikayet Et",
+      "reportTitle": "Bu videoyu neden şikayet ediyorsunuz?",
+      "feedbackSucceed": "Geri bildirim başarılı",
     };
   }
 }

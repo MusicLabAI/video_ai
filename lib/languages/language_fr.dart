@@ -163,6 +163,9 @@ class LanguageFr {
       "superValueCreditsRefill": "Recharge de crédits super avantageuse",
       "limitedOfferGoodDesc": "Recevez %s crédits immédiatement, vous pouvez créer %s vidéos AI %s",
       "limitedOffer": "Offre limitée",
+      "report": "Signaler",
+      "reportTitle": "Pourquoi signaler cette vidéo ?",
+      "feedbackSucceed": "Retour d'information réussi",
     };
   }
 }
