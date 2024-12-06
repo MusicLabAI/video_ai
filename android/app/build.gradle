@@ -28,7 +28,7 @@ android {
         applicationId = "luma.sora.pika.runway.video.ai"
         minSdk = 27
         targetSdk = 34
-        versionCode = 100030
+        versionCode = 100031
         versionName = '1.0.3'
 
         ndk {
