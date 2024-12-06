@@ -118,7 +118,7 @@ class ShopModel with EquatableMixin {
         shopId == "videoai_500_credits_videoai_ios" ||
         shopId == "videoai_5000_credits_videoai" ||
         shopId == "videoai_5000_credits_videoai_ios") {
-      return "videoValue".trArgs(["${point ?? 0}"]);
+      return "videoValue".trArgs(["${videoNumber ?? 0}"]);
     }
     return shopDescribe ?? "";
   }

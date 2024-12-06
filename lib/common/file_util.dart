@@ -101,16 +101,16 @@ class FileUtil {
     final image = img.decodeImage(Uint8List.fromList(bytes));
     if (image != null) {
       int fileSize = await file.length();
-      if (fileSize <= 1 * 1024 * 1024) {
+      if (fileSize <= 500 * 1024) {
         Get.log("无需压缩");
         return File(imagePath);
       }
       // 根据文件大小来设置不同的压缩质量
-      int quality = 80; // 默认质量
-      if (fileSize > 5 * 1024 * 1024) {
-        quality = 60; // 如果文件大于 5MB，降低压缩质量
+      int quality = 70; // 默认质量
+      if (fileSize > 4 * 1024 * 1024) {
+        quality = 50; // 如果文件大于 4MB，降低压缩质量
       } else if (fileSize > 2 * 1024 * 1024) {
-        quality = 70; // 如果文件大于 2MB，略微降低压缩质量
+        quality = 60; // 如果文件大于 2MB，略微降低压缩质量
       }
       // 使用 image 包将图片压缩并调整质量
       List<int> compressedBytes = img.encodeJpg(image, quality: quality);
@@ -123,7 +123,7 @@ class FileUtil {
       // 返回压缩后的文件
       return compressedFile;
     } else {
-      Get.log('解析图片失败，返回原图');
+      Get.log('压缩：解析图片失败，返回原图');
       return File(imagePath);
     }
   }
