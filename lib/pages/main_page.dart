@@ -108,6 +108,7 @@ class _MainPageState extends State<MainPage>
                   _createCtr.retry();
                 }
                 if (index == 2) {
+                  _userCtr.getUserInfo();
                   CommonUtil.hideKeyboard(context);
                   _mineCtr.retry();
                 }

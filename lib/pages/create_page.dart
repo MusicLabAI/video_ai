@@ -551,6 +551,7 @@ class _CreatePageState extends State<CreatePage>
       _userCtr.showLogin();
       return;
     }
+    await _userCtr.getUserInfo();
     final userInfo = _userCtr.userInfo.value;
     if ((userInfo.point ?? 0) < _createCtr.getScore()) {
       if (userInfo.isVip ?? false) {

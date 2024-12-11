@@ -278,6 +278,7 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
                     userCtr.showLogin();
                     return;
                   }
+                  await userCtr.getUserInfo();
                   final userInfo = userCtr.userInfo.value;
                   if ((userInfo.point ?? 0) < 10) {
                     if (userInfo.isVip ?? false) {
