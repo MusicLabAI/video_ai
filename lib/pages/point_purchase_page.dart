@@ -166,36 +166,16 @@ class _PointPurchasePageState extends State<PointPurchasePage> {
         child: Row(
           children: [
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    model.shopNameLocal,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: _shopCtr.currentShop.value == model
-                            ? Colors.white
-                            : UiColors.c99FFFFFF,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  Text(
-                    model.shopDescribeLocal,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: _shopCtr.currentShop.value == model
-                            ? Colors.white
-                            : UiColors.c99FFFFFF,
-                        fontSize: 12,
-                        fontWeight: FontWeightExt.medium),
-                  ),
-                ],
+              child: Text(
+                model.shopNameLocal,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: _shopCtr.currentShop.value == model
+                        ? Colors.white
+                        : UiColors.c99FFFFFF,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(

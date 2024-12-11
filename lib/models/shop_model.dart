@@ -102,13 +102,13 @@ class ShopModel with EquatableMixin {
   String get shopDescribeLocal {
     if (shopId == 'videoai_yearly_subscription' ||
         shopId == 'videoai_yearly_subscription_ios') {
-      return 'yearShopDesc'.trArgs(["${point ?? 0}", "${videoNumber ?? 0}"]);
+      return 'yearShopDesc'.trArgs(["${point ?? 0}"]);
     }
     if (shopId == "videoai_weekly_subscription" ||
         shopId == "videoai_weekly_subscription_ios" ||
         shopId == "videoai_weekly_subscription_pro" ||
         shopId == "videoai_weekly_subscription_ios_pro") {
-      return 'weekShopDesc'.trArgs(["${point ?? 0}", "${videoNumber ?? 0}"]);
+      return 'weekShopDesc'.trArgs(["${point ?? 0}"]);
     }
     if (shopId == "videoai_100_credits_videoai" ||
         shopId == "videoai_100_credits_videoai_ios" ||
@@ -118,7 +118,7 @@ class ShopModel with EquatableMixin {
         shopId == "videoai_500_credits_videoai_ios" ||
         shopId == "videoai_5000_credits_videoai" ||
         shopId == "videoai_5000_credits_videoai_ios") {
-      return "videoValue".trArgs(["${videoNumber ?? 0}"]);
+      return "";
     }
     return shopDescribe ?? "";
   }
