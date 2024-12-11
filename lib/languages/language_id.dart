@@ -166,6 +166,9 @@ class LanguageId {
       "report": "Laporkan",
       "reportTitle": "Mengapa melaporkan video ini?",
       "feedbackSucceed": "Terima kasih atas laporan Anda, kami telah menerimanya.",
+      "aspectRatio": "Rasio Aspek",
+      "duration": "Durasi",
+      "resolution": "Resolusi",
     };
   }
 }

@@ -166,6 +166,9 @@ class LanguageDe {
       'report': 'Melden',
       'reportTitle': 'Warum diesen Video melden?',
       "feedbackSucceed": "Vielen Dank für deinen Bericht, wir haben ihn erhalten.",
+      "aspectRatio": "Seitenverhältnis",
+      "duration": "Dauer",
+      "resolution": "Auflösung",
     };
   }
 }

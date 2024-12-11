@@ -166,6 +166,9 @@ class LanguageZhTw {
       "report": "舉報",
       "reportTitle": "為什麼舉報這個影片？",
       "feedbackSucceed": "感謝您的舉報，我們已經收到。",
+      "aspectRatio": "寬高比",
+      "duration": "時長",
+      "resolution": "解析度",
     };
   }
 }

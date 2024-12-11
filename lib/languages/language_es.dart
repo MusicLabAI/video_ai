@@ -166,6 +166,9 @@ class LanguageEs {
       'report': 'Reportar',
       'reportTitle': '¿Por qué reportar este video?',
       "feedbackSucceed": "Gracias por su informe, lo hemos recibido.",
+      "aspectRatio": "Relación de aspecto",
+      "duration": "Duración",
+      "resolution": "Resolución",
     };
   }
 }

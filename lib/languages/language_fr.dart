@@ -166,6 +166,9 @@ class LanguageFr {
       "report": "Signaler",
       "reportTitle": "Pourquoi signaler cette vidéo ?",
       "feedbackSucceed": "Merci pour votre signalement, nous l'avons bien reçu.",
+      "aspectRatio": "Rapport d'aspect",
+      "duration": "Durée",
+      "resolution": "Résolution",
     };
   }
 }

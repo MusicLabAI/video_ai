@@ -166,6 +166,9 @@ class LanguageRu {
       'report': 'Сообщить',
       'reportTitle': 'Почему сообщить об этом видео?',
       "feedbackSucceed": "Спасибо за ваш отчет, мы его получили.",
+      "aspectRatio": "Соотношение сторон",
+      "duration": "Длительность",
+      "resolution": "Разрешение",
     };
   }
 }

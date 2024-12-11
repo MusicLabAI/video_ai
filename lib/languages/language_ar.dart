@@ -166,6 +166,9 @@ class LanguageAr {
       "report": "تقرير",
       "reportTitle": "لماذا تقوم بالإبلاغ عن هذا الفيديو؟",
       "feedbackSucceed": "شكرًا لتقريرك، لقد تم استلامه.",
+      "aspectRatio": "نسبة العرض إلى الارتفاع",
+      "duration": "المدة",
+      "resolution": "الدقة",
     };
   }
 }

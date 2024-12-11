@@ -166,6 +166,9 @@ class LanguagePl {
       "report": "Zgłoś",
       "reportTitle": "Dlaczego zgłosić ten film?",
       "feedbackSucceed": "Dziękujemy za zgłoszenie, otrzymaliśmy je.",
+      "aspectRatio": "Proporcje obrazu",
+      "duration": "Czas trwania",
+      "resolution": "Rozdzielczość",
     };
   }
 }

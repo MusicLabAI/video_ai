@@ -166,6 +166,9 @@ class LanguageZhCn {
       "report": "举报",
       "reportTitle": "为什么举报这个视频？",
       "feedbackSucceed": "感谢您的举报，我们已经收到。",
+      "aspectRatio": "宽高比",
+      "duration": "时长",
+      "resolution": "分辨率",
     };
   }
 }

@@ -166,6 +166,9 @@ class LanguageJa {
       "report": "報告",
       "reportTitle": "なぜこの動画を報告しますか？",
       "feedbackSucceed": "ご報告ありがとうございます。受け付けました。",
+      "aspectRatio": "アスペクト比",
+      "duration": "再生時間",
+      "resolution": "解像度",
     };
   }
 }

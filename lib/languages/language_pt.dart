@@ -166,6 +166,9 @@ class LanguagePt {
       "report": "Denunciar",
       "reportTitle": "Por que denunciar este vídeo?",
       "feedbackSucceed": "Obrigado pelo seu relatório, recebemos.",
+      "aspectRatio": "Proporção da Tela",
+      "duration": "Duração",
+      "resolution": "Resolução",
     };
   }
 }

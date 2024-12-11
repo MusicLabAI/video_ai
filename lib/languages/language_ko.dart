@@ -166,6 +166,9 @@ class LanguageKo {
       "report": "신고",
       "reportTitle": "왜 이 영상을 신고하나요?",
       "feedbackSucceed": "신고해 주셔서 감사합니다. 접수되었습니다.",
+      "aspectRatio": "화면 비율",
+      "duration": "지속 시간",
+      "resolution": "해상도",
     };
   }
 }
