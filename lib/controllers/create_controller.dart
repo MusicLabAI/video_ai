@@ -35,35 +35,23 @@ class CreateController extends GetxController {
   ];
   final durationList = [
     ParameterModel(
-        name: "20s",
-        value: "20",
-        icon: "assets/images/ic_clock_white.png"),
+        name: "20s", value: 20, icon: "assets/images/ic_clock_white.png"),
     ParameterModel(
-        name: "15s",
-        value: "15",
-        icon: "assets/images/ic_clock_white.png"),
+        name: "15s", value: 15, icon: "assets/images/ic_clock_white.png"),
     ParameterModel(
-        name: "10s",
-        value: "10",
-        icon: "assets/images/ic_clock_white.png"),
+        name: "10s", value: 10, icon: "assets/images/ic_clock_white.png"),
     ParameterModel(
-        name: "5s",
-        value: "5",
-        icon: "assets/images/ic_clock_white.png"),
+        name: "5s", value: 5, icon: "assets/images/ic_clock_white.png"),
   ];
   final resolutionList = [
     // ParameterModel(
     //     name: "1080p",
-    //     value: "1080",
+    //     value: 1080,
     //     icon: "assets/images/ic_resolution_1080.png"),
     ParameterModel(
-        name: "720p",
-        value: "720",
-        icon: "assets/images/ic_resolution_720.png"),
+        name: "720p", value: 720, icon: "assets/images/ic_resolution_720.png"),
     ParameterModel(
-        name: "480p",
-        value: "480",
-        icon: "assets/images/ic_resolution_480.png"),
+        name: "480p", value: 480, icon: "assets/images/ic_resolution_480.png"),
   ];
 
   late Rx<ParameterModel> curRatio;
@@ -74,7 +62,8 @@ class CreateController extends GetxController {
   void onInit() {
     curRatio = Rx<ParameterModel>(ratioList[ratioList.length - 1]);
     curDuration = Rx<ParameterModel>(durationList[durationList.length - 1]);
-    curResolution = Rx<ParameterModel>(resolutionList[resolutionList.length - 1]);
+    curResolution =
+        Rx<ParameterModel>(resolutionList[resolutionList.length - 1]);
     super.onInit();
   }
 
@@ -144,7 +133,8 @@ class CreateController extends GetxController {
   ///如果有复用的图片，使用复用的图片
   Future<bool> aiGenerate(String prompt, String? imagePath, int? effectId,
       {String? ratio, int? resolution, int? duration}) async {
-    Get.log("prompt: $prompt -- imagePath: $imagePath  effectId: $effectId");
+    Get.log(
+        "prompt: $prompt -- imagePath: $imagePath  effectId: $effectId  ratio: $ratio  resolution: $resolution  duration: $duration");
     try {
       Get.dialog(const LoadingWidget(), barrierDismissible: false);
       String? imageUrl;
@@ -176,6 +166,23 @@ class CreateController extends GetxController {
       if (Get.isDialogOpen ?? false) {
         Get.back();
       }
+    }
+  }
+
+  // 获取分数的函数
+  int getScore() {
+    final resolution = curResolution.value.value;
+    final ratio = curRatio.value.value;
+    int duration = curDuration.value.value;
+    int durationNum = duration ~/ 5;
+    if (resolution == 480) {
+      return (ratio == '1:1' ? 10 : 15) * durationNum;
+    } else if (resolution == 720) {
+      return (ratio == '1:1' ? 20 : 30) * durationNum;
+    } else if (resolution == 1080) {
+      return (ratio == '1:1' ? 50 : 100) * durationNum;
+    } else {
+      return 10;
     }
   }
 }

@@ -536,11 +536,11 @@ class _CreatePageState extends State<CreatePage>
       Padding(
         padding: const EdgeInsets.only(top: 8.0, left: 20, right: 20),
         child: Center(
-          child: Text(
-            'generateCost'.trArgs(['10']),
+          child: Obx(() => Text(
+            'generateCost'.trArgs(["${_createCtr.getScore()}"]),
             textAlign: TextAlign.center,
             style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 12),
-          ),
+          ),)
         ),
       ),
     ];
@@ -552,7 +552,7 @@ class _CreatePageState extends State<CreatePage>
       return;
     }
     final userInfo = _userCtr.userInfo.value;
-    if ((userInfo.point ?? 0) < 10) {
+    if ((userInfo.point ?? 0) < _createCtr.getScore()) {
       if (userInfo.isVip ?? false) {
         Get.to(() => const PointPurchasePage());
         FireBaseUtil.logEventButtonClick(
