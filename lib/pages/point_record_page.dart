@@ -34,6 +34,7 @@ class _PointRecordPageState extends State<PointRecordPage> {
   }
 
   Future<void> _onRefresh() async {
+    _userCtr.getUserInfo();
     _isLastPage = false;
     setState(() {
       _isLoading = true;
