@@ -4,8 +4,17 @@
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
 
-    <style name="SplashTheme" parent="NormalTheme">
-        <item name="android:windowBackground">@drawable/splash_background</item>
+    <style name="SplashTheme" parent="Theme.SplashScreen">
+        <!--启动画面背景颜色-->
+        <item name="windowSplashScreenBackground">@color/color_2a003d</item>
+        <!-- 启动画面icon图标：这里可以是图片、帧动画等-->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/color_2a003d</item>
+        <!-- icon动画在关闭之前显示的时长：最长时间为1000毫秒-->
+        <item name="windowSplashScreenAnimationDuration">100</item>
+        <!-- 启动画面底部的 Brand 图片-->
+        <item name="android:windowSplashScreenBrandingImage">@drawable/video_ai</item>
+        <!-- Splash退出后的主题-->
         <item name="postSplashScreenTheme">@style/NormalTheme</item>
     </style>
 </resources>
