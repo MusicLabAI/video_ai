@@ -11,6 +11,7 @@ import 'package:video_ai/models/example_model.dart';
 import 'package:video_ai/widgets/loading_widget.dart';
 
 import '../common/aws_utils.dart';
+import '../models/parameter_model.dart';
 import '../models/prompt_model.dart';
 import 'mine_controller.dart';
 
@@ -23,6 +24,59 @@ class CreateController extends GetxController {
   RxList<ExampleModel> promptItems = RxList();
   Rxn<String> imagePath = Rxn(null);
   RxBool scrollToTop = false.obs;
+
+  final ratioList = [
+    ParameterModel(
+        name: "16:9", value: "16:9", icon: "assets/images/ic_ratio_16_9.png"),
+    ParameterModel(
+        name: "9:16", value: "9:16", icon: "assets/images/ic_ratio_9_16.png"),
+    ParameterModel(
+        name: "1:1", value: "1:1", icon: "assets/images/ic_ratio_1_1.png"),
+  ];
+  final durationList = [
+    ParameterModel(
+        name: "20s",
+        value: "20",
+        icon: "assets/images/ic_clock_white.png"),
+    ParameterModel(
+        name: "15s",
+        value: "15",
+        icon: "assets/images/ic_clock_white.png"),
+    ParameterModel(
+        name: "10s",
+        value: "10",
+        icon: "assets/images/ic_clock_white.png"),
+    ParameterModel(
+        name: "5s",
+        value: "5",
+        icon: "assets/images/ic_clock_white.png"),
+  ];
+  final resolutionList = [
+    // ParameterModel(
+    //     name: "1080p",
+    //     value: "1080",
+    //     icon: "assets/images/ic_resolution_1080.png"),
+    ParameterModel(
+        name: "720p",
+        value: "720",
+        icon: "assets/images/ic_resolution_720.png"),
+    ParameterModel(
+        name: "480p",
+        value: "480",
+        icon: "assets/images/ic_resolution_480.png"),
+  ];
+
+  late Rx<ParameterModel> curRatio;
+  late Rx<ParameterModel> curDuration;
+  late Rx<ParameterModel> curResolution;
+
+  @override
+  void onInit() {
+    curRatio = Rx<ParameterModel>(ratioList[ratioList.length - 1]);
+    curDuration = Rx<ParameterModel>(durationList[durationList.length - 1]);
+    curResolution = Rx<ParameterModel>(resolutionList[resolutionList.length - 1]);
+    super.onInit();
+  }
 
   void retry() {
     if (promptItems.isEmpty) {
@@ -88,7 +142,8 @@ class CreateController extends GetxController {
   }
 
   ///如果有复用的图片，使用复用的图片
-  Future<bool> aiGenerate(String prompt, String? imagePath, int? effectId) async {
+  Future<bool> aiGenerate(String prompt, String? imagePath, int? effectId,
+      {String? ratio, int? resolution, int? duration}) async {
     Get.log("prompt: $prompt -- imagePath: $imagePath  effectId: $effectId");
     try {
       Get.dialog(const LoadingWidget(), barrierDismissible: false);
@@ -106,7 +161,8 @@ class CreateController extends GetxController {
           }
         }
       }
-      final res = await Request.aiGenerate(prompt, imageUrl, effectId);
+      final res = await Request.aiGenerate(
+          prompt, imageUrl, effectId, ratio, resolution, duration);
       if (res != null) {
         Get.find<UserController>().getUserInfo();
         Get.find<MainController>().tabController.index = 2;

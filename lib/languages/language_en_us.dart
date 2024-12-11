@@ -127,7 +127,7 @@ class LanguageEnUs {
       'retryDeleteAccountTips' : "Account deletion failed. Please log in again and try to delete the account.",
       'shopRefreshTips': "Network connection is unstable. Please try retrieving the product information again.",
       "noNeedsSubscribed": "You have already subscribed to the Pro service, no need to subscribe again.",
-      "generateCost": "Generating costs 10 credits.",
+      "generateCost": "Generating costs %s credits.",
       "unsupportedImageFormat": "This image format is not supported yet.",
       "photoLibraryTitle": "Permission request",
       "photoLibraryRequestText": "Allow access to photo library  to generate videos.",
@@ -172,6 +172,9 @@ class LanguageEnUs {
       "report": "Report",
       "reportTitle": "Why report this video?",
       "feedbackSucceed": "Thank you for your report, we have received it.",
+      "aspectRatio": "Aspect Ratio",
+      "duration": "Duration",
+      "resolution": "Resolution",
     };
   }
 }

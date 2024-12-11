@@ -121,7 +121,7 @@ class LanguageJa {
       "retryDeleteAccountTips": "アカウントの削除に失敗しました。再度ログインして削除を試してください。",
       'shopRefreshTips': "ネットワーク接続が不安定です。商品情報の取得を再試行してください。",
       "noNeedsSubscribed": "Proサービスにはすでに登録済みです。再度登録する必要はありません。",
-      "generateCost": "生成には10クレジットが必要です。",
+      "generateCost": "生成には%sクレジットが必要です。",
       "unsupportedImageFormat": "この画像形式はまだサポートされていません。",
       "photoLibraryTitle": "許可リクエスト",
       "photoLibraryRequestText": "動画を生成するためにフォトライブラリへのアクセスを許可してください。",

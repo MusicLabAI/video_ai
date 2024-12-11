@@ -121,7 +121,7 @@ class LanguageEs {
       "retryDeleteAccountTips": "Error al eliminar la cuenta. Inicia sesión nuevamente e intenta eliminar la cuenta.",
       'shopRefreshTips': "La conexión de red es inestable. Por favor, intente recuperar la información del producto nuevamente.",
       "noNeedsSubscribed": "Ya has suscrito al servicio Pro, no es necesario suscribirte de nuevo.",
-      "generateCost": "Generar cuesta 10 créditos.",
+      "generateCost": "Generar cuesta %s créditos.",
       "unsupportedImageFormat": "Este formato de imagen aún no es compatible.",
       "photoLibraryTitle": "Solicitud de permiso",
       "photoLibraryRequestText": "Permitir acceso a la biblioteca de fotos para generar videos.",

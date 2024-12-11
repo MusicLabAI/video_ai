@@ -121,7 +121,7 @@ class LanguagePl {
       'retryDeleteAccountTips': 'Usunięcie konta nie powiodło się. Zaloguj się ponownie i spróbuj usunąć konto.',
       'shopRefreshTips': 'Połączenie z siecią jest niestabilne. Spróbuj ponownie pobrać informacje o produkcie.',
       'noNeedsSubscribed': 'Już subskrybujesz usługę Pro, nie musisz subskrybować ponownie.',
-      'generateCost': 'Generowanie kosztuje 10 kredytów.',
+      'generateCost': 'Generowanie kosztuje %s kredytów.',
       'unsupportedImageFormat': 'Ten format obrazu nie jest jeszcze obsługiwany.',
       'photoLibraryTitle': 'Prośba o dostęp',
       'photoLibraryRequestText': 'Pozwól na dostęp do biblioteki zdjęć, aby generować filmy.',

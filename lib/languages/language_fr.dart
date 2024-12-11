@@ -121,7 +121,7 @@ class LanguageFr {
       "retryDeleteAccountTips": "Échec de la suppression du compte. Veuillez vous reconnecter et essayer de supprimer le compte.",
       'shopRefreshTips': "La connexion réseau est instable. Veuillez réessayer de récupérer les informations du produit.",
       "noNeedsSubscribed": "Vous avez déjà souscrit au service Pro, il n'est pas nécessaire de souscrire à nouveau.",
-      "generateCost": "Générer coûte 10 crédits.",
+      "generateCost": "Générer coûte %s crédits.",
       "unsupportedImageFormat": "Ce format d'image n'est pas encore pris en charge.",
       "photoLibraryTitle": "Demande d'autorisation",
       "photoLibraryRequestText": "Autoriser l'accès à la bibliothèque de photos pour générer des vidéos.",

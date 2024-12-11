@@ -121,7 +121,7 @@ class LanguageZhTw {
       "retryDeleteAccountTips": "帳戶刪除失敗。請重新登入並嘗試刪除帳戶。",
       'shopRefreshTips': "網絡連接不穩定，請重新嘗試獲取商品信息。",
       "noNeedsSubscribed": "您已經訂閱過Pro服務，無需再次訂閱。",
-      "generateCost": "生成需要花費10個積分。",
+      "generateCost": "生成需要花費%s個積分。",
       "unsupportedImageFormat": "該圖像格式尚不支持。",
       "photoLibraryTitle": "權限請求",
       "photoLibraryRequestText": "允許訪問相簿以生成視頻。",

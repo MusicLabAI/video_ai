@@ -11,6 +11,7 @@ import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
+import 'package:video_ai/models/parameter_model.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
 import 'package:video_ai/pages/pro_purchase_page.dart';
 import 'package:video_ai/pages/prompt_detail_page.dart';
@@ -38,6 +39,9 @@ class _CreatePageState extends State<CreatePage>
   late TextEditingController _controller;
   Worker? _promptWorker;
   Worker? _scrollWorker;
+  bool ratioPopupShowing = false;
+  bool resolutionPopupShowing = false;
+  bool durationPopupShowing = false;
 
   final ScrollController _scrollController = ScrollController();
 
@@ -192,7 +196,7 @@ class _CreatePageState extends State<CreatePage>
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(12)),
                 bgColor: _createCtr.curTabIndex.value == 0
-                    ? UiColors.c4A3663
+                    ? UiColors.c523663
                     : UiColors.c1B1B1F,
                 text: 'textToVideo'.tr,
                 textColor: _createCtr.curTabIndex.value == 0
@@ -222,7 +226,7 @@ class _CreatePageState extends State<CreatePage>
                     : UiColors.c1B1B1F,
                 text: 'imageToVideo'.tr,
                 textColor: _createCtr.curTabIndex.value != 0
-                    ? UiColors.cE18FF8
+                    ? UiColors.cBC8EF5
                     : UiColors.c61FFFFFF,
                 textSize: 12,
                 leftIcon: Padding(
@@ -243,7 +247,11 @@ class _CreatePageState extends State<CreatePage>
                 color: UiColors.c1B1B1F,
                 borderRadius:
                     const BorderRadius.vertical(bottom: Radius.circular(16)),
-                border: Border.all(color: UiColors.c4A3663, width: 2)),
+                border: Border.all(
+                    color: _createCtr.curTabIndex.value == 0
+                        ? UiColors.c523663
+                        : UiColors.c4A3663,
+                    width: 2)),
             child: Column(
               children: [
                 if (_createCtr.curTabIndex.value == 1)
@@ -337,7 +345,6 @@ class _CreatePageState extends State<CreatePage>
                   controller: _controller,
                   cursorColor: UiColors.c61FFFFFF,
                   maxLines: 6,
-                  maxLength: 500,
                   style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeightExt.regular,
@@ -356,44 +363,8 @@ class _CreatePageState extends State<CreatePage>
                     focusedBorder: InputBorder.none,
                   ),
                 ),
-                const SizedBox(
-                  height: 4,
-                ),
                 Row(
                   children: [
-                    if (_createCtr.curTabIndex.value == 0)
-                      CustomButton(
-                          height: 26,
-                          margin: const EdgeInsets.only(right: 10),
-                          borderRadius: BorderRadius.circular(8),
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 8),
-                          bgColor: UiColors.c666949A1,
-                          leftIcon: Padding(
-                            padding: const EdgeInsets.only(right: 4.0),
-                            child: Image.asset(
-                              'assets/images/ic_shuffle.png',
-                              width: 14,
-                              height: 14,
-                            ),
-                          ),
-                          text: 'inspireMe'.tr,
-                          textSize: 10,
-                          textColor: UiColors.cDBFFFFFF,
-                          onTap: () async {
-                            if (_createCtr.promptItems.isEmpty) {
-                              await _createCtr.getRecommendPrompt();
-                            }
-                            final items = _createCtr.promptItems.value;
-                            if (items.isNotEmpty) {
-                              _createCtr.prompt.value =
-                                  items[Random().nextInt(items.length)]
-                                          .description ??
-                                      "";
-                            }
-                            FireBaseUtil.logEventButtonClick(
-                                PageName.createPage, 'insprire_button');
-                          }),
                     if (_createCtr.curTabIndex.value != 0 &&
                         !_mainCtr.isCreationLayoutSwitch.value)
                       CustomButton(
@@ -445,29 +416,91 @@ class _CreatePageState extends State<CreatePage>
                             await Get.bottomSheet(const EffectDialog());
                           }),
                     const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        if (_controller.text.isEmpty) {
-                          Fluttertoast.showToast(msg: 'noPromptEntered'.tr);
-                          return;
-                        }
-                        _createCtr.prompt.value = "";
-                        FireBaseUtil.logEventButtonClick(
-                            PageName.createPage, 'clean_button');
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                            color: UiColors.c666949A1,
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Image.asset(
-                          'assets/images/ic_clear.png',
-                          width: 14,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          if (_controller.text.isEmpty) {
+                            Fluttertoast.showToast(msg: 'noPromptEntered'.tr);
+                            return;
+                          }
+                          _createCtr.prompt.value = "";
+                          FireBaseUtil.logEventButtonClick(
+                              PageName.createPage, 'clean_button');
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                              color: UiColors.c23242A,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Image.asset(
+                            'assets/images/ic_clear.png',
+                            width: 14,
+                          ),
                         ),
                       ),
                     ),
                   ],
-                )
+                ),
+                if (_createCtr.curTabIndex.value == 0)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomButton(
+                              height: 26,
+                              margin: const EdgeInsets.only(right: 10),
+                              borderRadius: BorderRadius.circular(8),
+                              contentPadding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              bgColor: UiColors.c23242A,
+                              leftIcon: Padding(
+                                padding: const EdgeInsets.only(right: 4.0),
+                                child: Image.asset(
+                                  'assets/images/ic_shuffle.png',
+                                  width: 14,
+                                  height: 14,
+                                ),
+                              ),
+                              text: 'inspireMe'.tr,
+                              textSize: 10,
+                              textColor: UiColors.c99FFFFFF,
+                              onTap: () async {
+                                if (_createCtr.promptItems.isEmpty) {
+                                  await _createCtr.getRecommendPrompt();
+                                }
+                                final items = _createCtr.promptItems.value;
+                                if (items.isNotEmpty) {
+                                  _createCtr.prompt.value =
+                                      items[Random().nextInt(items.length)]
+                                              .description ??
+                                          "";
+                                }
+                                FireBaseUtil.logEventButtonClick(
+                                    PageName.createPage, 'insprire_button');
+                              }),
+                          CustomParameterButton(
+                              icon: 'assets/images/ic_ratio.png',
+                              dialogTitle: 'aspectRatio'.tr,
+                              parameterList: _createCtr.ratioList,
+                              parameterRx: _createCtr.curRatio),
+                          CustomParameterButton(
+                              icon: 'assets/images/ic_resolution.png',
+                              dialogTitle: 'resolution'.tr,
+                              parameterList: _createCtr.resolutionList,
+                              parameterRx: _createCtr.curResolution),
+                          CustomParameterButton(
+                              icon: 'assets/images/ic_clock.png',
+                              dialogTitle: 'duration'.tr,
+                              parameterList: _createCtr.durationList,
+                              parameterRx: _createCtr.curDuration),
+                        ],
+                      ),
+                    ),
+                  )
               ],
             ),
           )
@@ -504,7 +537,7 @@ class _CreatePageState extends State<CreatePage>
         padding: const EdgeInsets.only(top: 8.0, left: 20, right: 20),
         child: Center(
           child: Text(
-            'generateCost'.tr,
+            'generateCost'.trArgs(['10']),
             textAlign: TextAlign.center,
             style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 12),
           ),
@@ -539,14 +572,76 @@ class _CreatePageState extends State<CreatePage>
       'effect': effect,
       'pageName': PageName.createPage
     });
+    bool isTextToVideo = _createCtr.curTabIndex.value == 0;
     await _createCtr.aiGenerate(
         _controller.text,
-        _createCtr.curTabIndex.value != 0 ? _createCtr.imagePath.value : "",
-        _createCtr.curTabIndex.value != 0
-            ? _createCtr.curEffects.value?.id
-            : null);
+        isTextToVideo ? "" : _createCtr.imagePath.value,
+        isTextToVideo ? null : _createCtr.curEffects.value?.id,
+        ratio: _createCtr.curRatio.value.value,
+        resolution: _createCtr.curResolution.value.value,
+        duration: _createCtr.curDuration.value.value);
   }
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class CustomParameterButton extends StatefulWidget {
+  const CustomParameterButton(
+      {super.key,
+      required this.icon,
+      required this.dialogTitle,
+      required this.parameterList,
+      required this.parameterRx});
+
+  final String icon;
+  final String dialogTitle;
+  final List<ParameterModel> parameterList;
+  final Rx<ParameterModel> parameterRx;
+
+  @override
+  State<CustomParameterButton> createState() => _CustomParameterButtonState();
+}
+
+class _CustomParameterButtonState extends State<CustomParameterButton> {
+  bool isPopupShowing = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomButton(
+      onTap: () async {
+        CommonUtil.hideKeyboard(context);
+        setState(() {
+          isPopupShowing = true;
+        });
+        await Get.dialog(
+            ParameterDialog(
+              title: widget.dialogTitle,
+              list: widget.parameterList,
+              parameterRx: widget.parameterRx,
+            ),
+            barrierColor: Colors.transparent);
+        setState(() {
+          isPopupShowing = false;
+        });
+      },
+      text: widget.parameterRx.value.name,
+      textSize: 10,
+      height: 26,
+      textColor: isPopupShowing ? UiColors.cBC8EF5 : UiColors.c99FFFFFF,
+      borderRadius: BorderRadius.circular(8),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.only(right: 10),
+      bgColor: UiColors.c23242A,
+      leftIcon: Padding(
+        padding: const EdgeInsets.only(right: 4.0),
+        child: Image.asset(
+          widget.icon,
+          color: isPopupShowing ? UiColors.cBC8EF5 : null,
+          width: 14,
+          height: 14,
+        ),
+      ),
+    );
+  }
 }

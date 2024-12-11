@@ -121,7 +121,7 @@ class LanguageId {
       "retryDeleteAccountTips": "Penghapusan akun gagal. Silakan masuk kembali dan coba hapus akun.",
       'shopRefreshTips': "Koneksi jaringan tidak stabil. Silakan coba mendapatkan informasi produk lagi.",
       "noNeedsSubscribed": "Anda sudah berlangganan layanan Pro, tidak perlu berlangganan lagi.",
-      "generateCost": "Menghasilkan membutuhkan 10 kredit.",
+      "generateCost": "Menghasilkan membutuhkan %s kredit.",
       "unsupportedImageFormat": "Format gambar ini belum didukung.",
       "photoLibraryTitle": "Permintaan Izin",
       "photoLibraryRequestText": "Izinkan akses ke perpustakaan foto untuk membuat video.",

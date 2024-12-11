@@ -121,7 +121,7 @@ class LanguageDe {
       "retryDeleteAccountTips": "Kontolöschung fehlgeschlagen. Bitte erneut einloggen und versuchen, das Konto zu löschen.",
       'shopRefreshTips': "Die Netzwerkverbindung ist instabil. Bitte versuchen Sie erneut, die Produktinformationen abzurufen.",
       "noNeedsSubscribed": "Sie haben den Pro-Service bereits abonniert, eine erneute Anmeldung ist nicht erforderlich.",
-      "generateCost": "Das Generieren kostet 10 Credits.",
+      "generateCost": "Das Generieren kostet %s Credits.",
       "unsupportedImageFormat": "Dieses Bildformat wird noch nicht unterstützt.",
       "photoLibraryTitle": "Berechtigungsanfrage",
       "photoLibraryRequestText": "Erlauben Sie den Zugriff auf die Fotobibliothek, um Videos zu erstellen.",

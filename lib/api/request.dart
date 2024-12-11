@@ -22,7 +22,8 @@ class Request {
   static const String _getOrderKey = '/videoAi/shop/getOrderKey';
   static const String _userEdit = '/videoAi/user/edit';
   static const String _getEffectTags = '/videoAi/configure/getEffectTags';
-  static const String _commonConfigList = '/videoAi/configure/getCommonConfigList';
+  static const String _commonConfigList =
+      '/videoAi/configure/getCommonConfigList';
   static const String _feedback = '/videoAi/feedback';
 
   static Future<ConfigModel> getCommonConfig() async {
@@ -58,10 +59,16 @@ class Request {
         data: {'uniqueId': uid, 'email': email, 'loginType': loginType});
   }
 
-  static Future<dynamic> aiGenerate(
-      String prompt, String? inputImageUrl, int? effectId) async {
-    return await DioUtil.httpPost(_aiGenerate,
-        data: {'prompt': prompt, 'inputImageUrl': inputImageUrl, "effectId": effectId});
+  static Future<dynamic> aiGenerate(String prompt, String? inputImageUrl,
+      int? effectId, String? ratio, int? resolution, int? duration) async {
+    return await DioUtil.httpPost(_aiGenerate, data: {
+      'prompt': prompt,
+      'inputImageUrl': inputImageUrl,
+      "effectId": effectId,
+      "ratio": ratio,
+      "resolution": resolution,
+      "duration": duration
+    });
   }
 
   static Future<List<RecordModel>> historyByIds(
@@ -91,7 +98,8 @@ class Request {
   }
 
   static Future<void> feedback(int issueType) async {
-    return await DioUtil.httpPost(_feedback, data: {'type': 3, 'issueType': issueType});
+    return await DioUtil.httpPost(_feedback,
+        data: {'type': 3, 'issueType': issueType});
   }
 
   static Future<dynamic> getRecords(int pageNum) async {
@@ -112,13 +120,17 @@ class Request {
 
   /// 创建订单
   static Future<dynamic> createOrder(String shopId) async {
-    return await DioUtil.httpPost(GetPlatform.isAndroid ? _createOrder : _createAppleOrder, data: {"shopId": shopId});
+    return await DioUtil.httpPost(
+        GetPlatform.isAndroid ? _createOrder : _createAppleOrder,
+        data: {"shopId": shopId});
   }
 
   /// 验证订单
   static Future<dynamic> verifyOrder(String data, int timeStamp) async {
-    return await DioUtil.httpPost(GetPlatform.isAndroid ? _verifyOrder : _verifyAppleOrder,
-        data: {"data": data, "timeStamp": timeStamp}, ignore208: true);
+    return await DioUtil.httpPost(
+        GetPlatform.isAndroid ? _verifyOrder : _verifyAppleOrder,
+        data: {"data": data, "timeStamp": timeStamp},
+        ignore208: true);
   }
 
   static Future<dynamic> getOrderKey() async {
