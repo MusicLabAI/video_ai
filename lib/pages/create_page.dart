@@ -39,9 +39,6 @@ class _CreatePageState extends State<CreatePage>
   late TextEditingController _controller;
   Worker? _promptWorker;
   Worker? _scrollWorker;
-  bool ratioPopupShowing = false;
-  bool resolutionPopupShowing = false;
-  bool durationPopupShowing = false;
 
   final ScrollController _scrollController = ScrollController();
 
@@ -443,7 +440,8 @@ class _CreatePageState extends State<CreatePage>
                   ],
                 ),
                 if (_createCtr.curTabIndex.value == 0)
-                  Padding(
+                  Container(
+                    width: double.infinity,
                     padding: const EdgeInsets.only(top: 8.0),
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -578,9 +576,9 @@ class _CreatePageState extends State<CreatePage>
         _controller.text,
         isTextToVideo ? "" : _createCtr.imagePath.value,
         isTextToVideo ? null : _createCtr.curEffects.value?.id,
-        ratio: _createCtr.curRatio.value.value,
-        resolution: _createCtr.curResolution.value.value,
-        duration: _createCtr.curDuration.value.value);
+        ratio: isTextToVideo ? _createCtr.curRatio.value.value : null,
+        resolution: isTextToVideo ? _createCtr.curResolution.value.value : null,
+        duration: isTextToVideo ? _createCtr.curDuration.value.value : null);
   }
 
   @override
