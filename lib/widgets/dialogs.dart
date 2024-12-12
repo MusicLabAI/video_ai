@@ -6,7 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:video_ai/api/request.dart';
 import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
-import 'package:video_ai/controllers/create_controller.dart';
+import 'package:video_ai/controllers/old_create_controller.dart';
 import 'package:video_ai/models/shop_model.dart';
 import 'package:video_ai/pages/limited_offer_purchase_page.dart';
 import 'package:video_ai/widgets/effects_widget.dart';
@@ -285,7 +285,7 @@ class EffectDialog extends StatefulWidget {
 }
 
 class _EffectDialogState extends State<EffectDialog> {
-  final CreateController _createCtr = Get.find<CreateController>();
+  final OldCreateController _createCtr = Get.find<OldCreateController>();
 
   @override
   void initState() {
@@ -798,11 +798,13 @@ class ParameterDialog extends StatefulWidget {
       {super.key,
       required this.title,
       required this.list,
-      required this.parameterRx});
+      required this.parameterRx,
+      this.validate});
 
   final String title;
   final List<ParameterModel> list;
   final Rx<ParameterModel> parameterRx;
+  final bool Function(ParameterModel)? validate;
 
   @override
   State<ParameterDialog> createState() => _ParameterDialogState();
@@ -822,7 +824,7 @@ class _ParameterDialogState extends State<ParameterDialog> {
           child: Align(
             alignment: Alignment(0, calculateOffset(widget.list.length)),
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.only(top: 16, bottom: 8),
               decoration: BoxDecoration(
                   color: UiColors.cE6000000,
                   borderRadius: BorderRadius.circular(12)),
@@ -841,6 +843,9 @@ class _ParameterDialogState extends State<ParameterDialog> {
                     ),
                   ),
 
+                  const SizedBox(
+                    height: 8,
+                  ),
                   // 遍历列表并生成子组件
                   ...widget.list.map((item) {
                     final isSelected = item == widget.parameterRx.value;
@@ -848,14 +853,20 @@ class _ParameterDialogState extends State<ParameterDialog> {
                     return GestureDetector(
                       onTap: () {
                         setState(() {
+                          if (widget.validate != null) {
+                            bool isValid = widget.validate!(item);
+                            if (!isValid) {
+                              return;
+                            }
+                          }
                           widget.parameterRx.value = item;
                           Get.back();
                         });
                       },
                       child: Container(
                         color: Colors.transparent,
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        margin: const EdgeInsets.only(top: 16),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -864,6 +875,7 @@ class _ParameterDialogState extends State<ParameterDialog> {
                               item.icon,
                               width: 16,
                               height: 16,
+                              color: item.enable ? null : UiColors.c99FFFFFF,
                               fit: BoxFit.cover,
                             ),
                             const SizedBox(width: 8),
@@ -873,8 +885,8 @@ class _ParameterDialogState extends State<ParameterDialog> {
                               child: Text(
                                 item.name,
                                 textAlign: TextAlign.start,
-                                style: const TextStyle(
-                                  color: Colors.white,
+                                style: TextStyle(
+                                  color: item.enable ? Colors.white : UiColors.c99FFFFFF,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -887,6 +899,7 @@ class _ParameterDialogState extends State<ParameterDialog> {
                                   : "assets/images/ic_unchecked.png",
                               width: 16,
                               height: 16,
+                              color: item.enable ? null : UiColors.c99FFFFFF,
                               fit: BoxFit.cover,
                             ),
                           ],
@@ -905,8 +918,8 @@ class _ParameterDialogState extends State<ParameterDialog> {
 
   double calculateOffset(int length) {
     // 根据长度动态计算负值
-    double baseValue = -0.7;  // 当长度为 4 时，offset 为 -0.7
-    double step = 0.1;        // 每减少一个长度，增加 0.1
+    double baseValue = -0.7; // 当长度为 4 时，offset 为 -0.7
+    double step = 0.1; // 每减少一个长度，增加 0.1
 
     return baseValue + (4 - length) * step;
   }

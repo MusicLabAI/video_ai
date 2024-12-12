@@ -1,8 +1,8 @@
 import 'package:get/instance_manager.dart';
-import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 
+import 'create_controller.dart';
 import 'mine_controller.dart';
 
 class StartupBindings with Bindings {

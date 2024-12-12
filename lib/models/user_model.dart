@@ -30,6 +30,10 @@ class UserInfoModel {
     this.isForever,
   });
 
+  int get pointValue {
+    return point ?? 0;
+  }
+
   factory UserInfoModel.fromJson(Map<String, dynamic> json) => UserInfoModel(
         userType: json["userType"],
         userId: json["userId"],

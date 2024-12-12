@@ -12,10 +12,9 @@ import 'package:video_ai/widgets/loading_widget.dart';
 
 import '../common/aws_utils.dart';
 import '../models/parameter_model.dart';
-import '../models/prompt_model.dart';
 import 'mine_controller.dart';
 
-class CreateController extends GetxController {
+class OldCreateController extends GetxController {
   RxString prompt = "".obs;
   Rxn<ExampleModel> curEffects = Rxn(null);
   RxInt curTabIndex = 0.obs;
@@ -44,55 +43,27 @@ class CreateController extends GetxController {
         name: "5s", value: 5, icon: "assets/images/ic_clock_white.png"),
   ];
   final resolutionList = [
-    ParameterModel(
-        name: "1080p",
-        value: 1080,
-        icon: "assets/images/ic_resolution_1080.png"),
+    // ParameterModel(
+    //     name: "1080p",
+    //     value: 1080,
+    //     icon: "assets/images/ic_resolution_1080.png"),
     ParameterModel(
         name: "720p", value: 720, icon: "assets/images/ic_resolution_720.png"),
     ParameterModel(
         name: "480p", value: 480, icon: "assets/images/ic_resolution_480.png"),
   ];
-  final variationsList = [
-    ParameterModel(
-        name: "4 Videos",
-        value: 4,
-        littleName: "4v",
-        icon: "assets/images/ic_variations_4.png"),
-    ParameterModel(
-        name: "2 Videos",
-        value: 2,
-        littleName: "2v",
-        icon: "assets/images/ic_variations_2.png"),
-    ParameterModel(
-        name: "1 Videos",
-        value: 1,
-        littleName: "1v",
-        icon: "assets/images/ic_variations_1.png"),
-  ];
 
   late Rx<ParameterModel> curRatio;
   late Rx<ParameterModel> curDuration;
   late Rx<ParameterModel> curResolution;
-  late Rx<ParameterModel> curVariations;
 
   @override
   void onInit() {
-    curRatio = Rx<ParameterModel>(ratioList[1]);
+    curRatio = Rx<ParameterModel>(ratioList[ratioList.length - 1]);
     curDuration = Rx<ParameterModel>(durationList[durationList.length - 1]);
     curResolution =
         Rx<ParameterModel>(resolutionList[resolutionList.length - 1]);
-    curVariations =
-        Rx<ParameterModel>(variationsList[variationsList.length - 1]);
     super.onInit();
-  }
-
-  void updateDuration(bool isEnable){
-    for (var item in durationList) {
-      if (item.value > 10) {
-        item.enable = isEnable;
-      }
-    }
   }
 
   void retry() {
@@ -159,10 +130,10 @@ class CreateController extends GetxController {
   }
 
   ///如果有复用的图片，使用复用的图片
-  Future<bool> aiGenerate(String prompt, String? imagePath,
-      {int? effectId, String? ratio, int? resolution, int? duration, int? num}) async {
+  Future<bool> aiGenerate(String prompt, String? imagePath, int? effectId,
+      {String? ratio, int? resolution, int? duration}) async {
     Get.log(
-        "prompt: $prompt -- imagePath: $imagePath  effectId: $effectId  ratio: $ratio  resolution: $resolution  duration: $duration num: $num");
+        "prompt: $prompt -- imagePath: $imagePath  effectId: $effectId  ratio: $ratio  resolution: $resolution  duration: $duration");
     try {
       Get.dialog(const LoadingWidget(), barrierDismissible: false);
       String? imageUrl;
@@ -180,7 +151,7 @@ class CreateController extends GetxController {
         }
       }
       final res = await Request.aiGenerate(
-          prompt, imageUrl, effectId, ratio, resolution, duration, num);
+          prompt, imageUrl, effectId, ratio, resolution, duration, 1);
       if (res != null) {
         Get.find<UserController>().getUserInfo();
         Get.find<MainController>().tabController.index = 2;
@@ -203,13 +174,12 @@ class CreateController extends GetxController {
     final ratio = curRatio.value.value;
     int duration = curDuration.value.value;
     int durationNum = duration ~/ 5;
-    int variations = curVariations.value.value;
     if (resolution == 480) {
-      return (ratio == '1:1' ? 10 : 15) * durationNum * variations;
+      return (ratio == '1:1' ? 10 : 15) * durationNum;
     } else if (resolution == 720) {
-      return (ratio == '1:1' ? 20 : 30) * durationNum * variations;
+      return (ratio == '1:1' ? 20 : 30) * durationNum;
     } else if (resolution == 1080) {
-      return (ratio == '1:1' ? 50 : 100) * durationNum * variations;
+      return (ratio == '1:1' ? 50 : 100) * durationNum;
     } else {
       return 10;
     }

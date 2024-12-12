@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
-import 'package:video_ai/controllers/create_controller.dart';
+import 'package:video_ai/controllers/old_create_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/example_model.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
@@ -296,7 +296,7 @@ class _EffectsDetailPageState extends State<EffectsDetailPage> {
                   String effect = widget.curEffectsModel.tag ?? '';
                   FireBaseUtil.logEvent(EventName.requestCreation,
                       parameters: {'createType': createType, 'effect': effect, 'pageName': PageName.effectDetailsPage});
-                  bool result = await Get.find<CreateController>()
+                  bool result = await Get.find<OldCreateController>()
                       .aiGenerate("", _pickImagePath!, widget.curEffectsModel.id);
                   if (result) {
                     Get.back();

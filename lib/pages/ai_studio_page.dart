@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/ui_colors.dart';
-import 'package:video_ai/controllers/create_controller.dart';
+import 'package:video_ai/controllers/old_create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/models/example_model.dart';
 import 'package:video_ai/pages/effects_detail_page.dart';
@@ -20,7 +20,7 @@ class AIStudioPage extends StatefulWidget {
 
 class _AIStudioPageState extends State<AIStudioPage>
     with AutomaticKeepAliveClientMixin {
-  final CreateController _createCtr = Get.find<CreateController>();
+  final OldCreateController _createCtr = Get.find<OldCreateController>();
   final MainController _mainCtr = Get.find<MainController>();
   final ScrollController _scrollController = ScrollController();
 

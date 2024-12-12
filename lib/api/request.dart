@@ -60,14 +60,15 @@ class Request {
   }
 
   static Future<dynamic> aiGenerate(String prompt, String? inputImageUrl,
-      int? effectId, String? ratio, int? resolution, int? duration) async {
+      int? effectId, String? ratio, int? resolution, int? duration, int? num) async {
     return await DioUtil.httpPost(_aiGenerate, data: {
       'prompt': prompt,
       'inputImageUrl': inputImageUrl,
       "effectId": effectId,
       "ratio": ratio,
       "resolution": resolution,
-      "duration": duration
+      "duration": duration,
+      "num": num
     });
   }
 

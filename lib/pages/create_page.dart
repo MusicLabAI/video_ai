@@ -1,28 +1,21 @@
 import 'dart:io';
-import 'dart:math';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:video_ai/common/common_util.dart';
-import 'package:video_ai/common/firebase_util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_ai/common/ui_colors.dart';
-import 'package:video_ai/controllers/create_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
-import 'package:video_ai/models/parameter_model.dart';
 import 'package:video_ai/pages/point_purchase_page.dart';
 import 'package:video_ai/pages/pro_purchase_page.dart';
-import 'package:video_ai/pages/prompt_detail_page.dart';
-import 'package:video_ai/pages/settings_page.dart';
-import 'package:video_ai/widgets/custom_button.dart';
-import 'package:video_ai/widgets/dialogs.dart';
-import 'package:video_ai/widgets/loading_widget.dart';
-import 'package:video_ai/widgets/prompt_list_view.dart';
-import 'package:video_ai/widgets/user_info_widget.dart';
+import 'package:video_ai/widgets/credits_rules_widget.dart';
 
-import '../controllers/main_controller.dart';
+import '../common/common_util.dart';
+import '../common/firebase_util.dart';
+import '../controllers/create_controller.dart';
+import '../models/parameter_model.dart';
+import '../widgets/custom_button.dart';
+import '../widgets/dialogs.dart';
 
 class CreatePage extends StatefulWidget {
   const CreatePage({super.key});
@@ -31,45 +24,12 @@ class CreatePage extends StatefulWidget {
   State<CreatePage> createState() => _CreatePageState();
 }
 
-class _CreatePageState extends State<CreatePage>
-    with AutomaticKeepAliveClientMixin {
-  final MainController _mainCtr = Get.find<MainController>();
-  final UserController _userCtr = Get.find<UserController>();
-  final CreateController _createCtr = Get.find<CreateController>();
+class _CreatePageState extends State<CreatePage> {
+  String? _pickImagePath;
   late TextEditingController _controller;
   Worker? _promptWorker;
-  Worker? _scrollWorker;
-
-  final ScrollController _scrollController = ScrollController();
-
-  void _scrollToTop() {
-    _scrollController.animateTo(
-      0, // 滚动到顶部的位置
-      duration: const Duration(milliseconds: 100), // 动画持续时间
-      curve: Curves.easeInOut, // 动画曲线
-    );
-  }
-
-  Future<void> _pickImage(ImageSource source) async {
-    String buttonName = (_createCtr.imagePath.isNotEmpty == true)
-        ? 'change_image_button'
-        : 'add_image_button';
-    FireBaseUtil.logEventButtonClick(PageName.createPage, buttonName);
-    String? path = await CommonUtil.pickUpImage(source);
-    if (path != null) {
-      _createCtr.imagePath.value = path;
-    }
-  }
-
-  bool _isEnable() {
-    if (_createCtr.curTabIndex.value != 0) {
-      return (_controller.text.isNotEmpty ||
-              _createCtr.curEffects.value != null) &&
-          _createCtr.imagePath.isNotEmpty == true;
-    } else {
-      return _controller.text.isNotEmpty;
-    }
-  }
+  final CreateController _createCtr = Get.find<CreateController>();
+  final UserController _userCtr = Get.find<UserController>();
 
   @override
   void initState() {
@@ -80,366 +40,136 @@ class _CreatePageState extends State<CreatePage>
         _controller.text = value;
       });
     });
-    _scrollWorker = ever(_createCtr.scrollToTop, (value) {
-      if (value) {
-        _scrollToTop();
-        _createCtr.scrollToTop.value = false;
-      }
-    });
   }
 
   @override
   void dispose() {
     _controller.dispose();
     _promptWorker?.dispose();
-    _scrollWorker?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return SafeArea(
-        bottom: false,
-        child: GestureDetector(
-            onTap: () => CommonUtil.hideKeyboard(context),
-            child: Column(children: [
-              Container(
-                color: Colors.transparent,
-                padding: const EdgeInsets.only(left: 16),
-                height: 56,
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    const Text(
-                      'Video AI',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: UiColors.cDBFFFFFF,
-                          fontWeight: FontWeightExt.semiBold),
+      child: GestureDetector(
+        onTap: () => CommonUtil.hideKeyboard(context),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                  color: UiColors.c1B1B1F,
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(20))),
+              child: Column(
+                children: [
+                  if (_pickImagePath?.isNotEmpty ?? false)
+                    ImageWithCloseButton(
+                      imagePath: _pickImagePath!,
+                      onTap: () {
+                        setState(() {
+                          _pickImagePath = null;
+                        });
+                      },
                     ),
-                    const Spacer(),
-                    UserInfoWidget(),
-                    IconButton(
-                        onPressed: () {
-                          CommonUtil.hideKeyboard(context);
-                          Get.to(() => const SettingsPage());
-                          FireBaseUtil.logEventButtonClick(
-                              PageName.createPage, 'mine_button');
-                        },
-                        icon: Image.asset(
-                          'assets/images/ic_user.png',
-                          width: 24,
-                          height: 24,
-                        )),
-                  ],
-                ),
-              ),
-              Expanded(
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: SingleChildScrollView(
-                        controller: _scrollController,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _topView(context),
-                              ..._getGenerateBtn(context),
-                              Obx(
-                                () => PromptListView(
-                                  dataList: _createCtr.promptItems.value,
-                                  paddingTop: 16,
-                                  onItemClick: (model) {
-                                    Get.to(() => PromptDetailPage(
-                                          dataList:
-                                              _createCtr.promptItems.value,
-                                          curEffectsModel: model,
-                                        ));
-                                  },
-                                  onClick: (model) {
-                                    FireBaseUtil.logEventButtonClick(
-                                        PageName.createPage,
-                                        "createPage_example_try_button");
-                                    _createCtr.prompt.value =
-                                        model.description ?? "";
-                                    _createCtr.curTabIndex.value = 0;
-                                    _createCtr.scrollToTop.value = true;
-                                  },
-                                ),
-                              )
-                            ]),
-                      )))
-            ])));
-  }
-
-  void clearImage() {
-    _createCtr.imagePath.value = '';
-    FireBaseUtil.logEventButtonClick(
-        PageName.createPage, 'delete_image_button');
-  }
-
-  Widget _topView(BuildContext context) {
-    return Obx(
-      () => Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                  child: CustomButton(
-                height: 44,
-                onTap: () {
-                  _createCtr.curTabIndex.value = 0;
-                },
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(12)),
-                bgColor: _createCtr.curTabIndex.value == 0
-                    ? UiColors.c523663
-                    : UiColors.c1B1B1F,
-                text: 'textToVideo'.tr,
-                textColor: _createCtr.curTabIndex.value == 0
-                    ? UiColors.cE18FF8
-                    : UiColors.c61FFFFFF,
-                textSize: 12,
-                leftIcon: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Image.asset(
-                    _createCtr.curTabIndex.value == 0
-                        ? 'assets/images/ic_video_selected.png'
-                        : 'assets/images/ic_video_unselected.png',
-                    width: 32,
-                  ),
-                ),
-              )),
-              Expanded(
-                  child: CustomButton(
-                onTap: () {
-                  _createCtr.curTabIndex.value = 1;
-                },
-                height: 44,
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(12)),
-                bgColor: _createCtr.curTabIndex.value != 0
-                    ? UiColors.c4A3663
-                    : UiColors.c1B1B1F,
-                text: 'imageToVideo'.tr,
-                textColor: _createCtr.curTabIndex.value != 0
-                    ? UiColors.cBC8EF5
-                    : UiColors.c61FFFFFF,
-                textSize: 12,
-                leftIcon: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Image.asset(
-                    _createCtr.curTabIndex.value != 0
-                        ? 'assets/images/ic_image_selected.png'
-                        : 'assets/images/ic_image_unselected.png',
-                    width: 32,
-                  ),
-                ),
-              )),
-            ],
-          ),
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-                color: UiColors.c1B1B1F,
-                borderRadius:
-                    const BorderRadius.vertical(bottom: Radius.circular(16)),
-                border: Border.all(
-                    color: _createCtr.curTabIndex.value == 0
-                        ? UiColors.c523663
-                        : UiColors.c4A3663,
-                    width: 2)),
-            child: Column(
-              children: [
-                if (_createCtr.curTabIndex.value == 1)
-                  Container(
-                    height: 52,
-                    margin: const EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                        color: UiColors.c383142,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 8,
-                          top: 8,
-                          bottom: 8,
-                          child: GestureDetector(
-                            onTap: () {
-                              clearImage();
-                            },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: _createCtr.imagePath.isNotEmpty == true
-                                  ? RegExp(r'^https?://')
-                                          .hasMatch(_createCtr.imagePath.value!)
-                                      ? CachedNetworkImage(
-                                          imageUrl: _createCtr.imagePath.value!,
-                                          width: 36,
-                                          height: 36,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Image(
-                                          image: FileImage(File(
-                                              _createCtr.imagePath.value!)),
-                                          width: 36,
-                                          height: 36,
-                                          fit: BoxFit.cover,
-                                        )
-                                  : Image.asset(
-                                      'assets/images/img_upload_default.png',
-                                      width: 36,
-                                    ),
-                            ),
-                          ),
-                        ),
-                        if (_createCtr.imagePath.isNotEmpty == true)
-                          Positioned(
-                            left: 36,
-                            bottom: 8,
-                            child: GestureDetector(
-                              onTap: () {
-                                clearImage();
-                              },
-                              child: Image.asset(
-                                'assets/images/ic_remove.png',
-                                width: 16,
-                              ),
-                            ),
-                          ),
-                        Positioned(
-                            right: 12,
-                            top: 0,
-                            bottom: 0,
-                            child: CustomButton(
-                              onTap: () {
-                                FireBaseUtil.logEventPopupView(
-                                    "image_example_popup");
-                                Get.bottomSheet(ImageSourceDialog(
-                                    onSourceChecked: (source) {
-                                  _pickImage(source);
-                                }));
-                              },
-                              text: _createCtr.imagePath.isNotEmpty == true
-                                  ? 'replaceImage'.tr
-                                  : 'addImage'.tr,
-                              textColor: UiColors.cBC8EF5,
-                              textSize: 12,
-                              rightIcon: Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Image.asset(
-                                  _createCtr.imagePath.isNotEmpty == true
-                                      ? 'assets/images/ic_reset.png'
-                                      : "assets/images/ic_add_rect.png",
-                                  width: 20,
-                                ),
-                              ),
-                            ))
-                      ],
-                    ),
-                  ),
-                TextField(
-                  controller: _controller,
-                  cursorColor: UiColors.c61FFFFFF,
-                  maxLines: 6,
-                  style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeightExt.regular,
-                      color: UiColors.cDBFFFFFF),
-                  decoration: InputDecoration(
-                    counterStyle: const TextStyle(
-                        fontSize: 10, color: UiColors.c61FFFFFF),
-                    hintStyle: const TextStyle(
+                  TextField(
+                    controller: _controller,
+                    cursorColor: UiColors.c61FFFFFF,
+                    maxLines: _pickImagePath?.isNotEmpty ?? false ? 6 : 12,
+                    style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeightExt.regular,
-                        color: UiColors.c61FFFFFF),
-                    contentPadding: EdgeInsets.zero,
-                    hintText: 'enterAPromptTips'.tr,
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
+                        color: UiColors.cDBFFFFFF),
+                    decoration: InputDecoration(
+                      counterStyle: const TextStyle(
+                          fontSize: 10, color: UiColors.c61FFFFFF),
+                      hintStyle: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeightExt.regular,
+                          color: UiColors.c61FFFFFF),
+                      contentPadding: EdgeInsets.zero,
+                      hintText: 'promptHint'.tr,
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                    ),
                   ),
-                ),
-                Row(
-                  children: [
-                    if (_createCtr.curTabIndex.value != 0 &&
-                        !_mainCtr.isCreationLayoutSwitch.value)
-                      CustomButton(
-                          height: 26,
-                          borderRadius: BorderRadius.circular(8),
-                          contentPadding: EdgeInsets.only(
-                              left: 8,
-                              right:
-                                  _createCtr.curEffects.value == null ? 8 : 4),
-                          bgColor: UiColors.c666949A1,
-                          leftIcon: Padding(
-                            padding: const EdgeInsets.only(right: 4.0),
-                            child: Image.asset(
-                              _createCtr.curEffects.value != null
-                                  ? 'assets/images/ic_effects_selected.png'
-                                  : 'assets/images/ic_effects_unselected.png',
-                              width: 14,
-                              height: 14,
+                  Row(
+                    children: [
+                      Obx(() => CustomButton(
+                            text: 'costsCreditsValue'
+                                .trArgs(["${_createCtr.getScore()}"]),
+                            textSize: 12,
+                            textColor: UiColors.cDBFFFFFF,
+                            leftIcon: Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Image.asset(
+                                "assets/images/ic_point.png",
+                                width: 20,
+                              ),
                             ),
-                          ),
-                          rightIcon: _createCtr.curEffects.value != null
-                              ? GestureDetector(
-                                  onTap: () {
-                                    _createCtr.curEffects.value = null;
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Image.asset(
-                                      'assets/images/ic_close_little.png',
-                                      width: 14,
-                                    ),
-                                  ),
-                                )
-                              : null,
-                          text: _createCtr.curEffects.value != null
-                              ? _createCtr.curEffects.value!.tag ?? ""
-                              : 'effect'.tr,
-                          textSize: 10,
-                          textColor: _createCtr.curEffects.value != null
-                              ? UiColors.cBC8EF5
-                              : UiColors.cDBFFFFFF,
-                          onTap: () async {
-                            if (_createCtr.effectsList.isEmpty) {
-                              Get.dialog(const LoadingWidget(),
-                                  barrierDismissible: false);
-                              await _createCtr.getEffectsTags();
-                              Get.back();
-                            }
-                            await Get.bottomSheet(const EffectDialog());
-                          }),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 6.0),
-                      child: GestureDetector(
+                          )),
+                      GestureDetector(
                         onTap: () {
-                          if (_controller.text.isEmpty) {
-                            Fluttertoast.showToast(msg: 'noPromptEntered'.tr);
-                            return;
-                          }
-                          _createCtr.prompt.value = "";
-                          FireBaseUtil.logEventButtonClick(
-                              PageName.createPage, 'clean_button');
+                          CommonUtil.hideKeyboard(context);
+                          Get.bottomSheet(const CreditsRulesWidget(),);
                         },
-                        child: Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                              color: UiColors.c23242A,
-                              borderRadius: BorderRadius.circular(8)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Image.asset(
-                            'assets/images/ic_clear.png',
-                            width: 14,
+                            'assets/images/ic_faq.png',
+                            width: 20,
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                if (_createCtr.curTabIndex.value == 0)
+                      const Spacer(),
+                      CustomButton(
+                        onTap: () async {
+                          CommonUtil.hideKeyboard(context);
+                          String prompt = _createCtr.prompt.value;
+                          if (prompt.isEmpty &&
+                              (_pickImagePath?.isEmpty ?? true)) {
+                            Fluttertoast.showToast(msg: 'generateTips'.tr);
+                            return;
+                          }
+                          await _userCtr.getUserInfo();
+                          if (!_userCtr.isLogin.value) {
+                            _userCtr.showLogin();
+                            return;
+                          }
+                          final userInfo = _userCtr.userInfo.value;
+                          if (userInfo.pointValue < _createCtr.getScore()) {
+                            if (userInfo.isVip ?? false) {
+                              Get.to(() => const ProPurchasePage());
+                            } else {
+                              Get.to(() => const PointPurchasePage());
+                            }
+                            return;
+                          }
+                          _createCtr.aiGenerate(prompt, _pickImagePath,
+                              ratio: _createCtr.curRatio.value.value,
+                              resolution: _createCtr.curResolution.value.value,
+                              duration: _createCtr.curDuration.value.value,
+                              num: _createCtr.curVariations.value.value);
+                        },
+                        text: 'generate'.tr,
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        textColor: UiColors.c1B1B1F,
+                        bgColor: Colors.white,
+                        textSize: 14,
+                        rightIcon: Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Image.asset(
+                            'assets/images/ic_upload.png',
+                            width: 16,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.only(top: 8.0),
@@ -458,27 +188,23 @@ class _CreatePageState extends State<CreatePage>
                               leftIcon: Padding(
                                 padding: const EdgeInsets.only(right: 4.0),
                                 child: Image.asset(
-                                  'assets/images/ic_shuffle.png',
+                                  'assets/images/ic_add_image.png',
                                   width: 14,
                                   height: 14,
                                 ),
                               ),
-                              text: 'inspireMe'.tr,
+                              text: 'image'.tr,
                               textSize: 10,
                               textColor: UiColors.c99FFFFFF,
                               onTap: () async {
-                                if (_createCtr.promptItems.isEmpty) {
-                                  await _createCtr.getRecommendPrompt();
+                                CommonUtil.hideKeyboard(context);
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                if (prefs.getBool("isAgree") ?? false) {
+                                  showPickupImageDialog();
+                                } else {
+                                  showUploadPolicyDialog();
                                 }
-                                final items = _createCtr.promptItems.value;
-                                if (items.isNotEmpty) {
-                                  _createCtr.prompt.value =
-                                      items[Random().nextInt(items.length)]
-                                              .description ??
-                                          "";
-                                }
-                                FireBaseUtil.logEventButtonClick(
-                                    PageName.createPage, 'insprire_button');
                               }),
                           CustomParameterButton(
                               icon: 'assets/images/ic_ratio.png',
@@ -486,103 +212,148 @@ class _CreatePageState extends State<CreatePage>
                               parameterList: _createCtr.ratioList,
                               parameterRx: _createCtr.curRatio),
                           CustomParameterButton(
-                              icon: 'assets/images/ic_resolution.png',
-                              dialogTitle: 'resolution'.tr,
-                              parameterList: _createCtr.resolutionList,
-                              parameterRx: _createCtr.curResolution),
+                            icon: 'assets/images/ic_resolution.png',
+                            dialogTitle: 'resolution'.tr,
+                            parameterList: _createCtr.resolutionList,
+                            parameterRx: _createCtr.curResolution,
+                            validate: (item) {
+                              if (_createCtr.curDuration.value.value > 10 &&
+                                  item.value == 1080) {
+                                Fluttertoast.showToast(
+                                    msg: 'resolutionNotSupport'.tr,
+                                    toastLength: Toast.LENGTH_LONG);
+                                _createCtr.curDuration.value =
+                                    _createCtr.durationList.firstWhereOrNull(
+                                        (item) => item.value == 10)!;
+                              }
+                              _createCtr.updateDuration(item.value < 1080);
+                              return true;
+                            },
+                          ),
                           CustomParameterButton(
-                              icon: 'assets/images/ic_clock.png',
-                              dialogTitle: 'duration'.tr,
-                              parameterList: _createCtr.durationList,
-                              parameterRx: _createCtr.curDuration),
+                            icon: 'assets/images/ic_clock.png',
+                            dialogTitle: 'duration'.tr,
+                            parameterList: _createCtr.durationList,
+                            parameterRx: _createCtr.curDuration,
+                            validate: (item) {
+                              if (_createCtr.curResolution.value.value ==
+                                      1080 &&
+                                  item.value > 10) {
+                                Fluttertoast.showToast(
+                                    msg: 'durationNotSupport'.tr,
+                                    toastLength: Toast.LENGTH_LONG);
+                                return false;
+                              }
+                              return true;
+                            },
+                          ),
+                          CustomParameterButton(
+                            icon: 'assets/images/ic_variations.png',
+                            dialogTitle: 'variations'.tr,
+                            parameterList: _createCtr.variationsList,
+                            parameterRx: _createCtr.curVariations,
+                          ),
                         ],
                       ),
                     ),
                   )
-              ],
+                ],
+              ),
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  List<Widget> _getGenerateBtn(BuildContext context) {
-    return [
-      CustomButton(
-        margin: const EdgeInsets.only(top: 24),
-        onTap: () {
-          FireBaseUtil.logEventButtonClick(
-              PageName.createPage, "createPage_generate_button");
-          if (_isEnable()) {
-            CommonUtil.hideKeyboard(context);
-            generate();
-          } else {
-            Fluttertoast.showToast(
-                msg: _createCtr.curTabIndex.value != 0
-                    ? 'imageEmptyTips'.tr
-                    : 'promptEmptyTips'.tr);
-          }
-        },
-        text: 'generate'.tr,
-        textColor: UiColors.cDBFFFFFF,
-        bgColors: const [UiColors.c7631EC, UiColors.cA359EF],
-        width: double.infinity,
-        height: 46,
-        textSize: 16,
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: 8.0, left: 20, right: 20),
-        child: Center(
-          child: Obx(() => Text(
-            'generateCost'.trArgs(["${_createCtr.getScore()}"]),
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 12),
-          ),)
-        ),
-      ),
-    ];
-  }
-
-  void generate() async {
-    if (!_userCtr.isLogin.value) {
-      _userCtr.showLogin();
-      return;
-    }
-    await _userCtr.getUserInfo();
-    final userInfo = _userCtr.userInfo.value;
-    if ((userInfo.point ?? 0) < _createCtr.getScore()) {
-      if (userInfo.isVip ?? false) {
-        Get.to(() => const PointPurchasePage());
-        FireBaseUtil.logEventButtonClick(
-            PageName.createPage, 'global_credits_button');
-      } else {
-        Get.to(() => const ProPurchasePage());
-        FireBaseUtil.logEventButtonClick(
-            PageName.createPage, 'global_pro_button');
+  void showPickupImageDialog() {
+    FireBaseUtil.logEventPopupView("image_example_popup");
+    Get.bottomSheet(ImageSourceDialog(onSourceChecked: (source) async {
+      String? path = await CommonUtil.pickUpImage(source);
+      if (path != null) {
+        setState(() {
+          _pickImagePath = path;
+        });
       }
-      return;
-    }
-    String createType =
-        (_createCtr.curTabIndex.value == 0) ? 'TextToVideo' : 'ImageToVideo';
-    String effect = _createCtr.curEffects.value?.tag ?? '';
-    FireBaseUtil.logEvent(EventName.requestCreation, parameters: {
-      'createType': createType,
-      'effect': effect,
-      'pageName': PageName.createPage
-    });
-    bool isTextToVideo = _createCtr.curTabIndex.value == 0;
-    await _createCtr.aiGenerate(
-        _controller.text,
-        isTextToVideo ? "" : _createCtr.imagePath.value,
-        isTextToVideo ? null : _createCtr.curEffects.value?.id,
-        ratio: isTextToVideo ? _createCtr.curRatio.value.value : null,
-        resolution: isTextToVideo ? _createCtr.curResolution.value.value : null,
-        duration: isTextToVideo ? _createCtr.curDuration.value.value : null);
+    }));
   }
 
-  @override
-  bool get wantKeepAlive => true;
+  void showUploadPolicyDialog() {
+    Get.dialog(DialogContainer(
+        bgColor: UiColors.c23242A,
+        child: Column(children: [
+          Text(
+            'mediaUploadPolicy'.tr,
+            style: const TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 24.0),
+            child: Text(
+              'mediaUploadPolicyDesc1'.tr,
+              style: const TextStyle(color: UiColors.cDBFFFFFF, fontSize: 12),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 24.0),
+            child: Text(
+              'mediaUploadPolicyDesc2'.tr,
+              style: const TextStyle(color: UiColors.cDBFFFFFF, fontSize: 12),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 24.0),
+            child: Text(
+              'mediaUploadPolicyDesc3'.tr,
+              style: const TextStyle(color: UiColors.cDBFFFFFF, fontSize: 12),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 24.0),
+            child: Text(
+              'mediaUploadPolicyDesc4'.tr,
+              style: const TextStyle(color: UiColors.cDBFFFFFF, fontSize: 12),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 24.0),
+            child: Row(
+              children: [
+                Expanded(
+                    child: CustomButton(
+                  onTap: () {
+                    Get.back();
+                  },
+                  width: double.infinity,
+                  height: 44,
+                  text: 'cancel'.tr,
+                  textSize: 14,
+                  textColor: Colors.white,
+                  bgColor: UiColors.c30333F,
+                )),
+                const SizedBox(
+                  width: 16,
+                ),
+                Expanded(
+                    child: CustomButton(
+                  onTap: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    prefs.setBool("isAgree", true);
+                    Get.back();
+                    showPickupImageDialog();
+                  },
+                  width: double.infinity,
+                  height: 44,
+                  text: 'agree'.tr,
+                  textSize: 14,
+                  textColor: UiColors.c1B1B1F,
+                  bgColor: Colors.white,
+                )),
+              ],
+            ),
+          ),
+        ])));
+  }
 }
 
 class CustomParameterButton extends StatefulWidget {
@@ -591,12 +362,14 @@ class CustomParameterButton extends StatefulWidget {
       required this.icon,
       required this.dialogTitle,
       required this.parameterList,
-      required this.parameterRx});
+      required this.parameterRx,
+      this.validate});
 
   final String icon;
   final String dialogTitle;
   final List<ParameterModel> parameterList;
   final Rx<ParameterModel> parameterRx;
+  final bool Function(ParameterModel)? validate;
 
   @override
   State<CustomParameterButton> createState() => _CustomParameterButtonState();
@@ -618,16 +391,17 @@ class _CustomParameterButtonState extends State<CustomParameterButton> {
               title: widget.dialogTitle,
               list: widget.parameterList,
               parameterRx: widget.parameterRx,
+              validate: widget.validate,
             ),
             barrierColor: Colors.transparent);
         setState(() {
           isPopupShowing = false;
         });
       },
-      text: widget.parameterRx.value.name,
+      text: widget.parameterRx.value.showName,
       textSize: 10,
       height: 26,
-      textColor: isPopupShowing ? UiColors.cBC8EF5 : UiColors.c99FFFFFF,
+      textColor: isPopupShowing ? Colors.white : UiColors.c99FFFFFF,
       borderRadius: BorderRadius.circular(8),
       contentPadding: const EdgeInsets.symmetric(horizontal: 8),
       margin: const EdgeInsets.only(right: 10),
@@ -636,11 +410,98 @@ class _CustomParameterButtonState extends State<CustomParameterButton> {
         padding: const EdgeInsets.only(right: 4.0),
         child: Image.asset(
           widget.icon,
-          color: isPopupShowing ? UiColors.cBC8EF5 : null,
+          color: isPopupShowing ? Colors.white : null,
           width: 14,
           height: 14,
         ),
       ),
     );
+  }
+}
+
+class ImageWithCloseButton extends StatefulWidget {
+  final String imagePath;
+  final VoidCallback onTap;
+
+  const ImageWithCloseButton(
+      {super.key, required this.imagePath, required this.onTap});
+
+  @override
+  _ImageWithCloseButtonState createState() => _ImageWithCloseButtonState();
+}
+
+class _ImageWithCloseButtonState extends State<ImageWithCloseButton> {
+  bool _isImageLoaded = false;
+  final GlobalKey _imageKey = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      width: double.infinity,
+      height: 200,
+      child: Stack(
+        children: [
+          // 图片
+          Positioned.fill(
+            child: Center(
+              child: Image.file(
+                File(widget.imagePath),
+                key: _imageKey,
+                fit: BoxFit.fitHeight,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                  if (frame != null) {
+                    // 图片加载完成
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (!_isImageLoaded) {
+                        setState(() {
+                          _isImageLoaded = true;
+                        });
+                      }
+                    });
+                  }
+                  return child;
+                },
+              ),
+            ),
+          ),
+          // 关闭按钮
+          if (_isImageLoaded)
+            Positioned(
+              top: 8,
+              right: _getImageRightOffset(),
+              child: GestureDetector(
+                onTap: widget.onTap,
+                child: Image.asset(
+                  "assets/images/ic_close_alpha.png",
+                  width: 28,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  // 获取图片顶部偏移量
+  double _getImageTopOffset() {
+    RenderBox? renderBox =
+        _imageKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox != null) {
+      return renderBox.localToGlobal(Offset.zero).dy - 8; // 微调位置
+    }
+    return 8;
+  }
+
+  // 获取图片右侧偏移量
+  double _getImageRightOffset() {
+    RenderBox? renderBox =
+        _imageKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox != null) {
+      final double screenWidth = MediaQuery.of(context).size.width;
+      final Offset imageOffset = renderBox.localToGlobal(Offset.zero);
+      return screenWidth - imageOffset.dx - renderBox.size.width - 8; // 微调位置
+    }
+    return 8;
   }
 }

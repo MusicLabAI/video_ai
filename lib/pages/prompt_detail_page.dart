@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/common/ui_colors.dart';
-import 'package:video_ai/controllers/create_controller.dart';
+import 'package:video_ai/controllers/old_create_controller.dart';
 import 'package:video_ai/models/example_model.dart';
 import 'package:video_ai/widgets/prompt_list_view.dart';
 
@@ -29,7 +29,7 @@ class PromptDetailPage extends StatefulWidget {
 class _EffectsDetailPageState extends State<PromptDetailPage> {
   late CachedVideoPlayerPlusController _controller;
   bool _isExpand = false;
-  final CreateController _createCtr = Get.find<CreateController>();
+  final OldCreateController _createCtr = Get.find<OldCreateController>();
   late List<ExampleModel> randomList;
 
   @override

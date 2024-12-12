@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/common/common_util.dart';
 import 'package:video_ai/common/firebase_util.dart';
-import 'package:video_ai/controllers/create_controller.dart';
+import 'package:video_ai/controllers/old_create_controller.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/models/example_model.dart';
 import 'package:video_ai/models/jump_config_model.dart';
@@ -76,10 +76,10 @@ class _CarouselWidgetState extends State<CarouselWidget> {
     for (var i = 0; i < widget.data.length; i++) {
       if (i == index) {
         // 通知 VideoWidget 播放
-        VideoWidgetState.notifyPlay(i);
+        _VideoWidgetState.notifyPlay(i);
       } else {
         // 通知 VideoWidget 暂停
-        VideoWidgetState.notifyPause(i);
+        _VideoWidgetState.notifyPause(i);
       }
     }
   }
@@ -140,7 +140,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
 class CarouselPage extends StatelessWidget {
   final JumpConfigModel data;
   final int pageIndex;
-  final CreateController _createCtr = Get.find<CreateController>();
+  final OldCreateController _createCtr = Get.find<OldCreateController>();
 
   CarouselPage({
     super.key,
@@ -189,7 +189,7 @@ class CarouselPage extends StatelessWidget {
           }
         } else if (data.targetType == 5) {
           Get.find<MainController>().tabController.index = 1;
-          Get.find<CreateController>().scrollToTop.value = true;
+          Get.find<OldCreateController>().scrollToTop.value = true;
         } else if (data.targetType == 6) {
           Get.to(() => const ProPurchasePage());
         } else if (data.targetType == 7) {
@@ -212,7 +212,7 @@ class CarouselPage extends StatelessWidget {
           ),
         if (data.coverType == 3)
           Positioned.fill(
-            child: VideoWidget(
+            child: _VideoWidget(
               videoUrl: data.coverUrl ?? '',
               pageIndex: pageIndex,
             ),
@@ -288,22 +288,22 @@ class CarouselPage extends StatelessWidget {
   }
 }
 
-class VideoWidget extends StatefulWidget {
+class _VideoWidget extends StatefulWidget {
   final String videoUrl;
   final int pageIndex;
 
-  const VideoWidget({
+  const _VideoWidget({
     super.key,
     required this.videoUrl,
     required this.pageIndex,
   });
 
   @override
-  VideoWidgetState createState() => VideoWidgetState();
+  _VideoWidgetState createState() => _VideoWidgetState();
 }
 
-class VideoWidgetState extends State<VideoWidget> {
-  static final Map<int, VideoWidgetState> _instances = {};
+class _VideoWidgetState extends State<_VideoWidget> {
+  static final Map<int, _VideoWidgetState> _instances = {};
 
   late CachedVideoPlayerPlusController _controller;
   bool _isPlaying = false;
