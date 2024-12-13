@@ -81,7 +81,7 @@ class UserController extends GetxController {
         }
         final uid = firebaseAuth.currentUser?.uid;
         if (uid != null) {
-          Get.dialog(const LoadingWidget(), barrierDismissible: false);
+          Get.dialog(const LoadingWidget(canPop: false), barrierDismissible: false);
           await login(uid, firebaseAuth.currentUser?.email, loginGoogle);
           Get.until((route) => Get.currentRoute == '/');
         }
@@ -103,7 +103,7 @@ class UserController extends GetxController {
 
   Future<bool> emailCreateUser(String email, String password) async {
     try {
-      Get.dialog(const LoadingWidget(), barrierDismissible: false);
+      Get.dialog(const LoadingWidget(canPop: false), barrierDismissible: false);
       await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -132,7 +132,7 @@ class UserController extends GetxController {
 
   Future<bool> emailLogIn(String email, String password) async {
     try {
-      Get.dialog(const LoadingWidget(), barrierDismissible: false);
+      Get.dialog(const LoadingWidget(canPop: false), barrierDismissible: false);
       final currentCredential = await firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -224,7 +224,7 @@ class UserController extends GetxController {
 
   Future<void> userEdit(String nickname) async {
     try {
-      Get.dialog(const LoadingWidget(), barrierDismissible: false);
+      Get.dialog(const LoadingWidget(canPop: false), barrierDismissible: false);
       await Request.userEdit(nickname);
       final u = userInfo.value.toMap();
       u['name'] = nickname;

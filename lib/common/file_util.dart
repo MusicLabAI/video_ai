@@ -18,7 +18,7 @@ class FileUtil {
       return;
     }
 
-    Get.dialog(const LoadingWidget(), barrierDismissible: false);
+    Get.dialog(const LoadingWidget(canPop: false), barrierDismissible: false);
     var appDocDir = '';
     if (GetPlatform.isIOS) {
       appDocDir = (await getApplicationDocumentsDirectory()).path;
@@ -213,7 +213,7 @@ class FileUtil {
 
   static Future<File?> downloadOnly(String? url) async {
     if (url == null) return null;
-    Get.dialog(const LoadingWidget(), barrierDismissible: false);
+    Get.dialog(const LoadingWidget(canPop: false), barrierDismissible: false);
     final savePath =
         '${(await getApplicationCacheDirectory()).path}/${url.split('/').last}';
     final File file = File(savePath);

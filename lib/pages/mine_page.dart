@@ -21,7 +21,7 @@ class MinePage extends StatefulWidget {
   State<MinePage> createState() => _MinePageState();
 }
 
-class _MinePageState extends State<MinePage> {
+class _MinePageState extends State<MinePage> with AutomaticKeepAliveClientMixin{
   final _userCtr = Get.find<UserController>();
 
   @override
@@ -356,6 +356,9 @@ class _MinePageState extends State<MinePage> {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class SettingsItem extends StatelessWidget {

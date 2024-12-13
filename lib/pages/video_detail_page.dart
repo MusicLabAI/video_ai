@@ -431,7 +431,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
           }
         }
       }
-      Get.dialog(const LoadingWidget(), barrierDismissible: false);
+      Get.dialog(const LoadingWidget(canPop: false), barrierDismissible: false);
       final result = await GallerySaver.saveVideo(videoUrl!);
       if (result ?? false) {
         FireBaseUtil.logEvent(EventName.saveCreation, parameters: {

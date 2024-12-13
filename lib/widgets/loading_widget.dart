@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 class LoadingWidget extends StatelessWidget {
-  const LoadingWidget({super.key});
+  const LoadingWidget({super.key, this.canPop = true});
+
+  final bool canPop;
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    return WillPopScope(
+        onWillPop: () async => canPop,
+        child: const Center(child: CircularProgressIndicator()));
   }
 }

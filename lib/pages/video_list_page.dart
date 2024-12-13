@@ -15,7 +15,7 @@ class VideoListPage extends StatefulWidget {
   _VideoListPageState createState() => _VideoListPageState();
 }
 
-class _VideoListPageState extends State<VideoListPage> {
+class _VideoListPageState extends State<VideoListPage> with AutomaticKeepAliveClientMixin {
   final _createCtr = Get.find<CreateController>();
   BuildContext? _ctx1;
   int _hitIndex = 0;
@@ -74,7 +74,7 @@ class _VideoListPageState extends State<VideoListPage> {
         children: [
           Positioned.fill(
               child: _hitIndex == index
-                  ? VideoWidget(url: model.videoUrl ?? "")
+                  ? VideoWidget(url: model.videoUrl ?? "", fromPosition: "video_list_page_$index",)
                   : CachedNetworkImage(
                       imageUrl: model.thumbnailUrl ?? "",
                       fit: BoxFit.cover,
@@ -125,4 +125,7 @@ class _VideoListPageState extends State<VideoListPage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

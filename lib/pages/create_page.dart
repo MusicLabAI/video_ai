@@ -24,7 +24,7 @@ class CreatePage extends StatefulWidget {
   State<CreatePage> createState() => _CreatePageState();
 }
 
-class _CreatePageState extends State<CreatePage> {
+class _CreatePageState extends State<CreatePage> with AutomaticKeepAliveClientMixin{
   String? _pickImagePath;
   late TextEditingController _controller;
   Worker? _promptWorker;
@@ -362,6 +362,9 @@ class _CreatePageState extends State<CreatePage> {
           ),
         ])));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class CustomParameterButton extends StatefulWidget {

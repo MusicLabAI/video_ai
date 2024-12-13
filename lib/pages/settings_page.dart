@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:video_ai/api/request.dart';
@@ -8,9 +7,6 @@ import 'package:video_ai/common/firebase_util.dart';
 import 'package:video_ai/common/global_data.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/user_controller.dart';
-import 'package:video_ai/pages/point_purchase_page.dart';
-import 'package:video_ai/pages/point_record_page.dart';
-import 'package:video_ai/pages/pro_purchase_page.dart';
 import 'package:video_ai/pages/mine_page.dart';
 import 'package:video_ai/widgets/custom_button.dart';
 import 'package:video_ai/widgets/dialogs.dart';
@@ -173,7 +169,7 @@ class _SettingsPageState extends State<SettingsPage> {
       subText: 'deleteAccountTips'.tr,
       onConfirm: () async {
         Get.back();
-        Get.dialog(const LoadingWidget(), barrierDismissible: false);
+        Get.dialog(const LoadingWidget(canPop: false), barrierDismissible: false);
         if (GetPlatform.isAndroid) {
           try {
             final user = FirebaseAuth.instance.currentUser;

@@ -112,7 +112,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             onTap: () async {
               try {
                 Get.back();
-                Get.dialog(const LoadingWidget(), barrierDismissible: false);
+                Get.dialog(const LoadingWidget(canPop: false), barrierDismissible: false);
                 if (isAndroid) {
                   UserCredential userCredential = await signInWithGoogle();
                   final uid = userCredential.user?.uid;

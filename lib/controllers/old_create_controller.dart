@@ -135,7 +135,7 @@ class OldCreateController extends GetxController {
     Get.log(
         "prompt: $prompt -- imagePath: $imagePath  effectId: $effectId  ratio: $ratio  resolution: $resolution  duration: $duration");
     try {
-      Get.dialog(const LoadingWidget(), barrierDismissible: false);
+      Get.dialog(const LoadingWidget(canPop: false), barrierDismissible: false);
       String? imageUrl;
       if (imagePath?.isNotEmpty == true) {
         if (RegExp(r'^https?://').hasMatch(imagePath!)) {
