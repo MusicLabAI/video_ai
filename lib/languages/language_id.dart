@@ -178,15 +178,17 @@ class LanguageId {
       "durationNotSupport": "1080p tidak mendukung video berdurasi 15 atau 20 detik.",
       "resolutionNotSupport": "1080p tidak mendukung video berdurasi 15 atau 20 detik dan akan otomatis beralih ke 10 detik.",
       "generateTips": "Silakan masukkan prompt atau tambahkan gambar terlebih dahulu.",
-      "mediaUploadPolicy": "Kebijakan Pengunggahan Media",
-      "mediaUploadPolicyDesc1": "Pembelian satu kali untuk penggunaan seumur hidup, generasi lagu tanpa batas, bukti kreasi satu kali",
-      "mediaUploadPolicyDesc2": "Jangan unggah media individu di bawah 18 tahun atau tanpa persetujuan",
-      "mediaUploadPolicyDesc3": "Jangan unggah konten kekerasan atau tidak pantas",
-      "mediaUploadPolicyDesc4": "Penyalahgunaan dapat mengakibatkan penangguhan atau pelarangan akun tanpa pengembalian dana",
+      "mediaUploadPolicy": "Kebijakan Unggah Media",
+      "mediaUploadPolicyDesc": "Harap tinjau dan setujui konten berikut:",
+      "mediaUploadPolicyDesc1": "Jangan unggah media individu di bawah 18 tahun atau tanpa persetujuan mereka",
+      "mediaUploadPolicyDesc2": "Jangan unggah konten kekerasan atau tidak pantas",
+      "mediaUploadPolicyDesc3": "Pastikan Anda memiliki hak atas media yang Anda unggah.",
+      "mediaUploadPolicyDesc4": "Penyalahgunaan dapat mengakibatkan penangguhan atau larangan akun tanpa pengembalian dana.",
       "agree": "Setuju",
       "textImage": "Teks dan Gambar",
       "creditsCalculationRules": "Aturan Perhitungan Kredit",
       "textImageDesc": "Buat video dengan mengunggah gambar untuk diperluas atau mendeskripsikannya dengan teks. Tulis sedikit untuk membiarkan detail terisi sendiri atau tulis lebih banyak untuk kontrol yang lebih presisi",
+      "illegalImage": "Untuk alasan hukum, mohon untuk tidak mengunggah potret.",
     };
   }
 }

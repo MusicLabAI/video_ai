@@ -185,14 +185,16 @@ class LanguageEnUs {
       "resolutionNotSupport": "1080p does not support 15s or 20s videos and will automatically switch to 10s.",
       "generateTips": "Please enter a prompt or add an image first.",
       "mediaUploadPolicy": "Media Upload Policy",
-      "mediaUploadPolicyDesc1": "One-Time Purchase For Lifetime Use Unlimited Song Generation 1 time Proof Of Creation",
-      "mediaUploadPolicyDesc2": "Do not upload media of individuals under 18 or without consent",
-      "mediaUploadPolicyDesc3": "Do not upload violent or inappropriate content",
-      "mediaUploadPolicyDesc4": "Misuse may result in account suspension or ban without refund",
+      "mediaUploadPolicyDesc": "Please review and agree to the following content:",
+      "mediaUploadPolicyDesc1": "Do not upload media of individuals under 18 or  without consent",
+      "mediaUploadPolicyDesc2": "Do not upload violent or inappropriate content",
+      "mediaUploadPolicyDesc3": "Ensure you own the rights to the media you upload.",
+      "mediaUploadPolicyDesc4": "Misuse may result in account suspension or ban without refund.",
       "agree":"Agree",
       "textImage":"Text & Image",
       "creditsCalculationRules":"Credits Calculation Rules",
       "textImageDesc":"Create a video by uploading an image to extend, or by describing it with text. Write less to let details be filled in, or write more for precise control",
+      "illegalImage":"For legal reasons, please do not upload portraits.",
     };
   }
 }

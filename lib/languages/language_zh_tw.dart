@@ -179,14 +179,16 @@ class LanguageZhTw {
       "resolutionNotSupport": "1080p 不支援15秒或20秒的影片，將自動切換為10秒。",
       "generateTips": "請先輸入提示詞或新增圖片。",
       "mediaUploadPolicy": "媒體上傳政策",
-      "mediaUploadPolicyDesc1": "一次性購買，終身使用，生成無限歌曲，一次性創作證明",
-      "mediaUploadPolicyDesc2": "請勿上傳未滿18歲或未經同意的個人媒體",
-      "mediaUploadPolicyDesc3": "請勿上傳暴力或不適當的內容",
-      "mediaUploadPolicyDesc4": "濫用可能導致帳戶暫停或禁止，且不予退款",
+      "mediaUploadPolicyDesc": "請檢視並同意以下內容：",
+      "mediaUploadPolicyDesc1": "請勿上傳未滿18歲或未經同意的個人媒體",
+      "mediaUploadPolicyDesc2": "請勿上傳暴力或不當內容",
+      "mediaUploadPolicyDesc3": "請確保您擁有上傳媒體的權利。",
+      "mediaUploadPolicyDesc4": "濫用行為可能會導致帳戶被停權或封禁，並且不會退款。",
       "agree": "同意",
       "textImage": "文字與圖片",
       "creditsCalculationRules": "積分計算規則",
       "textImageDesc": "通過上傳圖片或描述文字創建影片。少寫讓細節自動補充，或多寫以獲得更精確的控制",
+      "illegalImage": "出於法律原因，請勿上傳人像。",
     };
   }
 }

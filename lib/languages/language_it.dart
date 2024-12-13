@@ -178,15 +178,17 @@ class LanguageIt {
       "durationNotSupport": "1080p non supporta video di 15 o 20 secondi.",
       "resolutionNotSupport": "1080p non supporta video di 15 o 20 secondi e passerà automaticamente a 10 secondi.",
       "generateTips": "Inserisci un prompt o aggiungi un'immagine prima.",
-      "mediaUploadPolicy": "Politica di caricamento media",
-      "mediaUploadPolicyDesc1": "Acquisto unico per utilizzo a vita, generazione illimitata di canzoni, una prova di creazione",
-      "mediaUploadPolicyDesc2": "Non caricare media di minori di 18 anni o senza consenso",
-      "mediaUploadPolicyDesc3": "Non caricare contenuti violenti o inappropriati",
-      "mediaUploadPolicyDesc4": "Un uso improprio può comportare la sospensione o il ban dell'account senza rimborso",
+      "mediaUploadPolicy": "Politica di caricamento dei media",
+      "mediaUploadPolicyDesc": "Si prega di rivedere e accettare il contenuto seguente:",
+      "mediaUploadPolicyDesc1": "Non caricare media di persone sotto i 18 anni o senza il loro consenso",
+      "mediaUploadPolicyDesc2": "Non caricare contenuti violenti o inappropriati",
+      "mediaUploadPolicyDesc3": "Assicurati di possedere i diritti sui media che carichi.",
+      "mediaUploadPolicyDesc4": "L'abuso può comportare la sospensione o il divieto dell'account senza rimborso.",
       "agree": "Accetto",
       "textImage": "Testo e Immagine",
       "creditsCalculationRules": "Regole di Calcolo dei Crediti",
       "textImageDesc": "Crea un video caricando un'immagine da espandere o descrivendola con del testo. Scrivi poco per lasciare che i dettagli si riempiano automaticamente o scrivi di più per un controllo preciso",
+      "illegalImage": "Per motivi legali, si prega di non caricare ritratti.",
     };
   }
 }

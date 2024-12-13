@@ -179,14 +179,16 @@ class LanguagePl {
       "resolutionNotSupport": "1080p nie obsługuje filmów 15-sekundowych lub 20-sekundowych i automatycznie przełączy się na 10 sekund.",
       "generateTips": "Wprowadź prompt lub dodaj obraz najpierw.",
       "mediaUploadPolicy": "Polityka przesyłania mediów",
-      "mediaUploadPolicyDesc1": "Jednorazowy zakup na całe życie, nieograniczone generowanie piosenek, jeden dowód stworzenia",
-      "mediaUploadPolicyDesc2": "Nie przesyłaj mediów osób poniżej 18 roku życia lub bez ich zgody",
-      "mediaUploadPolicyDesc3": "Nie przesyłaj treści o charakterze przemocowym lub nieodpowiednim",
-      "mediaUploadPolicyDesc4": "Nadużycia mogą skutkować zawieszeniem lub zakazem konta bez zwrotu pieniędzy",
+      "mediaUploadPolicyDesc": "Proszę zapoznać się i zaakceptować poniższe treści:",
+      "mediaUploadPolicyDesc1": "Nie przesyłaj mediów osób poniżej 18 roku życia lub bez ich zgody",
+      "mediaUploadPolicyDesc2": "Nie przesyłaj przemocy lub nieodpowiednich treści",
+      "mediaUploadPolicyDesc3": "Upewnij się, że posiadasz prawa do mediów, które przesyłasz.",
+      "mediaUploadPolicyDesc4": "Nadużycie może prowadzić do zawieszenia lub zablokowania konta bez zwrotu pieniędzy.",
       "agree": "Zgadzam się",
       "textImage": "Tekst i Obraz",
       "creditsCalculationRules": "Zasady Obliczania Kredytów",
       "textImageDesc": "Stwórz film, przesyłając obraz do rozbudowy lub opisując go tekstem. Pisz mniej, aby automatycznie wypełnić szczegóły, lub pisz więcej dla precyzyjnej kontroli",
+      "illegalImage": "Ze względów prawnych prosimy o nieprzesyłanie portretów.",
     };
   }
 }

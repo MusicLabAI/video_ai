@@ -179,14 +179,16 @@ class LanguageZhCn {
       "resolutionNotSupport": "1080p 不支持15秒或20秒的视频，将自动切换为10秒。",
       "generateTips": "请先输入提示词或添加图片。",
       "mediaUploadPolicy": "媒体上传政策",
-      "mediaUploadPolicyDesc1": "一次性购买，终身使用，生成无限歌曲，一次性创作证明",
-      "mediaUploadPolicyDesc2": "不要上传未满18岁或未经同意的个人媒体",
-      "mediaUploadPolicyDesc3": "不要上传暴力或不适当的内容",
-      "mediaUploadPolicyDesc4": "滥用可能导致账户暂停或禁止，且不予退款",
+      "mediaUploadPolicyDesc": "请查看并同意以下内容：",
+      "mediaUploadPolicyDesc1": "请勿上传未满18岁或未经同意的个人媒体",
+      "mediaUploadPolicyDesc2": "请勿上传暴力或不当内容",
+      "mediaUploadPolicyDesc3": "请确保您拥有上传媒体的权利。",
+      "mediaUploadPolicyDesc4": "滥用行为可能导致账户被暂停或封禁，且不予退款。",
       "agree": "同意",
       "textImage": "文字与图片",
       "creditsCalculationRules": "积分计算规则",
       "textImageDesc": "通过上传图片或描述文字创建视频。少写让细节自动补充，或多写以获得更精确的控制",
+      "illegalImage": "出于法律原因，请勿上传人像。"
     };
   }
 }

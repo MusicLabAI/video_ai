@@ -43,7 +43,7 @@ class _VideoListPageState extends State<VideoListPage> with AutomaticKeepAliveCl
             sliverListContexts: () {
               return [if (_ctx1 != null) _ctx1!];
             },
-            leadingOffset: 50,
+            leadingOffset: 200,
             onObserveAll: (resultMap) {
               final model = resultMap[_ctx1];
               if (model == null) return;

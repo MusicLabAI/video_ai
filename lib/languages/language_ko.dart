@@ -179,14 +179,16 @@ class LanguageKo {
       "resolutionNotSupport": "1080p는 15초 또는 20초 비디오를 지원하지 않으며 자동으로 10초로 전환됩니다.",
       "generateTips": "먼저 프롬프트를 입력하거나 이미지를 추가하세요.",
       "mediaUploadPolicy": "미디어 업로드 정책",
-      "mediaUploadPolicyDesc1": "한 번의 구매로 평생 사용, 무제한 노래 생성, 한 번의 생성 증명",
-      "mediaUploadPolicyDesc2": "18세 미만이거나 동의 없이 개인 미디어를 업로드하지 마십시오",
-      "mediaUploadPolicyDesc3": "폭력적이거나 부적절한 콘텐츠를 업로드하지 마십시오",
-      "mediaUploadPolicyDesc4": "남용 시 환불 없이 계정이 정지되거나 차단될 수 있습니다",
+      "mediaUploadPolicyDesc": "다음 내용을 검토하고 동의해 주세요:",
+      "mediaUploadPolicyDesc1": "18세 이하 또는 동의 없는 개인의 미디어는 업로드하지 마세요.",
+      "mediaUploadPolicyDesc2": "폭력적이거나 부적절한 콘텐츠는 업로드하지 마세요.",
+      "mediaUploadPolicyDesc3": "업로드하는 미디어에 대한 권리가 있음을 확인하세요.",
+      "mediaUploadPolicyDesc4": "악용 시 계정이 정지되거나 금지될 수 있으며 환불은 제공되지 않습니다.",
       "agree": "동의",
       "textImage": "텍스트 및 이미지",
       "creditsCalculationRules": "크레딧 계산 규칙",
       "textImageDesc": "이미지를 업로드하여 확장하거나 텍스트로 설명하여 비디오를 생성하세요. 적게 작성하면 세부사항이 채워지고, 자세히 작성하면 정확하게 제어할 수 있습니다",
+      "illegalImage": "법적 이유로 초상화를 업로드하지 마세요.",
     };
   }
 }

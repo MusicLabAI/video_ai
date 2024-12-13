@@ -179,14 +179,16 @@ class LanguageFr {
       "resolutionNotSupport": "1080p ne prend pas en charge les vidéos de 15 ou 20 secondes et passera automatiquement à 10 secondes.",
       "generateTips": "Veuillez d'abord entrer une invite ou ajouter une image.",
       "mediaUploadPolicy": "Politique de téléchargement des médias",
-      "mediaUploadPolicyDesc1": "Achat unique pour une utilisation à vie, génération de chansons illimitée, preuve de création une fois",
-      "mediaUploadPolicyDesc2": "Ne téléchargez pas de médias de personnes de moins de 18 ans ou sans leur consentement",
-      "mediaUploadPolicyDesc3": "Ne téléchargez pas de contenu violent ou inapproprié",
-      "mediaUploadPolicyDesc4": "Tout abus peut entraîner la suspension ou l'interdiction du compte sans remboursement",
+      "mediaUploadPolicyDesc": "Veuillez examiner et accepter le contenu suivant :",
+      "mediaUploadPolicyDesc1": "Ne téléchargez pas de médias de personnes de moins de 18 ans ou sans leur consentement",
+      "mediaUploadPolicyDesc2": "Ne téléchargez pas de contenu violent ou inapproprié",
+      "mediaUploadPolicyDesc3": "Assurez-vous de détenir les droits des médias que vous téléchargez.",
+      "mediaUploadPolicyDesc4": "L'utilisation abusive peut entraîner la suspension ou l'interdiction du compte sans remboursement.",
       "agree": "Accepter",
       "textImage": "Texte et image",
       "creditsCalculationRules": "Règles de calcul des crédits",
       "textImageDesc": "Créez une vidéo en téléchargeant une image pour l'étendre ou en la décrivant avec du texte. Écrivez moins pour laisser les détails se remplir ou écrivez plus pour un contrôle précis",
+      "illegalImage": "Pour des raisons juridiques, veuillez ne pas télécharger de portraits.",
     };
   }
 }

@@ -55,14 +55,16 @@ class _VideoWidgetState extends State<VideoWidget> {
   Widget build(BuildContext context) {
     return VisibilityDetector(
       onVisibilityChanged: (visibilityInfo) {
-        var visiblePercentage = visibilityInfo.visibleFraction * 100;
-        if (visiblePercentage >= 10) {
-          if (!_controller.value.isPlaying) {
-            _controller.play();
-          }
-        } else {
-          if (_controller.value.isPlaying) {
-            _controller.pause();
+        if (mounted) {
+          var visiblePercentage = visibilityInfo.visibleFraction * 100;
+          if (visiblePercentage >= 10) {
+            if (!_controller.value.isPlaying) {
+              _controller.play();
+            }
+          } else {
+            if (_controller.value.isPlaying) {
+              _controller.pause();
+            }
           }
         }
       },

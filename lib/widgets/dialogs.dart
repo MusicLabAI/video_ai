@@ -435,6 +435,7 @@ class ImageSourceDialog extends StatelessWidget {
           color: UiColors.c23242A,
           borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
@@ -464,6 +465,11 @@ class ImageSourceDialog extends StatelessWidget {
               style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 14),
             ),
           ),
+          const SizedBox(height: 16,),
+          Text.rich(textAlign: TextAlign.start,TextSpan(children: [
+            const TextSpan(text: "*", style: TextStyle(fontSize: 12, color: UiColors.cFC5454),),
+            TextSpan(text: "illegalImage".tr, style: const TextStyle(fontSize: 12, color: UiColors.c61FFFFFF),),
+          ])),
           Padding(
             padding: const EdgeInsets.only(top: 24.0, bottom: 32),
             child: Row(

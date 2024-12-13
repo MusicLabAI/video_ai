@@ -307,38 +307,48 @@ class _CreatePageState extends State<CreatePage>
   void showUploadPolicyDialog() {
     Get.dialog(DialogContainer(
         bgColor: UiColors.c23242A,
-        child: Column(children: [
-          Text(
-            'mediaUploadPolicy'.tr,
-            style: const TextStyle(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+          Center(
+            child: Text(
+              textAlign: TextAlign.center,
+              'mediaUploadPolicy'.tr,
+              style: const TextStyle(
+                  color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 24.0),
+            child: Text(
+              'mediaUploadPolicyDesc'.tr,
+              style: const TextStyle(color: UiColors.cDBFFFFFF, fontSize: 12),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 24.0),
             child: Text(
               'mediaUploadPolicyDesc1'.tr,
-              style: const TextStyle(color: UiColors.cDBFFFFFF, fontSize: 12),
+              style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 12),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 24.0),
+            padding: const EdgeInsets.only(top: 12.0),
             child: Text(
               'mediaUploadPolicyDesc2'.tr,
-              style: const TextStyle(color: UiColors.cDBFFFFFF, fontSize: 12),
+              style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 12),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 24.0),
+            padding: const EdgeInsets.only(top: 12.0),
             child: Text(
               'mediaUploadPolicyDesc3'.tr,
-              style: const TextStyle(color: UiColors.cDBFFFFFF, fontSize: 12),
+              style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 12),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 24.0),
+            padding: const EdgeInsets.only(top: 12.0),
             child: Text(
               'mediaUploadPolicyDesc4'.tr,
-              style: const TextStyle(color: UiColors.cDBFFFFFF, fontSize: 12),
+              style: const TextStyle(color: UiColors.c99FFFFFF, fontSize: 12),
             ),
           ),
           Padding(

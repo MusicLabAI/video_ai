@@ -179,14 +179,16 @@ class LanguageJa {
       "resolutionNotSupport": "1080pは15秒または20秒の動画をサポートしていませんので、自動的に10秒に切り替わります。",
       "generateTips": "最初にプロンプトを入力するか、画像を追加してください。",
       "mediaUploadPolicy": "メディアアップロードポリシー",
-      "mediaUploadPolicyDesc1": "一度購入すれば一生使えます。無制限の曲生成、1回の作成証明",
-      "mediaUploadPolicyDesc2": "18歳未満または同意のない個人のメディアをアップロードしないでください",
-      "mediaUploadPolicyDesc3": "暴力的または不適切なコンテンツをアップロードしないでください",
-      "mediaUploadPolicyDesc4": "不正利用の場合、アカウントが停止または禁止され、返金されない可能性があります",
+      "mediaUploadPolicyDesc": "以下の内容を確認し、同意してください：",
+      "mediaUploadPolicyDesc1": "18歳未満の個人や同意なしのメディアのアップロードはしないでください",
+      "mediaUploadPolicyDesc2": "暴力的または不適切なコンテンツをアップロードしないでください",
+      "mediaUploadPolicyDesc3": "アップロードするメディアに対する権利を所有していることを確認してください。",
+      "mediaUploadPolicyDesc4": "不正利用はアカウントの停止や禁止を引き起こし、返金は行われません。",
       "agree": "同意する",
       "textImage": "テキストと画像",
       "creditsCalculationRules": "クレジット計算ルール",
       "textImageDesc": "画像をアップロードして拡張するか、テキストで説明して動画を作成します。少ない言葉で詳細を自動補完するか、詳細を書いて正確にコントロールすることができます",
+      "illegalImage": "法的な理由により、ポートレートをアップロードしないでください。",
     };
   }
 }

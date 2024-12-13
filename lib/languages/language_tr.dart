@@ -180,14 +180,16 @@ class LanguageTr {
       "resolutionNotSupport": "1080p, 15s veya 20s videoları desteklemiyor ve otomatik olarak 10s'ye geçecektir.",
       "generateTips": "Lütfen önce bir istem girin veya bir resim ekleyin.",
       "mediaUploadPolicy": "Medya Yükleme Politikası",
-      "mediaUploadPolicyDesc1": "Ömür boyu kullanım için tek seferlik satın alma, sınırsız şarkı oluşturma, bir kez oluşturma kanıtı",
-      "mediaUploadPolicyDesc2": "18 yaş altındaki kişilerin veya rızası olmayan kişilerin medyasını yüklemeyin",
-      "mediaUploadPolicyDesc3": "Şiddet içeren veya uygunsuz içerik yüklemeyin",
-      "mediaUploadPolicyDesc4": "Kötüye kullanım, geri ödeme yapılmaksızın hesabın askıya alınması veya yasaklanması ile sonuçlanabilir",
+      "mediaUploadPolicyDesc": "Lütfen aşağıdaki içeriği gözden geçirin ve kabul edin:",
+      "mediaUploadPolicyDesc1": "18 yaş altı veya izinsiz bireylerin medya içeriğini yüklemeyin",
+      "mediaUploadPolicyDesc2": "Şiddet içeren veya uygunsuz içerik yüklemeyin",
+      "mediaUploadPolicyDesc3": "Yüklediğiniz medya içeriğinin haklarına sahip olduğunuzdan emin olun.",
+      "mediaUploadPolicyDesc4": "Kötüye kullanım, hesabınızın askıya alınmasına veya yasaklanmasına yol açabilir ve geri ödeme yapılmaz.",
       "agree": "Kabul Et",
       "textImage": "Metin ve Görsel",
       "creditsCalculationRules": "Kredi Hesaplama Kuralları",
       "textImageDesc": "Bir görüntüyü yükleyerek genişletin veya metinle açıklayarak bir video oluşturun. Detayların doldurulmasına izin vermek için az yazın veya daha kesin bir kontrol için daha fazla yazın",
+      "illegalImage": "Yasal nedenlerden dolayı, lütfen portre yüklemeyin.",
     };
   }
 }
