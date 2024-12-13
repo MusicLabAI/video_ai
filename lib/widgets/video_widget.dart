@@ -34,7 +34,7 @@ class _VideoWidgetState extends State<VideoWidget> {
     });
 
     _controller.play();
-    // _controller.setVolume(widget.volume);
+    _controller.setVolume(widget.volume);
     _controller.setLooping(widget.isLopper);
   }
 
