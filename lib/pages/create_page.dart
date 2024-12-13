@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -24,7 +25,8 @@ class CreatePage extends StatefulWidget {
   State<CreatePage> createState() => _CreatePageState();
 }
 
-class _CreatePageState extends State<CreatePage> with AutomaticKeepAliveClientMixin{
+class _CreatePageState extends State<CreatePage>
+    with AutomaticKeepAliveClientMixin {
   late TextEditingController _controller;
   Worker? _promptWorker;
   final CreateController _createCtr = Get.find<CreateController>();
@@ -87,12 +89,14 @@ class _CreatePageState extends State<CreatePage> with AutomaticKeepAliveClientMi
                         },
                       ),
                     TextField(
-                      onChanged: (value){
+                      onChanged: (value) {
                         _createCtr.prompt.value = value;
                       },
                       controller: _controller,
                       cursorColor: UiColors.c61FFFFFF,
-                      maxLines: _createCtr.imagePath.value?.isNotEmpty ?? false ? 6 : 12,
+                      maxLines: _createCtr.imagePath.value?.isNotEmpty ?? false
+                          ? 6
+                          : 12,
                       style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeightExt.regular,
@@ -165,7 +169,8 @@ class _CreatePageState extends State<CreatePage> with AutomaticKeepAliveClientMi
                               }
                               return;
                             }
-                            _createCtr.aiGenerate(prompt, _createCtr.imagePath.value,
+                            _createCtr.aiGenerate(
+                                prompt, _createCtr.imagePath.value,
                                 ratio: _createCtr.curRatio.value.value,
                                 resolution:
                                     _createCtr.curResolution.value.value,
@@ -175,7 +180,8 @@ class _CreatePageState extends State<CreatePage> with AutomaticKeepAliveClientMi
                           text: 'generate'.tr,
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 8),
-                          textColor: isEnable ? UiColors.c1B1B1F : UiColors.c99FFFFFF,
+                          textColor:
+                              isEnable ? UiColors.c1B1B1F : UiColors.c99FFFFFF,
                           bgColor: isEnable ? Colors.white : UiColors.c23242A,
                           textSize: 14,
                           rightIcon: Padding(
@@ -267,11 +273,13 @@ class _CreatePageState extends State<CreatePage> with AutomaticKeepAliveClientMi
                               },
                             ),
                             CustomParameterButton(
-                              icon: 'assets/images/ic_variations.png',
-                              dialogTitle: 'variations'.tr,
-                              parameterList: _createCtr.variationsList,
-                              parameterRx: _createCtr.curVariations,
-                            ),
+                                icon: 'assets/images/ic_variations.png',
+                                dialogTitle: 'variations'.tr,
+                                parameterList: _createCtr.variationsList,
+                                parameterRx: _createCtr.curVariations,
+                                validate: (item) {
+                                  return item.enable;
+                                }),
                           ],
                         ),
                       ),
@@ -455,9 +463,6 @@ class ImageWithCloseButton extends StatefulWidget {
 }
 
 class _ImageWithCloseButtonState extends State<ImageWithCloseButton> {
-  bool _isImageLoaded = false;
-  final GlobalKey _imageKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -469,63 +474,31 @@ class _ImageWithCloseButtonState extends State<ImageWithCloseButton> {
           // 图片
           Positioned.fill(
             child: Center(
-              child: Image.file(
-                File(widget.imagePath),
-                key: _imageKey,
-                fit: BoxFit.fitHeight,
-                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                  if (frame != null) {
-                    // 图片加载完成
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      if (!_isImageLoaded) {
-                        setState(() {
-                          _isImageLoaded = true;
-                        });
-                      }
-                    });
-                  }
-                  return child;
-                },
-              ),
+              child: RegExp(r'^https?://').hasMatch(widget.imagePath)
+                  ? CachedNetworkImage(
+                      imageUrl: widget.imagePath,
+                      fit: BoxFit.fitHeight,
+                    )
+                  : Image.file(
+                      File(widget.imagePath),
+                      fit: BoxFit.fitHeight,
+                    ),
             ),
           ),
           // 关闭按钮
-          if (_isImageLoaded)
-            Positioned(
-              top: 8,
-              right: _getImageRightOffset(),
-              child: GestureDetector(
-                onTap: widget.onTap,
-                child: Image.asset(
-                  "assets/images/ic_close_alpha.png",
-                  width: 28,
-                ),
+          Positioned(
+            top: 0,
+            right: 8,
+            child: GestureDetector(
+              onTap: widget.onTap,
+              child: Image.asset(
+                "assets/images/ic_close_alpha.png",
+                width: 28,
               ),
             ),
+          ),
         ],
       ),
     );
-  }
-
-  // 获取图片顶部偏移量
-  double _getImageTopOffset() {
-    RenderBox? renderBox =
-        _imageKey.currentContext?.findRenderObject() as RenderBox?;
-    if (renderBox != null) {
-      return renderBox.localToGlobal(Offset.zero).dy - 8; // 微调位置
-    }
-    return 8;
-  }
-
-  // 获取图片右侧偏移量
-  double _getImageRightOffset() {
-    RenderBox? renderBox =
-        _imageKey.currentContext?.findRenderObject() as RenderBox?;
-    if (renderBox != null) {
-      final double screenWidth = MediaQuery.of(context).size.width;
-      final Offset imageOffset = renderBox.localToGlobal(Offset.zero);
-      return screenWidth - imageOffset.dx - renderBox.size.width - 8; // 微调位置
-    }
-    return 8;
   }
 }

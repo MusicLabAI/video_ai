@@ -55,7 +55,7 @@ class _VideoListPageState extends State<VideoListPage> with AutomaticKeepAliveCl
             },
             child: Obx(
               () => ListView.builder(
-                itemCount: _createCtr.effectsList.length,
+                itemCount: _createCtr.promptItems.length,
                 itemBuilder: (context, index) {
                   return _buildListItem(context, index);
                 },
@@ -67,7 +67,7 @@ class _VideoListPageState extends State<VideoListPage> with AutomaticKeepAliveCl
 
   Widget _buildListItem(BuildContext context, int index) {
     _ctx1 = context;
-    final model = _createCtr.effectsList.value[index];
+    final model = _createCtr.promptItems.value[index];
     return AspectRatio(
       aspectRatio: 360 / 446,
       child: Stack(

@@ -8,6 +8,7 @@ import 'package:video_ai/common/file_util.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 import 'package:video_ai/controllers/user_controller.dart';
 import 'package:video_ai/models/example_model.dart';
+import 'package:video_ai/models/record_model.dart';
 import 'package:video_ai/widgets/loading_widget.dart';
 
 import '../common/aws_utils.dart';
@@ -55,11 +56,13 @@ class CreateController extends GetxController {
         name: "4 Videos",
         value: 4,
         littleName: "4v",
+        enable: false,
         icon: "assets/images/ic_variations_4.png"),
     ParameterModel(
         name: "2 Videos",
         value: 2,
         littleName: "2v",
+        enable: false,
         icon: "assets/images/ic_variations_2.png"),
     ParameterModel(
         name: "1 Videos",
@@ -84,7 +87,7 @@ class CreateController extends GetxController {
     super.onInit();
   }
 
-  void updateDuration(bool isEnable){
+  void updateDuration(bool isEnable) {
     for (var item in durationList) {
       if (item.value > 10) {
         item.enable = isEnable;
@@ -96,9 +99,9 @@ class CreateController extends GetxController {
     if (promptItems.isEmpty) {
       getRecommendPrompt();
     }
-    if (effectsList.isEmpty) {
-      getEffectsTags();
-    }
+    // if (effectsList.isEmpty) {
+    //   getEffectsTags();
+    // }
   }
 
   Future<void> getRecommendPrompt() async {
@@ -108,11 +111,25 @@ class CreateController extends GetxController {
   }
 
   /// 复用
-  void reuseCurrent(String newPrompt, {String? inputImageUrl}) {
-    if (inputImageUrl != null && inputImageUrl.isNotEmpty) {
-      imagePath.value = inputImageUrl;
+  void reuseCurrent(RecordModel model) {
+    imagePath.value = model.inputImageUrl;
+    prompt.value = model.prompt ?? "";
+    final newRatio = ratioList.firstWhereOrNull((item) => model.ratio == item.value);
+    if (newRatio != null) {
+      curRatio.value = newRatio;
     }
-    prompt.value = newPrompt;
+    final newResolution = resolutionList.firstWhereOrNull((item) => model.resolution == item.value);
+    if (newResolution != null) {
+      curResolution.value = newResolution;
+    }
+    final newDuration = durationList.firstWhereOrNull((item) => model.duration == item.value);
+    if (newDuration != null) {
+      curDuration.value = newDuration;
+    }
+    final newVariations = variationsList.firstWhereOrNull((item) => model.number == item.value);
+    if (newVariations != null) {
+      curVariations.value = newVariations;
+    }
   }
 
   Future<void> getEffectsTags() async {
@@ -131,11 +148,19 @@ class CreateController extends GetxController {
 
   ///如果有复用的图片，使用复用的图片
   Future<bool> aiGenerate(String prompt, String? imagePath,
-      {int? effectId, String? ratio, int? resolution, int? duration, int? num}) async {
+      {int? effectId,
+      String? ratio,
+      int? resolution,
+      int? duration,
+      int? num}) async {
     Get.log(
         "prompt: $prompt -- imagePath: $imagePath  effectId: $effectId  ratio: $ratio  resolution: $resolution  duration: $duration num: $num");
     try {
-      Get.dialog(const LoadingWidget(canPop: false,), barrierDismissible: false);
+      Get.dialog(
+          const LoadingWidget(
+            canPop: false,
+          ),
+          barrierDismissible: false);
       String? imageUrl;
       if (imagePath?.isNotEmpty == true) {
         if (RegExp(r'^https?://').hasMatch(imagePath!)) {

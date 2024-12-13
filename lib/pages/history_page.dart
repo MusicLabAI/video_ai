@@ -189,8 +189,7 @@ class _HistoryPageState extends State<HistoryPage>
               recordModel: recordItem,
             ));
         if (data is RecordModel) {
-          _createCtr.reuseCurrent(
-              data.prompt ?? '');
+          _createCtr.reuseCurrent(data);
           _mainCtr.tabController.index = 1;
         }
       },
