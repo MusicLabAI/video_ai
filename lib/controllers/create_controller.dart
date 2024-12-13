@@ -105,9 +105,14 @@ class CreateController extends GetxController {
   }
 
   Future<void> getRecommendPrompt() async {
-    final data = await Request.getRecommendPrompt();
-    promptItems.value =
-        (data as List).map((record) => ExampleModel.fromJson(record)).toList();
+    try {
+      final data = await Request.getRecommendPrompt();
+      promptItems.value =
+          (data as List)
+              .map((record) => ExampleModel.fromJson(record))
+              .toList();
+    } catch(_) {
+    }
   }
 
   /// 复用

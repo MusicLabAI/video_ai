@@ -46,6 +46,7 @@ class _CreatePageState extends State<CreatePage>
     _promptWorker = ever(_createCtr.imagePath, (value) {
       updateEnableStatus();
     });
+    updateEnableStatus();
   }
 
   void updateEnableStatus() {

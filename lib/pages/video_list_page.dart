@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
@@ -39,32 +40,37 @@ class _VideoListPageState extends State<VideoListPage>
             ),
           ),
           Expanded(
-              child: ListViewObserver(
-            autoTriggerObserveTypes: const [
-              ObserverAutoTriggerObserveType.scrollEnd,
-            ],
-            sliverListContexts: () {
-              return [if (_ctx1 != null) _ctx1!];
-            },
-            leadingOffset: leadingOffset,
-            onObserveAll: (resultMap) {
-              final model = resultMap[_ctx1];
-              if (model == null) return;
+              child: EasyRefresh(
+                  onRefresh: () {
+                    _createCtr.getRecommendPrompt();
+                  },
+                  onLoad: () {},
+                  child: ListViewObserver(
+                    autoTriggerObserveTypes: const [
+                      ObserverAutoTriggerObserveType.scrollEnd,
+                    ],
+                    sliverListContexts: () {
+                      return [if (_ctx1 != null) _ctx1!];
+                    },
+                    leadingOffset: leadingOffset,
+                    onObserveAll: (resultMap) {
+                      final model = resultMap[_ctx1];
+                      if (model == null) return;
 
-              if (_hitIndex != model.firstChild?.index) {
-                _hitIndex = model.firstChild?.index ?? 0;
-                setState(() {});
-              }
-            },
-            child: Obx(
-              () => ListView.builder(
-                itemCount: _createCtr.promptItems.length,
-                itemBuilder: (context, index) {
-                  return _buildListItem(context, index);
-                },
-              ),
-            ),
-          ))
+                      if (_hitIndex != model.firstChild?.index) {
+                        _hitIndex = model.firstChild?.index ?? 0;
+                        setState(() {});
+                      }
+                    },
+                    child: Obx(
+                      () => ListView.builder(
+                        itemCount: _createCtr.promptItems.length,
+                        itemBuilder: (context, index) {
+                          return _buildListItem(context, index);
+                        },
+                      ),
+                    ),
+                  )))
         ]));
   }
 
