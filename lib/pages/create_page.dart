@@ -385,10 +385,12 @@ class CustomParameterButton extends StatefulWidget {
 
 class _CustomParameterButtonState extends State<CustomParameterButton> {
   bool isPopupShowing = false;
+  final GlobalKey anchorKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return CustomButton(
+      key: anchorKey,
       onTap: () async {
         CommonUtil.hideKeyboard(context);
         setState(() {
@@ -400,6 +402,7 @@ class _CustomParameterButtonState extends State<CustomParameterButton> {
               list: widget.parameterList,
               parameterRx: widget.parameterRx,
               validate: widget.validate,
+              anchorViewKey: anchorKey,
             ),
             barrierColor: Colors.transparent);
         setState(() {

@@ -43,7 +43,7 @@ class _VideoListPageState extends State<VideoListPage> {
             sliverListContexts: () {
               return [if (_ctx1 != null) _ctx1!];
             },
-            leadingOffset: 100,
+            leadingOffset: 50,
             onObserveAll: (resultMap) {
               final model = resultMap[_ctx1];
               if (model == null) return;
@@ -77,7 +77,7 @@ class _VideoListPageState extends State<VideoListPage> {
                   ? VideoWidget(url: model.videoUrl ?? "")
                   : CachedNetworkImage(
                       imageUrl: model.thumbnailUrl ?? "",
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     )),
           Positioned(
               top: 20,
@@ -114,7 +114,7 @@ class _VideoListPageState extends State<VideoListPage> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter)),
                 child: Text(
-                  model.description ?? "",
+                  model.tag ?? "",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.left,

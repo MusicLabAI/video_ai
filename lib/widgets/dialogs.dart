@@ -794,13 +794,16 @@ class _ReportDialogState extends State<ReportDialog> {
 }
 
 class ParameterDialog extends StatefulWidget {
-  const ParameterDialog(
-      {super.key,
-      required this.title,
-      required this.list,
-      required this.parameterRx,
-      this.validate});
+  const ParameterDialog({
+    super.key,
+    required this.title,
+    required this.list,
+    required this.parameterRx,
+    this.validate,
+    required this.anchorViewKey,
+  });
 
+  final GlobalKey anchorViewKey;
   final String title;
   final List<ParameterModel> list;
   final Rx<ParameterModel> parameterRx;
@@ -811,8 +814,44 @@ class ParameterDialog extends StatefulWidget {
 }
 
 class _ParameterDialogState extends State<ParameterDialog> {
+  Offset anchorPosition = Offset.zero;
+  double anchorWidth = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _calculateAnchorPosition());
+  }
+
+  void _calculateAnchorPosition() {
+    final renderBox =
+        widget.anchorViewKey.currentContext?.findRenderObject() as RenderBox?;
+
+    if (renderBox != null) {
+      final position = renderBox.localToGlobal(Offset.zero);
+      setState(() {
+        anchorPosition = position;
+        anchorWidth = renderBox.size.width;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    const dialogWidth = 180.0; // 假设弹框宽度固定为 180，实际可以动态计算
+    double horizontalAlignment;
+
+    // 动态计算水平方向对齐方式
+    if (anchorPosition.dx + dialogWidth > screenWidth) {
+      // 弹框宽度超出屏幕右边界，右对齐
+      horizontalAlignment = anchorPosition.dx + anchorWidth - dialogWidth;
+    } else {
+      // 左对齐
+      horizontalAlignment = anchorPosition.dx;
+    }
+
     return WillPopScope(
       onWillPop: () async => false,
       child: GestureDetector(
@@ -821,106 +860,113 @@ class _ParameterDialogState extends State<ParameterDialog> {
         },
         child: Material(
           color: Colors.transparent,
-          child: Align(
-            alignment: Alignment(0, calculateOffset(widget.list.length)),
-            child: Container(
-              padding: const EdgeInsets.only(top: 16, bottom: 8),
-              decoration: BoxDecoration(
-                  color: UiColors.cE6000000,
-                  borderRadius: BorderRadius.circular(12)),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: Text(
-                      widget.title,
-                      style: const TextStyle(
-                          color: UiColors.c99FFFFFF,
-                          fontSize: 12,
-                          fontWeight: FontWeightExt.semiBold),
-                    ),
+          child: Stack(
+            children: [
+              Positioned(
+                left: horizontalAlignment,
+                top: anchorPosition.dy -
+                    calculatePopupHeight(widget.list.length),
+                // 弹框位置可以调整，比如偏移 10px
+                child: Container(
+                  padding: const EdgeInsets.only(top: 16, bottom: 8),
+                  decoration: BoxDecoration(
+                    color: UiColors.cE6000000,
+                    borderRadius: BorderRadius.circular(12),
                   ),
-
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  // 遍历列表并生成子组件
-                  ...widget.list.map((item) {
-                    final isSelected = item == widget.parameterRx.value;
-
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          if (widget.validate != null) {
-                            bool isValid = widget.validate!(item);
-                            if (!isValid) {
-                              return;
-                            }
-                          }
-                          widget.parameterRx.value = item;
-                          Get.back();
-                        });
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 8),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // 图标
-                            Image.asset(
-                              item.icon,
-                              width: 16,
-                              height: 16,
-                              color: item.enable ? null : UiColors.c99FFFFFF,
-                              fit: BoxFit.cover,
-                            ),
-                            const SizedBox(width: 8),
-                            // 名称
-                            SizedBox(
-                              width: 100,
-                              child: Text(
-                                item.name,
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  color: item.enable ? Colors.white : UiColors.c99FFFFFF,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-
-                            Image.asset(
-                              isSelected
-                                  ? "assets/images/ic_checked.png"
-                                  : "assets/images/ic_unchecked.png",
-                              width: 16,
-                              height: 16,
-                              color: item.enable ? null : UiColors.c99FFFFFF,
-                              fit: BoxFit.cover,
-                            ),
-                          ],
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Text(
+                          widget.title,
+                          style: const TextStyle(
+                            color: UiColors.c99FFFFFF,
+                            fontSize: 12,
+                            fontWeight: FontWeightExt.semiBold,
+                          ),
                         ),
                       ),
-                    );
-                  }),
-                ],
+                      const SizedBox(height: 8),
+                      ...widget.list.map((item) {
+                        final isSelected = item == widget.parameterRx.value;
+
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (widget.validate != null) {
+                                bool isValid = widget.validate!(item);
+                                if (!isValid) {
+                                  return;
+                                }
+                              }
+                              widget.parameterRx.value = item;
+                              Get.back();
+                            });
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                              vertical: 8,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(
+                                  item.icon,
+                                  width: 16,
+                                  height: 16,
+                                  color:
+                                      item.enable ? null : UiColors.c99FFFFFF,
+                                  fit: BoxFit.cover,
+                                ),
+                                const SizedBox(width: 8),
+                                SizedBox(
+                                  width: 100,
+                                  child: Text(
+                                    item.name,
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      color: item.enable
+                                          ? Colors.white
+                                          : UiColors.c99FFFFFF,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Image.asset(
+                                  isSelected
+                                      ? "assets/images/ic_checked.png"
+                                      : "assets/images/ic_unchecked.png",
+                                  width: 16,
+                                  height: 16,
+                                  color:
+                                      item.enable ? null : UiColors.c99FFFFFF,
+                                  fit: BoxFit.cover,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  double calculateOffset(int length) {
-    // 根据长度动态计算负值
-    double baseValue = -0.7; // 当长度为 4 时，offset 为 -0.7
-    double step = 0.1; // 每减少一个长度，增加 0.1
-
-    return baseValue + (4 - length) * step;
+  double calculatePopupHeight(int length) {
+    // 动态计算弹框高度（根据行数）
+    double rowHeight = 34; // 每一行的高度
+    double padding = 16 + 8 + 60; // 上下内边距
+    return rowHeight * length + padding;
   }
 }

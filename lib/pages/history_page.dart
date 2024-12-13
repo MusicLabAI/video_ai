@@ -194,20 +194,23 @@ class _HistoryPageState extends State<HistoryPage>
           _mainCtr.tabController.index = 1;
         }
       },
-      child: Stack(children: [
-        if (recordItem.thumbnailUrl?.isNotEmpty ?? false)
-          Positioned.fill(
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: CachedNetworkImage(
-                  imageUrl: recordItem.thumbnailUrl!,
-                  fit: BoxFit.cover,
-                )),
-          ),
-        _delete(onTap: () {
-          _deleteItem(recordItem);
-        }),
-      ]),
+      child: Container(
+        color: Colors.transparent,
+        child: Stack(children: [
+          if (recordItem.thumbnailUrl?.isNotEmpty ?? false)
+            Positioned.fill(
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: CachedNetworkImage(
+                    imageUrl: recordItem.thumbnailUrl!,
+                    fit: BoxFit.cover,
+                  )),
+            ),
+          _delete(onTap: () {
+            _deleteItem(recordItem);
+          }),
+        ]),
+      ),
     );
   }
 

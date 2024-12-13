@@ -68,7 +68,7 @@ class Request {
       "ratio": ratio,
       "resolution": resolution,
       "duration": duration,
-      "num": num
+      "number": num
     });
   }
 
