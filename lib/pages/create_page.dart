@@ -52,215 +52,223 @@ class _CreatePageState extends State<CreatePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      bottom: false,
       child: GestureDetector(
         onTap: () => CommonUtil.hideKeyboard(context),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(16),
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                  color: UiColors.c1B1B1F,
-                  borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(20))),
-              child: Column(
-                children: [
-                  if (_pickImagePath?.isNotEmpty ?? false)
-                    ImageWithCloseButton(
-                      imagePath: _pickImagePath!,
-                      onTap: () {
-                        setState(() {
-                          _pickImagePath = null;
-                        });
-                      },
-                    ),
-                  TextField(
-                    controller: _controller,
-                    cursorColor: UiColors.c61FFFFFF,
-                    maxLines: _pickImagePath?.isNotEmpty ?? false ? 6 : 12,
-                    style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeightExt.regular,
-                        color: UiColors.cDBFFFFFF),
-                    decoration: InputDecoration(
-                      counterStyle: const TextStyle(
-                          fontSize: 10, color: UiColors.c61FFFFFF),
-                      hintStyle: const TextStyle(
+        child: Container(
+          color: Colors.transparent,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                    color: UiColors.c1B1B1F,
+                    borderRadius:
+                        BorderRadius.vertical(bottom: Radius.circular(20))),
+                child: Column(
+                  children: [
+                    if (_pickImagePath?.isNotEmpty ?? false)
+                      ImageWithCloseButton(
+                        imagePath: _pickImagePath!,
+                        onTap: () {
+                          setState(() {
+                            _pickImagePath = null;
+                          });
+                        },
+                      ),
+                    TextField(
+                      controller: _controller,
+                      cursorColor: UiColors.c61FFFFFF,
+                      maxLines: _pickImagePath?.isNotEmpty ?? false ? 6 : 12,
+                      style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeightExt.regular,
-                          color: UiColors.c61FFFFFF),
-                      contentPadding: EdgeInsets.zero,
-                      hintText: 'promptHint'.tr,
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Obx(() => CustomButton(
-                            text: 'costsCreditsValue'
-                                .trArgs(["${_createCtr.getScore()}"]),
-                            textSize: 12,
-                            textColor: UiColors.cDBFFFFFF,
-                            leftIcon: Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: Image.asset(
-                                "assets/images/ic_point.png",
-                                width: 20,
-                              ),
-                            ),
-                          )),
-                      GestureDetector(
-                        onTap: () {
-                          CommonUtil.hideKeyboard(context);
-                          Get.bottomSheet(const CreditsRulesWidget(),);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Image.asset(
-                            'assets/images/ic_faq.png',
-                            width: 20,
-                          ),
-                        ),
+                          color: UiColors.cDBFFFFFF),
+                      decoration: InputDecoration(
+                        counterStyle: const TextStyle(
+                            fontSize: 10, color: UiColors.c61FFFFFF),
+                        hintStyle: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeightExt.regular,
+                            color: UiColors.c61FFFFFF),
+                        contentPadding: EdgeInsets.zero,
+                        hintText: 'promptHint'.tr,
+                        border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                       ),
-                      const Spacer(),
-                      CustomButton(
-                        onTap: () async {
-                          CommonUtil.hideKeyboard(context);
-                          String prompt = _createCtr.prompt.value;
-                          if (prompt.isEmpty &&
-                              (_pickImagePath?.isEmpty ?? true)) {
-                            Fluttertoast.showToast(msg: 'generateTips'.tr);
-                            return;
-                          }
-                          await _userCtr.getUserInfo();
-                          if (!_userCtr.isLogin.value) {
-                            _userCtr.showLogin();
-                            return;
-                          }
-                          final userInfo = _userCtr.userInfo.value;
-                          if (userInfo.pointValue < _createCtr.getScore()) {
-                            if (userInfo.isVip ?? false) {
-                              Get.to(() => const ProPurchasePage());
-                            } else {
-                              Get.to(() => const PointPurchasePage());
-                            }
-                            return;
-                          }
-                          _createCtr.aiGenerate(prompt, _pickImagePath,
-                              ratio: _createCtr.curRatio.value.value,
-                              resolution: _createCtr.curResolution.value.value,
-                              duration: _createCtr.curDuration.value.value,
-                              num: _createCtr.curVariations.value.value);
-                        },
-                        text: 'generate'.tr,
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 8),
-                        textColor: UiColors.c1B1B1F,
-                        bgColor: Colors.white,
-                        textSize: 14,
-                        rightIcon: Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Image.asset(
-                            'assets/images/ic_upload.png',
-                            width: 16,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CustomButton(
-                              height: 26,
-                              margin: const EdgeInsets.only(right: 10),
-                              borderRadius: BorderRadius.circular(8),
-                              contentPadding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              bgColor: UiColors.c23242A,
+                    ),
+                    Row(
+                      children: [
+                        Obx(() => CustomButton(
+                              text: 'costsCreditsValue'
+                                  .trArgs(["${_createCtr.getScore()}"]),
+                              textSize: 12,
+                              textColor: UiColors.cDBFFFFFF,
                               leftIcon: Padding(
-                                padding: const EdgeInsets.only(right: 4.0),
+                                padding: const EdgeInsets.only(right: 8.0),
                                 child: Image.asset(
-                                  'assets/images/ic_add_image.png',
-                                  width: 14,
-                                  height: 14,
+                                  "assets/images/ic_point.png",
+                                  width: 20,
                                 ),
                               ),
-                              text: 'image'.tr,
-                              textSize: 10,
-                              textColor: UiColors.c99FFFFFF,
-                              onTap: () async {
-                                CommonUtil.hideKeyboard(context);
-                                final prefs =
-                                    await SharedPreferences.getInstance();
-                                if (prefs.getBool("isAgree") ?? false) {
-                                  showPickupImageDialog();
-                                } else {
-                                  showUploadPolicyDialog();
-                                }
-                              }),
-                          CustomParameterButton(
-                              icon: 'assets/images/ic_ratio.png',
-                              dialogTitle: 'aspectRatio'.tr,
-                              parameterList: _createCtr.ratioList,
-                              parameterRx: _createCtr.curRatio),
-                          CustomParameterButton(
-                            icon: 'assets/images/ic_resolution.png',
-                            dialogTitle: 'resolution'.tr,
-                            parameterList: _createCtr.resolutionList,
-                            parameterRx: _createCtr.curResolution,
-                            validate: (item) {
-                              if (_createCtr.curDuration.value.value > 10 &&
-                                  item.value == 1080) {
-                                Fluttertoast.showToast(
-                                    msg: 'resolutionNotSupport'.tr,
-                                    toastLength: Toast.LENGTH_LONG);
-                                _createCtr.curDuration.value =
-                                    _createCtr.durationList.firstWhereOrNull(
-                                        (item) => item.value == 10)!;
+                            )),
+                        GestureDetector(
+                          onTap: () {
+                            CommonUtil.hideKeyboard(context);
+                            Get.bottomSheet(
+                              const CreditsRulesWidget(),
+                            );
+                          },
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Image.asset(
+                              'assets/images/ic_faq.png',
+                              width: 20,
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        CustomButton(
+                          onTap: () async {
+                            CommonUtil.hideKeyboard(context);
+                            String prompt = _createCtr.prompt.value;
+                            if (prompt.isEmpty &&
+                                (_pickImagePath?.isEmpty ?? true)) {
+                              Fluttertoast.showToast(msg: 'generateTips'.tr);
+                              return;
+                            }
+                            await _userCtr.getUserInfo();
+                            if (!_userCtr.isLogin.value) {
+                              _userCtr.showLogin();
+                              return;
+                            }
+                            final userInfo = _userCtr.userInfo.value;
+                            if (userInfo.pointValue < _createCtr.getScore()) {
+                              if (userInfo.isVip ?? false) {
+                                Get.to(() => const ProPurchasePage());
+                              } else {
+                                Get.to(() => const PointPurchasePage());
                               }
-                              _createCtr.updateDuration(item.value < 1080);
-                              return true;
-                            },
+                              return;
+                            }
+                            _createCtr.aiGenerate(prompt, _pickImagePath,
+                                ratio: _createCtr.curRatio.value.value,
+                                resolution:
+                                    _createCtr.curResolution.value.value,
+                                duration: _createCtr.curDuration.value.value,
+                                num: _createCtr.curVariations.value.value);
+                          },
+                          text: 'generate'.tr,
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 8),
+                          textColor: UiColors.c1B1B1F,
+                          bgColor: Colors.white,
+                          textSize: 14,
+                          rightIcon: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Image.asset(
+                              'assets/images/ic_upload.png',
+                              width: 16,
+                            ),
                           ),
-                          CustomParameterButton(
-                            icon: 'assets/images/ic_clock.png',
-                            dialogTitle: 'duration'.tr,
-                            parameterList: _createCtr.durationList,
-                            parameterRx: _createCtr.curDuration,
-                            validate: (item) {
-                              if (_createCtr.curResolution.value.value ==
-                                      1080 &&
-                                  item.value > 10) {
-                                Fluttertoast.showToast(
-                                    msg: 'durationNotSupport'.tr,
-                                    toastLength: Toast.LENGTH_LONG);
-                                return false;
-                              }
-                              return true;
-                            },
-                          ),
-                          CustomParameterButton(
-                            icon: 'assets/images/ic_variations.png',
-                            dialogTitle: 'variations'.tr,
-                            parameterList: _createCtr.variationsList,
-                            parameterRx: _createCtr.curVariations,
-                          ),
-                        ],
-                      ),
+                        )
+                      ],
                     ),
-                  )
-                ],
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CustomButton(
+                                height: 26,
+                                margin: const EdgeInsets.only(right: 10),
+                                borderRadius: BorderRadius.circular(8),
+                                contentPadding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                bgColor: UiColors.c23242A,
+                                leftIcon: Padding(
+                                  padding: const EdgeInsets.only(right: 4.0),
+                                  child: Image.asset(
+                                    'assets/images/ic_add_image.png',
+                                    width: 14,
+                                    height: 14,
+                                  ),
+                                ),
+                                text: 'image'.tr,
+                                textSize: 10,
+                                textColor: UiColors.c99FFFFFF,
+                                onTap: () async {
+                                  CommonUtil.hideKeyboard(context);
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  if (prefs.getBool("isAgree") ?? false) {
+                                    showPickupImageDialog();
+                                  } else {
+                                    showUploadPolicyDialog();
+                                  }
+                                }),
+                            CustomParameterButton(
+                                icon: 'assets/images/ic_ratio.png',
+                                dialogTitle: 'aspectRatio'.tr,
+                                parameterList: _createCtr.ratioList,
+                                parameterRx: _createCtr.curRatio),
+                            CustomParameterButton(
+                              icon: 'assets/images/ic_resolution.png',
+                              dialogTitle: 'resolution'.tr,
+                              parameterList: _createCtr.resolutionList,
+                              parameterRx: _createCtr.curResolution,
+                              validate: (item) {
+                                if (_createCtr.curDuration.value.value > 10 &&
+                                    item.value == 1080) {
+                                  Fluttertoast.showToast(
+                                      msg: 'resolutionNotSupport'.tr,
+                                      toastLength: Toast.LENGTH_LONG);
+                                  _createCtr.curDuration.value =
+                                      _createCtr.durationList.firstWhereOrNull(
+                                          (item) => item.value == 10)!;
+                                }
+                                _createCtr.updateDuration(item.value < 1080);
+                                return true;
+                              },
+                            ),
+                            CustomParameterButton(
+                              icon: 'assets/images/ic_clock.png',
+                              dialogTitle: 'duration'.tr,
+                              parameterList: _createCtr.durationList,
+                              parameterRx: _createCtr.curDuration,
+                              validate: (item) {
+                                if (_createCtr.curResolution.value.value ==
+                                        1080 &&
+                                    item.value > 10) {
+                                  Fluttertoast.showToast(
+                                      msg: 'durationNotSupport'.tr,
+                                      toastLength: Toast.LENGTH_LONG);
+                                  return false;
+                                }
+                                return true;
+                              },
+                            ),
+                            CustomParameterButton(
+                              icon: 'assets/images/ic_variations.png',
+                              dialogTitle: 'variations'.tr,
+                              parameterList: _createCtr.variationsList,
+                              parameterRx: _createCtr.curVariations,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

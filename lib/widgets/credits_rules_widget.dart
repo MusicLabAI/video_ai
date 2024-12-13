@@ -21,11 +21,25 @@ class CreditsRulesWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            "textImage".tr,
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
-          ),
+          Stack(children: [
+            Center(
+              child: Text(
+                "textImage".tr,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 16),
+              ),
+            ),
+            Positioned(
+                right: 0,
+                child: GestureDetector(
+                    onTap: () => Get.back(),
+                    child: Image.asset(
+                      'assets/images/ic_close.png',
+                      width: 24,
+                    )))
+          ]),
           const SizedBox(
             height: 16,
           ),
@@ -57,8 +71,9 @@ class CreditsRulesWidget extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: DataTable(
                     dividerThickness: 0,
+                    horizontalMargin: 0,
                     showCheckboxColumn: false,
-                    columnSpacing: 20,
+                    columnSpacing: 0,
                     headingRowHeight: 40,
                     dataRowMinHeight: 40,
                     dataRowMaxHeight: 40,
@@ -73,12 +88,12 @@ class CreditsRulesWidget extends StatelessWidget {
                       _buildDataColumn('20s'),
                     ],
                     rows: [
-                      _buildRow('480p square', [10, 20, 30, 40]),
-                      _buildRow('480p', [15, 30, 45, 60]),
-                      _buildRow('720p square', [20, 40, 60, 80]),
-                      _buildRow('720p', [30, 60, 90, 120]),
-                      _buildRow('1080p square', [50, 100, 150, 200]),
-                      _buildRow('480p', [100, 200, 300, 400]),
+                      _buildRow('480p\nsquare', [10, 20, 30, 40]),
+                      _buildRow('480p  ', [15, 30, 45, 60]),
+                      _buildRow('720p\nsquare', [20, 40, 60, 80]),
+                      _buildRow('720p  ', [30, 60, 90, 120]),
+                      _buildRow('1080p\nsquare', [50, 100, 150, 200]),
+                      _buildRow('1080p', [100, 200, 300, 400]),
                     ],
                   ),
                 ),
@@ -93,19 +108,7 @@ class CreditsRulesWidget extends StatelessWidget {
   // 方法：创建 DataColumn
   DataColumn _buildDataColumn(String label) {
     return DataColumn(
-      label: SizedBox(
-        width: 40,
-        height: 40,
-        child: Center(
-          child: Text(
-            label,
-            style: const TextStyle(
-                color: UiColors.cDBFFFFFF,
-                fontSize: 10,
-                fontWeight: FontWeightExt.semiBold),
-          ),
-        ),
-      ),
+      label: _buildItem(label),
     );
   }
 
@@ -113,29 +116,35 @@ class CreditsRulesWidget extends StatelessWidget {
   DataRow _buildRow(String resolution, List<int> values) {
     return DataRow(
       cells: [
-        DataCell(_buildRowItem(resolution, false)),
+        DataCell(_buildItem(resolution)),
         ...values.map((value) {
-          return DataCell(_buildRowItem(value.toString(), true));
+          return DataCell(_buildItem(value.toString(), hasIcon: true));
         }),
       ],
     );
   }
 
-  Widget _buildRowItem(String text, bool hasIcon) {
-    return Row(
-      children: [
-        if (hasIcon)
-          Padding(
-              padding: const EdgeInsets.only(right: 4),
-              child: Image.asset("assets/images/ic_point.png", width: 18)),
-        Text(
-          text,
-          style: const TextStyle(
-              color: UiColors.cDBFFFFFF,
-              fontSize: 10,
-              fontWeight: FontWeightExt.semiBold),
-        ),
-      ],
+  Widget _buildItem(String text, {bool hasIcon = false}) {
+    return SizedBox(
+      width: 70,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (hasIcon)
+            Padding(
+                padding: const EdgeInsets.only(right: 4),
+                child: Image.asset("assets/images/ic_point.png", width: 18)),
+          Text(
+            text,
+            textAlign: TextAlign.start,
+            style: const TextStyle(
+                color: UiColors.cDBFFFFFF,
+                fontSize: 10,
+                fontWeight: FontWeightExt.semiBold),
+          ),
+        ],
+      ),
     );
   }
 }
