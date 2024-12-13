@@ -149,35 +149,9 @@ class _CreatePageState extends State<CreatePage>
                         ),
                         const Spacer(),
                         CustomButton(
-                          onTap: () async {
-                            CommonUtil.hideKeyboard(context);
-                            String prompt = _createCtr.prompt.value;
-                            if (!isEnable) {
-                              Fluttertoast.showToast(msg: 'generateTips'.tr);
-                              return;
-                            }
-                            await _userCtr.getUserInfo();
-                            if (!_userCtr.isLogin.value) {
-                              _userCtr.showLogin();
-                              return;
-                            }
-                            final userInfo = _userCtr.userInfo.value;
-                            if (userInfo.pointValue < _createCtr.getScore()) {
-                              if (userInfo.isVip ?? false) {
-                                Get.to(() => const PointPurchasePage());
-                              } else {
-                                Get.to(() => const ProPurchasePage());
-                              }
-                              return;
-                            }
-                            _createCtr.aiGenerate(
-                                prompt, _createCtr.imagePath.value,
-                                ratio: _createCtr.curRatio.value.value,
-                                resolution:
-                                    _createCtr.curResolution.value.value,
-                                duration: _createCtr.curDuration.value.value,
-                                num: _createCtr.curVariations.value.value);
-                          },
+                          onTap: CommonUtil.debounce(() {
+                            generate();
+                          }),
                           text: 'generate'.tr,
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 8),
@@ -293,6 +267,36 @@ class _CreatePageState extends State<CreatePage>
         ),
       ),
     );
+  }
+
+  Future<void> generate() async {
+    CommonUtil.hideKeyboard(context);
+    String prompt = _createCtr.prompt.value;
+    if (!isEnable) {
+      Fluttertoast.showToast(msg: 'generateTips'.tr);
+      return;
+    }
+    await _userCtr.getUserInfo();
+    if (!_userCtr.isLogin.value) {
+      _userCtr.showLogin();
+      return;
+    }
+    final userInfo = _userCtr.userInfo.value;
+    if (userInfo.pointValue < _createCtr.getScore()) {
+      if (userInfo.isVip ?? false) {
+        Get.to(() => const PointPurchasePage());
+      } else {
+        Get.to(() => const ProPurchasePage());
+      }
+      return;
+    }
+    _createCtr.aiGenerate(
+        prompt, _createCtr.imagePath.value,
+        ratio: _createCtr.curRatio.value.value,
+        resolution:
+        _createCtr.curResolution.value.value,
+        duration: _createCtr.curDuration.value.value,
+        num: _createCtr.curVariations.value.value);
   }
 
   void showPickupImageDialog() {
