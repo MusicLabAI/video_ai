@@ -51,7 +51,7 @@ class _CreatePageState extends State<CreatePage>
 
   void updateEnableStatus() {
     setState(() {
-      isEnable = _createCtr.prompt.value.isNotEmpty ||
+      isEnable = _controller.text.isNotEmpty ||
           (_createCtr.imagePath.value?.isNotEmpty ?? false);
     });
   }
@@ -91,7 +91,7 @@ class _CreatePageState extends State<CreatePage>
                       ),
                     TextField(
                       onChanged: (value) {
-                        _createCtr.prompt.value = value;
+                        updateEnableStatus();
                       },
                       controller: _controller,
                       cursorColor: UiColors.c61FFFFFF,
@@ -271,7 +271,7 @@ class _CreatePageState extends State<CreatePage>
 
   Future<void> generate() async {
     CommonUtil.hideKeyboard(context);
-    String prompt = _createCtr.prompt.value;
+    String prompt = _controller.text;
     if (!isEnable) {
       Fluttertoast.showToast(msg: 'generateTips'.tr);
       return;
