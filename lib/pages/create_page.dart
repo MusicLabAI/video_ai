@@ -163,9 +163,9 @@ class _CreatePageState extends State<CreatePage>
                             final userInfo = _userCtr.userInfo.value;
                             if (userInfo.pointValue < _createCtr.getScore()) {
                               if (userInfo.isVip ?? false) {
-                                Get.to(() => const ProPurchasePage());
-                              } else {
                                 Get.to(() => const PointPurchasePage());
+                              } else {
+                                Get.to(() => const ProPurchasePage());
                               }
                               return;
                             }
