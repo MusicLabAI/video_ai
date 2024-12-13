@@ -41,7 +41,7 @@ class _MainPageState extends State<MainPage>
     _mainCtr.parseJumpConfig(GlobalData.jumpConfig);
     _mainCtr.getCommonConfig();
     _mainCtr.tabController =
-        TabController(initialIndex: 1, length: 4, vsync: this);
+        TabController(initialIndex: 0, length: 4, vsync: this);
     _mainCtr.tabController.addListener(() {
       setState(() {});
     });

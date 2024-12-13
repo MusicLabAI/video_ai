@@ -31,7 +31,7 @@ class DioUtil {
     if (dl?.scriptCode != null && dl!.scriptCode!.isNotEmpty) {
       language += '_${dl.scriptCode}';
     }
-    const baseUrl = GlobalData.releaseBaseUrl;
+    const baseUrl = GlobalData.debugBaseUrl;
     _dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,

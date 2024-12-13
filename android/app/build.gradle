@@ -28,8 +28,8 @@ android {
         applicationId = "luma.sora.pika.runway.video.ai"
         minSdk = 27
         targetSdk = 34
-        versionCode = 100041
-        versionName = '1.0.4'
+        versionCode = 100050
+        versionName = '1.0.5'
 
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
