@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
 import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/main_controller.dart';
+import 'package:video_ai/widgets/video_widget.dart';
 
 import '../controllers/create_controller.dart';
-import '../widgets/video_list_item_widget.dart';
 
 class VideoListPage extends StatefulWidget {
   const VideoListPage({super.key});
@@ -82,16 +82,16 @@ class _VideoListPageState extends State<VideoListPage>
       child: Stack(
         children: [
           Positioned.fill(
-              child: _hitIndex == index
-                  ? VideoListItemWidget(
-                      url: model.videoUrl ?? "",
-                      previewImageUrl: model.thumbnailUrl ?? "",
-                      fromPosition: "video_list_page_$index",
-                    )
-                  : CachedNetworkImage(
-                      imageUrl: model.thumbnailUrl ?? "",
-                      fit: BoxFit.fitWidth,
-                    )),
+              child: CachedNetworkImage(
+            imageUrl: model.thumbnailUrl ?? "",
+            fit: BoxFit.fitWidth,
+          )),
+          if (_hitIndex == index)
+            Positioned.fill(
+                child: VideoWidget(
+              url: model.videoUrl ?? "",
+              fromPosition: "video_list_page_$index",
+            )),
           Positioned(
               top: 20,
               right: 20,
