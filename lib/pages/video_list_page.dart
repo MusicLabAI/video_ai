@@ -6,7 +6,7 @@ import 'package:video_ai/common/ui_colors.dart';
 import 'package:video_ai/controllers/main_controller.dart';
 
 import '../controllers/create_controller.dart';
-import '../widgets/video_widget.dart';
+import '../widgets/video_list_item_widget.dart';
 
 class VideoListPage extends StatefulWidget {
   const VideoListPage({super.key});
@@ -15,13 +15,16 @@ class VideoListPage extends StatefulWidget {
   _VideoListPageState createState() => _VideoListPageState();
 }
 
-class _VideoListPageState extends State<VideoListPage> with AutomaticKeepAliveClientMixin {
+class _VideoListPageState extends State<VideoListPage>
+    with AutomaticKeepAliveClientMixin {
   final _createCtr = Get.find<CreateController>();
   BuildContext? _ctx1;
   int _hitIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double leadingOffset = screenHeight / 3;
     return SafeArea(
         bottom: false,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -43,7 +46,7 @@ class _VideoListPageState extends State<VideoListPage> with AutomaticKeepAliveCl
             sliverListContexts: () {
               return [if (_ctx1 != null) _ctx1!];
             },
-            leadingOffset: 200,
+            leadingOffset: leadingOffset,
             onObserveAll: (resultMap) {
               final model = resultMap[_ctx1];
               if (model == null) return;
@@ -69,15 +72,19 @@ class _VideoListPageState extends State<VideoListPage> with AutomaticKeepAliveCl
     _ctx1 = context;
     final model = _createCtr.promptItems.value[index];
     return AspectRatio(
-      aspectRatio: 360 / 446,
+      aspectRatio: model.ratio,
       child: Stack(
         children: [
           Positioned.fill(
               child: _hitIndex == index
-                  ? VideoWidget(url: model.videoUrl ?? "", fromPosition: "video_list_page_$index",)
+                  ? VideoListItemWidget(
+                      url: model.videoUrl ?? "",
+                      previewImageUrl: model.thumbnailUrl ?? "",
+                      fromPosition: "video_list_page_$index",
+                    )
                   : CachedNetworkImage(
                       imageUrl: model.thumbnailUrl ?? "",
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitWidth,
                     )),
           Positioned(
               top: 20,

@@ -19,6 +19,8 @@ class ExampleModel {
   String? videoUrl;
   String? videoFirstFrame;
   int? status; // 0 未启用  1 启用  2 维护中
+  int? width;
+  int? height;
 
   ExampleModel({
     this.id,
@@ -31,6 +33,8 @@ class ExampleModel {
     this.videoUrl,
     this.videoFirstFrame,
     this.status,
+    this.width,
+    this.height,
   });
 
   get isRepaired {
@@ -39,6 +43,13 @@ class ExampleModel {
 
   get isEffects {
     return type == 1;
+  }
+
+  get ratio {
+    if (width == null || height == null || width! <= 0 || height! <= 0) {
+      return 16/9;
+    }
+    return width! / height!;
   }
 
   factory ExampleModel.fromJson(Map<String, dynamic> json) => ExampleModel(
@@ -52,6 +63,8 @@ class ExampleModel {
     videoUrl: json["videoUrl"],
     videoFirstFrame: json["videoFirstFrame"],
     status: json["status"],
+    width: json["width"],
+    height: json["height"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -65,5 +78,7 @@ class ExampleModel {
     "videoUrl": videoUrl,
     "videoFirstFrame": videoFirstFrame,
     "status": status,
+    "width": width,
+    "height": height,
   };
 }
