@@ -190,7 +190,7 @@ class _HistoryPageState extends State<HistoryPage>
             ));
         if (data is RecordModel) {
           _createCtr.reuseCurrent(
-              data.prompt ?? '', data.inputImageUrl, data.effectId);
+              data.prompt ?? '');
           _mainCtr.tabController.index = 1;
         }
       },

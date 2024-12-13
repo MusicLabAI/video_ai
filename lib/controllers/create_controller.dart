@@ -17,13 +17,10 @@ import 'mine_controller.dart';
 
 class CreateController extends GetxController {
   RxString prompt = "".obs;
-  Rxn<ExampleModel> curEffects = Rxn(null);
-  RxInt curTabIndex = 0.obs;
   RxList<ExampleModel> effectsList = RxList();
 
   RxList<ExampleModel> promptItems = RxList();
   Rxn<String> imagePath = Rxn(null);
-  RxBool scrollToTop = false.obs;
 
   final ratioList = [
     ParameterModel(
@@ -110,38 +107,12 @@ class CreateController extends GetxController {
         (data as List).map((record) => ExampleModel.fromJson(record)).toList();
   }
 
-  void selectEffects(ExampleModel effects, {int index = 0}) {
-    if (index == 0) {
-      prompt.value = effects.description ?? "";
-    } else {
-      curEffects.value = effects;
-    }
-    scrollToTop.value = true;
-    curTabIndex.value = index;
-  }
-
   /// 复用
-  void reuseCurrent(String newPrompt, String? inputImageUrl, int? newEffectId) {
+  void reuseCurrent(String newPrompt, {String? inputImageUrl}) {
     if (inputImageUrl != null && inputImageUrl.isNotEmpty) {
       imagePath.value = inputImageUrl;
     }
-    bool hasEffects = false;
-    if (newEffectId == null) {
-      curEffects.value = null;
-    } else {
-      final result = effectsList.firstWhereOrNull((effectsModel) {
-        return effectsModel.id == newEffectId;
-      });
-      curEffects.value = result;
-      hasEffects = result != null;
-    }
-    if (hasEffects || inputImageUrl?.isNotEmpty == true) {
-      curTabIndex.value = 1;
-    } else {
-      curTabIndex.value = 0;
-    }
     prompt.value = newPrompt;
-    scrollToTop.value = true;
   }
 
   Future<void> getEffectsTags() async {

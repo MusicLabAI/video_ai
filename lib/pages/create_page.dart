@@ -25,11 +25,11 @@ class CreatePage extends StatefulWidget {
 }
 
 class _CreatePageState extends State<CreatePage> with AutomaticKeepAliveClientMixin{
-  String? _pickImagePath;
   late TextEditingController _controller;
   Worker? _promptWorker;
   final CreateController _createCtr = Get.find<CreateController>();
   final UserController _userCtr = Get.find<UserController>();
+  bool isEnable = false;
 
   @override
   void initState() {
@@ -39,6 +39,17 @@ class _CreatePageState extends State<CreatePage> with AutomaticKeepAliveClientMi
       setState(() {
         _controller.text = value;
       });
+      updateEnableStatus();
+    });
+    _promptWorker = ever(_createCtr.imagePath, (value) {
+      updateEnableStatus();
+    });
+  }
+
+  void updateEnableStatus() {
+    setState(() {
+      isEnable = _createCtr.prompt.value.isNotEmpty ||
+          (_createCtr.imagePath.value?.isNotEmpty ?? false);
     });
   }
 
@@ -68,19 +79,20 @@ class _CreatePageState extends State<CreatePage> with AutomaticKeepAliveClientMi
                         BorderRadius.vertical(bottom: Radius.circular(20))),
                 child: Column(
                   children: [
-                    if (_pickImagePath?.isNotEmpty ?? false)
+                    if (_createCtr.imagePath.value?.isNotEmpty ?? false)
                       ImageWithCloseButton(
-                        imagePath: _pickImagePath!,
+                        imagePath: _createCtr.imagePath.value!,
                         onTap: () {
-                          setState(() {
-                            _pickImagePath = null;
-                          });
+                          _createCtr.imagePath.value = null;
                         },
                       ),
                     TextField(
+                      onChanged: (value){
+                        _createCtr.prompt.value = value;
+                      },
                       controller: _controller,
                       cursorColor: UiColors.c61FFFFFF,
-                      maxLines: _pickImagePath?.isNotEmpty ?? false ? 6 : 12,
+                      maxLines: _createCtr.imagePath.value?.isNotEmpty ?? false ? 6 : 12,
                       style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeightExt.regular,
@@ -135,8 +147,7 @@ class _CreatePageState extends State<CreatePage> with AutomaticKeepAliveClientMi
                           onTap: () async {
                             CommonUtil.hideKeyboard(context);
                             String prompt = _createCtr.prompt.value;
-                            if (prompt.isEmpty &&
-                                (_pickImagePath?.isEmpty ?? true)) {
+                            if (!isEnable) {
                               Fluttertoast.showToast(msg: 'generateTips'.tr);
                               return;
                             }
@@ -154,7 +165,7 @@ class _CreatePageState extends State<CreatePage> with AutomaticKeepAliveClientMi
                               }
                               return;
                             }
-                            _createCtr.aiGenerate(prompt, _pickImagePath,
+                            _createCtr.aiGenerate(prompt, _createCtr.imagePath.value,
                                 ratio: _createCtr.curRatio.value.value,
                                 resolution:
                                     _createCtr.curResolution.value.value,
@@ -164,13 +175,14 @@ class _CreatePageState extends State<CreatePage> with AutomaticKeepAliveClientMi
                           text: 'generate'.tr,
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 8),
-                          textColor: UiColors.c1B1B1F,
-                          bgColor: Colors.white,
+                          textColor: isEnable ? UiColors.c1B1B1F : UiColors.c99FFFFFF,
+                          bgColor: isEnable ? Colors.white : UiColors.c23242A,
                           textSize: 14,
                           rightIcon: Padding(
                             padding: const EdgeInsets.only(left: 8.0),
                             child: Image.asset(
                               'assets/images/ic_upload.png',
+                              color: isEnable ? null : UiColors.c99FFFFFF,
                               width: 16,
                             ),
                           ),
@@ -279,9 +291,7 @@ class _CreatePageState extends State<CreatePage> with AutomaticKeepAliveClientMi
     Get.bottomSheet(ImageSourceDialog(onSourceChecked: (source) async {
       String? path = await CommonUtil.pickUpImage(source);
       if (path != null) {
-        setState(() {
-          _pickImagePath = path;
-        });
+        _createCtr.imagePath.value = path;
       }
     }));
   }

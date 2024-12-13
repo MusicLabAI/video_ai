@@ -46,6 +46,7 @@ Future<void> initMain() async {
   var packageInfo = await PackageInfo.fromPlatform();
   GlobalData.packageName = packageInfo.packageName;
   GlobalData.versionName = packageInfo.version;
+  GlobalData.buildNumber = int.tryParse(packageInfo.buildNumber);
   SharedPreferences.setPrefix("video_lab");
   final prefs = await SharedPreferences.getInstance();
   final String? token = prefs.getString('token');

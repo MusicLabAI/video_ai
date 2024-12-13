@@ -43,6 +43,7 @@ class DioUtil {
           'token': (GetUtils.isBlank(token) ?? true) ? null : token,
           'platform': GetPlatform.isAndroid ? 'android' : 'ios',
           'version-name': GlobalData.versionName,
+          'version-code': GlobalData.buildNumber,
           'region': Get.deviceLocale?.countryCode,
           'language': language,
         },
